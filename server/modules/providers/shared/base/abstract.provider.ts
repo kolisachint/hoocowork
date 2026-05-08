@@ -16,6 +16,7 @@ import type { LLMProvider } from '@/shared/types.js';
  */
 export abstract class AbstractProvider implements IProvider {
   readonly id: LLMProvider;
+  readonly sessionType: 'linear' | 'tree' = 'linear';
   abstract readonly mcp: IProviderMcp;
   abstract readonly auth: IProviderAuth;
   abstract readonly sessions: IProviderSessions;

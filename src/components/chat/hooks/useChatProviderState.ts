@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { authenticatedFetch } from '../../../utils/api';
-import { CLAUDE_MODELS, CODEX_MODELS, CURSOR_MODELS, GEMINI_MODELS } from '../../../../shared/modelConstants';
+import { CLAUDE_MODELS, CODEX_MODELS, CURSOR_MODELS, GEMINI_MODELS, PI_MODELS } from '../../../../shared/modelConstants';
 import type { PendingPermissionRequest, PermissionMode } from '../types/types';
 import type { ProjectSession, LLMProvider } from '../../../types/app';
 
@@ -10,6 +10,9 @@ const getPermissionModesForProvider = (provider: LLMProvider): PermissionMode[] 
   }
   if (provider === 'claude') {
     return ['default', 'auto', 'acceptEdits', 'bypassPermissions', 'plan'];
+  }
+  if (provider === 'pi') {
+    return ['default', 'acceptEdits', 'bypassPermissions'];
   }
   return ['default', 'acceptEdits', 'bypassPermissions', 'plan'];
 };
@@ -35,6 +38,9 @@ export function useChatProviderState({ selectedSession }: UseChatProviderStateAr
   });
   const [geminiModel, setGeminiModel] = useState<string>(() => {
     return localStorage.getItem('gemini-model') || GEMINI_MODELS.DEFAULT;
+  });
+  const [piModel, setPiModel] = useState<string>(() => {
+    return localStorage.getItem('pi-model') || PI_MODELS.DEFAULT;
   });
 
   const lastProviderRef = useRef(provider);
@@ -118,6 +124,8 @@ export function useChatProviderState({ selectedSession }: UseChatProviderStateAr
     setCodexModel,
     geminiModel,
     setGeminiModel,
+    piModel,
+    setPiModel,
     permissionMode,
     setPermissionMode,
     pendingPermissionRequests,

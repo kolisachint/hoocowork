@@ -96,6 +96,23 @@ export const GEMINI_MODELS = {
 };
 
 /**
+ * Pi Models
+ */
+export const PI_MODELS = {
+  OPTIONS: [
+    { value: "auto", label: "Auto" },
+    { value: "claude-sonnet", label: "Claude Sonnet" },
+    { value: "claude-opus", label: "Claude Opus" },
+    { value: "gpt-4o", label: "GPT-4o" },
+    { value: "gpt-4o-mini", label: "GPT-4o Mini" },
+    { value: "gemini-2.5-pro", label: "Gemini 2.5 Pro" },
+    { value: "gemini-2.5-flash", label: "Gemini 2.5 Flash" },
+  ],
+
+  DEFAULT: "auto",
+};
+
+/**
  * Ordered provider registry. Display order in selection UIs.
  */
 export const PROVIDERS = [
@@ -103,4 +120,5 @@ export const PROVIDERS = [
   { id: "codex", name: "OpenAI", models: CODEX_MODELS },
   { id: "gemini", name: "Google", models: GEMINI_MODELS },
   { id: "cursor", name: "Cursor", models: CURSOR_MODELS },
+  { id: "pi", name: "Pi", models: PI_MODELS },
 ];

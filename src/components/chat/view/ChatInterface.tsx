@@ -75,6 +75,8 @@ function ChatInterface({
     setCodexModel,
     geminiModel,
     setGeminiModel,
+    piModel,
+    setPiModel,
     permissionMode,
     pendingPermissionRequests,
     setPendingPermissionRequests,
@@ -185,6 +187,7 @@ function ChatInterface({
     claudeModel,
     codexModel,
     geminiModel,
+    piModel,
     isLoading,
     canAbortSession,
     tokenBudget,
@@ -273,6 +276,12 @@ function ChatInterface({
     };
   }, [resetStreamingState]);
 
+  useEffect(() => {
+    if (provider === 'pi' && selectedSession?.id) {
+      sessionStore.buildTree(selectedSession.id);
+    }
+  }, [provider, selectedSession?.id, chatMessages.length, sessionStore]);
+
   const permissionContextValue = useMemo(() => ({
     pendingPermissionRequests,
     handlePermissionDecision,
@@ -286,7 +295,9 @@ function ChatInterface({
           ? t('messageTypes.codex')
           : provider === 'gemini'
             ? t('messageTypes.gemini')
-            : t('messageTypes.claude');
+            : provider === 'pi'
+              ? t('messageTypes.pi', { defaultValue: 'Pi' })
+              : t('messageTypes.claude');
 
     return (
       <div className="flex h-full items-center justify-center">
@@ -324,6 +335,8 @@ function ChatInterface({
           setCodexModel={setCodexModel}
           geminiModel={geminiModel}
           setGeminiModel={setGeminiModel}
+          piModel={piModel}
+          setPiModel={setPiModel}
           tasksEnabled={tasksEnabled}
           isTaskMasterInstalled={isTaskMasterInstalled}
           onShowAllTasks={onShowAllTasks}
@@ -348,6 +361,20 @@ function ChatInterface({
           showRawParameters={showRawParameters}
           showThinking={showThinking}
           selectedProject={selectedProject}
+          onForkThread={(_nodeId) => {
+            if (!selectedProject || !currentSessionId) return;
+            sendMessage({
+              type: 'pi-command',
+              command: '',
+              options: {
+                sessionId: currentSessionId,
+                projectPath: selectedProject.fullPath || selectedProject.path || '',
+                cwd: selectedProject.fullPath || selectedProject.path || '',
+                forkSessionId: currentSessionId,
+                model: piModel,
+              },
+            });
+          }}
         />
 
         <ChatComposer
@@ -412,7 +439,9 @@ function ChatInterface({
                   ? t('messageTypes.codex')
                   : provider === 'gemini'
                     ? t('messageTypes.gemini')
-                    : t('messageTypes.claude'),
+                    : provider === 'pi'
+                      ? t('messageTypes.pi', { defaultValue: 'Pi' })
+                      : t('messageTypes.claude'),
           })}
           isTextareaExpanded={isTextareaExpanded}
           sendByCtrlEnter={sendByCtrlEnter}

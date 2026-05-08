@@ -4,8 +4,10 @@ import type { Dispatch, RefObject, SetStateAction } from 'react';
 import type { ChatMessage } from '../../types/types';
 import type { Project, ProjectSession, LLMProvider } from '../../../../types/app';
 import { getIntrinsicMessageKey } from '../../utils/messageKeys';
+import { useSessionStore } from '../../../../stores/useSessionStore';
 import MessageComponent from './MessageComponent';
 import ProviderSelectionEmptyState from './ProviderSelectionEmptyState';
+import PiTreeChat from './PiTreeChat';
 
 interface ChatMessagesPaneProps {
   scrollContainerRef: RefObject<HTMLDivElement>;
@@ -26,6 +28,8 @@ interface ChatMessagesPaneProps {
   setCodexModel: (model: string) => void;
   geminiModel: string;
   setGeminiModel: (model: string) => void;
+  piModel: string;
+  setPiModel: (model: string) => void;
   tasksEnabled: boolean;
   isTaskMasterInstalled: boolean | null;
   onShowAllTasks?: (() => void) | null;
@@ -50,6 +54,7 @@ interface ChatMessagesPaneProps {
   showRawParameters?: boolean;
   showThinking?: boolean;
   selectedProject: Project;
+  onForkThread?: (nodeId: string) => void;
 }
 
 export default function ChatMessagesPane({
@@ -71,6 +76,8 @@ export default function ChatMessagesPane({
   setCodexModel,
   geminiModel,
   setGeminiModel,
+  piModel,
+  setPiModel,
   tasksEnabled,
   isTaskMasterInstalled,
   onShowAllTasks,
@@ -95,8 +102,10 @@ export default function ChatMessagesPane({
   showRawParameters,
   showThinking,
   selectedProject,
+  onForkThread,
 }: ChatMessagesPaneProps) {
   const { t } = useTranslation('chat');
+  const sessionStore = useSessionStore();
   const messageKeyMapRef = useRef<WeakMap<ChatMessage, string>>(new WeakMap());
   const allocatedKeysRef = useRef<Set<string>>(new Set());
   const generatedMessageKeyCounterRef = useRef(0);
@@ -154,6 +163,8 @@ export default function ChatMessagesPane({
           setCodexModel={setCodexModel}
           geminiModel={geminiModel}
           setGeminiModel={setGeminiModel}
+          piModel={piModel}
+          setPiModel={setPiModel}
           tasksEnabled={tasksEnabled}
           isTaskMasterInstalled={isTaskMasterInstalled}
           onShowAllTasks={onShowAllTasks}
@@ -237,25 +248,78 @@ export default function ChatMessagesPane({
             </div>
           )}
 
-          {visibleMessages.map((message, index) => {
-            const prevMessage = index > 0 ? visibleMessages[index - 1] : null;
-            return (
-              <MessageComponent
-                key={getMessageKey(message)}
-                message={message}
-                prevMessage={prevMessage}
-                createDiff={createDiff}
-                onFileOpen={onFileOpen}
-                onShowSettings={onShowSettings}
-                onGrantToolPermission={onGrantToolPermission}
-                autoExpandTools={autoExpandTools}
-                showRawParameters={showRawParameters}
-                showThinking={showThinking}
-                selectedProject={selectedProject}
-                provider={provider}
-              />
-            );
-          })}
+          {provider === 'pi' ? (
+            (() => {
+              const treeData = selectedSession?.id ? sessionStore.getTree(selectedSession.id) : undefined;
+              if (treeData && treeData.nodes.size > 0) {
+                return (
+                  <PiTreeChat
+                    visibleMessages={visibleMessages}
+                    treeNodes={treeData.nodes}
+                    activePath={treeData.activePath}
+                    onSetActivePath={(path) => {
+                      if (selectedSession?.id) {
+                        sessionStore.setActivePath(selectedSession.id, path);
+                      }
+                    }}
+                    onForkAtNode={(nodeId) => onForkThread?.(nodeId)}
+                    createDiff={createDiff}
+                    onFileOpen={onFileOpen}
+                    onShowSettings={onShowSettings}
+                    onGrantToolPermission={onGrantToolPermission}
+                    autoExpandTools={autoExpandTools}
+                    showRawParameters={showRawParameters}
+                    showThinking={showThinking}
+                    selectedProject={selectedProject}
+                    provider="pi"
+                  />
+                );
+              }
+              return (
+                <>
+                  {visibleMessages.map((message, index) => {
+                    const prevMessage = index > 0 ? visibleMessages[index - 1] : null;
+                    return (
+                      <MessageComponent
+                        key={getMessageKey(message)}
+                        message={message}
+                        prevMessage={prevMessage}
+                        createDiff={createDiff}
+                        onFileOpen={onFileOpen}
+                        onShowSettings={onShowSettings}
+                        onGrantToolPermission={onGrantToolPermission}
+                        autoExpandTools={autoExpandTools}
+                        showRawParameters={showRawParameters}
+                        showThinking={showThinking}
+                        selectedProject={selectedProject}
+                        provider={provider}
+                      />
+                    );
+                  })}
+                </>
+              );
+            })()
+          ) : (
+            visibleMessages.map((message, index) => {
+              const prevMessage = index > 0 ? visibleMessages[index - 1] : null;
+              return (
+                <MessageComponent
+                  key={getMessageKey(message)}
+                  message={message}
+                  prevMessage={prevMessage}
+                  createDiff={createDiff}
+                  onFileOpen={onFileOpen}
+                  onShowSettings={onShowSettings}
+                  onGrantToolPermission={onGrantToolPermission}
+                  autoExpandTools={autoExpandTools}
+                  showRawParameters={showRawParameters}
+                  showThinking={showThinking}
+                  selectedProject={selectedProject}
+                  provider={provider}
+                />
+              );
+            })
+          )}
         </>
       )}
     </div>

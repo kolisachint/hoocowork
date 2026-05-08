@@ -36,6 +36,13 @@ const providerCards = [
     iconContainerClassName: 'bg-teal-100 dark:bg-teal-900/30',
     loginButtonClassName: 'bg-teal-600 hover:bg-teal-700',
   },
+  {
+    provider: 'pi' as const,
+    title: 'Pi',
+    connectedClassName: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800',
+    iconContainerClassName: 'bg-emerald-100 dark:bg-emerald-900/30',
+    loginButtonClassName: 'bg-emerald-600 hover:bg-emerald-700',
+  },
 ];
 
 export default function AgentConnectionsStep({

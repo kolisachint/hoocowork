@@ -18,6 +18,7 @@ import type {
  */
 export interface IProvider {
   readonly id: LLMProvider;
+  readonly sessionType: 'linear' | 'tree';
   readonly mcp: IProviderMcp;
   readonly auth: IProviderAuth;
   readonly sessions: IProviderSessions;

@@ -1,4 +1,4 @@
-export type LLMProvider = 'claude' | 'cursor' | 'codex' | 'gemini';
+export type LLMProvider = 'claude' | 'cursor' | 'codex' | 'gemini' | 'pi';
 
 export type AppTab = 'chat' | 'files' | 'shell' | 'git' | 'tasks' | 'preview' | `plugin:${string}`;
 
@@ -36,6 +36,13 @@ export interface ProjectTaskmasterInfo {
 // folder-derived `name` string. Projects are now addressed everywhere by the
 // DB-assigned `projectId` (primary key in the `projects` table), and the UI
 // uses the same identifier for routing, state keys and API calls.
+export interface TreeNode {
+  id: string;
+  parentId: string | null;
+  message: Record<string, unknown>;
+  children: string[];
+}
+
 export interface Project {
   projectId: string;
   displayName: string;
@@ -46,6 +53,7 @@ export interface Project {
   cursorSessions?: ProjectSession[];
   codexSessions?: ProjectSession[];
   geminiSessions?: ProjectSession[];
+  piSessions?: ProjectSession[];
   sessionMeta?: ProjectSessionMeta;
   taskmaster?: ProjectTaskmasterInfo;
   [key: string]: unknown;

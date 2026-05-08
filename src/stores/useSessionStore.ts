@@ -70,6 +70,13 @@ export interface NormalizedMessage {
 
 export type SessionStatus = 'idle' | 'loading' | 'streaming' | 'error';
 
+export interface TreeNode {
+  id: string;
+  parentId: string | null;
+  message: NormalizedMessage;
+  children: string[];
+}
+
 export interface SessionSlot {
   serverMessages: NormalizedMessage[];
   realtimeMessages: NormalizedMessage[];
@@ -83,6 +90,9 @@ export interface SessionSlot {
   hasMore: boolean;
   offset: number;
   tokenUsage: unknown;
+  // Tree session support (for Pi and other tree-structured providers)
+  treeNodes?: Map<string, TreeNode>;
+  activePath?: string[];
 }
 
 const EMPTY: NormalizedMessage[] = [];
@@ -100,6 +110,8 @@ function createEmptySlot(): SessionSlot {
     hasMore: false,
     offset: 0,
     tokenUsage: null,
+    treeNodes: undefined,
+    activePath: undefined,
   };
 }
 
@@ -649,6 +661,84 @@ export function useSessionStore() {
     notify(resolvedToSessionId);
   }, [notify, resolveSessionId]);
 
+  /**
+   * Build tree structure from messages for tree-structured sessions (e.g., Pi).
+   */
+  const buildTree = useCallback((sessionId: string) => {
+    const resolvedSessionId = resolveSessionId(sessionId) ?? sessionId;
+    const slot = getSlot(resolvedSessionId);
+    const messages = slot.merged;
+    const treeNodes = new Map<string, TreeNode>();
+    const rootIds: string[] = [];
+
+    for (const msg of messages) {
+      const msgId = (msg.messageId as string) || msg.id;
+      const parentId = (msg.parentId as string) || null;
+
+      if (!treeNodes.has(msgId)) {
+        treeNodes.set(msgId, {
+          id: msgId,
+          parentId,
+          message: msg,
+          children: [],
+        });
+      } else {
+        const existing = treeNodes.get(msgId)!;
+        existing.message = msg;
+        existing.parentId = parentId ?? existing.parentId;
+      }
+
+      if (parentId && treeNodes.has(parentId)) {
+        const parent = treeNodes.get(parentId)!;
+        if (!parent.children.includes(msgId)) {
+          parent.children.push(msgId);
+        }
+      } else if (!parentId) {
+        rootIds.push(msgId);
+      }
+    }
+
+    slot.treeNodes = treeNodes;
+    if (!slot.activePath || slot.activePath.length === 0) {
+      // Default active path: deepest leaf from first root
+      let current = rootIds[0];
+      const path: string[] = current ? [current] : [];
+      while (current) {
+        const node = treeNodes.get(current);
+        if (node && node.children.length > 0) {
+          current = node.children[node.children.length - 1];
+          path.push(current);
+        } else {
+          break;
+        }
+      }
+      slot.activePath = path;
+    }
+    notify(resolvedSessionId);
+  }, [getSlot, notify, resolveSessionId]);
+
+  /**
+   * Set the active path in a tree session.
+   */
+  const setActivePath = useCallback((sessionId: string, path: string[]) => {
+    const resolvedSessionId = resolveSessionId(sessionId) ?? sessionId;
+    const slot = storeRef.current.get(resolvedSessionId);
+    if (slot) {
+      slot.activePath = path;
+      notify(resolvedSessionId);
+    }
+  }, [notify, resolveSessionId]);
+
+  /**
+   * Get tree data for a session.
+   */
+  const getTree = useCallback((sessionId: string): { nodes: Map<string, TreeNode>; activePath: string[] } | undefined => {
+    const resolvedSessionId = resolveSessionId(sessionId) ?? sessionId;
+    const slot = storeRef.current.get(resolvedSessionId);
+    if (!slot?.treeNodes) return undefined;
+    return { nodes: slot.treeNodes, activePath: slot.activePath ?? [] };
+  }, [resolveSessionId]);
+
   return useMemo(() => ({
     getSlot,
     has,
@@ -666,11 +756,15 @@ export function useSessionStore() {
     getMessages,
     getSessionSlot,
     replaceSessionId,
+    buildTree,
+    setActivePath,
+    getTree,
   }), [
     getSlot, has, fetchFromServer, fetchMore,
     appendRealtime, appendRealtimeBatch, refreshFromServer,
     setActiveSession, setStatus, isStale, updateStreaming, finalizeStreaming,
     clearRealtime, getMessages, getSessionSlot, replaceSessionId,
+    buildTree, setActivePath, getTree,
   ]);
 }
 

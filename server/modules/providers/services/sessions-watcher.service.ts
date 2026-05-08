@@ -32,6 +32,10 @@ const PROVIDER_WATCH_PATHS: Array<{ provider: LLMProvider; rootPath: string }> =
     provider: 'gemini',
     rootPath: path.join(os.homedir(), '.gemini', 'tmp'),
   },
+  {
+    provider: 'pi',
+    rootPath: path.join(os.homedir(), '.pi', 'agent', 'sessions'),
+  },
 ];
 
 const WATCHER_IGNORED_PATTERNS = [

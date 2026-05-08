@@ -40,6 +40,7 @@ interface UseChatComposerStateArgs {
   claudeModel: string;
   codexModel: string;
   geminiModel: string;
+  piModel: string;
   isLoading: boolean;
   canAbortSession: boolean;
   tokenBudget: Record<string, unknown> | null;
@@ -285,7 +286,7 @@ export function useChatComposerState({
           projectId: selectedProject.projectId,
           sessionId: currentSessionId,
           provider,
-          model: provider === 'cursor' ? cursorModel : provider === 'codex' ? codexModel : provider === 'gemini' ? geminiModel : claudeModel,
+          model: provider === 'cursor' ? cursorModel : provider === 'codex' ? codexModel : provider === 'gemini' ? geminiModel : provider === 'pi' ? piModel : claudeModel,
           tokenUsage: tokenBudget,
         };
 
@@ -642,6 +643,19 @@ export function useChatComposerState({
             toolsSettings,
           },
         });
+      } else if (provider === 'pi') {
+        sendMessage({
+          type: 'pi-command',
+          command: messageContent,
+          options: {
+            projectPath: resolvedProjectPath,
+            cwd: resolvedProjectPath,
+            sessionId: effectiveSessionId,
+            resume: Boolean(effectiveSessionId),
+            model: piModel,
+            sessionSummary,
+          },
+        });
       } else {
         sendMessage({
           type: 'claude-command',
@@ -684,6 +698,7 @@ export function useChatComposerState({
       cursorModel,
       executeCommand,
       geminiModel,
+      piModel,
       isLoading,
       onSessionActive,
       onSessionProcessing,

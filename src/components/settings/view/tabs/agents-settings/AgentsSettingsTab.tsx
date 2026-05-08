@@ -26,7 +26,7 @@ export default function AgentsSettingsTab({
   const { isWindowsServer } = useServerPlatform();
 
   const visibleAgents = useMemo<AgentProvider[]>(() => {
-    const all: AgentProvider[] = ['claude', 'cursor', 'codex', 'gemini'];
+    const all: AgentProvider[] = ['claude', 'cursor', 'codex', 'gemini', 'pi'];
     if (isWindowsServer) {
       return all.filter((id) => id !== 'cursor');
     }
