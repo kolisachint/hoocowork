@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import ProviderLoginModal from '../../provider-auth/view/ProviderLoginModal';
 import { Button } from '../../../shared/view/ui';
+import SettingsErrorBoundary from '../../main-content/view/ErrorBoundary';
 import SettingsSidebar from '../view/SettingsSidebar';
 import AgentsSettingsTab from '../view/tabs/agents-settings/AgentsSettingsTab';
 import AppearanceSettingsTab from '../view/tabs/AppearanceSettingsTab';
@@ -105,6 +106,7 @@ function Settings({ isOpen, onClose, projects = [], initialTab = 'agents' }: Set
 
           {/* Content */}
           <main className="flex-1 overflow-y-auto">
+            <SettingsErrorBoundary showDetails resetKeys={[activeTab]}>
             <div key={activeTab} className="settings-content-enter space-y-6 p-4 pb-safe-area-inset-bottom md:space-y-8 md:p-6">
               {activeTab === 'appearance' && (
                 <AppearanceSettingsTab
@@ -157,6 +159,7 @@ function Settings({ isOpen, onClose, projects = [], initialTab = 'agents' }: Set
 
               {activeTab === 'about' && <AboutTab />}
             </div>
+            </SettingsErrorBoundary>
           </main>
         </div>
       </div>

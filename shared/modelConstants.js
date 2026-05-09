@@ -97,16 +97,26 @@ export const GEMINI_MODELS = {
 
 /**
  * Pi Models
+ *
+ * Identifiers must match patterns from `pi --list-models` since the server
+ * passes the value straight through as `pi --model <value>`. The special
+ * sentinel "auto" is handled server-side (server/pi-cli.js) by omitting
+ * --model so the Pi CLI's own default is used.
  */
 export const PI_MODELS = {
   OPTIONS: [
-    { value: "auto", label: "Auto" },
-    { value: "claude-sonnet", label: "Claude Sonnet" },
-    { value: "claude-opus", label: "Claude Opus" },
-    { value: "gpt-4o", label: "GPT-4o" },
-    { value: "gpt-4o-mini", label: "GPT-4o Mini" },
-    { value: "gemini-2.5-pro", label: "Gemini 2.5 Pro" },
-    { value: "gemini-2.5-flash", label: "Gemini 2.5 Flash" },
+    { value: "auto", label: "Auto (Pi default)" },
+    { value: "opencode/claude-opus-4-7", label: "Claude Opus 4.7" },
+    { value: "opencode/claude-opus-4-6", label: "Claude Opus 4.6" },
+    { value: "opencode/claude-sonnet-4-6", label: "Claude Sonnet 4.6" },
+    { value: "opencode/claude-sonnet-4-5", label: "Claude Sonnet 4.5" },
+    { value: "opencode/claude-haiku-4-5", label: "Claude Haiku 4.5" },
+    { value: "openai-codex/gpt-5.5", label: "GPT-5.5" },
+    { value: "openai-codex/gpt-5.4", label: "GPT-5.4" },
+    { value: "openai-codex/gpt-5.4-mini", label: "GPT-5.4 mini" },
+    { value: "openai-codex/gpt-5.3-codex", label: "GPT-5.3 Codex" },
+    { value: "opencode/gemini-3.1-pro", label: "Gemini 3.1 Pro" },
+    { value: "opencode/gemini-3-flash", label: "Gemini 3 Flash" },
   ],
 
   DEFAULT: "auto",

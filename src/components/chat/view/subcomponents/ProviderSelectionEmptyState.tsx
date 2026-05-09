@@ -4,6 +4,7 @@ import { Trans, useTranslation } from "react-i18next";
 
 import { useServerPlatform } from "../../../../hooks/useServerPlatform";
 import SessionProviderLogo from "../../../llm-logo-provider/SessionProviderLogo";
+import { usePiModels } from "../../hooks/usePiModels";
 import {
   CLAUDE_MODELS,
   CURSOR_MODELS,
@@ -121,10 +122,27 @@ export default function ProviderSelectionEmptyState({
   const { isWindowsServer } = useServerPlatform();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const visibleProviderGroups = useMemo(
-    () => (isWindowsServer ? PROVIDER_GROUPS.filter((p) => p.id !== "cursor") : PROVIDER_GROUPS),
-    [isWindowsServer],
-  );
+  // Lazy-load Pi's full model catalog (~197 entries) once the picker opens.
+  // The static PI_MODELS list is only used as a fallback while loading or if
+  // `pi --list-models` fails (Pi not installed, etc.).
+  const { models: piDynamicModels, loading: piLoading, error: piError, installed: piInstalled, refresh: refreshPi } =
+    usePiModels({ enabled: dialogOpen });
+
+  const visibleProviderGroups = useMemo(() => {
+    const base = isWindowsServer ? PROVIDER_GROUPS.filter((p) => p.id !== "cursor") : PROVIDER_GROUPS;
+    if (!piInstalled || piDynamicModels.length === 0) {
+      return base;
+    }
+    // Replace the static Pi group with the live catalog. Keep "Auto" first
+    // because the server special-cases it (omits --model so Pi uses its default).
+    const dynamicPiModels = [
+      { value: "auto", label: "Auto (Pi default)" },
+      ...piDynamicModels.map((m) => ({ value: m.value, label: m.label })),
+    ];
+    return base.map((group) =>
+      group.id === "pi" ? { ...group, models: dynamicPiModels } : group,
+    );
+  }, [isWindowsServer, piDynamicModels, piInstalled]);
 
   useEffect(() => {
     if (isWindowsServer && provider === "cursor") {
@@ -241,6 +259,24 @@ export default function ProviderSelectionEmptyState({
                     defaultValue: "Search models...",
                   })}
                 />
+                {(piLoading || piError) && (
+                  <div className="flex items-center justify-between gap-2 border-b border-border/40 px-3 py-1.5 text-[11px] text-muted-foreground">
+                    <span>
+                      {piLoading
+                        ? "Loading Pi catalog…"
+                        : `Pi catalog: ${piError}. Showing fallback list.`}
+                    </span>
+                    {!piLoading && piError && (
+                      <button
+                        type="button"
+                        onClick={() => void refreshPi()}
+                        className="rounded border border-border/60 px-1.5 py-0.5 hover:bg-muted/40"
+                      >
+                        Retry
+                      </button>
+                    )}
+                  </div>
+                )}
                 <CommandList className="max-h-[350px]">
                   <CommandEmpty>
                     {t("providerSelection.noModelsFound", {

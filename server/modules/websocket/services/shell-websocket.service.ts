@@ -106,11 +106,26 @@ function buildShellCommand(
   if (provider === 'codex') {
     if (hasSession && sessionId) {
       if (os.platform() === 'win32') {
-        return `codex resume "${sessionId}"; if ($LASTEXITCODE -ne 0) { codex }`;
+        return `Write-Host "[shell] codex resume ${sessionId}"; codex resume "${sessionId}"; if ($LASTEXITCODE -ne 0) { Write-Host "[shell] resume failed; starting fresh codex..."; codex }`;
       }
-      return `codex resume "${sessionId}" || codex`;
+      // Print the command first so the user gets immediate feedback even if
+      // the codex TUI takes a moment to render. Fall back to a fresh `codex`
+      // session if resume fails (e.g. rollout file missing).
+      return `printf '\\033[2m[shell] codex resume %s\\033[0m\\r\\n' "${sessionId}"; codex resume "${sessionId}"; rc=$?; if [ $rc -ne 0 ]; then printf '\\033[2m[shell] resume exited with code %s, starting fresh codex...\\033[0m\\r\\n' "$rc"; codex; fi`;
     }
     return 'codex';
+  }
+
+  if (provider === 'pi') {
+    if (hasSession && sessionId) {
+      // Pi accepts a partial UUID via --session and resumes; if the rollout
+      // is missing it errors fast and we fall back to a fresh `pi`.
+      if (os.platform() === 'win32') {
+        return `pi --session "${sessionId}"; if ($LASTEXITCODE -ne 0) { pi }`;
+      }
+      return `pi --session "${sessionId}" || pi`;
+    }
+    return 'pi';
   }
 
   if (provider === 'gemini') {
@@ -382,14 +397,14 @@ export function handleShellConnection(
 
         let welcomeMsg = `\x1b[36mStarting terminal in: ${projectPath}\x1b[0m\r\n`;
         if (!isPlainShell) {
-          const providerName =
-            provider === 'cursor'
-              ? 'Cursor'
-              : provider === 'codex'
-                ? 'Codex'
-                : provider === 'gemini'
-                  ? 'Gemini'
-                  : 'Claude';
+          const providerLabels: Record<string, string> = {
+            cursor: 'Cursor',
+            codex: 'Codex',
+            gemini: 'Gemini',
+            pi: 'Pi',
+            claude: 'Claude',
+          };
+          const providerName = providerLabels[provider] ?? 'Claude';
           welcomeMsg = hasSession
             ? `\x1b[36mResuming ${providerName} session ${sessionId} in: ${projectPath}\x1b[0m\r\n`
             : `\x1b[36mStarting new ${providerName} session in: ${projectPath}\x1b[0m\r\n`;

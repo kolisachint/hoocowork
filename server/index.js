@@ -1430,8 +1430,17 @@ async function getFileTree(dirPath, maxDepth = 3, currentDepth = 0, showHidden =
             items.push(item);
         }
     } catch (error) {
-        // Only log non-permission errors to avoid spam
-        if (error.code !== 'EACCES' && error.code !== 'EPERM') {
+        // Skip permission-denied and cloud-storage timeouts (Dropbox/iCloud/Google Drive
+        // file-provider mounts can hang or refuse access on dehydrated paths). These are
+        // expected and would otherwise spam the log.
+        const isExpectedScanFailure =
+            error.code === 'EACCES' ||
+            error.code === 'EPERM' ||
+            error.code === 'ETIMEDOUT' ||
+            error.code === 'ENOTCONN' ||
+            error.code === 'EBUSY' ||
+            error.code === 'ENOENT';
+        if (!isExpectedScanFailure) {
             console.error('Error reading directory:', error);
         }
     }

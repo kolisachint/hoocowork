@@ -102,7 +102,11 @@ export default function EditorSidebar({
   const useFlexLayout = editorExpanded || (fillSpace && !hasManualWidth);
 
   return (
-    <div ref={containerRef} className={`flex h-full min-w-0 flex-shrink-0 ${editorExpanded ? 'flex-1' : ''}`}>
+    // The outer container also needs flex-1 whenever the inner is flex-1.
+    // Otherwise the inner's `flex-1` resolves against a zero-width parent and
+    // the editor (header buttons included) collapses off-screen — the symptom
+    // is "save/close buttons missing until you click another tab".
+    <div ref={containerRef} className={`flex h-full min-w-0 ${useFlexLayout ? 'flex-1' : 'flex-shrink-0'}`}>
       {!editorExpanded && (
         <div
           ref={resizeHandleRef}
@@ -115,7 +119,7 @@ export default function EditorSidebar({
       )}
 
       <div
-        className={`h-full overflow-hidden border-l border-gray-200 dark:border-gray-700 ${useFlexLayout ? 'min-w-0 flex-1' : `min-w-[ flex-shrink-0${MIN_EDITOR_WIDTH}px]`}`}
+        className={`h-full overflow-hidden border-l border-gray-200 dark:border-gray-700 ${useFlexLayout ? 'min-w-0 flex-1' : 'flex-shrink-0'}`}
         style={useFlexLayout ? undefined : { width: `${effectiveWidth}px`, minWidth: `${MIN_EDITOR_WIDTH}px` }}
       >
         <CodeEditor

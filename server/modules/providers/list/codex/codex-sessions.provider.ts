@@ -107,6 +107,20 @@ async function getCodexSessionMessages(
           });
         }
 
+        // Codex persists errors (usage limits, stream failures, "thread not found")
+        // as event_msg type=error in the rollout. Surface them on reload so the
+        // chat doesn't go blank with only the user's message visible.
+        if (entry.type === 'event_msg' && entry.payload?.type === 'error') {
+          const errPayload = entry.payload as AnyRecord;
+          const message = typeof errPayload.message === 'string' ? errPayload.message : 'Codex error';
+          messages.push({
+            type: 'error',
+            timestamp: entry.timestamp,
+            content: message,
+            errorInfo: errPayload.codex_error_info ?? null,
+          });
+        }
+
         if (
           entry.type === 'response_item' &&
           entry.payload?.type === 'message' &&
@@ -269,6 +283,18 @@ export class CodexSessionsProvider implements IProviderSessions {
   private normalizeHistoryEntry(raw: AnyRecord, sessionId: string | null): NormalizedMessage[] {
     const ts = raw.timestamp || new Date().toISOString();
     const baseId = raw.uuid || generateMessageId('codex');
+
+    if (raw.type === 'error') {
+      const content = typeof raw.content === 'string' ? raw.content : 'Codex error';
+      return [createNormalizedMessage({
+        id: baseId,
+        sessionId,
+        timestamp: ts,
+        provider: PROVIDER,
+        kind: 'error',
+        content,
+      })];
+    }
 
     if (raw.type === 'thinking' || raw.isReasoning) {
       const thinkingContent = typeof raw.message?.content === 'string'

@@ -171,6 +171,18 @@ async function validateGitRepository(projectPath) {
   }
 }
 
+function isNotARepoError(error) {
+  const msg = error?.message || '';
+  return msg.includes('Not a git repository') || msg.includes('not a git repository') || msg.includes('Project directory is not a git repository');
+}
+
+function logGitError(label, error) {
+  if (isNotARepoError(error)) {
+    return; // expected for non-git projects; client gets the friendly message
+  }
+  console.error(label, error);
+}
+
 function getGitErrorDetails(error) {
   return `${error?.message || ''} ${error?.stderr || ''} ${error?.stdout || ''}`;
 }
@@ -343,7 +355,7 @@ router.get('/status', async (req, res) => {
       untracked
     });
   } catch (error) {
-    console.error('Git status error:', error);
+    logGitError('Git status error:', error);
     res.json({
       error: error.message.includes('not a git repository') || error.message.includes('Project directory is not a git repository')
         ? error.message
@@ -679,7 +691,7 @@ router.get('/branches', async (req, res) => {
 
     res.json({ branches, localBranches, remoteBranches });
   } catch (error) {
-    console.error('Git branches error:', error);
+    logGitError('Git branches error:', error);
     res.json({ error: error.message });
   }
 });
@@ -1121,7 +1133,7 @@ router.get('/remote-status', async (req, res) => {
       isUpToDate: ahead === 0 && behind === 0
     });
   } catch (error) {
-    console.error('Git remote status error:', error);
+    logGitError('Git remote status error:', error);
     res.json({ error: error.message });
   }
 });

@@ -113,6 +113,7 @@ export function useChatComposerState({
   claudeModel,
   codexModel,
   geminiModel,
+  piModel,
   isLoading,
   canAbortSession,
   tokenBudget,

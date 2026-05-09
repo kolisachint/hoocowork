@@ -4,6 +4,34 @@ import path from 'node:path';
 
 import spawn from 'cross-spawn';
 
+const KEYCHAIN_SERVICE = 'Claude Code-credentials';
+
+/**
+ * On macOS, recent Claude Code versions store OAuth credentials in the login
+ * Keychain instead of `~/.claude/.credentials.json`. Try to read them.
+ */
+function readClaudeCredentialsFromKeychain(): unknown | null {
+  if (process.platform !== 'darwin') {
+    return null;
+  }
+  try {
+    const result = spawn.sync('security', ['find-generic-password', '-s', KEYCHAIN_SERVICE, '-w'], {
+      stdio: ['ignore', 'pipe', 'ignore'],
+      timeout: 3000,
+    });
+    if (result.status !== 0) {
+      return null;
+    }
+    const raw = result.stdout?.toString().trim();
+    if (!raw) {
+      return null;
+    }
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
 import { resolveClaudeCodeExecutablePath } from '@/shared/claude-cli-path.js';
 import type { IProviderAuth } from '@/shared/interfaces.js';
 import type { ProviderAuthStatus } from '@/shared/types.js';
@@ -90,35 +118,49 @@ export class ClaudeProviderAuth implements IProviderAuth {
       return { authenticated: true, email: 'Configured via settings.json', method: 'api_key' };
     }
 
+    const fromFile = await this.readCredentialsFile();
+    if (fromFile) {
+      return fromFile;
+    }
+
+    const keychainCreds = readClaudeCredentialsFromKeychain();
+    if (keychainCreds) {
+      const fromKeychain = this.evaluateOauthBlob(keychainCreds, 'keychain');
+      if (fromKeychain) {
+        return fromKeychain;
+      }
+    }
+
+    return { authenticated: false, email: null, method: null };
+  }
+
+  private async readCredentialsFile(): Promise<ClaudeCredentialsStatus | null> {
     try {
       const credPath = path.join(os.homedir(), '.claude', '.credentials.json');
       const content = await readFile(credPath, 'utf8');
-      const creds = readObjectRecord(JSON.parse(content)) ?? {};
-      const oauth = readObjectRecord(creds.claudeAiOauth);
-      const accessToken = readOptionalString(oauth?.accessToken);
-
-      if (accessToken) {
-        const expiresAt = typeof oauth?.expiresAt === 'number' ? oauth.expiresAt : undefined;
-        const email = readOptionalString(creds.email) ?? readOptionalString(creds.user) ?? null;
-        if (!expiresAt || Date.now() < expiresAt) {
-          return {
-            authenticated: true,
-            email,
-            method: 'credentials_file',
-          };
-        }
-
-        return {
-          authenticated: false,
-          email,
-          method: 'credentials_file',
-          error: 'OAuth token has expired. Please re-authenticate with claude login',
-        };
-      }
-
-      return { authenticated: false, email: null, method: null };
+      return this.evaluateOauthBlob(JSON.parse(content), 'credentials_file');
     } catch {
-      return { authenticated: false, email: null, method: null };
+      return null;
     }
+  }
+
+  private evaluateOauthBlob(blob: unknown, method: string): ClaudeCredentialsStatus | null {
+    const creds = readObjectRecord(blob) ?? {};
+    const oauth = readObjectRecord(creds.claudeAiOauth);
+    const accessToken = readOptionalString(oauth?.accessToken);
+    if (!accessToken) {
+      return null;
+    }
+    const expiresAt = typeof oauth?.expiresAt === 'number' ? oauth.expiresAt : undefined;
+    const email = readOptionalString(creds.email) ?? readOptionalString(creds.user) ?? null;
+    if (!expiresAt || Date.now() < expiresAt) {
+      return { authenticated: true, email, method };
+    }
+    return {
+      authenticated: false,
+      email,
+      method,
+      error: 'OAuth token has expired. Please re-authenticate with claude login',
+    };
   }
 }

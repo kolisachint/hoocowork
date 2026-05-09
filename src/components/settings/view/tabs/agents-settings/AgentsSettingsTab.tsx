@@ -40,6 +40,14 @@ export default function AgentsSettingsTab({
     }
   }, [isWindowsServer, selectedAgent]);
 
+  // Pi only supports the Account category — snap back to it when switching to
+  // Pi while a different (unsupported) category was selected.
+  useEffect(() => {
+    if (selectedAgent === 'pi' && selectedCategory !== 'account') {
+      setSelectedCategory('account');
+    }
+  }, [selectedAgent, selectedCategory]);
+
   const agentContextById = useMemo<Record<AgentProvider, AgentContext>>(() => ({
     claude: {
       authStatus: providerAuthStatus.claude,
@@ -57,12 +65,17 @@ export default function AgentsSettingsTab({
       authStatus: providerAuthStatus.gemini,
       onLogin: () => onProviderLogin('gemini'),
     },
+    pi: {
+      authStatus: providerAuthStatus.pi,
+      onLogin: () => onProviderLogin('pi'),
+    },
   }), [
     onProviderLogin,
     providerAuthStatus.claude,
     providerAuthStatus.codex,
     providerAuthStatus.cursor,
     providerAuthStatus.gemini,
+    providerAuthStatus.pi,
   ]);
 
   return (
@@ -78,6 +91,7 @@ export default function AgentsSettingsTab({
         <AgentCategoryTabsSection
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
+          selectedAgent={selectedAgent}
         />
 
         <AgentCategoryContentSection

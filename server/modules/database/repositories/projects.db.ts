@@ -16,19 +16,47 @@ function normalizeProjectDisplayName(projectPath: string, customProjectName: str
 }
 
 export const projectsDb = {
-    createProjectPath(projectPath: string, customProjectName: string | null = null): CreateProjectPathResult {
+    /**
+     * Insert a project row for `projectPath`, or surface the existing row.
+     *
+     * `unarchiveIfArchived` (default true) preserves the legacy reactivation
+     * behavior for user-initiated callers (Create Project, /api/agent), which
+     * intentionally un-archive a soft-deleted project when the user touches it
+     * again. Background callers — most notably `sessionsDb.createSession` from
+     * the session synchronizer — must pass `false` so a refresh / file-change
+     * scan never undoes "remove from sidebar".
+     */
+    createProjectPath(
+        projectPath: string,
+        customProjectName: string | null = null,
+        options: { unarchiveIfArchived?: boolean } = {},
+    ): CreateProjectPathResult {
+        const { unarchiveIfArchived = true } = options;
         const db = getConnection();
         const normalizedProjectPath = normalizeProjectPath(projectPath);
         const normalizedProjectName = normalizeProjectDisplayName(normalizedProjectPath, customProjectName);
         const attemptedId = randomUUID();
-        const row = db.prepare(`
-        INSERT INTO projects (project_id, project_path, custom_project_name, isArchived)
-            VALUES (?, ?, ?, 0)
-            ON CONFLICT(project_path) DO UPDATE SET
-            isArchived = 0
-            WHERE projects.isArchived = 1
-            RETURNING project_id, project_path, custom_project_name, isStarred, isArchived
-        `).get(attemptedId, normalizedProjectPath, normalizedProjectName) as ProjectRepositoryRow | undefined;
+
+        // Two SQL paths so the un-archive branch only runs when explicitly
+        // asked for. The no-unarchive path is a NOOP UPDATE on conflict so that
+        // RETURNING still surfaces the existing row (SQLite only returns rows
+        // for INSERT/UPDATE that actually fired).
+        const sql = unarchiveIfArchived
+            ? `INSERT INTO projects (project_id, project_path, custom_project_name, isArchived)
+               VALUES (?, ?, ?, 0)
+               ON CONFLICT(project_path) DO UPDATE SET isArchived = 0
+               WHERE projects.isArchived = 1
+               RETURNING project_id, project_path, custom_project_name, isStarred, isArchived`
+            : `INSERT INTO projects (project_id, project_path, custom_project_name, isArchived)
+               VALUES (?, ?, ?, 0)
+               ON CONFLICT(project_path) DO NOTHING
+               RETURNING project_id, project_path, custom_project_name, isStarred, isArchived`;
+
+        const row = db.prepare(sql).get(
+            attemptedId,
+            normalizedProjectPath,
+            normalizedProjectName,
+        ) as ProjectRepositoryRow | undefined;
 
         if (row) {
             return {

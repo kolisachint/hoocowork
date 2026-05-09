@@ -13,6 +13,7 @@
  * - getActiveCodexSessions() - List all active sessions
  */
 
+import fs from 'node:fs';
 import { Codex } from '@openai/codex-sdk';
 import { notifyRunFailed, notifyRunStopped } from './services/notification-orchestrator.js';
 import { sessionsService } from './modules/providers/services/sessions.service.js';
@@ -205,6 +206,39 @@ export async function queryCodex(command, options = {}, ws) {
   const workingDirectory = cwd || projectPath || process.cwd();
   const { sandboxMode, approvalPolicy } = mapPermissionModeToCodexOptions(permissionMode);
 
+  // Codex Exec exits with `Error: No such file or directory (os error 2)` when
+  // workingDirectory doesn't exist. Validate up-front and surface a clear message
+  // instead of letting the Rust panic propagate.
+  try {
+    const stat = fs.statSync(workingDirectory);
+    if (!stat.isDirectory()) {
+      sendMessage(ws, createNormalizedMessage({
+        kind: 'error',
+        content: `Codex working directory is not a directory: ${workingDirectory}`,
+        sessionId,
+        provider: 'codex',
+      }));
+      return;
+    }
+  } catch (statError) {
+    if (statError && statError.code === 'ENOENT') {
+      sendMessage(ws, createNormalizedMessage({
+        kind: 'error',
+        content: `Codex working directory does not exist: ${workingDirectory}. Open or create the project folder before starting Codex.`,
+        sessionId,
+        provider: 'codex',
+      }));
+      return;
+    }
+    sendMessage(ws, createNormalizedMessage({
+      kind: 'error',
+      content: `Cannot access Codex working directory ${workingDirectory}: ${statError?.message || 'unknown error'}`,
+      sessionId,
+      provider: 'codex',
+    }));
+    return;
+  }
+
   let codex;
   let thread;
   let currentSessionId = sessionId;
@@ -262,6 +296,42 @@ export async function queryCodex(command, options = {}, ws) {
         continue;
       }
 
+      // Intercept turn.failed events with known recoverable patterns so we send
+      // a clear, actionable message instead of the raw Rust error from Codex Exec.
+      if (event.type === 'turn.failed') {
+        const rawErr = event.error;
+        const rawMsg = typeof rawErr === 'string' ? rawErr : (rawErr?.message || '');
+        const isMissingPath = /No such file or directory \(os error 2\)/i.test(rawMsg);
+        const isThreadMissing = /thread\s+\S+\s+not found/i.test(rawMsg);
+        if (isMissingPath || isThreadMissing) {
+          if (isMissingPath) {
+            console.warn('[Codex] turn.failed missing-path for session', currentSessionId, '- workingDirectory was', workingDirectory, '- raw:', rawMsg);
+          } else {
+            console.warn('[Codex] turn.failed thread-missing for session', currentSessionId);
+          }
+          const friendly = isThreadMissing
+            ? 'This Codex session is no longer available (its rollout file was removed). Start a new chat to continue.'
+            : `Codex couldn't find a required file (working directory: ${workingDirectory}). The project folder or its codex config may have been deleted.`;
+          sendMessage(ws, createNormalizedMessage({
+            kind: 'error',
+            content: friendly,
+            sessionId: currentSessionId,
+            provider: 'codex',
+          }));
+          if (!terminalFailure) {
+            terminalFailure = rawErr || new Error('Turn failed');
+            notifyRunFailed({
+              userId: ws?.userId || null,
+              provider: 'codex',
+              sessionId: currentSessionId,
+              sessionName: sessionSummary,
+              error: terminalFailure
+            });
+          }
+          continue;
+        }
+      }
+
       const transformed = transformCodexEvent(event);
 
       // Normalize the transformed event into NormalizedMessage(s) via adapter
@@ -308,13 +378,26 @@ export async function queryCodex(command, options = {}, ws) {
       String(error?.message || '').toLowerCase().includes('aborted');
 
     if (!wasAborted) {
-      console.error('[Codex] Error:', error);
+      const errMsg = String(error?.message || '');
+      const isThreadMissing = /thread\s+\S+\s+not found/i.test(errMsg);
+      const isMissingPath = /No such file or directory \(os error 2\)/i.test(errMsg);
+      if (isThreadMissing) {
+        console.warn('[Codex] Resumed thread no longer exists:', sessionId);
+      } else if (isMissingPath) {
+        console.warn('[Codex] Codex Exec missing-path error for session', sessionId, '- workingDirectory was', workingDirectory);
+      } else {
+        console.error('[Codex] Error:', error);
+      }
 
       // Check if Codex SDK is available for a clearer error message
       const installed = await providerAuthService.isProviderInstalled('codex');
       const errorContent = !installed
         ? 'Codex CLI is not configured. Please set up authentication first.'
-        : error.message;
+        : isThreadMissing
+          ? 'This Codex session is no longer available (its rollout file was removed). Start a new chat to continue.'
+          : isMissingPath
+            ? `Codex couldn't find a required file (working directory: ${workingDirectory}). The project folder or its codex config may have been deleted.`
+            : error.message;
 
       sendMessage(ws, createNormalizedMessage({ kind: 'error', content: errorContent, sessionId: currentSessionId, provider: 'codex' }));
       if (!terminalFailure) {

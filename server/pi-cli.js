@@ -11,6 +11,26 @@ import { createNormalizedMessage } from './shared/utils.js';
 
 const spawnFunction = process.platform === 'win32' ? crossSpawn : spawn;
 
+/**
+ * Send a normalized message through whichever transport `ws` represents.
+ * The chat WS path passes a `WebSocketWriter` whose .send() already
+ * JSON.stringifies. Stringifying first here would double-encode the payload
+ * and the client would silently drop it. Raw ws fallback for SSE-style usage.
+ */
+function sendPiMessage(ws, message) {
+  try {
+    if (ws && (ws.isWebSocketWriter || ws.isSSEStreamWriter)) {
+      ws.send(message);
+      return;
+    }
+    if (ws && typeof ws.send === 'function') {
+      ws.send(JSON.stringify(message));
+    }
+  } catch (error) {
+    console.error('[Pi CLI] failed to send message:', error?.message || error);
+  }
+}
+
 let activePiProcesses = new Map();
 
 function getPiSessionDir(projectPath) {
@@ -39,6 +59,45 @@ async function spawnPi(command, options = {}, ws) {
     const workingDir = cwd || projectPath || process.cwd();
     let processKey = capturedSessionId || `pi-${Date.now()}`;
 
+    // Guard: a stale project entry (created from a Pi session-folder name like
+    // "Users-sachinkoli-github-foo" rather than a real path) will give us a
+    // workingDir that doesn't exist on disk. Pi exits silently with code -2 in
+    // that case, leaving the chat hanging. Detect up-front and explain.
+    try {
+      const stat = fs.statSync(workingDir);
+      if (!stat.isDirectory()) {
+        sendPiMessage(ws, createNormalizedMessage({
+          kind: 'error',
+          content: `Pi working directory is not a directory: ${workingDir}`,
+          sessionId: capturedSessionId,
+          provider: 'pi',
+        }));
+        sendPiMessage(ws, createNormalizedMessage({
+          kind: 'complete',
+          exitCode: 1,
+          sessionId: capturedSessionId,
+          provider: 'pi',
+        }));
+        settleOnce(() => resolve({ exitCode: 1 }));
+        return;
+      }
+    } catch {
+      sendPiMessage(ws, createNormalizedMessage({
+        kind: 'error',
+        content: `Pi project folder not found on disk: ${workingDir}. The project entry in the sidebar may point at a stale or encoded path — pick the project with the real path (e.g. /Users/...) before starting a new chat.`,
+        sessionId: capturedSessionId,
+        provider: 'pi',
+      }));
+      sendPiMessage(ws, createNormalizedMessage({
+        kind: 'complete',
+        exitCode: 1,
+        sessionId: capturedSessionId,
+        provider: 'pi',
+      }));
+      settleOnce(() => resolve({ exitCode: 1 }));
+      return;
+    }
+
     const args = ['--mode', 'json'];
 
     if (model && model !== 'auto') {
@@ -65,12 +124,12 @@ async function spawnPi(command, options = {}, ws) {
     try {
       const authStatus = await providerAuthService.getProviderAuthStatus('pi');
       if (!authStatus.installed) {
-        ws.send(JSON.stringify(createNormalizedMessage({
+        sendPiMessage(ws, createNormalizedMessage({
           kind: 'error',
           content: 'Pi is not installed. Run `npm install -g @earendil-works/pi-coding-agent` to install.',
           sessionId: capturedSessionId,
           provider: 'pi',
-        })));
+        }));
         settleOnce(() => resolve({ exitCode: 1 }));
         return;
       }
@@ -78,17 +137,25 @@ async function spawnPi(command, options = {}, ws) {
       // Continue anyway, spawn will fail naturally if not installed
     }
 
+    console.log('[Pi CLI] spawn args:', args.join(' '), 'cwd=', workingDir);
     const piProcess = spawnFunction('pi', args, {
       cwd: workingDir,
+      // Detach stdin so pi doesn't block waiting for input in --print mode.
+      stdio: ['ignore', 'pipe', 'pipe'],
       env: { ...process.env, FORCE_COLOR: '0', NO_COLOR: '1' },
     });
 
     activePiProcesses.set(processKey, piProcess);
 
     let buffer = '';
+    let stderrBuffer = '';
+    let producedAnyJson = false;
     let sessionCreatedReceived = false;
 
+    let stdoutByteCount = 0;
+    let eventTypeCounts = {};
     piProcess.stdout.on('data', (data) => {
+      stdoutByteCount += data.length;
       buffer += data.toString();
       const lines = buffer.split('\n');
       buffer = lines.pop() || '';
@@ -97,6 +164,8 @@ async function spawnPi(command, options = {}, ws) {
         if (!line.trim()) continue;
         try {
           const event = JSON.parse(line);
+          producedAnyJson = true;
+          eventTypeCounts[event.type] = (eventTypeCounts[event.type] || 0) + 1;
           const normalized = sessionsService.normalizeMessage('pi', event, capturedSessionId);
           for (const msg of normalized) {
             if (msg.kind === 'session_created' && msg.newSessionId && !capturedSessionId) {
@@ -107,7 +176,7 @@ async function spawnPi(command, options = {}, ws) {
               activePiProcesses.set(processKey, piProcess);
               if (!sessionCreatedSent) {
                 sessionCreatedSent = true;
-                ws.send(JSON.stringify(msg));
+                sendPiMessage(ws, msg);
                 sessionCreatedReceived = true;
                 // If this is a fork/resume without a command, kill after session info
                 if (!command || !command.trim()) {
@@ -120,7 +189,7 @@ async function spawnPi(command, options = {}, ws) {
                 continue;
               }
             }
-            ws.send(JSON.stringify(msg));
+            sendPiMessage(ws, msg);
           }
         } catch (parseError) {
           // Skip non-JSON lines
@@ -129,46 +198,75 @@ async function spawnPi(command, options = {}, ws) {
     });
 
     piProcess.stderr.on('data', (data) => {
-      const text = data.toString().trim();
-      if (!text) return;
-      ws.send(JSON.stringify(createNormalizedMessage({
+      const text = data.toString();
+      stderrBuffer += text;
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      sendPiMessage(ws, createNormalizedMessage({
         kind: 'status',
-        content: text,
+        content: trimmed,
         sessionId: capturedSessionId,
         provider: 'pi',
-      })));
+      }));
     });
 
     piProcess.on('error', (error) => {
-      console.error('[Pi CLI] Process error:', error);
-      ws.send(JSON.stringify(createNormalizedMessage({
+      const isMissing = error?.code === 'ENOENT';
+      if (!isMissing) {
+        console.error('[Pi CLI] Process error:', error);
+      }
+      sendPiMessage(ws, createNormalizedMessage({
         kind: 'error',
-        content: `Pi process error: ${error.message}`,
+        content: isMissing
+          ? 'Pi is not installed. Run `npm install -g @earendil-works/pi-coding-agent` to install.'
+          : `Pi process error: ${error.message}`,
         sessionId: capturedSessionId,
         provider: 'pi',
-      })));
-      settleOnce(() => reject(error));
+      }));
+      // Resolve rather than reject for ENOENT so the WS layer doesn't log a duplicate
+      // "Chat WebSocket error" — the user already got the friendly install hint above.
+      if (isMissing) {
+        settleOnce(() => resolve({ exitCode: 127 }));
+      } else {
+        settleOnce(() => reject(error));
+      }
     });
 
     piProcess.on('close', (exitCode) => {
+      console.log('[Pi CLI] close exitCode=' + exitCode + ' stdoutBytes=' + stdoutByteCount + ' producedAnyJson=' + producedAnyJson + ' events=' + JSON.stringify(eventTypeCounts));
       if (buffer.trim()) {
         try {
           const event = JSON.parse(buffer.trim());
+          producedAnyJson = true;
           const normalized = sessionsService.normalizeMessage('pi', event, capturedSessionId);
           for (const msg of normalized) {
-            ws.send(JSON.stringify(msg));
+            sendPiMessage(ws, msg);
           }
         } catch {
           // ignore final non-JSON buffer
         }
       }
 
-      ws.send(JSON.stringify(createNormalizedMessage({
+      // If Pi exited without emitting any JSON event (e.g. unauthenticated
+      // provider, missing API key, invalid model), surface the buffered stderr
+      // as an error so the chat doesn't appear stuck on "Processing".
+      if (!producedAnyJson) {
+        const detail = stderrBuffer.trim() || `pi exited with code ${exitCode ?? 0} and produced no output`;
+        console.warn('[Pi CLI] no JSON output. stderr:', detail.slice(0, 500));
+        sendPiMessage(ws, createNormalizedMessage({
+          kind: 'error',
+          content: detail,
+          sessionId: capturedSessionId,
+          provider: 'pi',
+        }));
+      }
+
+      sendPiMessage(ws, createNormalizedMessage({
         kind: 'complete',
         exitCode: exitCode ?? 0,
         sessionId: capturedSessionId,
         provider: 'pi',
-      })));
+      }));
 
       if (exitCode !== 0 && exitCode !== null) {
         notifyRunFailed({ provider: 'pi', sessionId: capturedSessionId, error: `Pi exited with code ${exitCode}` });

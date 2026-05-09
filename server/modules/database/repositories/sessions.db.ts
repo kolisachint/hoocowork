@@ -49,8 +49,11 @@ export const sessionsDb = {
     const normalizedProjectPath = normalizeProjectPathForProvider(provider, projectPath);
 
     // First, ensure the project path is recorded in the projects table,
-    // since it's a foreign key in the sessions table.
-    projectsDb.createProjectPath(normalizedProjectPath);
+    // since it's a foreign key in the sessions table. Background indexers must
+    // not un-archive a soft-deleted project here — the user removed it from
+    // the sidebar on purpose, and a session-file mtime change shouldn't undo
+    // that decision.
+    projectsDb.createProjectPath(normalizedProjectPath, null, { unarchiveIfArchived: false });
 
     db.prepare(
       `INSERT INTO sessions (session_id, provider, custom_name, project_path, jsonl_path, created_at, updated_at)

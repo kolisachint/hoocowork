@@ -2,6 +2,7 @@ import express, { type Request, type Response } from 'express';
 
 import { providerAuthService } from '@/modules/providers/services/provider-auth.service.js';
 import { providerMcpService } from '@/modules/providers/services/mcp.service.js';
+import { piModelsService } from '@/modules/providers/services/pi-models.service.js';
 import { sessionConversationsSearchService } from '@/modules/providers/services/session-conversations-search.service.js';
 import { sessionsService } from '@/modules/providers/services/sessions.service.js';
 import type { LLMProvider, McpScope, McpTransport, UpsertProviderMcpServerInput } from '@/shared/types.js';
@@ -244,6 +245,18 @@ router.get(
     const provider = parseProvider(req.params.provider);
     const status = await providerAuthService.getProviderAuthStatus(provider);
     res.json(createApiSuccessResponse(status));
+  }),
+);
+
+// Pi exposes a large dynamic catalog of models via `pi --list-models`. Cache for
+// 10 minutes; pass ?force=true to bypass the cache. Other providers fall back
+// to the static client-side OPTIONS list and don't need this endpoint.
+router.get(
+  '/pi/models',
+  asyncHandler(async (req: Request, res: Response) => {
+    const force = parseOptionalBooleanQuery(req.query.force, 'force') === true;
+    const result = await piModelsService.getModels({ force });
+    res.json(createApiSuccessResponse(result));
   }),
 );
 

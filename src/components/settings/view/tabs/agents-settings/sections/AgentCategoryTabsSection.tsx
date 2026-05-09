@@ -5,16 +5,23 @@ import type { AgentCategoryTabsSectionProps } from '../types';
 
 const AGENT_CATEGORIES: AgentCategory[] = ['account', 'permissions', 'mcp'];
 
+// Pi only exposes account info — MCP and per-tool permissions aren't supported
+// by the backend (see pi-mcp.provider.ts). Hide the irrelevant tabs so the UI
+// doesn't dead-end into a broken state.
+const PI_AGENT_CATEGORIES: AgentCategory[] = ['account'];
+
 export default function AgentCategoryTabsSection({
   selectedCategory,
   onSelectCategory,
+  selectedAgent,
 }: AgentCategoryTabsSectionProps) {
   const { t } = useTranslation('settings');
+  const categories = selectedAgent === 'pi' ? PI_AGENT_CATEGORIES : AGENT_CATEGORIES;
 
   return (
     <div className="flex-shrink-0 border-b border-border">
       <div role="tablist" className="flex overflow-x-auto px-2 md:px-4">
-        {AGENT_CATEGORIES.map((category) => (
+        {categories.map((category) => (
           <button
             key={category}
             role="tab"

@@ -597,14 +597,17 @@ export function useProjectsState({
       providerFromStorage = null;
     }
 
+    // When a session id arrives via the URL before the projects payload
+    // includes it (race with `session_created` or pagination), we synthesize
+    // a placeholder selectedSession from `selected-provider`. This list MUST
+    // include every supported provider — falling through to 'claude' for an
+    // unrecognized value caused the shell to spawn `claude --resume <id>`
+    // for Pi sessions, producing "No conversation found with session ID".
+    const allowedProviders: LLMProvider[] = ['claude', 'cursor', 'codex', 'gemini', 'pi'];
     const normalizedProvider: LLMProvider =
-      providerFromStorage === 'cursor'
-        ? 'cursor'
-        : providerFromStorage === 'codex'
-          ? 'codex'
-          : providerFromStorage === 'gemini'
-            ? 'gemini'
-            : 'claude';
+      (allowedProviders as string[]).includes(providerFromStorage ?? '')
+        ? (providerFromStorage as LLMProvider)
+        : 'claude';
 
     setSelectedSession({
       id: sessionId,

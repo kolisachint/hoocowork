@@ -117,6 +117,7 @@ export function handleChatConnection(
       if (!messageType) {
         throw new Error('Message type is required');
       }
+      console.log('[chat-ws] received', messageType, 'sessionId=', data.sessionId ?? '(none)', 'model=', data.options?.model ?? '(none)');
 
       if (messageType === 'claude-command') {
         await dependencies.queryClaudeSDK(data.command ?? '', data.options, writer);
