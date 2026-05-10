@@ -119,7 +119,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
       {message.type === 'user' ? (
         /* User message bubble on the right */
         <div className="flex w-full items-end space-x-0 sm:w-auto sm:max-w-[85%] sm:space-x-3 md:max-w-md lg:max-w-lg xl:max-w-xl">
-          <div className="group flex-1 rounded-2xl rounded-br-md bg-blue-600 px-3 py-2 text-white shadow-sm sm:flex-initial sm:px-4">
+          <div className="group flex-1 rounded-2xl rounded-br-md bg-[var(--brand-accent)] px-3 py-2 text-[var(--brand-accent-ink)] shadow-sm sm:flex-initial sm:px-4">
             <div className="whitespace-pre-wrap break-words text-sm">
               {message.content}
             </div>
@@ -136,7 +136,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                 ))}
               </div>
             )}
-            <div className="mt-1 flex items-center justify-end gap-1 text-xs text-blue-100">
+            <div className="mt-1 flex items-center justify-end gap-1 text-xs text-[var(--brand-accent-ink)]/80">
               {shouldShowUserCopyControl && (
                 <MessageCopyControl content={userCopyContent} messageType="user" />
               )}
@@ -144,7 +144,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
             </div>
           </div>
           {!isGrouped && (
-            <div className="hidden h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm text-white sm:flex">
+            <div className="hidden h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[var(--brand-accent)] text-sm text-[var(--brand-accent-ink)] sm:flex">
               U
             </div>
           )}
@@ -153,8 +153,8 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
         /* Compact task notification on the left */
         <div className="w-full">
           <div className="flex items-center gap-2 py-0.5">
-            <span className={`inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full ${message.taskStatus === 'completed' ? 'bg-green-400 dark:bg-green-500' : 'bg-amber-400 dark:bg-amber-500'}`} />
-            <span className="text-xs text-gray-500 dark:text-gray-400">{message.content}</span>
+            <span className={`inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full ${message.taskStatus === 'completed' ? 'bg-[var(--ok)]' : 'bg-[var(--warn)]'}`} />
+            <span className="text-xs text-[var(--ink-3)]">{message.content}</span>
           </div>
         </div>
       ) : (
@@ -163,11 +163,11 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
           {!isGrouped && (
             <div className="mb-2 flex items-center space-x-3">
               {message.type === 'error' ? (
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-red-600 text-sm text-white">
+                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[var(--err)] text-sm text-[var(--paper)]">
                   !
                 </div>
               ) : message.type === 'tool' ? (
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gray-600 text-sm text-white dark:bg-gray-700">
+                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[var(--ink-3)] text-sm text-[var(--paper)]">
                   🔧
                 </div>
               ) : (
@@ -175,7 +175,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                   <SessionProviderLogo provider={provider} className="h-full w-full" />
                 </div>
               )}
-              <div className="text-sm font-medium text-gray-900 dark:text-white">
+              <div className="text-sm font-medium text-[var(--ink)]">
                 {message.type === 'error' ? t('messageTypes.error') : message.type === 'tool' ? t('messageTypes.tool') : (provider === 'cursor' ? t('messageTypes.cursor') : provider === 'codex' ? t('messageTypes.codex') : provider === 'gemini' ? t('messageTypes.gemini') : provider === 'pi' ? t('messageTypes.pi', { defaultValue: 'Pi' }) : t('messageTypes.claude'))}
               </div>
             </div>
@@ -217,20 +217,20 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                     // Error results - red error box with content
                     <div
                       id={`tool-result-${message.toolId}`}
-                      className="relative mt-2 scroll-mt-4 rounded border border-red-200/60 bg-red-50/50 p-3 dark:border-red-800/40 dark:bg-red-950/10"
+                      className="relative mt-2 scroll-mt-4 rounded border border-[var(--err)]/30 bg-[var(--err-soft)] p-3"
                     >
                       <div className="relative mb-2 flex items-center gap-1.5">
-                        <svg className="h-4 w-4 text-red-500 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-4 w-4 text-[var(--err)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
-                        <span className="text-xs font-medium text-red-700 dark:text-red-300">{t('messageTypes.error')}</span>
+                        <span className="text-xs font-medium text-[var(--err)]">{t('messageTypes.error')}</span>
                       </div>
-                      <div className="relative text-sm text-red-900 dark:text-red-100">
+                      <div className="relative text-sm text-[var(--err)]">
                         <Markdown className="prose prose-sm prose-red max-w-none dark:prose-invert">
                           {String(message.toolResult.content || '')}
                         </Markdown>
                         {permissionSuggestion && (
-                          <div className="mt-4 border-t border-red-200/60 pt-3 dark:border-red-800/60">
+                          <div className="mt-4 border-t border-[var(--err)]/30 pt-3">
                             <div className="flex flex-wrap items-center gap-2">
                               <button
                                 type="button"
@@ -245,8 +245,8 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                                 }}
                                 disabled={permissionSuggestion.isAllowed || permissionGrantState === 'granted'}
                                 className={`inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs font-medium transition-colors ${permissionSuggestion.isAllowed || permissionGrantState === 'granted'
-                                  ? 'cursor-default border-green-300/70 bg-green-100 text-green-800 dark:border-green-800/60 dark:bg-green-900/30 dark:text-green-200'
-                                  : 'border-red-300/70 bg-white/80 text-red-700 hover:bg-white dark:border-red-800/60 dark:bg-gray-900/40 dark:text-red-200 dark:hover:bg-gray-900/70'
+                                  ? 'cursor-default border-[var(--ok)]/40 bg-[var(--ok-soft)] text-[var(--ok)]'
+                                  : 'border-[var(--err)]/40 bg-[var(--paper)] text-[var(--err)] hover:bg-[var(--paper-2)]'
                                   }`}
                               >
                                 {permissionSuggestion.isAllowed || permissionGrantState === 'granted'
@@ -257,22 +257,22 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                                 <button
                                   type="button"
                                   onClick={(e) => { e.stopPropagation(); onShowSettings(); }}
-                                  className="text-xs text-red-700 underline hover:text-red-800 dark:text-red-200 dark:hover:text-red-100"
+                                  className="text-xs text-[var(--err)] underline hover:opacity-80"
                                 >
                                   {t('permissions.openSettings')}
                                 </button>
                               )}
                             </div>
-                            <div className="mt-2 text-xs text-red-700/90 dark:text-red-200/80">
+                            <div className="mt-2 text-xs text-[var(--err)]">
                               {t('permissions.addTo', { entry: permissionSuggestion.entry })}
                             </div>
                             {permissionGrantState === 'error' && (
-                              <div className="mt-2 text-xs text-red-700 dark:text-red-200">
+                              <div className="mt-2 text-xs text-[var(--err)]">
                                 {t('permissions.error')}
                               </div>
                             )}
                             {(permissionSuggestion.isAllowed || permissionGrantState === 'granted') && (
-                              <div className="mt-2 text-xs text-green-700 dark:text-green-200">
+                              <div className="mt-2 text-xs text-[var(--ok)]">
                                 {t('permissions.retry')}
                               </div>
                             )}
@@ -343,7 +343,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                                 key={option.number}
                                 className={`w-full rounded-lg border-2 px-4 py-3 text-left transition-all ${option.isSelected
                                   ? 'border-amber-600 bg-amber-600 text-white shadow-md dark:border-amber-700 dark:bg-amber-700'
-                                  : 'border-amber-300 bg-white text-amber-900 dark:border-amber-700 dark:bg-gray-800 dark:text-amber-100'
+                                  : 'border-[var(--warn)]/40 bg-[var(--paper)] text-[var(--warn)]'
                                   } cursor-not-allowed opacity-75`}
                                 disabled
                               >
@@ -393,7 +393,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                 </ReasoningContent>
               </Reasoning>
             ) : (
-              <div className="text-sm text-gray-700 dark:text-gray-300">
+              <div className="text-sm text-[var(--ink-2)]">
                 {/* Reasoning accordion */}
                 {showThinking && message.reasoning && (
                   <Reasoning className="mb-3" defaultOpen={false}>
@@ -419,15 +419,15 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
 
                       return (
                         <div className="my-2">
-                          <div className="mb-2 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                          <div className="mb-2 flex items-center gap-2 text-sm text-[var(--ink-3)]">
                             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                             </svg>
                             <span className="font-medium">{t('json.response')}</span>
                           </div>
-                          <div className="overflow-hidden rounded-lg border border-gray-600/30 bg-gray-800 dark:border-gray-700 dark:bg-gray-900">
+                          <div className="overflow-hidden rounded-lg border border-[var(--line)] bg-[#0E0E0C]">
                             <pre className="overflow-x-auto p-4">
-                              <code className="block whitespace-pre font-mono text-sm text-gray-100 dark:text-gray-200">
+                              <code className="block whitespace-pre font-mono text-sm text-[var(--ink)]">
                                 {formatted}
                               </code>
                             </pre>
@@ -454,7 +454,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
             )}
 
             {(shouldShowAssistantCopyControl || !isGrouped) && (
-              <div className="mt-1 flex w-full items-center gap-2 text-[11px] text-gray-400 dark:text-gray-500">
+              <div className="mt-1 flex w-full items-center gap-2 text-[11px] text-[var(--ink-4)]">
                 {shouldShowAssistantCopyControl && (
                   <MessageCopyControl content={assistantCopyContent} messageType="assistant" />
                 )}
