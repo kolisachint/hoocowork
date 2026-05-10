@@ -41,7 +41,7 @@ export default function ShellMinimalView({
   const showMobileAuthPanelToggle = hasAuthUrl && isAuthPanelHidden;
 
   return (
-    <div className="relative h-full w-full bg-gray-900">
+    <div className="relative h-full w-full bg-[var(--paper)]">
       <div
         ref={terminalContainerRef}
         className="h-full w-full focus:outline-none"
@@ -49,14 +49,14 @@ export default function ShellMinimalView({
       />
 
       {showMobileAuthPanel && (
-        <div className="absolute inset-x-0 bottom-14 z-20 border-t border-gray-700/80 bg-gray-900/95 p-3 backdrop-blur-sm md:hidden">
+        <div className="absolute inset-x-0 bottom-14 z-20 border-t border-border/80 bg-[var(--paper)]/95 p-3 backdrop-blur-sm md:hidden">
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between gap-2">
-              <p className="text-xs text-gray-300">Open or copy the login URL:</p>
+              <p className="text-xs text-muted-foreground">Open or copy the login URL:</p>
               <button
                 type="button"
                 onClick={() => setIsAuthPanelHidden(true)}
-                className="rounded bg-gray-700 px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-gray-100 hover:bg-gray-600"
+                className="rounded bg-muted px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-foreground hover:bg-muted/80"
               >
                 Hide
               </button>
@@ -67,7 +67,7 @@ export default function ShellMinimalView({
               value={displayAuthUrl}
               readOnly
               onClick={(event) => event.currentTarget.select()}
-              className="w-full rounded border border-gray-600 bg-gray-800 px-2 py-1 text-xs text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full rounded border border-border bg-muted px-2 py-1 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-[var(--brand-accent)]"
               aria-label="Authentication URL"
             />
 
@@ -77,7 +77,7 @@ export default function ShellMinimalView({
                 onClick={() => {
                   openAuthUrlInBrowser(displayAuthUrl);
                 }}
-                className="flex-1 rounded bg-blue-600 px-3 py-2 text-xs font-medium text-white hover:bg-blue-700"
+                className="flex-1 rounded bg-[var(--brand-accent)] px-3 py-2 text-xs font-medium text-white hover:bg-[var(--brand-accent)]/90"
               >
                 Open URL
               </button>
@@ -88,7 +88,7 @@ export default function ShellMinimalView({
                   const copied = await copyAuthUrlToClipboard(displayAuthUrl);
                   setAuthUrlCopyStatus(copied ? 'copied' : 'failed');
                 }}
-                className="flex-1 rounded bg-gray-700 px-3 py-2 text-xs font-medium text-white hover:bg-gray-600"
+                className="flex-1 rounded bg-muted px-3 py-2 text-xs font-medium text-foreground hover:bg-muted/80"
               >
                 {authUrlCopyStatus === 'copied' ? 'Copied' : 'Copy URL'}
               </button>
@@ -102,7 +102,7 @@ export default function ShellMinimalView({
           <button
             type="button"
             onClick={() => setIsAuthPanelHidden(false)}
-            className="rounded bg-gray-800/95 px-3 py-2 text-xs font-medium text-gray-100 shadow-lg backdrop-blur-sm hover:bg-gray-700"
+            className="rounded bg-muted/95 px-3 py-2 text-xs font-medium text-foreground shadow-lg backdrop-blur-sm hover:bg-muted/80"
           >
             Show login URL
           </button>

@@ -182,7 +182,7 @@ function Tooltip({
           ref={tooltipRef}
           style={tooltipStyle || { position: 'fixed', top: '-9999px', left: '-9999px', opacity: 0 }}
           className={cn(
-            'px-2 py-1 text-xs font-medium text-white bg-gray-900 dark:bg-gray-100 dark:text-gray-900 rounded shadow-lg whitespace-nowrap pointer-events-none',
+            'px-2 py-1 text-xs font-medium text-white bg-[var(--paper)] dark:bg-foreground dark:text-[var(--paper)] rounded shadow-lg whitespace-nowrap pointer-events-none',
             'animate-in fade-in-0 zoom-in-95 duration-200',
             className
           )}

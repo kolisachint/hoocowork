@@ -171,7 +171,7 @@ function TaskCard({ task, onClick = null, showParent = false, className = '' }: 
         <div className="flex items-center">
           {Array.isArray(task.dependencies) && task.dependencies.length > 0 && (
             <Tooltip content={`Depends on: ${task.dependencies.map((dependency) => `Task ${dependency}`).join(', ')}`}>
-              <div className="flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400">
+              <div className="flex items-center gap-1 text-xs text-[var(--warn)]">
                 <ArrowRight className="h-3 w-3" />
                 <span>Depends on: {task.dependencies.join(', ')}</span>
               </div>

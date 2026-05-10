@@ -126,8 +126,8 @@ const MessageCopyControl = ({
   };
 
   const toneClass = messageType === 'user'
-    ? 'text-blue-100 hover:text-white'
-    : 'text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300';
+    ? 'text-white/80 hover:text-foreground'
+    : 'text-muted-foreground hover:text-foreground';
   const copyTitle = copied ? t('copyMessage.copied') : t('copyMessage.copy');
   const rootClassName = canSelectCopyFormat
     ? 'relative flex min-w-0 flex-1 items-center gap-0.5 sm:min-w-max sm:flex-none sm:w-auto'
@@ -187,7 +187,7 @@ const MessageCopyControl = ({
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute left-auto top-full z-30 mt-1 min-w-36 rounded-md border border-gray-200 bg-white p-1 shadow-lg dark:border-gray-700 dark:bg-gray-900">
+            <div className="absolute left-auto top-full z-30 mt-1 min-w-36 rounded-md border border-border bg-background p-1 shadow-lg dark:border-border dark:bg-[var(--paper)]">
               {copyFormatOptions.map((option) => {
                 const isSelected = option.format === selectedFormat;
                 return (
@@ -196,8 +196,8 @@ const MessageCopyControl = ({
                     type="button"
                     onClick={() => handleFormatChange(option.format)}
                     className={`block w-full rounded px-2 py-1.5 text-left transition-colors ${isSelected
-                      ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100'
-                      : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800/60'
+                      ? 'bg-muted text-foreground dark:bg-muted dark:text-foreground'
+                      : 'text-muted-foreground hover:bg-muted/50 dark:text-muted-foreground dark:hover:bg-muted/60'
                       }`}
                   >
                     <span className="block text-xs font-medium">{option.label}</span>

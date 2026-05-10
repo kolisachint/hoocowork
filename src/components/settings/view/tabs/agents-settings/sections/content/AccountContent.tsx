@@ -23,54 +23,54 @@ type AgentVisualConfig = {
 const agentConfig: Record<AgentProvider, AgentVisualConfig> = {
   claude: {
     name: 'Claude',
-    bgClass: 'bg-blue-50 dark:bg-blue-900/20',
-    borderClass: 'border-blue-200 dark:border-blue-800',
-    textClass: 'text-blue-900 dark:text-blue-100',
-    subtextClass: 'text-blue-700 dark:text-blue-300',
-    buttonClass: 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800',
+    bgClass: 'bg-[var(--brand-accent)]/5',
+    borderClass: 'border-[var(--brand-accent)]/20',
+    textClass: 'text-foreground',
+    subtextClass: 'text-muted-foreground',
+    buttonClass: 'bg-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/90 active:bg-[var(--brand-accent)]/80',
   },
   cursor: {
     name: 'Cursor',
-    bgClass: 'bg-purple-50 dark:bg-purple-900/20',
-    borderClass: 'border-purple-200 dark:border-purple-800',
-    textClass: 'text-purple-900 dark:text-purple-100',
-    subtextClass: 'text-purple-700 dark:text-purple-300',
-    buttonClass: 'bg-purple-600 hover:bg-purple-700 active:bg-purple-800',
+    bgClass: 'bg-[var(--brand-accent)]/5',
+    borderClass: 'border-[var(--brand-accent)]/20',
+    textClass: 'text-foreground',
+    subtextClass: 'text-muted-foreground',
+    buttonClass: 'bg-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/90 active:bg-[var(--brand-accent)]/80',
   },
   codex: {
     name: 'Codex',
     bgClass: 'bg-muted/50',
-    borderClass: 'border-gray-300 dark:border-gray-600',
-    textClass: 'text-gray-900 dark:text-gray-100',
-    subtextClass: 'text-gray-700 dark:text-gray-300',
-    buttonClass: 'bg-gray-800 hover:bg-gray-900 active:bg-gray-950 dark:bg-gray-700 dark:hover:bg-gray-600 dark:active:bg-gray-500',
+    borderClass: 'border-border',
+    textClass: 'text-foreground',
+    subtextClass: 'text-muted-foreground',
+    buttonClass: 'bg-foreground/80 hover:bg-foreground/90 active:bg-foreground',
   },
   gemini: {
     name: 'Gemini',
     description: 'Google Gemini AI assistant',
-    bgClass: 'bg-indigo-50 dark:bg-indigo-900/20',
-    borderClass: 'border-indigo-200 dark:border-indigo-800',
-    textClass: 'text-indigo-900 dark:text-indigo-100',
-    subtextClass: 'text-indigo-700 dark:text-indigo-300',
-    buttonClass: 'bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800',
+    bgClass: 'bg-[var(--brand-accent)]/5',
+    borderClass: 'border-[var(--brand-accent)]/20',
+    textClass: 'text-foreground',
+    subtextClass: 'text-muted-foreground',
+    buttonClass: 'bg-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/90 active:bg-[var(--brand-accent)]/80',
   },
   pi: {
     name: 'Pi',
     description: 'Pi AI coding agent',
-    bgClass: 'bg-emerald-50 dark:bg-emerald-900/20',
-    borderClass: 'border-emerald-200 dark:border-emerald-800',
-    textClass: 'text-emerald-900 dark:text-emerald-100',
-    subtextClass: 'text-emerald-700 dark:text-emerald-300',
-    buttonClass: 'bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800',
+    bgClass: 'bg-[var(--brand-accent)]/5',
+    borderClass: 'border-[var(--brand-accent)]/20',
+    textClass: 'text-foreground',
+    subtextClass: 'text-muted-foreground',
+    buttonClass: 'bg-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/90 active:bg-[var(--brand-accent)]/80',
   },
   opencode: {
     name: 'OpenCode',
     description: 'OpenCode terminal coding agent',
-    bgClass: 'bg-amber-50 dark:bg-amber-900/20',
-    borderClass: 'border-amber-200 dark:border-amber-800',
-    textClass: 'text-amber-900 dark:text-amber-100',
-    subtextClass: 'text-amber-700 dark:text-amber-300',
-    buttonClass: 'bg-amber-600 hover:bg-amber-700 active:bg-amber-800',
+    bgClass: 'bg-[var(--brand-accent)]/5',
+    borderClass: 'border-[var(--brand-accent)]/20',
+    textClass: 'text-foreground',
+    subtextClass: 'text-muted-foreground',
+    buttonClass: 'bg-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/90 active:bg-[var(--brand-accent)]/80',
   },
 };
 
@@ -113,11 +113,11 @@ export default function AccountContent({ agent, authStatus, onLogin }: AccountCo
                   {t('agents.authStatus.checking')}
                 </Badge>
               ) : authStatus.authenticated ? (
-                <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+                <Badge variant="secondary" className="bg-[var(--ok)]/10 text-[var(--ok)]">
                   {t('agents.authStatus.connected')}
                 </Badge>
               ) : (
-                <Badge variant="secondary" className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300">
+                <Badge variant="secondary" className="bg-muted text-muted-foreground">
                   {t('agents.authStatus.disconnected')}
                 </Badge>
               )}
@@ -160,7 +160,7 @@ export default function AccountContent({ agent, authStatus, onLogin }: AccountCo
 
           {authStatus.error && (
             <div className="border-t border-border/50 pt-4">
-              <div className="text-sm text-red-600 dark:text-red-400">
+              <div className="text-sm text-[var(--err)]">
                 {t('agents.error', { error: authStatus.error })}
               </div>
             </div>

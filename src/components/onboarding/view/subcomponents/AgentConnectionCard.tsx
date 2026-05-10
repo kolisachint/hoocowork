@@ -41,7 +41,7 @@ export default function AgentConnectionCard({
           <div>
             <div className="flex items-center gap-2 font-medium text-foreground">
               {title}
-              {status.authenticated && <Check className="h-4 w-4 text-green-500" />}
+              {status.authenticated && <Check className="h-4 w-4 text-[var(--ok)]" />}
             </div>
             <div className="text-xs text-muted-foreground">{statusText}</div>
           </div>

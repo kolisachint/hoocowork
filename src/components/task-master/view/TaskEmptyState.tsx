@@ -77,7 +77,7 @@ export default function TaskEmptyState({
 
               <button
                 onClick={onCreatePrd}
-                className="inline-flex items-center gap-2 rounded bg-purple-100 px-2 py-1 text-xs text-purple-700 hover:bg-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:hover:bg-purple-900/50"
+                className="inline-flex items-center gap-2 rounded bg-[var(--brand-accent)]/10 px-2 py-1 text-xs text-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/20 dark:bg-[var(--brand-accent)]/10 dark:text-[var(--brand-accent)] dark:hover:bg-[var(--brand-accent)]/20"
               >
                 <FileText className="h-3 w-3" />
                 {t('gettingStarted.steps.createPRD.addButton')}
@@ -120,7 +120,7 @@ export default function TaskEmptyState({
 
           <button
             onClick={onCreatePrd}
-            className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 font-medium text-white hover:bg-purple-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--brand-accent)] px-4 py-2 font-medium text-white hover:bg-[var(--brand-accent)]/90"
           >
             <FileText className="h-4 w-4" />
             {t('buttons.addPRD')}

@@ -32,7 +32,7 @@ const CodeBlock = ({ node, inline, className, children, ...props }: CodeBlockPro
   if (shouldInline) {
     return (
       <code
-        className={`whitespace-pre-wrap break-words rounded-md border border-gray-200 bg-gray-100 px-1.5 py-0.5 font-mono text-[0.9em] text-gray-900 dark:border-gray-700 dark:bg-gray-800/60 dark:text-gray-100 ${className || ''
+        className={`whitespace-pre-wrap break-words rounded-md border border-border bg-muted px-1.5 py-0.5 font-mono text-[0.9em] text-foreground dark:border-border dark:bg-muted/60 dark:text-foreground ${className || ''
           }`}
         {...props}
       >
@@ -47,7 +47,7 @@ const CodeBlock = ({ node, inline, className, children, ...props }: CodeBlockPro
   return (
     <div className="group relative my-2">
       {language && language !== 'text' && (
-        <div className="absolute left-3 top-2 z-10 text-xs font-medium uppercase text-gray-400">{language}</div>
+        <div className="absolute left-3 top-2 z-10 text-xs font-medium uppercase text-muted-foreground">{language}</div>
       )}
 
       <button
@@ -60,7 +60,7 @@ const CodeBlock = ({ node, inline, className, children, ...props }: CodeBlockPro
             }
           })
         }
-        className="absolute right-2 top-2 z-10 rounded-md border border-gray-600 bg-gray-700/80 px-2 py-1 text-xs text-white opacity-0 transition-opacity hover:bg-gray-700 focus:opacity-100 active:opacity-100 group-hover:opacity-100"
+        className="absolute right-2 top-2 z-10 rounded-md border border-border bg-muted/80 px-2 py-1 text-xs text-white opacity-0 transition-opacity hover:bg-muted/80 focus:opacity-100 active:opacity-100 group-hover:opacity-100"
         title={copied ? t('codeBlock.copied') : t('codeBlock.copyCode')}
         aria-label={copied ? t('codeBlock.copied') : t('codeBlock.copyCode')}
       >
@@ -119,27 +119,27 @@ const CodeBlock = ({ node, inline, className, children, ...props }: CodeBlockPro
 const markdownComponents = {
   code: CodeBlock,
   blockquote: ({ children }: { children?: React.ReactNode }) => (
-    <blockquote className="my-2 border-l-4 border-gray-300 pl-4 italic text-gray-600 dark:border-gray-600 dark:text-gray-400">
+    <blockquote className="my-2 border-l-4 border-border pl-4 italic text-muted-foreground dark:border-border dark:text-muted-foreground">
       {children}
     </blockquote>
   ),
   a: ({ href, children }: { href?: string; children?: React.ReactNode }) => (
-    <a href={href} className="text-blue-600 hover:underline dark:text-blue-400" target="_blank" rel="noopener noreferrer">
+    <a href={href} className="text-[var(--brand-accent)] hover:underline dark:text-[var(--brand-accent)]" target="_blank" rel="noopener noreferrer">
       {children}
     </a>
   ),
   p: ({ children }: { children?: React.ReactNode }) => <div className="mb-2 last:mb-0">{children}</div>,
   table: ({ children }: { children?: React.ReactNode }) => (
     <div className="my-2 overflow-x-auto">
-      <table className="min-w-full border-collapse border border-gray-200 dark:border-gray-700">{children}</table>
+      <table className="min-w-full border-collapse border border-border">{children}</table>
     </div>
   ),
-  thead: ({ children }: { children?: React.ReactNode }) => <thead className="bg-gray-50 dark:bg-gray-800">{children}</thead>,
+  thead: ({ children }: { children?: React.ReactNode }) => <thead className="bg-muted/50">{children}</thead>,
   th: ({ children }: { children?: React.ReactNode }) => (
-    <th className="border border-gray-200 px-3 py-2 text-left text-sm font-semibold dark:border-gray-700">{children}</th>
+    <th className="border border-border px-3 py-2 text-left text-sm font-semibold dark:border-border">{children}</th>
   ),
   td: ({ children }: { children?: React.ReactNode }) => (
-    <td className="border border-gray-200 px-3 py-2 align-top text-sm dark:border-gray-700">{children}</td>
+    <td className="border border-border px-3 py-2 align-top text-sm dark:border-border">{children}</td>
   ),
 };
 

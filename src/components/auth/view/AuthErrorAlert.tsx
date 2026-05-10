@@ -8,8 +8,8 @@ export default function AuthErrorAlert({ errorMessage }: AuthErrorAlertProps) {
   }
 
   return (
-    <div className="rounded-md border border-red-300 bg-red-100 p-3 dark:border-red-800 dark:bg-red-900/20">
-      <p className="text-sm text-red-700 dark:text-red-400">{errorMessage}</p>
+    <div className="rounded-md border border-[var(--err)]/30 bg-[var(--err)]/10 p-3 dark:border-[var(--err)]/80 dark:bg-[var(--err)]/10">
+      <p className="text-sm text-[var(--err)] dark:text-[var(--err)]">{errorMessage}</p>
     </div>
   );
 }

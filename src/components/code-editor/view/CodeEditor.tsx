@@ -222,7 +222,7 @@ export default function CodeEditor({
           />
 
           {saveError && (
-            <div className="border-b border-red-200 bg-red-50 px-3 py-1.5 text-xs text-red-700 dark:border-red-900/40 dark:bg-red-900/20 dark:text-red-300">
+            <div className="border-b border-[var(--err)]/20 bg-[var(--err)]/5 px-3 py-1.5 text-xs text-[var(--err)] dark:border-[var(--err)]/20 dark:bg-[var(--err)]/10 dark:text-[var(--err)]">
               {saveError}
             </div>
           )}

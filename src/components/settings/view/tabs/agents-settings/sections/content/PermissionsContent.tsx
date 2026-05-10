@@ -455,15 +455,15 @@ function CursorPermissions({
         </div>
       </div>
 
-      <div className="rounded-lg border border-purple-200 bg-purple-50 p-4 dark:border-purple-800 dark:bg-purple-900/20">
-        <h4 className="mb-2 font-medium text-purple-900 dark:text-purple-100">
+      <div className="rounded-lg border border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 p-4 dark:border-[var(--brand-accent)]/20 dark:bg-[var(--brand-accent)]/10">
+        <h4 className="mb-2 font-medium text-foreground dark:text-foreground">
           {t('permissions.shellExamples.title')}
         </h4>
-        <ul className="space-y-1 text-sm text-purple-800 dark:text-purple-200">
-          <li><code className="rounded bg-purple-100 px-1 dark:bg-purple-800">"Shell(ls)"</code> {t('permissions.shellExamples.ls')}</li>
-          <li><code className="rounded bg-purple-100 px-1 dark:bg-purple-800">"Shell(git status)"</code> {t('permissions.shellExamples.gitStatus')}</li>
-          <li><code className="rounded bg-purple-100 px-1 dark:bg-purple-800">"Shell(npm install)"</code> {t('permissions.shellExamples.npmInstall')}</li>
-          <li><code className="rounded bg-purple-100 px-1 dark:bg-purple-800">"Shell(rm -rf)"</code> {t('permissions.shellExamples.rmRf')}</li>
+        <ul className="space-y-1 text-sm text-muted-foreground dark:text-muted-foreground">
+          <li><code className="rounded bg-[var(--brand-accent)]/10 px-1 dark:bg-[var(--brand-accent)]/20">"Shell(ls)"</code> {t('permissions.shellExamples.ls')}</li>
+          <li><code className="rounded bg-[var(--brand-accent)]/10 px-1 dark:bg-[var(--brand-accent)]/20">"Shell(git status)"</code> {t('permissions.shellExamples.gitStatus')}</li>
+          <li><code className="rounded bg-[var(--brand-accent)]/10 px-1 dark:bg-[var(--brand-accent)]/20">"Shell(npm install)"</code> {t('permissions.shellExamples.npmInstall')}</li>
+          <li><code className="rounded bg-[var(--brand-accent)]/10 px-1 dark:bg-[var(--brand-accent)]/20">"Shell(rm -rf)"</code> {t('permissions.shellExamples.rmRf')}</li>
         </ul>
       </div>
     </div>

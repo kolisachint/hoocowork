@@ -233,7 +233,7 @@ export default function ChatMessagesPane({
 
           {/* Performance warning when all messages are loaded */}
           {allMessagesLoaded && (
-            <div className="border-b border-amber-200 bg-amber-50 py-1.5 text-center text-xs text-amber-600 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-400">
+            <div className="border-b border-[var(--warn)]/20 bg-[var(--warn)]/5 py-1.5 text-center text-xs text-[var(--warn)] dark:border-[var(--warn)]/80 dark:bg-[var(--warn)]/10 dark:text-[var(--warn)]">
               {t('session.messages.perfWarning')}
             </div>
           )}

@@ -25,7 +25,7 @@ const ImageAttachment = ({ file, onRemove, uploadProgress, error }: ImageAttachm
         </div>
       )}
       {error && (
-        <div className="absolute inset-0 flex items-center justify-center bg-red-500/50">
+        <div className="absolute inset-0 flex items-center justify-center bg-[var(--err)]/50">
           <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -34,7 +34,7 @@ const ImageAttachment = ({ file, onRemove, uploadProgress, error }: ImageAttachm
       <button
         type="button"
         onClick={onRemove}
-        className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white opacity-100 transition-opacity focus:opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
+        className="absolute -right-2 -top-2 rounded-full bg-[var(--err)] p-1 text-white opacity-100 transition-opacity focus:opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
         aria-label="Remove image"
       >
         <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

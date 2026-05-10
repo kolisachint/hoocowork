@@ -104,8 +104,8 @@ export default function SidebarModals({
             <div className="w-full max-w-md overflow-hidden rounded-xl border border-border bg-card shadow-2xl">
               <div className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/30">
-                    <AlertTriangle className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[var(--warn)]/10 dark:bg-[var(--warn)]/10/30">
+                    <AlertTriangle className="h-6 w-6 text-[var(--warn)] dark:text-[var(--warn)]" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="mb-2 text-lg font-semibold text-foreground">
@@ -137,7 +137,7 @@ export default function SidebarModals({
                 </Button>
                 <Button
                   variant="destructive"
-                  className="w-full justify-start bg-red-600 text-white hover:bg-red-700"
+                  className="w-full justify-start bg-[var(--err)] text-white hover:bg-[var(--err)]/90"
                   onClick={() => onConfirmDeleteProject(true)}
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
@@ -158,8 +158,8 @@ export default function SidebarModals({
             <div className="w-full max-w-md overflow-hidden rounded-xl border border-border bg-card shadow-2xl">
               <div className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
-                    <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[var(--err)]/10">
+                    <AlertTriangle className="h-6 w-6 text-[var(--err)]" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="mb-2 text-lg font-semibold text-foreground">
@@ -184,7 +184,7 @@ export default function SidebarModals({
                 </Button>
                 <Button
                   variant="destructive"
-                  className="flex-1 bg-red-600 text-white hover:bg-red-700"
+                  className="flex-1 bg-[var(--err)] text-white hover:bg-[var(--err)]/90"
                   onClick={onConfirmDeleteSession}
                 >
                   <Trash2 className="mr-2 h-4 w-4" />

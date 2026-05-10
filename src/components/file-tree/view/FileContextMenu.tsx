@@ -293,7 +293,7 @@ export default function FileContextMenu({
                     action.isDisabled
                       ? 'opacity-50 cursor-not-allowed'
                       : action.isDanger
-                      ? 'text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950'
+                      ? 'text-[var(--err)] hover:bg-[var(--err)]/5 dark:hover:bg-[var(--err)]/10'
                       : 'hover:bg-accent',
                     isLoading && 'pointer-events-none',
                   )}

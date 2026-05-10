@@ -23,10 +23,10 @@ export default function AgentSelectorSection({
       <PillBar className="w-full md:w-auto">
         {agents.map((agent) => {
           const dotColor =
-            agent === 'claude' ? 'bg-blue-500' :
-            agent === 'cursor' ? 'bg-purple-500' :
-            agent === 'gemini' ? 'bg-indigo-500' :
-            agent === 'opencode' ? 'bg-amber-500' : 'bg-foreground/60';
+            agent === 'claude' ? 'bg-[var(--brand-accent)]' :
+            agent === 'cursor' ? 'bg-[var(--brand-accent)]' :
+            agent === 'gemini' ? 'bg-[var(--brand-accent)]' :
+            agent === 'opencode' ? 'bg-[var(--warn)]' : 'bg-foreground/60';
 
           return (
             <Pill

@@ -25,7 +25,7 @@ function ToggleSwitch({ checked, onChange, ariaLabel }: { checked: boolean; onCh
           duration-200 after:absolute
           after:left-[2px] after:top-[2px] after:h-4 after:w-4
           after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:duration-200
-          after:content-[''] peer-checked:bg-emerald-500
+          after:content-[''] peer-checked:bg-[var(--ok)]
           peer-checked:after:translate-x-4
         `}
       />
@@ -39,10 +39,10 @@ function ServerDot({ running, t }: { running: boolean; t: any }) {
   return (
     <span className="relative flex items-center gap-1.5">
       <span className="relative flex h-1.5 w-1.5">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--ok)] opacity-75" />
+        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--ok)]" />
       </span>
-      <span className="font-mono text-[10px] uppercase tracking-wide text-emerald-600 dark:text-emerald-400">
+      <span className="font-mono text-[10px] uppercase tracking-wide text-[var(--ok)]">
         {t('pluginSettings.runningStatus')}
       </span>
     </span>
@@ -75,7 +75,7 @@ function PluginCard({
 }: PluginCardProps) {
   const { t } = useTranslation('settings');
   const accentColor = plugin.enabled
-    ? 'bg-emerald-500'
+    ? 'bg-[var(--ok)]'
     : 'bg-muted-foreground/20';
 
   return (
@@ -162,8 +162,8 @@ function PluginCard({
               title={confirmingUninstall ? t('pluginSettings.confirmUninstall') : t('pluginSettings.uninstallPlugin')}
               aria-label={t('pluginSettings.uninstallPlugin')}
               className={`rounded p-1.5 transition-colors ${confirmingUninstall
-                ? 'bg-red-50 text-red-500 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30'
-                : 'text-muted-foreground hover:bg-muted hover:text-red-500'
+                ? 'bg-[var(--err)]/10 text-[var(--err)] hover:bg-[var(--err)]/20'
+                : 'text-muted-foreground hover:bg-muted hover:text-[var(--err)]'
                 }`}
             >
               <Trash2 className="h-3.5 w-3.5" />
@@ -175,8 +175,8 @@ function PluginCard({
 
         {/* Confirm uninstall banner */}
         {confirmingUninstall && (
-          <div className="mt-3 flex items-center justify-between gap-3 rounded border border-red-200 bg-red-50 px-3 py-2 dark:border-red-800/50 dark:bg-red-950/30">
-            <span className="text-sm text-red-600 dark:text-red-400">
+          <div className="mt-3 flex items-center justify-between gap-3 rounded border border-[var(--err)]/20 bg-[var(--err)]/5 px-3 py-2">
+            <span className="text-sm text-[var(--err)]">
               {t('pluginSettings.confirmUninstallMessage', { name: plugin.displayName })}
             </span>
             <div className="flex gap-1.5">
@@ -188,7 +188,7 @@ function PluginCard({
               </button>
               <button
                 onClick={onUninstall}
-                className="rounded border border-red-300 px-2.5 py-1 text-sm font-medium text-red-600 transition-colors hover:bg-red-100 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-900/30"
+                className="rounded border border-[var(--err)]/30 px-2.5 py-1 text-sm font-medium text-[var(--err)] transition-colors hover:bg-[var(--err)]/10"
               >
                 {t('pluginSettings.remove')}
               </button>
@@ -198,7 +198,7 @@ function PluginCard({
 
         {/* Update error */}
         {updateError && (
-          <div className="mt-2 flex items-center gap-1.5 text-sm text-red-500">
+          <div className="mt-2 flex items-center gap-1.5 text-sm text-[var(--err)]">
             <ServerCrash className="h-3.5 w-3.5 flex-shrink-0" />
             <span>{updateError}</span>
           </div>
@@ -213,12 +213,12 @@ function StarterPluginCard({ onInstall, installing }: { onInstall: () => void; i
   const { t } = useTranslation('settings');
 
   return (
-    <div className="relative flex overflow-hidden rounded-lg border border-dashed border-border bg-card transition-all duration-200 hover:border-blue-400 dark:hover:border-blue-500">
-      <div className="w-[3px] flex-shrink-0 bg-blue-500/30" />
+    <div className="relative flex overflow-hidden rounded-lg border border-dashed border-border bg-card transition-all duration-200 hover:border-[var(--brand-accent)]">
+      <div className="w-[3px] flex-shrink-0 bg-[var(--brand-accent)]/30" />
       <div className="min-w-0 flex-1 p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2.5">
-            <div className="h-5 w-5 flex-shrink-0 text-blue-500">
+            <div className="h-5 w-5 flex-shrink-0 text-[var(--brand-accent)]">
               <BarChart3 className="h-5 w-5" />
             </div>
             <div className="min-w-0">
@@ -226,7 +226,7 @@ function StarterPluginCard({ onInstall, installing }: { onInstall: () => void; i
                 <span className="text-sm font-semibold leading-none text-foreground">
                   {t('pluginSettings.starterPlugin.name')}
                 </span>
-                <span className="rounded bg-blue-50 px-1.5 py-0.5 text-[10px] font-medium text-blue-600 dark:bg-blue-950/50 dark:text-blue-400">
+                <span className="rounded bg-[var(--brand-accent)]/10 px-1.5 py-0.5 text-[10px] font-medium text-[var(--brand-accent)]">
                   {t('pluginSettings.starterPlugin.badge')}
                 </span>
                 <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
@@ -250,7 +250,7 @@ function StarterPluginCard({ onInstall, installing }: { onInstall: () => void; i
           <button
             onClick={onInstall}
             disabled={installing}
-            className="flex flex-shrink-0 items-center gap-1.5 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+            className="flex flex-shrink-0 items-center gap-1.5 rounded-md bg-[var(--brand-accent)] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[var(--brand-accent)]/90 disabled:opacity-50"
           >
             {installing ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -270,12 +270,12 @@ function TerminalPluginCard({ onInstall, installing }: { onInstall: () => void; 
   const { t } = useTranslation('settings');
 
   return (
-    <div className="relative flex overflow-hidden rounded-lg border border-dashed border-border bg-card transition-all duration-200 hover:border-blue-400 dark:hover:border-blue-500">
-      <div className="w-[3px] flex-shrink-0 bg-blue-500/30" />
+    <div className="relative flex overflow-hidden rounded-lg border border-dashed border-border bg-card transition-all duration-200 hover:border-[var(--brand-accent)]">
+      <div className="w-[3px] flex-shrink-0 bg-[var(--brand-accent)]/30" />
       <div className="min-w-0 flex-1 p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2.5">
-            <div className="h-5 w-5 flex-shrink-0 text-blue-500">
+            <div className="h-5 w-5 flex-shrink-0 text-[var(--brand-accent)]">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                 <rect x="3" y="3" width="18" height="18" rx="2"/>
                 <path d="M7 8l4 4-4 4"/>
@@ -287,7 +287,7 @@ function TerminalPluginCard({ onInstall, installing }: { onInstall: () => void; 
                 <span className="text-sm font-semibold leading-none text-foreground">
                   {t('pluginSettings.terminalPlugin.name')}
                 </span>
-                <span className="rounded bg-blue-50 px-1.5 py-0.5 text-[10px] font-medium text-blue-600 dark:bg-blue-950/50 dark:text-blue-400">
+                <span className="rounded bg-[var(--brand-accent)]/10 px-1.5 py-0.5 text-[10px] font-medium text-[var(--brand-accent)]">
                   {t('pluginSettings.terminalPlugin.badge')}
                 </span>
                 <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
@@ -311,7 +311,7 @@ function TerminalPluginCard({ onInstall, installing }: { onInstall: () => void; 
           <button
             onClick={onInstall}
             disabled={installing}
-            className="flex flex-shrink-0 items-center gap-1.5 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+            className="flex flex-shrink-0 items-center gap-1.5 rounded-md bg-[var(--brand-accent)] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[var(--brand-accent)]/90 disabled:opacity-50"
           >
             {installing ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -446,7 +446,7 @@ export default function PluginSettingsTab() {
       </div>
 
       {installError && (
-        <p className="-mt-4 text-sm text-red-500">{installError}</p>
+        <p className="-mt-4 text-sm text-[var(--err)]">{installError}</p>
       )}
 
       <p className="-mt-4 flex items-start gap-1.5 text-xs leading-snug text-muted-foreground/50">
