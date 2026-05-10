@@ -603,7 +603,7 @@ export function useProjectsState({
     // include every supported provider — falling through to 'claude' for an
     // unrecognized value caused the shell to spawn `claude --resume <id>`
     // for Pi sessions, producing "No conversation found with session ID".
-    const allowedProviders: LLMProvider[] = ['claude', 'cursor', 'codex', 'gemini', 'pi'];
+    const allowedProviders: LLMProvider[] = ['claude', 'cursor', 'codex', 'gemini', 'pi', 'opencode'];
     const normalizedProvider: LLMProvider =
       (allowedProviders as string[]).includes(providerFromStorage ?? '')
         ? (providerFromStorage as LLMProvider)

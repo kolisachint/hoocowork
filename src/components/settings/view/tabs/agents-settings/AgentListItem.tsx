@@ -12,7 +12,7 @@ type AgentListItemProps = {
 
 type AgentConfig = {
   name: string;
-  color: 'blue' | 'purple' | 'gray' | 'indigo';
+  color: 'blue' | 'purple' | 'gray' | 'indigo' | 'amber';
 };
 
 const agentConfig: Record<AgentProvider, AgentConfig> = {
@@ -36,20 +36,27 @@ const agentConfig: Record<AgentProvider, AgentConfig> = {
     name: 'Pi',
     color: 'gray',
   },
+  opencode: {
+    name: 'OpenCode',
+    color: 'amber',
+  },
 };
 
 const colorClasses = {
   blue: {
-    dot: 'bg-blue-500',
+    dot: 'bg-[var(--brand-accent)]',
   },
   purple: {
-    dot: 'bg-purple-500',
+    dot: 'bg-[var(--info)]',
   },
   gray: {
     dot: 'bg-foreground/60',
   },
   indigo: {
-    dot: 'bg-indigo-500',
+    dot: 'bg-[var(--info)]',
+  },
+  amber: {
+    dot: 'bg-[var(--warn)]',
   },
 } as const;
 
@@ -89,18 +96,17 @@ export default function AgentListItem({
     <button
       onClick={onClick}
       className={cn(
-        'flex touch-manipulation items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all duration-150',
-        isSelected
-          ? 'bg-background text-foreground shadow-sm'
-          : 'text-muted-foreground active:bg-background/50',
+        'cli-card',
+        isSelected && 'picked',
       )}
+      style={{ display: 'flex', gridTemplateColumns: undefined, padding: 'var(--s-2) var(--s-3)', gap: 'var(--s-2)', alignItems: 'center' }}
     >
       <SessionProviderLogo provider={agentId} className="h-4 w-4 flex-shrink-0" />
-      <span>{config.name}</span>
+      <span style={{ fontWeight: 500, fontSize: 'var(--fs-sm)' }}>{config.name}</span>
       {authStatus.authenticated ? (
-        <span className={`h-1.5 w-1.5 flex-shrink-0 rounded-full ${colors.dot}`} />
+        <span className={cn('status-dot', 'dot-ok')} />
       ) : authStatus.loading ? (
-        <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-muted-foreground/30 animate-pulse" />
+        <span className="status-dot dot-busy" />
       ) : null}
     </button>
   );

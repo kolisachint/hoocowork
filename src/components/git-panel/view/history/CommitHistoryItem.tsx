@@ -35,27 +35,27 @@ export default function CommitHistoryItem({
   }, [diff]);
 
   return (
-    <div className="border-b border-border last:border-0">
+    <div className="border-b border-[var(--line)] last:border-0">
       <button
         type="button"
         aria-expanded={isExpanded}
-        className="flex w-full cursor-pointer items-start border-0 bg-transparent p-3 text-left transition-colors hover:bg-accent/50"
+        className="git-log-row flex w-full cursor-pointer items-start border-0 bg-transparent p-3 text-left transition-colors hover:bg-[var(--paper-2)]"
         onClick={onToggle}
       >
-        <span className="mr-2 mt-1 rounded p-0.5 hover:bg-accent">
+        <span className="mr-2 mt-1 rounded p-0.5 hover:bg-[var(--paper-2)]">
           {isExpanded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium text-foreground">{commit.message}</p>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="git-log-subject truncate text-sm font-medium">{commit.message}</p>
+              <p className="git-log-meta mt-1">
                 {commit.author}
                 {' \u2022 '}
                 {commit.date}
               </p>
             </div>
-            <span className="flex-shrink-0 font-mono text-sm text-muted-foreground/60">
+            <span className="git-sha flex-shrink-0 text-sm">
               {commit.hash.substring(0, 7)}
             </span>
           </div>
@@ -91,11 +91,11 @@ export default function CommitHistoryItem({
                 </div>
                 <div>
                   <div className="text-muted-foreground/60">Added</div>
-                  <div className="font-semibold text-green-600 dark:text-green-400">+{fileSummary.totalInsertions}</div>
+                  <div className="font-semibold text-[var(--ok)]">+{fileSummary.totalInsertions}</div>
                 </div>
                 <div>
                   <div className="text-muted-foreground/60">Removed</div>
-                  <div className="font-semibold text-red-600 dark:text-red-400">-{fileSummary.totalDeletions}</div>
+                  <div className="font-semibold text-[var(--err)]">-{fileSummary.totalDeletions}</div>
                 </div>
               </div>
             )}
@@ -125,13 +125,13 @@ export default function CommitHistoryItem({
                         )}
                         <span className="font-medium text-foreground">{file.filename}</span>
                       </span>
-                      <span className="flex-shrink-0 font-mono text-muted-foreground/60">
+                      <span className="git-lines flex-shrink-0 font-mono">
                         {file.insertions > 0 && (
-                          <span className="text-green-600 dark:text-green-400">+{file.insertions}</span>
+                          <span className="text-[var(--ok)]">+{file.insertions}</span>
                         )}
                         {file.insertions > 0 && file.deletions > 0 && '/'}
                         {file.deletions > 0 && (
-                          <span className="text-red-600 dark:text-red-400">-{file.deletions}</span>
+                          <span className="text-[var(--err)]">-{file.deletions}</span>
                         )}
                       </span>
                     </div>

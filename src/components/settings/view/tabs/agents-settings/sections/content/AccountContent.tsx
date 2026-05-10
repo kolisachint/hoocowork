@@ -63,6 +63,15 @@ const agentConfig: Record<AgentProvider, AgentVisualConfig> = {
     subtextClass: 'text-emerald-700 dark:text-emerald-300',
     buttonClass: 'bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800',
   },
+  opencode: {
+    name: 'OpenCode',
+    description: 'OpenCode terminal coding agent',
+    bgClass: 'bg-amber-50 dark:bg-amber-900/20',
+    borderClass: 'border-amber-200 dark:border-amber-800',
+    textClass: 'text-amber-900 dark:text-amber-100',
+    subtextClass: 'text-amber-700 dark:text-amber-300',
+    buttonClass: 'bg-amber-600 hover:bg-amber-700 active:bg-amber-800',
+  },
 };
 
 export default function AccountContent({ agent, authStatus, onLogin }: AccountContentProps) {

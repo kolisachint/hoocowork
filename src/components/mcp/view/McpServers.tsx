@@ -129,9 +129,9 @@ export default function McpServers({ selectedProvider, currentProjects }: McpSer
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-3">
-        <Server className="h-5 w-5 text-purple-500" />
-        <h3 className="text-lg font-medium text-foreground">{t('mcpServers.title')}</h3>
+      <div className="mcp-head flex items-center gap-3">
+        <Server className="h-5 w-5 text-[var(--brand-accent)]" />
+        <h3 className="mcp-title">{t('mcpServers.title')}</h3>
       </div>
       <p className="text-sm text-muted-foreground">{description}</p>
 
@@ -167,7 +167,7 @@ export default function McpServers({ selectedProvider, currentProjects }: McpSer
       </div>
 
       {(loadError || deleteError) && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/60 dark:bg-red-900/20 dark:text-red-200">
+        <div className="rounded-[var(--radius-2)] border border-[var(--err)]/30 bg-[var(--err-soft)] px-3 py-2 text-sm text-[var(--err)]">
           {deleteError || loadError}
         </div>
       )}
@@ -178,7 +178,7 @@ export default function McpServers({ selectedProvider, currentProjects }: McpSer
         )}
 
         {servers.map((server) => (
-          <div key={getServerKey(server)} className="rounded-lg border border-border bg-card/50 p-4">
+          <div key={getServerKey(server)} className="mcp-row rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] p-4">
             <div className="flex items-start justify-between">
               <div className="min-w-0 flex-1">
                 <div className="mb-2 flex flex-wrap items-center gap-2">
@@ -227,7 +227,7 @@ export default function McpServers({ selectedProvider, currentProjects }: McpSer
                   onClick={() => deleteServer(server)}
                   variant="ghost"
                   size="sm"
-                  className="text-red-600 hover:text-red-700"
+                  className="text-[var(--err)] hover:text-[var(--err)] hover:opacity-80"
                   title={t('mcpServers.actions.delete')}
                 >
                   <Trash2 className="h-4 w-4" />

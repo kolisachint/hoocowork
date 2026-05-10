@@ -59,6 +59,13 @@ async function spawnPi(command, options = {}, ws) {
     const workingDir = cwd || projectPath || process.cwd();
     let processKey = capturedSessionId || `pi-${Date.now()}`;
 
+    const settleOnce = (callback) => {
+      if (settled) return;
+      settled = true;
+      activePiProcesses.delete(processKey);
+      callback();
+    };
+
     // Guard: a stale project entry (created from a Pi session-folder name like
     // "Users-sachinkoli-github-foo" rather than a real path) will give us a
     // workingDir that doesn't exist on disk. Pi exits silently with code -2 in
@@ -113,13 +120,6 @@ async function spawnPi(command, options = {}, ws) {
     if (command && command.trim()) {
       args.push('--print', command);
     }
-
-    const settleOnce = (callback) => {
-      if (settled) return;
-      settled = true;
-      activePiProcesses.delete(processKey);
-      callback();
-    };
 
     try {
       const authStatus = await providerAuthService.getProviderAuthStatus('pi');

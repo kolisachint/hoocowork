@@ -56,11 +56,11 @@ export const TOOL_CONFIGS: Record<string, ToolDisplayConfig> = {
       style: 'terminal',
       wrapText: true,
       colorScheme: {
-        primary: 'text-green-400 font-mono',
-        secondary: 'text-gray-400',
+        primary: 'text-[var(--ok)] font-mono',
+        secondary: 'text-[var(--ink-3)]',
         background: '',
-        border: 'border-green-500 dark:border-green-400',
-        icon: 'text-green-500 dark:text-green-400'
+        border: 'border-[var(--ok)]',
+        icon: 'text-[var(--ok)]'
       }
     },
     result: {
@@ -80,10 +80,10 @@ export const TOOL_CONFIGS: Record<string, ToolDisplayConfig> = {
       getValue: (input) => input.file_path || '',
       action: 'open-file',
       colorScheme: {
-        primary: 'text-gray-700 dark:text-gray-300',
+        primary: 'text-[var(--ink-2)]',
         background: '',
-        border: 'border-gray-300 dark:border-gray-600',
-        icon: 'text-gray-500 dark:text-gray-400'
+        border: 'border-[var(--line-2)]',
+        icon: 'text-[var(--ink-3)]'
       }
     },
     result: {
@@ -172,11 +172,11 @@ export const TOOL_CONFIGS: Record<string, ToolDisplayConfig> = {
       getSecondary: (input) => input.path ? `in ${input.path}` : undefined,
       action: 'jump-to-results',
       colorScheme: {
-        primary: 'text-gray-700 dark:text-gray-300',
-        secondary: 'text-gray-500 dark:text-gray-400',
+        primary: 'text-[var(--ink-2)]',
+        secondary: 'text-[var(--ink-3)]',
         background: '',
-        border: 'border-gray-400 dark:border-gray-500',
-        icon: 'text-gray-500 dark:text-gray-400'
+        border: 'border-[var(--line-2)]',
+        icon: 'text-[var(--ink-3)]'
       }
     },
     result: {
@@ -205,11 +205,11 @@ export const TOOL_CONFIGS: Record<string, ToolDisplayConfig> = {
       getSecondary: (input) => input.path ? `in ${input.path}` : undefined,
       action: 'jump-to-results',
       colorScheme: {
-        primary: 'text-gray-700 dark:text-gray-300',
-        secondary: 'text-gray-500 dark:text-gray-400',
+        primary: 'text-[var(--ink-2)]',
+        secondary: 'text-[var(--ink-3)]',
         background: '',
-        border: 'border-gray-400 dark:border-gray-500',
-        icon: 'text-gray-500 dark:text-gray-400'
+        border: 'border-[var(--line-2)]',
+        icon: 'text-[var(--ink-3)]'
       }
     },
     result: {
@@ -258,8 +258,8 @@ export const TOOL_CONFIGS: Record<string, ToolDisplayConfig> = {
       getValue: () => 'reading list',
       action: 'none',
       colorScheme: {
-        primary: 'text-gray-500 dark:text-gray-400',
-        border: 'border-violet-400 dark:border-violet-500'
+        primary: 'text-[var(--ink-3)]',
+        border: 'border-[var(--brand-accent)]'
       }
     },
     result: {
@@ -293,9 +293,9 @@ export const TOOL_CONFIGS: Record<string, ToolDisplayConfig> = {
       getSecondary: (input) => input.status || undefined,
       action: 'none',
       colorScheme: {
-        primary: 'text-gray-700 dark:text-gray-300',
-        border: 'border-violet-400 dark:border-violet-500',
-        icon: 'text-violet-500 dark:text-violet-400'
+        primary: 'text-[var(--ink-2)]',
+        border: 'border-[var(--brand-accent)]',
+        icon: 'text-[var(--brand-accent)]'
       }
     },
     result: {
@@ -316,9 +316,9 @@ export const TOOL_CONFIGS: Record<string, ToolDisplayConfig> = {
       },
       action: 'none',
       colorScheme: {
-        primary: 'text-gray-700 dark:text-gray-300',
-        border: 'border-violet-400 dark:border-violet-500',
-        icon: 'text-violet-500 dark:text-violet-400'
+        primary: 'text-[var(--ink-2)]',
+        border: 'border-[var(--brand-accent)]',
+        icon: 'text-[var(--brand-accent)]'
       }
     },
     result: {
@@ -333,9 +333,9 @@ export const TOOL_CONFIGS: Record<string, ToolDisplayConfig> = {
       getValue: () => 'listing tasks',
       action: 'none',
       colorScheme: {
-        primary: 'text-gray-500 dark:text-gray-400',
-        border: 'border-violet-400 dark:border-violet-500',
-        icon: 'text-violet-500 dark:text-violet-400'
+        primary: 'text-[var(--ink-3)]',
+        border: 'border-[var(--brand-accent)]',
+        icon: 'text-[var(--brand-accent)]'
       }
     },
     result: {
@@ -356,9 +356,9 @@ export const TOOL_CONFIGS: Record<string, ToolDisplayConfig> = {
       getValue: (input) => input.taskId ? `#${input.taskId}` : 'fetching',
       action: 'none',
       colorScheme: {
-        primary: 'text-gray-700 dark:text-gray-300',
-        border: 'border-violet-400 dark:border-violet-500',
-        icon: 'text-violet-500 dark:text-violet-400'
+        primary: 'text-[var(--ink-2)]',
+        border: 'border-[var(--brand-accent)]',
+        icon: 'text-[var(--brand-accent)]'
       }
     },
     result: {
@@ -419,8 +419,8 @@ export const TOOL_CONFIGS: Record<string, ToolDisplayConfig> = {
         };
       },
       colorScheme: {
-        border: 'border-purple-500 dark:border-purple-400',
-        icon: 'text-purple-500 dark:text-purple-400'
+        border: 'border-[var(--brand-accent)]',
+        icon: 'text-[var(--brand-accent)]'
       }
     },
     result: {

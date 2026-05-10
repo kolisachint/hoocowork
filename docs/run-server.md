@@ -16,7 +16,7 @@ Tail the log to confirm boot:
 tail -f /tmp/claudecodeui2-dev.log
 ```
 
-You should see, in order:
+You should see, in order :
 - `VITE v… ready` (Vite client at <http://localhost:5173>)
 - `Server URL: http://localhost:3001` (backend)
 - `Initial session synchronization complete { processedByProvider: { … } }`

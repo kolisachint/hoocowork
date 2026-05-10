@@ -1,4 +1,5 @@
 import type { LoadingProgress, Project, ProjectSession, LLMProvider } from '../../../types/app';
+import type { TFunction } from 'i18next';
 
 export type ProjectSortOrder = 'name' | 'date';
 
@@ -47,6 +48,7 @@ export type SessionViewModel = {
   isCodexSession: boolean;
   isGeminiSession: boolean;
   isPiSession: boolean;
+  isOpenCodeSession: boolean;
   isActive: boolean;
   sessionName: string;
   sessionTime: string;
@@ -57,6 +59,54 @@ export type MCPServerStatus = {
   hasMCPServer?: boolean;
   isConfigured?: boolean;
 } | null;
+
+/**
+ * Props bag passed through Sidebar → SidebarContent → project list rendering.
+ * Keeps the project-iteration contract in one place.
+ */
+export type SidebarProjectListProps = {
+  projects: Project[];
+  filteredProjects: Project[];
+  selectedProject: Project | null;
+  selectedSession: ProjectSession | null;
+  isLoading: boolean;
+  loadingProgress: LoadingProgress | null;
+  expandedProjects: Set<string>;
+  editingProject: string | null;
+  editingName: string;
+  initialSessionsLoaded: Set<string>;
+  currentTime: Date;
+  editingSession: string | null;
+  editingSessionName: string;
+  deletingProjects: Set<string>;
+  tasksEnabled: boolean;
+  mcpServerStatus: MCPServerStatus;
+  getProjectSessions: (project: Project) => SessionWithProvider[];
+  onLoadMoreSessions: (projectId: string) => void;
+  loadingMoreProjects: Set<string>;
+  isProjectStarred: (projectName: string) => boolean;
+  onEditingNameChange: (value: string) => void;
+  onToggleProject: (projectName: string) => void;
+  onProjectSelect: (project: Project) => void;
+  onToggleStarProject: (projectName: string) => void;
+  onStartEditingProject: (project: Project) => void;
+  onCancelEditingProject: () => void;
+  onSaveProjectName: (projectName: string) => void;
+  onDeleteProject: (project: Project) => void;
+  onSessionSelect: (session: SessionWithProvider, projectName: string) => void;
+  onDeleteSession: (
+    projectName: string,
+    sessionId: string,
+    sessionTitle: string,
+    provider: LLMProvider,
+  ) => void;
+  onNewSession: (project: Project) => void;
+  onEditingSessionNameChange: (value: string) => void;
+  onStartEditingSession: (sessionId: string, initialName: string) => void;
+  onCancelEditingSession: () => void;
+  onSaveEditingSession: (projectName: string, sessionId: string, summary: string, provider: LLMProvider) => void;
+  t: TFunction;
+};
 
 // Retained as `name` for backwards compatibility with existing settings
 // consumers; the value is populated from `projectId` by normalizeProjectForSettings.

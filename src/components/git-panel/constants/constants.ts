@@ -18,10 +18,10 @@ export const FILE_STATUS_LABELS: Record<FileStatusCode, string> = {
 };
 
 export const FILE_STATUS_BADGE_CLASSES: Record<FileStatusCode, string> = {
-  M: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800/50',
-  A: 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300 border-green-200 dark:border-green-800/50',
-  D: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 border-red-200 dark:border-red-800/50',
-  U: 'bg-muted text-muted-foreground border-border',
+  M: 'bg-[var(--warn-soft)] text-[var(--warn)] border-[var(--warn)]/30',
+  A: 'bg-[var(--ok-soft)] text-[var(--ok)] border-[var(--ok)]/30',
+  D: 'bg-[var(--err-soft)] text-[var(--err)] border-[var(--err)]/30',
+  U: 'bg-[var(--paper-3)] text-[var(--ink-3)] border-[var(--line)]',
 };
 
 export const CONFIRMATION_TITLES: Record<ConfirmActionType, string> = {
@@ -47,34 +47,34 @@ export const CONFIRMATION_ACTION_LABELS: Record<ConfirmActionType, string> = {
 };
 
 export const CONFIRMATION_BUTTON_CLASSES: Record<ConfirmActionType, string> = {
-  discard: 'bg-red-600 hover:bg-red-700',
-  delete: 'bg-red-600 hover:bg-red-700',
+  discard: 'bg-[var(--err)] hover:bg-[var(--err)] hover:opacity-90 text-[var(--paper)]',
+  delete: 'bg-[var(--err)] hover:bg-[var(--err)] hover:opacity-90 text-[var(--paper)]',
   commit: 'bg-primary hover:bg-primary/90',
-  pull: 'bg-green-600 hover:bg-green-700',
-  push: 'bg-orange-600 hover:bg-orange-700',
-  publish: 'bg-purple-600 hover:bg-purple-700',
-  revertLocalCommit: 'bg-yellow-600 hover:bg-yellow-700',
-  deleteBranch: 'bg-red-600 hover:bg-red-700',
+  pull: 'bg-[var(--ok)] hover:bg-[var(--ok)] hover:opacity-90 text-[var(--paper)]',
+  push: 'bg-[var(--warn)] hover:bg-[var(--warn)] hover:opacity-90 text-[var(--paper)]',
+  publish: 'bg-[var(--brand-accent)] hover:bg-[var(--brand-accent-2)] text-[var(--brand-accent-ink)]',
+  revertLocalCommit: 'bg-[var(--warn)] hover:bg-[var(--warn)] hover:opacity-90 text-[var(--paper)]',
+  deleteBranch: 'bg-[var(--err)] hover:bg-[var(--err)] hover:opacity-90 text-[var(--paper)]',
 };
 
 export const CONFIRMATION_ICON_CONTAINER_CLASSES: Record<ConfirmActionType, string> = {
-  discard: 'bg-red-100 dark:bg-red-900/30',
-  delete: 'bg-red-100 dark:bg-red-900/30',
-  commit: 'bg-yellow-100 dark:bg-yellow-900/30',
-  pull: 'bg-yellow-100 dark:bg-yellow-900/30',
-  push: 'bg-yellow-100 dark:bg-yellow-900/30',
-  publish: 'bg-yellow-100 dark:bg-yellow-900/30',
-  revertLocalCommit: 'bg-yellow-100 dark:bg-yellow-900/30',
-  deleteBranch: 'bg-red-100 dark:bg-red-900/30',
+  discard: 'bg-[var(--err-soft)]',
+  delete: 'bg-[var(--err-soft)]',
+  commit: 'bg-[var(--warn-soft)]',
+  pull: 'bg-[var(--warn-soft)]',
+  push: 'bg-[var(--warn-soft)]',
+  publish: 'bg-[var(--warn-soft)]',
+  revertLocalCommit: 'bg-[var(--warn-soft)]',
+  deleteBranch: 'bg-[var(--err-soft)]',
 };
 
 export const CONFIRMATION_ICON_CLASSES: Record<ConfirmActionType, string> = {
-  discard: 'text-red-600 dark:text-red-400',
-  delete: 'text-red-600 dark:text-red-400',
-  commit: 'text-yellow-600 dark:text-yellow-400',
-  pull: 'text-yellow-600 dark:text-yellow-400',
-  push: 'text-yellow-600 dark:text-yellow-400',
-  publish: 'text-yellow-600 dark:text-yellow-400',
-  revertLocalCommit: 'text-yellow-600 dark:text-yellow-400',
-  deleteBranch: 'text-red-600 dark:text-red-400',
+  discard: 'text-[var(--err)]',
+  delete: 'text-[var(--err)]',
+  commit: 'text-[var(--warn)]',
+  pull: 'text-[var(--warn)]',
+  push: 'text-[var(--warn)]',
+  publish: 'text-[var(--warn)]',
+  revertLocalCommit: 'text-[var(--warn)]',
+  deleteBranch: 'text-[var(--err)]',
 };

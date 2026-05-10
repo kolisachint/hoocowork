@@ -5,11 +5,13 @@ import { Trans, useTranslation } from "react-i18next";
 import { useServerPlatform } from "../../../../hooks/useServerPlatform";
 import SessionProviderLogo from "../../../llm-logo-provider/SessionProviderLogo";
 import { usePiModels } from "../../hooks/usePiModels";
+import { useOpenCodeModels } from "../../hooks/useOpenCodeModels";
 import {
   CLAUDE_MODELS,
   CURSOR_MODELS,
   CODEX_MODELS,
   GEMINI_MODELS,
+  OPENCODE_MODELS,
   PI_MODELS,
   PROVIDERS,
 } from "../../../../../shared/modelConstants";
@@ -48,6 +50,8 @@ type ProviderSelectionEmptyStateProps = {
   setGeminiModel: (model: string) => void;
   piModel: string;
   setPiModel: (model: string) => void;
+  openCodeModel: string;
+  setOpenCodeModel: (model: string) => void;
   tasksEnabled: boolean;
   isTaskMasterInstalled: boolean | null;
   onShowAllTasks?: (() => void) | null;
@@ -71,6 +75,7 @@ function getModelConfig(p: LLMProvider) {
   if (p === "codex") return CODEX_MODELS;
   if (p === "gemini") return GEMINI_MODELS;
   if (p === "pi") return PI_MODELS;
+  if (p === "opencode") return OPENCODE_MODELS;
   return CURSOR_MODELS;
 }
 
@@ -81,11 +86,13 @@ function getCurrentModel(
   co: string,
   g: string,
   pi: string,
+  oc: string,
 ) {
   if (p === "claude") return c;
   if (p === "codex") return co;
   if (p === "gemini") return g;
   if (p === "pi") return pi;
+  if (p === "opencode") return oc;
   return cu;
 }
 
@@ -94,6 +101,7 @@ function getProviderDisplayName(p: LLMProvider) {
   if (p === "cursor") return "Cursor";
   if (p === "codex") return "Codex";
   if (p === "pi") return "Pi";
+  if (p === "opencode") return "OpenCode";
   return "Gemini";
 }
 
@@ -113,6 +121,8 @@ export default function ProviderSelectionEmptyState({
   setGeminiModel,
   piModel,
   setPiModel,
+  openCodeModel,
+  setOpenCodeModel,
   tasksEnabled,
   isTaskMasterInstalled,
   onShowAllTasks,
@@ -128,21 +138,41 @@ export default function ProviderSelectionEmptyState({
   const { models: piDynamicModels, loading: piLoading, error: piError, installed: piInstalled, refresh: refreshPi } =
     usePiModels({ enabled: dialogOpen });
 
+  // Same lazy-load pattern as Pi: only fetch the OpenCode catalog (~186
+  // entries) once the picker opens, fall back to the static OPENCODE_MODELS
+  // list while loading or if the binary isn't installed.
+  const { models: openCodeDynamicModels, installed: openCodeInstalled } =
+    useOpenCodeModels({ enabled: dialogOpen });
+
   const visibleProviderGroups = useMemo(() => {
-    const base = isWindowsServer ? PROVIDER_GROUPS.filter((p) => p.id !== "cursor") : PROVIDER_GROUPS;
-    if (!piInstalled || piDynamicModels.length === 0) {
-      return base;
+    let base = isWindowsServer ? PROVIDER_GROUPS.filter((p) => p.id !== "cursor") : PROVIDER_GROUPS;
+
+    if (piInstalled && piDynamicModels.length > 0) {
+      // Replace the static Pi group with the live catalog. Keep "Auto" first
+      // because the server special-cases it (omits --model so Pi uses its default).
+      const dynamicPiModels = [
+        { value: "auto", label: "Auto (Pi default)" },
+        ...piDynamicModels.map((m) => ({ value: m.value, label: m.label })),
+      ];
+      base = base.map((group) =>
+        group.id === "pi" ? { ...group, models: dynamicPiModels } : group,
+      );
     }
-    // Replace the static Pi group with the live catalog. Keep "Auto" first
-    // because the server special-cases it (omits --model so Pi uses its default).
-    const dynamicPiModels = [
-      { value: "auto", label: "Auto (Pi default)" },
-      ...piDynamicModels.map((m) => ({ value: m.value, label: m.label })),
-    ];
-    return base.map((group) =>
-      group.id === "pi" ? { ...group, models: dynamicPiModels } : group,
-    );
-  }, [isWindowsServer, piDynamicModels, piInstalled]);
+
+    if (openCodeInstalled && openCodeDynamicModels.length > 0) {
+      // Same Auto-first treatment for OpenCode — server omits --model when
+      // value is "auto" so the binary uses its configured default.
+      const dynamicOpenCodeModels = [
+        { value: "auto", label: "Auto (OpenCode default)" },
+        ...openCodeDynamicModels.map((m) => ({ value: m.value, label: m.label })),
+      ];
+      base = base.map((group) =>
+        group.id === "opencode" ? { ...group, models: dynamicOpenCodeModels } : group,
+      );
+    }
+
+    return base;
+  }, [isWindowsServer, piDynamicModels, piInstalled, openCodeDynamicModels, openCodeInstalled]);
 
   useEffect(() => {
     if (isWindowsServer && provider === "cursor") {
@@ -162,6 +192,7 @@ export default function ProviderSelectionEmptyState({
     codexModel,
     geminiModel,
     piModel,
+    openCodeModel,
   );
 
   const currentModelLabel = useMemo(() => {
@@ -186,12 +217,15 @@ export default function ProviderSelectionEmptyState({
       } else if (providerId === "pi") {
         setPiModel(modelValue);
         localStorage.setItem("pi-model", modelValue);
+      } else if (providerId === "opencode") {
+        setOpenCodeModel(modelValue);
+        localStorage.setItem("opencode-model", modelValue);
       } else {
         setCursorModel(modelValue);
         localStorage.setItem("cursor-model", modelValue);
       }
     },
-    [setClaudeModel, setCursorModel, setCodexModel, setGeminiModel, setPiModel],
+    [setClaudeModel, setCursorModel, setCodexModel, setGeminiModel, setPiModel, setOpenCodeModel],
   );
 
   const handleModelSelect = useCallback(
@@ -207,13 +241,11 @@ export default function ProviderSelectionEmptyState({
 
   if (!selectedSession && !currentSessionId) {
     return (
-      <div className="flex h-full items-center justify-center px-4">
-        <div className="w-full max-w-md">
-          <div className="mb-8 text-center">
-            <h2 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
-              {t("providerSelection.title")}
-            </h2>
-            <p className="mt-1 text-[13px] text-muted-foreground">
+      <div className="cli-select" style={{ alignItems: 'center', justifyContent: 'center', maxWidth: 'none' }}>
+        <div style={{ width: '100%', maxWidth: 480 }}>
+          <div style={{ marginBottom: 'var(--s-5)', textAlign: 'center' }}>
+            <div className="cli-eyebrow">{t("providerSelection.title")}</div>
+            <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--ink-3)', marginTop: 'var(--s-1)' }}>
               {t("providerSelection.description")}
             </p>
           </div>
@@ -339,6 +371,10 @@ export default function ProviderSelectionEmptyState({
                 pi: t("providerSelection.readyPrompt.pi", {
                   model: piModel,
                   defaultValue: `Ready to chat with Pi (${piModel})`,
+                }),
+                opencode: t("providerSelection.readyPrompt.opencode", {
+                  model: openCodeModel,
+                  defaultValue: `Ready to chat with OpenCode (${openCodeModel})`,
                 }),
               }[provider]
             }

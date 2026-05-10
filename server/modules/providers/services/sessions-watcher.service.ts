@@ -5,6 +5,7 @@ import { promises as fsPromises } from 'node:fs';
 import chokidar, { type FSWatcher } from 'chokidar';
 
 import { sessionSynchronizerService } from '@/modules/providers/services/session-synchronizer.service.js';
+import { providerRegistry } from '@/modules/providers/provider.registry.js';
 import { WS_OPEN_STATE, connectedClients } from '@/modules/websocket/index.js';
 import type { LLMProvider } from '@/shared/types.js';
 import { getProjectsWithSessions } from '@/modules/projects/index.js';
@@ -211,6 +212,33 @@ async function onUpdate(
       error: message,
     });
   }
+}
+
+/**
+ * Triggers a fresh DB sync for a provider that doesn't write per-session JSONL
+ * files (e.g. OpenCode persists to its own SQLite DB). Re-runs the provider's
+ * `synchronize()` to upsert any new sessions, then enqueues a debounced
+ * `projects_updated` broadcast so connected sidebars refresh.
+ *
+ * Called by spawn modules (server/opencode-cli.js) after a `session_created`
+ * arrives or when a turn completes — the chokidar file watcher never fires
+ * for these providers, so the sidebar would otherwise only update on restart.
+ */
+export async function triggerProviderSessionsRefresh(
+  provider: LLMProvider,
+  sessionId: string | null,
+  eventType: WatcherEventType = 'change'
+): Promise<void> {
+  try {
+    await providerRegistry.resolveProvider(provider).sessionSynchronizer.synchronize();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`triggerProviderSessionsRefresh sync failed for "${provider}"`, { error: message });
+    return;
+  }
+
+  queuePendingWatcherUpdate(eventType, provider, sessionId);
+  schedulePendingWatcherFlush();
 }
 
 /**

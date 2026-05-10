@@ -169,8 +169,8 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             )}
 
             {errorMessage && (
-              <div className="mt-6 rounded-lg border border-red-300 bg-red-100 p-4 dark:border-red-800 dark:bg-red-900/20">
-                <p className="text-sm text-red-700 dark:text-red-400">{errorMessage}</p>
+              <div className="mt-6 rounded-[var(--radius-2)] border border-[var(--err)]/30 bg-[var(--err-soft)] p-4">
+                <p className="text-sm text-[var(--err)]">{errorMessage}</p>
               </div>
             )}
 
@@ -189,7 +189,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   <button
                     onClick={handleNextStep}
                     disabled={!isCurrentStepValid || isSubmitting}
-                    className="flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-400"
+                    className="flex items-center gap-2 rounded-[var(--radius-2)] bg-[var(--ink)] px-6 py-3 font-medium text-[var(--paper)] transition-colors duration-200 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>
@@ -207,7 +207,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   <button
                     onClick={handleFinish}
                     disabled={isSubmitting}
-                    className="flex items-center gap-2 rounded-lg bg-green-600 px-6 py-3 font-medium text-white transition-colors duration-200 hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-green-400"
+                    className="flex items-center gap-2 rounded-[var(--radius-2)] bg-[var(--ok)] px-6 py-3 font-medium text-[var(--paper)] transition-colors duration-200 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>

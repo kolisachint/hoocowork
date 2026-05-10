@@ -63,7 +63,7 @@ export default function PiTreeChat({
             const isActive = activeSet.has(childId);
             const childNode = treeNodes.get(childId);
             const label = childNode
-              ? (childNode.message.content?.slice(0, 30) || '...')
+              ? ((childNode.message.content as string | undefined)?.slice(0, 30) || '...')
               : childId.slice(0, 8);
             return (
               <button

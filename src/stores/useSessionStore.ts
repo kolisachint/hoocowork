@@ -64,6 +64,11 @@ export interface NormalizedMessage {
   // Cursor-specific ordering
   sequence?: number;
   rowid?: number;
+  // Pi-specific tree fields
+  messageId?: string;
+  parentId?: string;
+  // Allow arbitrary extra fields from providers
+  [key: string]: unknown;
 }
 
 // ─── Per-session slot ────────────────────────────────────────────────────────

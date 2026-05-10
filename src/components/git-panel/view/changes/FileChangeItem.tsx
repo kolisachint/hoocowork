@@ -36,8 +36,8 @@ export default function FileChangeItem({
   const badgeClass = getStatusBadgeClass(status);
 
   return (
-    <div className="border-b border-border last:border-0">
-      <div className={`flex items-center transition-colors hover:bg-accent/50 ${isMobile ? 'px-2 py-1.5' : 'px-3 py-2'}`}>
+    <div className="border-b border-[var(--line)] last:border-0">
+      <div className={`git-file flex items-center ${isMobile ? 'px-2 py-1.5' : 'px-3 py-2'}`}>
         <input
           type="checkbox"
           checked={isSelected}
@@ -52,14 +52,14 @@ export default function FileChangeItem({
               event.stopPropagation();
               onToggleExpanded(filePath);
             }}
-            className={`cursor-pointer rounded p-0.5 hover:bg-accent ${isMobile ? 'mr-1' : 'mr-2'}`}
+            className={`cursor-pointer rounded p-0.5 hover:bg-[var(--paper-2)] ${isMobile ? 'mr-1' : 'mr-2'}`}
             title={isExpanded ? 'Collapse diff' : 'Expand diff'}
           >
             <ChevronRight className={`h-3 w-3 transition-transform duration-200 ease-in-out ${isExpanded ? 'rotate-90' : 'rotate-0'}`} />
           </button>
 
           <span
-            className={`flex-1 truncate ${isMobile ? 'text-xs' : 'text-sm'} cursor-pointer hover:text-primary hover:underline`}
+            className={`git-path flex-1 truncate ${isMobile ? 'text-xs' : 'text-sm'} cursor-pointer hover:text-[var(--brand-accent)] hover:underline`}
             onClick={(event) => {
               event.stopPropagation();
               onOpenFile(filePath);
@@ -76,7 +76,7 @@ export default function FileChangeItem({
                   event.stopPropagation();
                   onRequestFileAction(filePath, status);
                 }}
-                className={`${isMobile ? 'px-2 py-1 text-xs' : 'p-1'} flex items-center gap-1 rounded font-medium text-destructive hover:bg-destructive/10`}
+                className={`${isMobile ? 'px-2 py-1 text-xs' : 'p-1'} flex items-center gap-1 rounded font-medium text-[var(--err)] hover:bg-[var(--err-soft)]`}
                 title={status === 'U' ? 'Delete untracked file' : 'Discard changes'}
               >
                 <Trash2 className="h-3 w-3" />
@@ -95,10 +95,10 @@ export default function FileChangeItem({
       </div>
 
       <div
-        className={`duration-400 overflow-hidden bg-muted/50 transition-all ease-in-out ${isExpanded && diff ? 'max-h-[600px] translate-y-0 opacity-100' : 'max-h-0 -translate-y-1 opacity-0'
+        className={`duration-400 overflow-hidden bg-[var(--paper-2)] transition-all ease-in-out ${isExpanded && diff ? 'max-h-[600px] translate-y-0 opacity-100' : 'max-h-0 -translate-y-1 opacity-0'
           }`}
       >
-        <div className="flex items-center justify-between border-b border-border p-2">
+        <div className="flex items-center justify-between border-b border-[var(--line)] p-2">
           <span className="flex items-center gap-2">
             <span className={`inline-flex h-5 w-5 items-center justify-center rounded border text-[10px] font-bold ${badgeClass}`}>
               {status}

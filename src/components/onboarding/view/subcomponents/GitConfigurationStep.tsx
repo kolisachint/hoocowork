@@ -18,8 +18,8 @@ export default function GitConfigurationStep({
   return (
     <div className="space-y-6">
       <div className="mb-8 text-center">
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
-          <GitBranch className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand-accent-soft)]">
+          <GitBranch className="h-8 w-8 text-[var(--brand-accent)]" />
         </div>
         <h2 className="mb-2 text-2xl font-bold text-foreground">Git Configuration</h2>
         <p className="text-muted-foreground">
@@ -31,14 +31,14 @@ export default function GitConfigurationStep({
         <div>
           <label htmlFor="gitName" className="mb-2 flex items-center gap-2 text-sm font-medium text-foreground">
             <User className="h-4 w-4" />
-            Git Name <span className="text-red-500">*</span>
+            Git Name <span className="text-[var(--err)]">*</span>
           </label>
           <input
             type="text"
             id="gitName"
             value={gitName}
             onChange={(event) => onGitNameChange(event.target.value)}
-            className="w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] px-4 py-3 text-[var(--ink)] focus:border-[var(--ink-3)] focus:outline-none"
             placeholder="John Doe"
             required
             disabled={isSubmitting}
@@ -49,14 +49,14 @@ export default function GitConfigurationStep({
         <div>
           <label htmlFor="gitEmail" className="mb-2 flex items-center gap-2 text-sm font-medium text-foreground">
             <Mail className="h-4 w-4" />
-            Git Email <span className="text-red-500">*</span>
+            Git Email <span className="text-[var(--err)]">*</span>
           </label>
           <input
             type="email"
             id="gitEmail"
             value={gitEmail}
             onChange={(event) => onGitEmailChange(event.target.value)}
-            className="w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] px-4 py-3 text-[var(--ink)] focus:border-[var(--ink-3)] focus:outline-none"
             placeholder="john@example.com"
             required
             disabled={isSubmitting}

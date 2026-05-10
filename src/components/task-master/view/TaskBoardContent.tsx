@@ -37,24 +37,20 @@ function KanbanColumns({
       )}
     >
       {columns.map((column) => (
-        <div key={column.id} className={cn('rounded-xl border shadow-sm transition-shadow hover:shadow-md', column.color)}>
-          <div className={cn('px-4 py-3 rounded-t-xl border-b', column.headerColor)}>
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold">{column.title}</h3>
-              <span className="rounded-full bg-white/60 px-2 py-1 text-xs font-medium dark:bg-black/20">
-                {column.tasks.length}
-              </span>
-            </div>
+        <div key={column.id} className="tm-col">
+          <div className="tm-col-head">
+            <span className="tm-col-title">{column.title}</span>
+            <span className="tm-col-count">{column.tasks.length}</span>
           </div>
 
-          <div className="max-h-[calc(100vh-300px)] min-h-[200px] space-y-3 overflow-y-auto p-3">
+          <div className="tm-col-body max-h-[calc(100vh-300px)] min-h-[200px]">
             {column.tasks.length === 0 ? (
-              <div className="py-8 text-center text-gray-400 dark:text-gray-500">
-                <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700">
-                  <div className="h-3 w-3 rounded-full bg-gray-300 dark:bg-gray-600" />
+              <div className="py-8 text-center text-[var(--ink-4)]">
+                <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-[var(--paper-3)]">
+                  <div className="h-3 w-3 rounded-full bg-[var(--line)]" />
                 </div>
-                <div className="text-xs font-medium text-gray-500 dark:text-gray-400">{t('kanban.noTasksYet')}</div>
-                <div className="mt-1 text-xs text-gray-400 dark:text-gray-500">
+                <div className="text-xs font-medium text-[var(--ink-3)]">{t('kanban.noTasksYet')}</div>
+                <div className="mt-1 text-xs text-[var(--ink-4)]">
                   {column.status === 'pending'
                     ? t('kanban.tasksWillAppear')
                     : column.status === 'in-progress'
@@ -71,7 +67,7 @@ function KanbanColumns({
                   task={task}
                   onClick={() => onTaskClick(task)}
                   showParent={showParentTasks}
-                  className="w-full shadow-sm hover:shadow-md"
+                  className="w-full"
                 />
               ))
             )}

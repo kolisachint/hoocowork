@@ -1,3 +1,52 @@
+/* Kolisachint Minimal — self-hosted webfonts.
+   kit-overrides.css is imported separately in main.tsx
+   AFTER this file so its overrides cascade last. */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Regular.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Italic.ttf') format('truetype');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Medium.ttf') format('truetype');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-SemiBold.ttf') format('truetype');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Bold.ttf') format('truetype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'MesloLGS NF';
+  src: url('/fonts/MesloLGSNF-Regular.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'MesloLGS NF';
+  src: url('/fonts/MesloLGSNF-Italic.ttf') format('truetype');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'MesloLGS NF';
+  src: url('/fonts/MesloLGSNF-Bold.ttf') format('truetype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'MesloLGS NF';
+  src: url('/fonts/MesloLGSNF-BoldItalic.ttf') format('truetype');
+  font-weight: 700; font-style: italic; font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -23,38 +72,112 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    /* Tailwind tokens remapped to paper-and-ink palette (rust accent) */
+    --background: 60 23% 97%;            /* paper #FAFAF7 */
+    --foreground: 60 3% 7%;               /* ink #111110 */
+    --card: 60 23% 97%;
+    --card-foreground: 60 3% 7%;
+    --popover: 60 23% 97%;
+    --popover-foreground: 60 3% 7%;
+    --primary: 17 54% 49%;                /* accent rust #C2603A */
+    --primary-foreground: 60 23% 97%;     /* paper on accent */
+    --secondary: 60 24% 94%;              /* paper-2 #F2F2EC */
+    --secondary-foreground: 56 9% 20%;    /* ink-2 #36362F */
+    --muted: 60 24% 94%;
+    --muted-foreground: 60 4% 41%;        /* ink-3 #6B6B66 */
+    --accent: 60 18% 91%;                 /* paper-3 #ECECE6 (Tailwind hover surface) */
+    --accent-foreground: 56 9% 20%;
+    --destructive: 346 44% 50%;           /* err #B5485A */
+    --destructive-foreground: 60 23% 97%;
+    --border: 60 14% 86%;                 /* line #DEDED7 */
+    --input: 60 14% 86%;
+    --ring: 17 54% 49%;                   /* rust focus ring */
+    --radius: 0.25rem;                    /* 4px — minimal, hairline-friendly */
 
-    /* Nav design tokens */
-    --nav-glass-bg: 0 0% 100% / 0.7;
-    --nav-glass-blur: 20px;
-    --nav-glass-saturate: 1.8;
-    --nav-tab-glow: 221.2 83.2% 53.3% / 0.18;
-    --nav-tab-ring: 221.2 83.2% 53.3% / 0.10;
-    --nav-float-shadow: 0 0% 0% / 0.06;
-    --nav-float-ring: 214.3 31.8% 91.4% / 0.5;
-    --nav-divider-color: 214.3 31.8% 91.4% / 0.5;
-    --nav-input-bg: 210 40% 96.1% / 0.5;
-    --nav-input-focus-ring: 221.2 83.2% 53.3% / 0.22;
+    /* Native design-system tokens (use directly, e.g. var(--paper)) */
+    --paper:        #FAFAF7;
+    --paper-2:      #F2F2EC;
+    --paper-3:      #ECECE6;
+    --ink:          #111110;
+    --ink-2:        #36362F;
+    --ink-3:        #6B6B66;
+    --ink-4:        #9A9A93;
+    --line:         #DEDED7;
+    --line-2:       #C9C9C1;
+    --brand-accent:       #C2603A;
+    --brand-accent-2:     #A24F2D;
+    --brand-accent-soft:  #F2DCD0;
+    --brand-accent-ink:   #FAFAF7;
+    --ok:           #3F7E5F;  --ok-soft:   #DDEBE2;
+    --warn:         #B58329;  --warn-soft: #EFE4CE;
+    --err:          #B5485A;  --err-soft:  #EFD5DA;
+    --info:         #3D6E96;  --info-soft: #D6E2EB;
+
+    --shadow-1:     0 1px 0 0 rgb(17 17 16 / 0.04), 0 1px 2px 0 rgb(17 17 16 / 0.04);
+    --shadow-2:     0 1px 0 0 rgb(17 17 16 / 0.04), 0 6px 16px -8px rgb(17 17 16 / 0.10);
+    --shadow-3:     0 1px 0 0 rgb(17 17 16 / 0.04), 0 12px 28px -12px rgb(17 17 16 / 0.18);
+
+    --font-mono:    'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Source Code Pro', SFMono-Regular, Menlo, Consolas, monospace;
+    --font-term:    'MesloLGS NF', 'MesloLGM Nerd Font Mono', 'JetBrains Mono', ui-monospace, monospace;
+    --font-system:  ui-sans-serif, -apple-system, 'Segoe UI', Inter, sans-serif;
+
+    --tracking-tight: -0.02em;
+    --tracking-norm:  -0.005em;
+    --tracking-caps:   0.12em;
+
+    --ease-out:   cubic-bezier(0.2, 0, 0, 1);
+    --dur-1:      80ms;
+    --dur-2:      140ms;
+    --dur-3:      240ms;
+
+    /* Spacing scale */
+    --s-1:  4px;
+    --s-2:  8px;
+    --s-3:  12px;
+    --s-4:  16px;
+    --s-5:  24px;
+    --s-6:  32px;
+    --s-7:  48px;
+    --s-8:  64px;
+    --s-9:  96px;
+    --s-10: 128px;
+
+    /* Radii */
+    --radius-0:     0px;
+    --radius-1:     2px;
+    --radius-2:     4px;
+    --radius-3:     6px;
+    --radius-pill:  999px;
+
+    /* Font sizes */
+    --fs-xs:   11px;
+    --fs-sm:   12px;
+    --fs-base:  13px;
+    --fs-md:   14px;
+    --fs-lg:   16px;
+    --fs-xl:   20px;
+    --fs-2xl:  26px;
+    --fs-3xl:  34px;
+    --fs-4xl:  48px;
+    --fs-5xl:  64px;
+
+    /* Line heights */
+    --lh-tight:  1.15;
+    --lh-snug:   1.35;
+    --lh-normal: 1.55;
+    --lh-relax:  1.75;
+
+    /* Nav design tokens — flattened toward paper-ink (subtle, no heavy glass) */
+    --nav-glass-bg: 60 23% 97% / 0.78;
+    --nav-glass-blur: 12px;
+    --nav-glass-saturate: 1.2;
+    --nav-tab-glow: 17 54% 49% / 0.14;
+    --nav-tab-ring: 17 54% 49% / 0.10;
+    --nav-float-shadow: 60 3% 7% / 0.06;
+    --nav-float-ring: 60 14% 86% / 0.6;
+    --nav-divider-color: 60 14% 86% / 0.7;
+    --nav-input-bg: 60 24% 94% / 0.6;
+    --nav-input-focus-ring: 17 54% 49% / 0.22;
 
     /* Safe area CSS variables */
     --safe-area-inset-top: env(safe-area-inset-top);
@@ -85,37 +208,60 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 217.2 91.2% 8%;
-    --card-foreground: 210 40% 98%;
-    --popover: 217.2 91.2% 8%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 220 13% 46%;
-    --ring: 217.2 91.2% 59.8%;
+    --background: 60 7% 5%;               /* deep ink #0E0E0C */
+    --foreground: 60 18% 91%;             /* ink #ECECE6 */
+    --card: 60 7% 5%;
+    --card-foreground: 60 18% 91%;
+    --popover: 60 7% 5%;
+    --popover-foreground: 60 18% 91%;
+    --primary: 20 55% 63%;                /* warm rust #D6926B */
+    --primary-foreground: 60 7% 5%;
+    --secondary: 60 8% 9%;                /* paper-2 #1A1A17 */
+    --secondary-foreground: 60 7% 77%;    /* ink-2 #C9C9C1 */
+    --muted: 60 8% 9%;
+    --muted-foreground: 60 5% 52%;        /* ink-3 #8A8A82 */
+    --accent: 60 5% 13%;                  /* paper-3 #22221F */
+    --accent-foreground: 60 7% 77%;
+    --destructive: 350 53% 66%;           /* err #D9788A */
+    --destructive-foreground: 60 7% 5%;
+    --border: 60 6% 16%;                  /* line #2A2A26 */
+    --input: 60 6% 16%;
+    --ring: 20 55% 63%;
 
-    /* Nav design tokens — dark overrides */
-    --nav-glass-bg: 217.2 91.2% 8% / 0.55;
-    --nav-glass-blur: 24px;
-    --nav-glass-saturate: 1.6;
-    --nav-tab-glow: 217.2 91.2% 59.8% / 0.25;
-    --nav-tab-ring: 217.2 91.2% 59.8% / 0.15;
+    /* Native dark tokens */
+    --paper:        #0E0E0C;
+    --paper-2:      #1A1A17;
+    --paper-3:      #22221F;
+    --ink:          #ECECE6;
+    --ink-2:        #C9C9C1;
+    --ink-3:        #8A8A82;
+    --ink-4:        #5C5C56;
+    --line:         #2A2A26;
+    --line-2:       #3A3A34;
+    --brand-accent:       #D6926B;
+    --brand-accent-2:     #E5A582;
+    --brand-accent-soft:  #2A1F18;
+    --brand-accent-ink:   #0E0E0C;
+    --ok:           #6FA98A;  --ok-soft:   #1A2521;
+    --warn:         #D6A84F;  --warn-soft: #2A2417;
+    --err:          #D9788A;  --err-soft:  #281A1E;
+    --info:         #7AA4C2;  --info-soft: #18222A;
+
+    --shadow-1:     0 1px 0 0 rgb(0 0 0 / 0.4), 0 1px 2px 0 rgb(0 0 0 / 0.4);
+    --shadow-2:     0 1px 0 0 rgb(0 0 0 / 0.4), 0 6px 16px -8px rgb(0 0 0 / 0.6);
+    --shadow-3:     0 1px 0 0 rgb(0 0 0 / 0.4), 0 12px 28px -12px rgb(0 0 0 / 0.7);
+
+    /* Nav design tokens — dark overrides (flattened) */
+    --nav-glass-bg: 60 7% 5% / 0.65;
+    --nav-glass-blur: 14px;
+    --nav-glass-saturate: 1.2;
+    --nav-tab-glow: 20 55% 63% / 0.20;
+    --nav-tab-ring: 20 55% 63% / 0.14;
     --nav-float-shadow: 0 0% 0% / 0.35;
-    --nav-float-ring: 217.2 32.6% 17.5% / 0.3;
-    --nav-divider-color: 217.2 32.6% 17.5% / 0.5;
-    --nav-input-bg: 217.2 32.6% 17.5% / 0.5;
-    --nav-input-focus-ring: 217.2 91.2% 59.8% / 0.25;
+    --nav-float-ring: 60 6% 16% / 0.6;
+    --nav-divider-color: 60 6% 16% / 0.7;
+    --nav-input-bg: 60 8% 9% / 0.6;
+    --nav-input-focus-ring: 20 55% 63% / 0.22;
   }
 }
 
@@ -128,10 +274,19 @@
   
   body {
     @apply bg-background text-foreground;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.55;
+    letter-spacing: -0.005em;
+    font-feature-settings: 'liga' 0, 'calt' 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
     margin: 0;
     padding: 0;
   }
+
+  /* Selection — paper on ink */
+  ::selection { background: var(--ink); color: var(--paper); }
 
   html, body {
     height: 100%;

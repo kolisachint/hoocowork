@@ -2,6 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import './styles/kit.css'
+import './styles/kit-extra.css'
+import './styles/kit-mobile.css'
+import './styles/kit-overrides.css'
 import 'katex/dist/katex.min.css'
 
 // Initialize i18n

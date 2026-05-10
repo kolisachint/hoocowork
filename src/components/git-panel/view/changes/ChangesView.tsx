@@ -191,21 +191,21 @@ export default function ChangesView({
         ) : (
           <div className={isMobile ? 'pb-4' : ''}>
             {/* STAGED section */}
-            <div className="flex items-center justify-between border-b border-border/60 bg-muted/30 px-3 py-1.5">
-              <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            <div className="git-eyebrow-row border-b border-[var(--line)] bg-[var(--paper-2)] px-3 py-1.5">
+              <span className="git-eyebrow">
                 Staged ({selectedFiles.size})
               </span>
               {selectedFiles.size > 0 && (
                 <button
                   onClick={() => setSelectedFiles(new Set())}
-                  className="text-xs text-primary transition-colors hover:text-primary/80"
+                  className="text-xs text-[var(--brand-accent)] transition-colors hover:opacity-80"
                 >
                   Unstage All
                 </button>
               )}
             </div>
             {selectedFiles.size === 0 ? (
-              <div className="px-3 py-2 text-xs text-muted-foreground italic">No staged files</div>
+              <div className="git-empty">No staged files</div>
             ) : (
               <FileChangeList
                 gitStatus={gitStatus}
@@ -224,21 +224,21 @@ export default function ChangesView({
             )}
 
             {/* CHANGES section */}
-            <div className="flex items-center justify-between border-b border-border/60 bg-muted/30 px-3 py-1.5">
-              <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            <div className="git-eyebrow-row border-b border-[var(--line)] bg-[var(--paper-2)] px-3 py-1.5">
+              <span className="git-eyebrow">
                 Changes ({unstagedFiles.size})
               </span>
               {unstagedFiles.size > 0 && (
                 <button
                   onClick={() => setSelectedFiles(new Set(changedFiles))}
-                  className="text-xs text-primary transition-colors hover:text-primary/80"
+                  className="text-xs text-[var(--brand-accent)] transition-colors hover:opacity-80"
                 >
                   Stage All
                 </button>
               )}
             </div>
             {unstagedFiles.size === 0 ? (
-              <div className="px-3 py-2 text-xs text-muted-foreground italic">All changes staged</div>
+              <div className="git-empty">All changes staged</div>
             ) : (
               <FileChangeList
                 gitStatus={gitStatus}

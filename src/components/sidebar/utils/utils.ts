@@ -65,6 +65,10 @@ export const getSessionDate = (session: SessionWithProvider): Date => {
     return new Date(session.createdAt || session.lastActivity || 0);
   }
 
+  if (session.__provider === 'opencode') {
+    return new Date(session.lastActivity || session.createdAt || 0);
+  }
+
   return new Date(session.lastActivity || session.createdAt || 0);
 };
 
@@ -85,6 +89,10 @@ export const getSessionName = (session: SessionWithProvider, t: TFunction): stri
     return session.summary || session.name || t('projects.piSession', { defaultValue: 'Pi Session' });
   }
 
+  if (session.__provider === 'opencode') {
+    return session.summary || session.name || t('projects.openCodeSession', { defaultValue: 'OpenCode Session' });
+  }
+
   return session.summary || t('projects.newSession');
 };
 
@@ -99,6 +107,10 @@ export const getSessionTime = (session: SessionWithProvider): string => {
 
   if (session.__provider === 'pi') {
     return String(session.createdAt || session.lastActivity || '');
+  }
+
+  if (session.__provider === 'opencode') {
+    return String(session.lastActivity || session.createdAt || '');
   }
 
   return String(session.lastActivity || session.createdAt || '');
@@ -117,6 +129,7 @@ export const createSessionViewModel = (
     isCodexSession: session.__provider === 'codex',
     isGeminiSession: session.__provider === 'gemini',
     isPiSession: session.__provider === 'pi',
+    isOpenCodeSession: session.__provider === 'opencode',
     isActive: diffInMinutes < 10,
     sessionName: getSessionName(session, t),
     sessionTime: getSessionTime(session),
@@ -150,9 +163,19 @@ export const getAllSessions = (project: Project): SessionWithProvider[] => {
     __provider: 'pi' as const,
   }));
 
-  return [...claudeSessions, ...cursorSessions, ...codexSessions, ...geminiSessions, ...piSessions].sort(
-    (a, b) => getSessionDate(b).getTime() - getSessionDate(a).getTime(),
-  );
+  const openCodeSessions = (project.openCodeSessions || []).map((session) => ({
+    ...session,
+    __provider: 'opencode' as const,
+  }));
+
+  return [
+    ...claudeSessions,
+    ...cursorSessions,
+    ...codexSessions,
+    ...geminiSessions,
+    ...piSessions,
+    ...openCodeSessions,
+  ].sort((a, b) => getSessionDate(b).getTime() - getSessionDate(a).getTime());
 };
 
 export const getProjectLastActivity = (project: Project): Date => {

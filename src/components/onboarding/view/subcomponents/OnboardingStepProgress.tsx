@@ -24,10 +24,10 @@ export default function OnboardingStepProgress({ currentStep }: OnboardingStepPr
                 <div
                   className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition-colors duration-200 ${
                     isCompleted
-                      ? 'border-green-500 bg-green-500 text-white'
+                      ? 'border-[var(--ok)] bg-[var(--ok)] text-[var(--paper)]'
                       : isActive
-                        ? 'border-blue-600 bg-blue-600 text-white'
-                        : 'border-border bg-background text-muted-foreground'
+                        ? 'border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]'
+                        : 'border-[var(--line)] bg-[var(--paper)] text-[var(--ink-3)]'
                   }`}
                 >
                   {isCompleted ? <Check className="h-6 w-6" /> : <Icon className="h-6 w-6" />}
@@ -37,12 +37,12 @@ export default function OnboardingStepProgress({ currentStep }: OnboardingStepPr
                   <p className={`text-sm font-medium ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}>
                     {step.title}
                   </p>
-                  {step.required && <span className="text-xs text-red-500">Required</span>}
+                  {step.required && <span className="text-xs text-[var(--err)]">Required</span>}
                 </div>
               </div>
 
               {index < onboardingSteps.length - 1 && (
-                <div className={`mx-2 h-0.5 flex-1 transition-colors duration-200 ${isCompleted ? 'bg-green-500' : 'bg-border'}`} />
+                <div className={`mx-2 h-0.5 flex-1 transition-colors duration-200 ${isCompleted ? 'bg-[var(--ok)]' : 'bg-[var(--line)]'}`} />
               )}
             </div>
           );

@@ -33,8 +33,8 @@ function getStatusStyle(status?: string): TaskStatusStyle {
     return {
       icon: CheckCircle,
       statusText: 'Done',
-      iconColor: 'text-green-600 dark:text-green-400',
-      textColor: 'text-green-900 dark:text-green-100',
+      iconColor: 'text-[var(--ok)]',
+      textColor: 'text-[var(--ink)]',
     };
   }
 
@@ -42,8 +42,8 @@ function getStatusStyle(status?: string): TaskStatusStyle {
     return {
       icon: Clock,
       statusText: 'In Progress',
-      iconColor: 'text-blue-600 dark:text-blue-400',
-      textColor: 'text-blue-900 dark:text-blue-100',
+      iconColor: 'text-[var(--brand-accent)]',
+      textColor: 'text-[var(--ink)]',
     };
   }
 
@@ -51,8 +51,8 @@ function getStatusStyle(status?: string): TaskStatusStyle {
     return {
       icon: AlertCircle,
       statusText: 'Review',
-      iconColor: 'text-amber-600 dark:text-amber-400',
-      textColor: 'text-amber-900 dark:text-amber-100',
+      iconColor: 'text-[var(--warn)]',
+      textColor: 'text-[var(--ink)]',
     };
   }
 
@@ -60,8 +60,8 @@ function getStatusStyle(status?: string): TaskStatusStyle {
     return {
       icon: Pause,
       statusText: 'Deferred',
-      iconColor: 'text-gray-500 dark:text-gray-400',
-      textColor: 'text-gray-700 dark:text-gray-300',
+      iconColor: 'text-[var(--ink-4)]',
+      textColor: 'text-[var(--ink-3)]',
     };
   }
 
@@ -69,16 +69,16 @@ function getStatusStyle(status?: string): TaskStatusStyle {
     return {
       icon: X,
       statusText: 'Cancelled',
-      iconColor: 'text-red-600 dark:text-red-400',
-      textColor: 'text-red-900 dark:text-red-100',
+      iconColor: 'text-[var(--err)]',
+      textColor: 'text-[var(--ink-3)]',
     };
   }
 
   return {
     icon: Circle,
     statusText: 'Pending',
-    iconColor: 'text-slate-500 dark:text-slate-400',
-    textColor: 'text-slate-900 dark:text-slate-100',
+    iconColor: 'text-[var(--ink-4)]',
+    textColor: 'text-[var(--ink)]',
   };
 }
 
@@ -86,9 +86,9 @@ function renderPriorityIcon(priority?: string) {
   if (priority === 'high') {
     return (
       <Tooltip content="High priority">
-        <div className="flex h-4 w-4 items-center justify-center rounded bg-red-100 dark:bg-red-900/30">
-          <ChevronUp className="h-2.5 w-2.5 text-red-600 dark:text-red-400" />
-        </div>
+        <span className="tm-prio tm-prio-high inline-flex h-4 w-4 items-center justify-center rounded">
+          <ChevronUp className="h-2.5 w-2.5" />
+        </span>
       </Tooltip>
     );
   }
@@ -96,9 +96,9 @@ function renderPriorityIcon(priority?: string) {
   if (priority === 'medium') {
     return (
       <Tooltip content="Medium priority">
-        <div className="flex h-4 w-4 items-center justify-center rounded bg-amber-100 dark:bg-amber-900/30">
-          <Minus className="h-2.5 w-2.5 text-amber-600 dark:text-amber-400" />
-        </div>
+        <span className="tm-prio tm-prio-med inline-flex h-4 w-4 items-center justify-center rounded">
+          <Minus className="h-2.5 w-2.5" />
+        </span>
       </Tooltip>
     );
   }
@@ -106,18 +106,18 @@ function renderPriorityIcon(priority?: string) {
   if (priority === 'low') {
     return (
       <Tooltip content="Low priority">
-        <div className="flex h-4 w-4 items-center justify-center rounded bg-blue-100 dark:bg-blue-900/30">
-          <Circle className="h-1.5 w-1.5 fill-current text-blue-600 dark:text-blue-400" />
-        </div>
+        <span className="tm-prio tm-prio-low inline-flex h-4 w-4 items-center justify-center rounded">
+          <Circle className="h-1.5 w-1.5 fill-current" />
+        </span>
       </Tooltip>
     );
   }
 
   return (
     <Tooltip content="No priority set">
-      <div className="flex h-4 w-4 items-center justify-center rounded bg-gray-100 dark:bg-gray-800">
-        <Circle className="h-1.5 w-1.5 text-gray-400 dark:text-gray-500" />
-      </div>
+      <span className="tm-prio tm-prio-low inline-flex h-4 w-4 items-center justify-center rounded">
+        <Circle className="h-1.5 w-1.5" />
+      </span>
     </Tooltip>
   );
 }
@@ -138,8 +138,8 @@ function TaskCard({ task, onClick = null, showParent = false, className = '' }: 
   return (
     <div
       className={cn(
-        'bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-3 space-y-3',
-        'hover:shadow-md hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200',
+        'tm-card',
+        'hover:shadow-[var(--shadow-2)] hover:border-[var(--brand-accent)]/40 transition-all duration-200',
         onClick ? 'cursor-pointer hover:-translate-y-0.5' : 'cursor-default',
         className,
       )}
@@ -149,18 +149,18 @@ function TaskCard({ task, onClick = null, showParent = false, className = '' }: 
         <div className="min-w-0 flex-1">
           <div className="mb-1 flex items-center gap-2">
             <Tooltip content={`Task ID: ${task.id}`}>
-              <span className="rounded bg-gray-100 px-2 py-0.5 font-mono text-xs text-gray-500 dark:bg-gray-700 dark:text-gray-400">
+              <span className="tm-id rounded bg-[var(--paper-3)] px-2 py-0.5">
                 {task.id}
               </span>
             </Tooltip>
           </div>
 
-          <h3 className="line-clamp-2 text-sm font-medium leading-tight text-gray-900 dark:text-white">
+          <h3 className="tm-title line-clamp-2">
             {task.title}
           </h3>
 
           {showParent && task.parentId && (
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Task {task.parentId}</span>
+            <span className="tm-meta">Task {task.parentId}</span>
           )}
         </div>
 
@@ -190,14 +190,14 @@ function TaskCard({ task, onClick = null, showParent = false, className = '' }: 
       {progress.total > 0 && (
         <div className="ml-3">
           <div className="mb-1 flex items-center gap-2">
-            <span className="text-xs text-gray-500 dark:text-gray-400">Progress:</span>
-            <div className="h-1.5 flex-1 rounded-full bg-gray-200 dark:bg-gray-700" title={`${progress.completed} of ${progress.total} subtasks completed`}>
+            <span className="text-xs text-[var(--ink-3)]">Progress:</span>
+            <div className="h-1.5 flex-1 rounded-full bg-[var(--paper-3)]" title={`${progress.completed} of ${progress.total} subtasks completed`}>
               <div
-                className={cn('h-full rounded-full transition-all duration-300', task.status === 'done' ? 'bg-green-500' : 'bg-blue-500')}
+                className={cn('h-full rounded-full transition-all duration-300', task.status === 'done' ? 'bg-[var(--ok)]' : 'bg-[var(--brand-accent)]')}
                 style={{ width: `${progress.percentage}%` }}
               />
             </div>
-            <span className="text-xs text-gray-500 dark:text-gray-400">
+            <span className="text-xs text-[var(--ink-3)]">
               {progress.completed}/{progress.total}
             </span>
           </div>

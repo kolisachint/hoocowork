@@ -3,6 +3,7 @@ import express, { type Request, type Response } from 'express';
 import { providerAuthService } from '@/modules/providers/services/provider-auth.service.js';
 import { providerMcpService } from '@/modules/providers/services/mcp.service.js';
 import { piModelsService } from '@/modules/providers/services/pi-models.service.js';
+import { openCodeModelsService } from '@/modules/providers/services/opencode-models.service.js';
 import { sessionConversationsSearchService } from '@/modules/providers/services/session-conversations-search.service.js';
 import { sessionsService } from '@/modules/providers/services/sessions.service.js';
 import type { LLMProvider, McpScope, McpTransport, UpsertProviderMcpServerInput } from '@/shared/types.js';
@@ -256,6 +257,18 @@ router.get(
   asyncHandler(async (req: Request, res: Response) => {
     const force = parseOptionalBooleanQuery(req.query.force, 'force') === true;
     const result = await piModelsService.getModels({ force });
+    res.json(createApiSuccessResponse(result));
+  }),
+);
+
+// OpenCode publishes its model catalog via `opencode models` (one
+// `provider/model` identifier per line). Same caching strategy as Pi: 10 min
+// TTL, ?force=true to bypass.
+router.get(
+  '/opencode/models',
+  asyncHandler(async (req: Request, res: Response) => {
+    const force = parseOptionalBooleanQuery(req.query.force, 'force') === true;
+    const result = await openCodeModelsService.getModels({ force });
     res.json(createApiSuccessResponse(result));
   }),
 );

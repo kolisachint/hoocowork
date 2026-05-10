@@ -123,6 +123,43 @@ export const PI_MODELS = {
 };
 
 /**
+ * OpenCode Models
+ *
+ * Identifiers use OpenCode's `provider/model` format (matches
+ * `opencode models` output) and pass through to `opencode run --model <value>`.
+ * The "auto" sentinel is handled server-side (server/opencode-cli.js) by
+ * omitting --model so OpenCode uses the model configured in
+ * `~/.config/opencode/opencode.json`.
+ *
+ * This static list is a curated fallback. The full catalog is loaded
+ * dynamically from `opencode models` via /api/providers/opencode/models when
+ * the picker opens, mirroring the Pi flow.
+ */
+export const OPENCODE_MODELS = {
+  OPTIONS: [
+    { value: "auto", label: "Auto (OpenCode default)" },
+    { value: "opencode/claude-opus-4-7", label: "Claude Opus 4.7" },
+    { value: "opencode/claude-opus-4-6", label: "Claude Opus 4.6" },
+    { value: "opencode/claude-sonnet-4-6", label: "Claude Sonnet 4.6" },
+    { value: "opencode/claude-sonnet-4-5", label: "Claude Sonnet 4.5" },
+    { value: "opencode/claude-haiku-4-5", label: "Claude Haiku 4.5" },
+    { value: "opencode/gpt-5.5", label: "GPT-5.5" },
+    { value: "opencode/gpt-5.5-pro", label: "GPT-5.5 Pro" },
+    { value: "opencode/gpt-5.4", label: "GPT-5.4" },
+    { value: "opencode/gpt-5.4-mini", label: "GPT-5.4 mini" },
+    { value: "opencode/gpt-5.4-pro", label: "GPT-5.4 Pro" },
+    { value: "opencode/gpt-5.3-codex", label: "GPT-5.3 Codex" },
+    { value: "opencode/gpt-5.2-codex", label: "GPT-5.2 Codex" },
+    { value: "opencode/gpt-5.1-codex-max", label: "GPT-5.1 Codex Max" },
+    { value: "opencode/gemini-3.1-pro", label: "Gemini 3.1 Pro" },
+    { value: "opencode/gemini-3-flash", label: "Gemini 3 Flash" },
+    { value: "opencode/glm-5.1", label: "GLM 5.1" },
+  ],
+
+  DEFAULT: "auto",
+};
+
+/**
  * Ordered provider registry. Display order in selection UIs.
  */
 export const PROVIDERS = [
@@ -131,4 +168,5 @@ export const PROVIDERS = [
   { id: "gemini", name: "Google", models: GEMINI_MODELS },
   { id: "cursor", name: "Cursor", models: CURSOR_MODELS },
   { id: "pi", name: "Pi", models: PI_MODELS },
+  { id: "opencode", name: "OpenCode", models: OPENCODE_MODELS },
 ];

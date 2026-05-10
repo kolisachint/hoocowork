@@ -29,8 +29,8 @@ export const ToolDiffViewer: React.FC<ToolDiffViewerProps> = ({
   badgeColor = 'gray'
 }) => {
   const badgeClasses = badgeColor === 'green'
-    ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400'
-    : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400';
+    ? 'bg-[var(--ok-soft)] text-[var(--ok)]'
+    : 'bg-[var(--paper-3)] text-[var(--ink-3)]';
 
   const diffLines = useMemo(
     () => {
@@ -43,18 +43,18 @@ export const ToolDiffViewer: React.FC<ToolDiffViewerProps> = ({
   );
 
   return (
-    <div className="overflow-hidden rounded border border-gray-200/60 dark:border-gray-700/50">
+    <div className="overflow-hidden rounded-[var(--radius-1)] border border-[var(--line)]">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-gray-200/60 bg-gray-50/80 px-2.5 py-1 dark:border-gray-700/50 dark:bg-gray-800/40">
+      <div className="flex items-center justify-between border-b border-[var(--line)] bg-[var(--paper-2)] px-2.5 py-1">
         {onFileClick ? (
           <button
             onClick={onFileClick}
-            className="cursor-pointer truncate font-mono text-[11px] text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            className="cursor-pointer truncate font-mono text-[11px] text-[var(--brand-accent)] transition-colors hover:opacity-80"
           >
             {filePath}
           </button>
         ) : (
-          <span className="truncate font-mono text-[11px] text-gray-600 dark:text-gray-400">
+          <span className="truncate font-mono text-[11px] text-[var(--ink-3)]">
             {filePath}
           </span>
         )}
@@ -70,8 +70,8 @@ export const ToolDiffViewer: React.FC<ToolDiffViewerProps> = ({
             <span
               className={`w-6 flex-shrink-0 select-none text-center ${
                 diffLine.type === 'removed'
-                  ? 'bg-red-50 text-red-400 dark:bg-red-950/30 dark:text-red-500'
-                  : 'bg-green-50 text-green-400 dark:bg-green-950/30 dark:text-green-500'
+                  ? 'bg-[var(--err-soft)] text-[var(--err)]'
+                  : 'bg-[var(--ok-soft)] text-[var(--ok)]'
               }`}
             >
               {diffLine.type === 'removed' ? '-' : '+'}
@@ -79,8 +79,8 @@ export const ToolDiffViewer: React.FC<ToolDiffViewerProps> = ({
             <span
               className={`flex-1 whitespace-pre-wrap px-2 ${
                 diffLine.type === 'removed'
-                  ? 'bg-red-50/50 text-red-800 dark:bg-red-950/20 dark:text-red-200'
-                  : 'bg-green-50/50 text-green-800 dark:bg-green-950/20 dark:text-green-200'
+                  ? 'bg-[var(--err-soft)]/50 text-[var(--ink)]'
+                  : 'bg-[var(--ok-soft)]/50 text-[var(--ink)]'
               }`}
             >
               {diffLine.content}

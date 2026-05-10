@@ -15,6 +15,9 @@ export type ShellInitMessage = {
   rows: number;
   initialCommand: string | null | undefined;
   isPlainShell: boolean;
+  // OpenCode only — model selected in the chat dropdown so the resumed shell
+  // session uses the same model. Other providers ignore this field.
+  model?: string;
 };
 
 export type ShellResizeMessage = {

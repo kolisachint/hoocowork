@@ -1,0 +1,405 @@
+/* =============================================================
+   Kolisachint Minimal — Tailwind override layer
+   Neutralizes the hardcoded blue palette toward the rust accent,
+   tightens radii, flattens shadows, and forces mono headings.
+   Loaded LAST so its !important rules win over Tailwind utilities
+   without touching any component JSX.
+   ============================================================= */
+
+/* === Backgrounds: blue → rust ============================== */
+.bg-blue-50,
+.bg-blue-100,
+.bg-blue-200 { background-color: var(--brand-accent-soft) !important; }
+.bg-blue-300,
+.bg-blue-400 { background-color: var(--brand-accent) !important; opacity: 0.8; }
+.bg-blue-500,
+.bg-blue-600,
+.bg-blue-700 { background-color: var(--brand-accent) !important; color: var(--brand-accent-ink) !important; }
+.bg-blue-800,
+.bg-blue-900,
+.bg-blue-950 { background-color: var(--brand-accent-2) !important; color: var(--brand-accent-ink) !important; }
+
+.hover\:bg-blue-50:hover,
+.hover\:bg-blue-100:hover,
+.hover\:bg-blue-200:hover { background-color: var(--brand-accent-soft) !important; }
+.hover\:bg-blue-500:hover,
+.hover\:bg-blue-600:hover,
+.hover\:bg-blue-700:hover,
+.hover\:bg-blue-800:hover { background-color: var(--brand-accent-2) !important; }
+
+.dark\:bg-blue-500:where(.dark, .dark *),
+.dark\:bg-blue-600:where(.dark, .dark *),
+.dark\:bg-blue-700:where(.dark, .dark *) { background-color: var(--brand-accent) !important; color: var(--brand-accent-ink) !important; }
+.dark\:bg-blue-900:where(.dark, .dark *),
+.dark\:bg-blue-950:where(.dark, .dark *) { background-color: var(--brand-accent-soft) !important; }
+
+/* === Text: blue → rust ===================================== */
+.text-blue-300,
+.text-blue-400,
+.text-blue-500,
+.text-blue-600,
+.text-blue-700 { color: var(--brand-accent) !important; }
+.text-blue-100,
+.text-blue-200 { color: var(--brand-accent-2) !important; }
+
+.hover\:text-blue-500:hover,
+.hover\:text-blue-600:hover,
+.hover\:text-blue-700:hover { color: var(--brand-accent-2) !important; }
+
+.dark\:text-blue-300:where(.dark, .dark *),
+.dark\:text-blue-400:where(.dark, .dark *),
+.dark\:text-blue-500:where(.dark, .dark *) { color: var(--brand-accent) !important; }
+
+/* === Borders: blue → rust ================================== */
+.border-blue-300,
+.border-blue-400,
+.border-blue-500,
+.border-blue-600,
+.border-blue-700 { border-color: var(--brand-accent) !important; }
+
+.hover\:border-blue-500:hover,
+.hover\:border-blue-600:hover { border-color: var(--brand-accent) !important; }
+
+/* === Rings: blue → rust ==================================== */
+.ring-blue-300,
+.ring-blue-400,
+.ring-blue-500,
+.ring-blue-600 { --tw-ring-color: var(--brand-accent) !important; }
+.focus\:ring-blue-300:focus,
+.focus\:ring-blue-400:focus,
+.focus\:ring-blue-500:focus,
+.focus\:ring-blue-600:focus,
+.focus-visible\:ring-blue-500:focus-visible,
+.focus-visible\:ring-blue-600:focus-visible { --tw-ring-color: var(--brand-accent) !important; }
+
+/* === Form controls: native accent ========================== */
+.accent-blue-600,
+.accent-blue-500,
+input[type="checkbox"],
+input[type="radio"] { accent-color: var(--brand-accent) !important; }
+
+/* === Round-down: kit prefers tight hairline corners ========= */
+.rounded-lg { border-radius: 4px !important; }
+.rounded-xl { border-radius: 6px !important; }
+.rounded-2xl { border-radius: 8px !important; }
+.rounded-3xl { border-radius: 10px !important; }
+
+/* === Shadow flatten: nearly flat per the kit ================ */
+.shadow-sm,
+.shadow { box-shadow: var(--shadow-1) !important; }
+.shadow-md,
+.shadow-lg { box-shadow: var(--shadow-2) !important; }
+.shadow-xl,
+.shadow-2xl { box-shadow: var(--shadow-3) !important; }
+
+/* === Heading mono ========================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono);
+  letter-spacing: var(--tracking-norm);
+}
+h1 { letter-spacing: var(--tracking-tight); }
+
+/* === Code/pre — terminal font ============================== */
+code, pre, kbd, samp {
+  font-family: var(--font-term);
+}
+
+/* === Inputs: hairline borders + tight radius =============== */
+.dark input[type="text"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark input[type="search"],
+.dark input[type="url"] {
+  border-color: var(--line) !important;
+}
+
+/* === Active/selected states gravitating to ink not blue ==== */
+.bg-blue-50.dark\:bg-blue-900\/20,
+.bg-blue-50\/50 { background-color: var(--brand-accent-soft) !important; }
+
+/* Keep informational link styles as accent-rust */
+a:not([class*="bg-"]):not([class*="text-"]) {
+  color: var(--brand-accent);
+}
+a:not([class*="bg-"]):not([class*="text-"]):hover {
+  color: var(--brand-accent-2);
+}
+
+/* =============================================================
+   Gray palette → paper/ink remap
+   The repo has ~1200 hardcoded gray-* classes from before the
+   token migration. Repaint them to keep the chrome consistent
+   without rewriting every component.
+   ============================================================= */
+
+/* Light backgrounds */
+.bg-gray-50 { background-color: var(--paper-2) !important; }
+.bg-gray-100 { background-color: var(--paper-2) !important; }
+.bg-gray-200 { background-color: var(--paper-3) !important; }
+.bg-gray-300 { background-color: var(--line) !important; }
+
+.hover\:bg-gray-50:hover,
+.hover\:bg-gray-100:hover { background-color: var(--paper-2) !important; }
+.hover\:bg-gray-200:hover { background-color: var(--paper-3) !important; }
+.hover\:bg-gray-300:hover { background-color: var(--line) !important; }
+
+/* Dark backgrounds — engaged when .dark is on <html>, repaints to
+   the dark paper ramp via the dark token values. */
+.dark\:bg-gray-700:where(.dark, .dark *) { background-color: var(--paper-2) !important; }
+.dark\:bg-gray-800:where(.dark, .dark *) { background-color: var(--paper-2) !important; }
+.dark\:bg-gray-900:where(.dark, .dark *) { background-color: var(--paper) !important; }
+.dark\:bg-gray-950:where(.dark, .dark *) { background-color: var(--paper) !important; }
+
+.dark\:hover\:bg-gray-700:where(.dark, .dark *):hover,
+.dark\:hover\:bg-gray-800:where(.dark, .dark *):hover { background-color: var(--paper-3) !important; }
+.dark\:hover\:bg-gray-600:where(.dark, .dark *):hover { background-color: var(--paper-3) !important; }
+
+/* Direct dark mode hardcodes (used without dark: prefix in some places) */
+.bg-gray-700 { background-color: var(--paper-2) !important; }
+.bg-gray-800 { background-color: var(--paper-2) !important; }
+.bg-gray-900 { background-color: var(--paper) !important; }
+.hover\:bg-gray-700:hover,
+.hover\:bg-gray-800:hover { background-color: var(--paper-3) !important; }
+.hover\:bg-gray-600:hover { background-color: var(--paper-3) !important; }
+.hover\:bg-gray-900:hover { background-color: var(--paper-2) !important; }
+
+/* Light text — gray ramps for muted content */
+.text-gray-300 { color: var(--ink-4) !important; }
+.text-gray-400 { color: var(--ink-4) !important; }
+.text-gray-500 { color: var(--ink-3) !important; }
+.text-gray-600 { color: var(--ink-3) !important; }
+.text-gray-700 { color: var(--ink-2) !important; }
+.text-gray-800 { color: var(--ink) !important; }
+.text-gray-900 { color: var(--ink) !important; }
+
+.hover\:text-gray-700:hover,
+.hover\:text-gray-800:hover,
+.hover\:text-gray-900:hover { color: var(--ink) !important; }
+.hover\:text-gray-600:hover { color: var(--ink-2) !important; }
+
+/* Dark text — light gray for fg in dark mode */
+.dark\:text-gray-100:where(.dark, .dark *) { color: var(--ink) !important; }
+.dark\:text-gray-200:where(.dark, .dark *) { color: var(--ink) !important; }
+.dark\:text-gray-300:where(.dark, .dark *) { color: var(--ink-2) !important; }
+.dark\:text-gray-400:where(.dark, .dark *) { color: var(--ink-3) !important; }
+.dark\:text-gray-500:where(.dark, .dark *) { color: var(--ink-4) !important; }
+
+.text-gray-100 { color: var(--ink) !important; }
+.text-gray-200 { color: var(--ink-2) !important; }
+
+/* Borders */
+.border-gray-100 { border-color: var(--line) !important; }
+.border-gray-200 { border-color: var(--line) !important; }
+.border-gray-300 { border-color: var(--line-2) !important; }
+.border-gray-400 { border-color: var(--line-2) !important; }
+.border-gray-600 { border-color: var(--line-2) !important; }
+.border-gray-700 { border-color: var(--line) !important; }
+.border-gray-800 { border-color: var(--line) !important; }
+
+.dark\:border-gray-600:where(.dark, .dark *),
+.dark\:border-gray-700:where(.dark, .dark *),
+.dark\:border-gray-800:where(.dark, .dark *) { border-color: var(--line) !important; }
+
+/* Slate ≈ gray for our purposes */
+.bg-slate-50,
+.bg-slate-100 { background-color: var(--paper-2) !important; }
+.bg-slate-200 { background-color: var(--paper-3) !important; }
+.bg-slate-700,
+.bg-slate-800,
+.bg-slate-900 { background-color: var(--paper-2) !important; }
+.text-slate-400,
+.text-slate-500 { color: var(--ink-3) !important; }
+.text-slate-600,
+.text-slate-700 { color: var(--ink-2) !important; }
+.text-slate-800,
+.text-slate-900 { color: var(--ink) !important; }
+
+/* =============================================================
+   Semantic colors → kit ok/warn/err palette
+   The kit replaces Tailwind's green/orange/red ramps with three
+   muted, paper-aware tones: ok (#3F7E5F), warn (#B58329),
+   err (#B5485A). Repaint the most common usages.
+   ============================================================= */
+
+.bg-green-50,
+.bg-green-100 { background-color: var(--ok-soft) !important; }
+.bg-green-500,
+.bg-green-600,
+.bg-green-700 { background-color: var(--ok) !important; color: var(--paper) !important; }
+.text-green-300,
+.text-green-400,
+.text-green-500,
+.text-green-600,
+.text-green-700 { color: var(--ok) !important; }
+.border-green-300,
+.border-green-400,
+.border-green-500,
+.border-green-600 { border-color: var(--ok) !important; }
+.dark\:bg-green-900\/15:where(.dark, .dark *),
+.dark\:bg-green-900\/25:where(.dark, .dark *) { background-color: var(--ok-soft) !important; }
+.dark\:text-green-300:where(.dark, .dark *),
+.dark\:text-green-400:where(.dark, .dark *) { color: var(--ok) !important; }
+
+.bg-orange-50,
+.bg-orange-100,
+.bg-yellow-50,
+.bg-yellow-100 { background-color: var(--warn-soft) !important; }
+.bg-orange-500,
+.bg-orange-600,
+.bg-yellow-500,
+.bg-yellow-600 { background-color: var(--warn) !important; color: var(--paper) !important; }
+.text-orange-300,
+.text-orange-400,
+.text-orange-500,
+.text-orange-600,
+.text-orange-700,
+.text-yellow-300,
+.text-yellow-400,
+.text-yellow-500,
+.text-yellow-600,
+.text-yellow-700 { color: var(--warn) !important; }
+.border-orange-300,
+.border-orange-400,
+.border-orange-500,
+.border-orange-600,
+.border-yellow-300,
+.border-yellow-400,
+.border-yellow-500 { border-color: var(--warn) !important; }
+.dark\:bg-orange-900\/15:where(.dark, .dark *),
+.dark\:bg-orange-900\/25:where(.dark, .dark *),
+.dark\:bg-yellow-900\/15:where(.dark, .dark *) { background-color: var(--warn-soft) !important; }
+.dark\:text-orange-300:where(.dark, .dark *),
+.dark\:text-yellow-300:where(.dark, .dark *) { color: var(--warn) !important; }
+
+.bg-red-50,
+.bg-red-100 { background-color: var(--err-soft) !important; }
+.bg-red-500,
+.bg-red-600,
+.bg-red-700 { background-color: var(--err) !important; color: var(--paper) !important; }
+.text-red-300,
+.text-red-400,
+.text-red-500,
+.text-red-600,
+.text-red-700 { color: var(--err) !important; }
+.border-red-300,
+.border-red-400,
+.border-red-500,
+.border-red-600 { border-color: var(--err) !important; }
+.dark\:bg-red-900\/15:where(.dark, .dark *),
+.dark\:bg-red-900\/25:where(.dark, .dark *),
+.dark\:bg-red-900\/50:where(.dark, .dark *) { background-color: var(--err-soft) !important; }
+.dark\:text-red-300:where(.dark, .dark *),
+.dark\:text-red-400:where(.dark, .dark *) { color: var(--err) !important; }
+
+/* Backdrop blur is fundamentally anti-paper-and-ink — kill it.
+   Kept opt-in via the .keep-blur escape hatch for surfaces that
+   genuinely need it (e.g., modal backdrop dimming). */
+.backdrop-blur-sm:not(.keep-blur),
+.backdrop-blur:not(.keep-blur),
+.backdrop-blur-md:not(.keep-blur),
+.backdrop-blur-lg:not(.keep-blur) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* =============================================================
+   Kit utility primitives
+   Opt-in classes that mirror the kit's typography + chrome.
+   Components can adopt these progressively without affecting
+   anything that doesn't use them.
+   ============================================================= */
+
+.t-eyebrow {
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  color: var(--ink-3);
+  font-weight: 500;
+  font-family: var(--font-mono);
+}
+.t-h1 {
+  font-family: var(--font-mono);
+  font-size: var(--fs-3xl);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+}
+.t-h2 {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xl);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-norm);
+}
+.t-h3 {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xl);
+  font-weight: 500;
+  line-height: var(--lh-snug);
+}
+.t-mono { font-family: var(--font-mono); }
+.t-term { font-family: var(--font-term); }
+.t-caption { font-size: var(--fs-sm); color: var(--ink-3); line-height: var(--lh-snug); }
+
+.kit-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 5px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 2px;
+  background: var(--paper);
+  color: var(--ink-3);
+  font-weight: 500;
+}
+
+/* Status dots (for sidebar / chat header) */
+.kit-dot { width: 6px; height: 6px; border-radius: 999px; display: inline-block; }
+.kit-dot.ok { background: var(--ok); }
+.kit-dot.busy { background: var(--brand-accent); animation: kit-pulse 1.2s ease-in-out infinite; }
+.kit-dot.off { background: var(--ink-4); }
+.kit-dot.err { background: var(--err); }
+@keyframes kit-pulse { 50% { opacity: 0.35; } }
+
+/* =============================================================
+   Terminal / xterm
+   Force the kit's pure dark paper for terminal surfaces.
+   ============================================================= */
+.xterm,
+.xterm .xterm-viewport,
+.xterm-screen {
+  background-color: #0E0E0C !important;
+}
+.xterm .xterm-cursor-layer .xterm-cursor {
+  background-color: var(--brand-accent) !important;
+  border-color: var(--brand-accent) !important;
+}
+
+/* =============================================================
+   Scrollbar paint — paper-and-ink instead of slate
+   ============================================================= */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--line);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--line-2);
+}
+.dark *::-webkit-scrollbar-thumb {
+  background-color: var(--line);
+}
+.dark *::-webkit-scrollbar-thumb:hover {
+  background-color: var(--line-2);
+}

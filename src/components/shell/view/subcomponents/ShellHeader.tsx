@@ -34,27 +34,27 @@ export default function ShellHeader({
   disableRestart,
 }: ShellHeaderProps) {
   return (
-    <div className="flex-shrink-0 border-b border-gray-700 bg-gray-800 px-4 py-2">
+    <div className="terminal-bar flex-shrink-0 border-b border-[var(--line)] bg-[var(--paper-2)] px-4 py-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <div className={`h-2 w-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
+          <div className={`kit-dot ${isConnected ? 'ok' : 'err'}`} />
 
           {hasSession && sessionDisplayNameShort && (
-            <span className="text-xs text-blue-300">({sessionDisplayNameShort}...)</span>
+            <span className="text-xs text-[var(--brand-accent)]">({sessionDisplayNameShort}...)</span>
           )}
 
-          {!hasSession && <span className="text-xs text-gray-400">{statusNewSessionText}</span>}
+          {!hasSession && <span className="text-xs text-[var(--ink-3)]">{statusNewSessionText}</span>}
 
-          {!isInitialized && <span className="text-xs text-yellow-400">{statusInitializingText}</span>}
+          {!isInitialized && <span className="text-xs text-[var(--warn)]">{statusInitializingText}</span>}
 
-          {isRestarting && <span className="text-xs text-blue-400">{statusRestartingText}</span>}
+          {isRestarting && <span className="text-xs text-[var(--brand-accent)]">…{statusRestartingText}</span>}
         </div>
 
         <div className="flex items-center space-x-3">
           {isConnected && (
             <button
               onClick={onDisconnect}
-              className="flex items-center space-x-1 rounded bg-red-600 px-3 py-1 text-xs text-white hover:bg-red-700"
+              className="flex items-center space-x-1 rounded-[var(--radius-1)] bg-[var(--err)] px-3 py-1 text-xs text-[var(--paper)] hover:opacity-90"
               title={disconnectTitle}
             >
               <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,7 +67,7 @@ export default function ShellHeader({
           <button
             onClick={onRestart}
             disabled={disableRestart}
-            className="flex items-center space-x-1 text-xs text-gray-400 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex items-center space-x-1 text-xs text-[var(--ink-3)] hover:text-[var(--ink)] disabled:cursor-not-allowed disabled:opacity-50"
             title={restartTitle}
           >
             <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

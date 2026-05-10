@@ -142,16 +142,27 @@ export function useShellConnection({
 
             currentFitAddon.fit();
 
+            const resolvedProvider = isPlainShellRef.current
+              ? 'plain-shell'
+              : (selectedSessionRef.current?.__provider || localStorage.getItem('selected-provider') || 'claude');
+            // For OpenCode, mirror the chat dropdown selection so a shell
+            // resume continues with the same model rather than OpenCode's
+            // configured default.
+            const resolvedModel = resolvedProvider === 'opencode'
+              ? localStorage.getItem('opencode-model') || undefined
+              : undefined;
+
             sendSocketMessage(socket, {
               type: 'init',
               projectPath: currentProject.fullPath || currentProject.path || '',
               sessionId: isPlainShellRef.current ? null : selectedSessionRef.current?.id || null,
               hasSession: isPlainShellRef.current ? false : Boolean(selectedSessionRef.current),
-              provider: isPlainShellRef.current ? 'plain-shell' : (selectedSessionRef.current?.__provider || localStorage.getItem('selected-provider') || 'claude'),
+              provider: resolvedProvider,
               cols: currentTerminal.cols,
               rows: currentTerminal.rows,
               initialCommand: initialCommandRef.current,
               isPlainShell: isPlainShellRef.current,
+              model: resolvedModel,
             });
           }, TERMINAL_INIT_DELAY_MS);
         };

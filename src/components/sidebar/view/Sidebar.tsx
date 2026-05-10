@@ -9,12 +9,11 @@ import { useTaskMaster } from '../../../contexts/TaskMasterContext';
 import { usePaletteOps } from '../../../contexts/PaletteOpsContext';
 import { useTasksSettings } from '../../../contexts/TasksSettingsContext';
 import type { Project, LLMProvider } from '../../../types/app';
-import type { MCPServerStatus, SidebarProps } from '../types/types';
+import type { MCPServerStatus, SidebarProps, SidebarProjectListProps } from '../types/types';
 
 import SidebarCollapsed from './subcomponents/SidebarCollapsed';
 import SidebarContent from './subcomponents/SidebarContent';
 import SidebarModals from './subcomponents/SidebarModals';
-import type { SidebarProjectListProps } from './subcomponents/SidebarProjectList';
 
 type TaskMasterSidebarContext = {
   setCurrentProject: (project: Project) => void;

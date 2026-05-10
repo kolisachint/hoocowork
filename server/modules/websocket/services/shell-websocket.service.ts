@@ -18,6 +18,9 @@ type ShellIncomingMessage = {
   provider?: string;
   initialCommand?: string;
   isPlainShell?: boolean;
+  // OpenCode only — used to pass --model on shell resume so the dropdown
+  // choice from the chat carries over.
+  model?: string;
 };
 
 type PtySessionEntry = {
@@ -126,6 +129,34 @@ function buildShellCommand(
       return `pi --session "${sessionId}" || pi`;
     }
     return 'pi';
+  }
+
+  if (provider === 'opencode') {
+    // The chat dropdown sends `model` (e.g. "opencode/claude-opus-4-7"); the
+    // "auto" sentinel means "let OpenCode pick" so we omit --model in that
+    // case. Validate to avoid shell injection — OpenCode model ids are
+    // `provider/model`, sometimes with dots/hyphens.
+    const modelArg = (() => {
+      const raw = readString(message.model).trim();
+      if (!raw || raw === 'auto') {
+        return '';
+      }
+      if (!/^[a-zA-Z0-9_./-]+$/.test(raw)) {
+        return '';
+      }
+      return ` --model "${raw}"`;
+    })();
+
+    if (hasSession && sessionId) {
+      // `opencode --session <id>` resumes an existing session. Falls back to
+      // a fresh `opencode` if the session id is unknown (e.g. session was
+      // pruned from opencode.db).
+      if (os.platform() === 'win32') {
+        return `opencode --session "${sessionId}"${modelArg}; if ($LASTEXITCODE -ne 0) { opencode${modelArg} }`;
+      }
+      return `opencode --session "${sessionId}"${modelArg} || opencode${modelArg}`;
+    }
+    return `opencode${modelArg}`;
   }
 
   if (provider === 'gemini') {
@@ -402,6 +433,7 @@ export function handleShellConnection(
             codex: 'Codex',
             gemini: 'Gemini',
             pi: 'Pi',
+            opencode: 'OpenCode',
             claude: 'Claude',
           };
           const providerName = providerLabels[provider] ?? 'Claude';

@@ -153,13 +153,13 @@ function MainContent({
           </div>
 
           {activeTab === 'files' && (
-            <div className="h-full overflow-hidden">
+            <div className="files">
               <FileTree selectedProject={selectedProject} onFileOpen={handleFileOpen} />
             </div>
           )}
 
           {activeTab === 'shell' && (
-            <div className="h-full w-full overflow-hidden">
+            <div className="terminal">
               <ErrorBoundary showDetails>
                 <StandaloneShell
                   project={selectedProject}

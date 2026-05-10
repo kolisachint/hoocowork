@@ -26,7 +26,7 @@ export default function AgentsSettingsTab({
   const { isWindowsServer } = useServerPlatform();
 
   const visibleAgents = useMemo<AgentProvider[]>(() => {
-    const all: AgentProvider[] = ['claude', 'cursor', 'codex', 'gemini', 'pi'];
+    const all: AgentProvider[] = ['claude', 'cursor', 'codex', 'gemini', 'pi', 'opencode'];
     if (isWindowsServer) {
       return all.filter((id) => id !== 'cursor');
     }
@@ -69,6 +69,10 @@ export default function AgentsSettingsTab({
       authStatus: providerAuthStatus.pi,
       onLogin: () => onProviderLogin('pi'),
     },
+    opencode: {
+      authStatus: providerAuthStatus.opencode,
+      onLogin: () => onProviderLogin('opencode'),
+    },
   }), [
     onProviderLogin,
     providerAuthStatus.claude,
@@ -76,6 +80,7 @@ export default function AgentsSettingsTab({
     providerAuthStatus.cursor,
     providerAuthStatus.gemini,
     providerAuthStatus.pi,
+    providerAuthStatus.opencode,
   ]);
 
   return (

@@ -51,6 +51,12 @@ import {
     isPiSessionActive,
     getActivePiSessions,
 } from './pi-cli.js';
+import {
+    spawnOpenCode,
+    abortOpenCodeSession,
+    isOpenCodeSessionActive,
+    getActiveOpenCodeSessions,
+} from './opencode-cli.js';
 import sessionManager from './sessionManager.js';
 import {
     stripAnsiSequences,
@@ -101,17 +107,20 @@ const wss = createWebSocketServer(server, {
         queryCodex,
         spawnGemini,
         spawnPi,
+        spawnOpenCode,
         abortClaudeSDKSession,
         abortCursorSession,
         abortCodexSession,
         abortGeminiSession,
         abortPiSession,
+        abortOpenCodeSession,
         resolveToolApproval,
         isClaudeSDKSessionActive,
         isCursorSessionActive,
         isCodexSessionActive,
         isGeminiSessionActive,
         isPiSessionActive,
+        isOpenCodeSessionActive,
         reconnectSessionWriter,
         getPendingApprovalsForSession,
         getActiveClaudeSDKSessions,
@@ -119,6 +128,7 @@ const wss = createWebSocketServer(server, {
         getActiveCodexSessions,
         getActiveGeminiSessions,
         getActivePiSessions,
+        getActiveOpenCodeSessions,
     },
     shell: {
         getSessionById: (sessionId) => sessionManager.getSession(sessionId),

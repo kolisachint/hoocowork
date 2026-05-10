@@ -77,6 +77,8 @@ function ChatInterface({
     setGeminiModel,
     piModel,
     setPiModel,
+    openCodeModel,
+    setOpenCodeModel,
     permissionMode,
     pendingPermissionRequests,
     setPendingPermissionRequests,
@@ -188,6 +190,7 @@ function ChatInterface({
     codexModel,
     geminiModel,
     piModel,
+    openCodeModel,
     isLoading,
     canAbortSession,
     tokenBudget,
@@ -315,7 +318,7 @@ function ChatInterface({
 
   return (
     <PermissionContext.Provider value={permissionContextValue}>
-      <div className="flex h-full flex-col">
+      <section className="chat">
         <ChatMessagesPane
           scrollContainerRef={scrollContainerRef}
           onWheel={handleScroll}
@@ -337,6 +340,8 @@ function ChatInterface({
           setGeminiModel={setGeminiModel}
           piModel={piModel}
           setPiModel={setPiModel}
+          openCodeModel={openCodeModel}
+          setOpenCodeModel={setOpenCodeModel}
           tasksEnabled={tasksEnabled}
           isTaskMasterInstalled={isTaskMasterInstalled}
           onShowAllTasks={onShowAllTasks}
@@ -446,7 +451,7 @@ function ChatInterface({
           isTextareaExpanded={isTextareaExpanded}
           sendByCtrlEnter={sendByCtrlEnter}
         />
-      </div>
+      </section>
 
       <QuickSettingsPanel />
     </PermissionContext.Provider>

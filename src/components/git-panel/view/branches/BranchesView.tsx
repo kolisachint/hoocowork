@@ -35,17 +35,15 @@ type BranchRowProps = {
 function BranchRow({ name, isCurrent, isRemote, aheadCount, behindCount, isMobile, onSwitch, onDelete }: BranchRowProps) {
   return (
     <div
-      className={`group flex items-center gap-3 border-b border-border/40 px-4 transition-colors hover:bg-accent/40 ${
+      className={`group flex items-center gap-3 border-b border-[var(--line)] px-4 transition-colors hover:bg-[var(--paper-2)] ${
         isMobile ? 'py-2.5' : 'py-3'
-      } ${isCurrent ? 'bg-primary/5' : ''}`}
+      } ${isCurrent ? 'bg-[var(--brand-accent-soft)]' : ''}`}
     >
       {/* Branch icon */}
-      <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md border ${
+      <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-[var(--radius-1)] border ${
         isCurrent
-          ? 'border-primary/30 bg-primary/10 text-primary'
-          : isRemote
-          ? 'border-border bg-muted text-muted-foreground'
-          : 'border-border bg-muted/50 text-muted-foreground'
+          ? 'border-[var(--brand-accent)]/30 bg-[var(--brand-accent-soft)] text-[var(--brand-accent)]'
+          : 'border-[var(--line)] bg-[var(--paper-2)] text-[var(--ink-3)]'
       }`}>
         {isRemote ? <Globe className="h-3.5 w-3.5" /> : <GitBranch className="h-3.5 w-3.5" />}
       </div>
@@ -53,16 +51,16 @@ function BranchRow({ name, isCurrent, isRemote, aheadCount, behindCount, isMobil
       {/* Name + pills */}
       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
         <div className="flex items-center gap-2">
-          <span className={`truncate text-sm font-medium ${isCurrent ? 'text-foreground' : 'text-foreground/80'}`}>
+          <span className={`truncate text-sm font-medium ${isCurrent ? 'text-[var(--ink)]' : 'text-[var(--ink-2)]'}`}>
             {name}
           </span>
           {isCurrent && (
-            <span className="shrink-0 rounded-full bg-primary/15 px-1.5 py-0.5 text-xs font-semibold text-primary">
+            <span className="shrink-0 rounded-full bg-[var(--brand-accent-soft)] px-1.5 py-0.5 text-xs font-semibold text-[var(--brand-accent)]">
               current
             </span>
           )}
           {isRemote && !isCurrent && (
-            <span className="shrink-0 rounded-full bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
+            <span className="shrink-0 rounded-full bg-[var(--paper-3)] px-1.5 py-0.5 text-xs text-[var(--ink-3)]">
               remote
             </span>
           )}
@@ -71,10 +69,10 @@ function BranchRow({ name, isCurrent, isRemote, aheadCount, behindCount, isMobil
         {isCurrent && (aheadCount > 0 || behindCount > 0) && (
           <div className="flex items-center gap-2 text-xs">
             {aheadCount > 0 && (
-              <span className="text-green-600 dark:text-green-400">↑{aheadCount} ahead</span>
+              <span className="text-[var(--ok)]">↑{aheadCount} ahead</span>
             )}
             {behindCount > 0 && (
-              <span className="text-primary">↓{behindCount} behind</span>
+              <span className="text-[var(--brand-accent)]">↓{behindCount} behind</span>
             )}
           </div>
         )}
@@ -83,19 +81,19 @@ function BranchRow({ name, isCurrent, isRemote, aheadCount, behindCount, isMobil
       {/* Actions */}
       <div className={`flex shrink-0 items-center gap-1 ${isCurrent ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity`}>
         {isCurrent ? (
-          <Check className="h-4 w-4 text-primary" />
+          <Check className="h-4 w-4 text-[var(--brand-accent)]" />
         ) : !isRemote ? (
           <>
             <button
               onClick={onSwitch}
-              className="rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              className="rounded-[var(--radius-1)] px-2 py-1 text-xs font-medium text-[var(--ink-3)] transition-colors hover:bg-[var(--paper-2)] hover:text-[var(--ink)]"
               title={`Switch to ${name}`}
             >
               Switch
             </button>
             <button
               onClick={onDelete}
-              className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+              className="rounded-[var(--radius-1)] p-1 text-[var(--ink-3)] transition-colors hover:bg-[var(--err-soft)] hover:text-[var(--err)]"
               title={`Delete ${name}`}
             >
               <Trash2 className="h-3.5 w-3.5" />
@@ -113,9 +111,9 @@ function BranchRow({ name, isCurrent, isRemote, aheadCount, behindCount, isMobil
 
 function SectionHeader({ label, count }: { label: string; count: number }) {
   return (
-    <div className="sticky top-0 z-10 flex items-center justify-between bg-background/95 px-4 py-2 backdrop-blur-sm">
-      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</span>
-      <span className="rounded-full bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">{count}</span>
+    <div className="sticky top-0 z-10 flex items-center justify-between bg-[var(--paper)]/95 px-4 py-2">
+      <span className="git-eyebrow">{label}</span>
+      <span className="git-count rounded-full bg-[var(--paper-3)] px-1.5 py-0.5">{count}</span>
     </div>
   );
 }
@@ -169,13 +167,13 @@ export default function BranchesView({
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
       {/* Create branch button */}
-      <div className="flex items-center justify-between border-b border-border/40 px-4 py-2.5">
-        <span className="text-sm text-muted-foreground">
+      <div className="flex items-center justify-between border-b border-[var(--line)] px-4 py-2.5">
+        <span className="text-sm text-[var(--ink-3)]">
           {localBranches.length} local{remoteBranches.length > 0 ? `, ${remoteBranches.length} remote` : ''}
         </span>
         <button
           onClick={() => setShowNewBranchModal(true)}
-          className="flex items-center gap-1.5 rounded-lg bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
+          className="git-act flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium"
         >
           <Plus className="h-3.5 w-3.5" />
           New branch
