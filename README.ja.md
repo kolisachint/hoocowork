@@ -1,6 +1,7 @@
 <div align="center">
   <img src="public/logo.svg" alt="CloudCLI UI" width="64" height="64">
   <h1>Cloud CLI（別名 Claude Code UI）</h1>
+  <p><img src="https://github.com/kolisachint/hoocowork/actions/workflows/ci.yml/badge.svg" alt="CI"></p>
   <p><a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a>、<a href="https://docs.cursor.com/en/cli/overview">Cursor CLI</a>、<a href="https://developers.openai.com/codex">Codex</a>、<a href="https://geminicli.com/">Gemini-CLI</a> のためのデスクトップ／モバイル UI。<br>ローカルでもリモートでも使え、アクティブなプロジェクトとセッションをどこからでも閲覧できます。</p>
 </div>
 
@@ -100,6 +101,17 @@ npx @cloudcli-ai/cloudcli@latest sandbox ~/my-project
 ```
 
 Claude Code、Codex、Gemini CLI に対応。詳細は[サンドボックスのドキュメント](docker/)をご覧ください。
+
+> CI/CD は高速ビルドのために bun を使用しています。https://bun.sh から bun をインストールしてください
+
+#### 開発
+
+ローカル開発:
+- `npm run dev` - フロントエンドとバックエンドを開発モードで起動
+- `npm run build` または `bun run build` - プロダクションビルド
+- `npm test` または `bun test` - テストの実行
+
+`package-lock.json` と `bun.lock` の両方がリポジトリで管理されています。
 
 ---
 

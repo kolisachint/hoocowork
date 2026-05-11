@@ -1,6 +1,7 @@
 <div align="center">
   <img src="public/logo.svg" alt="CloudCLI UI" width="64" height="64">
   <h1>Cloud CLI (Claude Code UI olarak da bilinir)</h1>
+  <p><img src="https://github.com/kolisachint/hoocowork/actions/workflows/ci.yml/badge.svg" alt="CI"></p>
   <p><a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a>, <a href="https://docs.cursor.com/en/cli/overview">Cursor CLI</a>, <a href="https://developers.openai.com/codex">Codex</a> ve <a href="https://geminicli.com/">Gemini-CLI</a> için masaüstü ve mobil arayüz.<br>Yerel ya da uzaktan kullanarak aktif projelerine ve oturumlarına her yerden erişebilirsin.</p>
 </div>
 
@@ -105,6 +106,16 @@ npx @cloudcli-ai/cloudcli@latest sandbox ~/my-project
 
 Claude Code, Codex ve Gemini CLI destekler. Kurulum ve gelişmiş seçenekler için [sandbox dokümantasyonuna](docker/) bak.
 
+> CI/CD daha hızlı derlemeler için bun kullanır. https://bun.sh adresinden bun'u yükleyin
+
+#### Geliştirme
+
+Yerel geliştirme için:
+- `npm run dev` - Frontend ve backend'i geliştirme modunda başlat
+- `npm run build` veya `bun run build` - Production derlemesi
+- `npm test` veya `bun test` - Testleri çalıştır
+
+Hem `package-lock.json` hem de `bun.lock` depoda tutulmaktadır.
 
 ---
 

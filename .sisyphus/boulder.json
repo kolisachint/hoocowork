@@ -27,6 +27,33 @@
       "agent": "Sisyphus-Junior",
       "category": "unspecified-high",
       "updated_at": "2026-05-11T16:56:48.127Z"
+    },
+    "todo:5": {
+      "task_key": "todo:5",
+      "task_label": "5",
+      "task_title": "Create PR/Commit CI Workflow",
+      "session_id": "ses_1e7e293b6ffeCPJavOvPVKj8ZM",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-05-11T17:37:52.653Z"
+    },
+    "todo:7": {
+      "task_key": "todo:7",
+      "task_label": "7",
+      "task_title": "Update main README.md with bun and CI Badge",
+      "session_id": "ses_1e7deffe2ffeSj10uhE56jpkwa",
+      "agent": "Sisyphus-Junior",
+      "category": "writing",
+      "updated_at": "2026-05-11T17:42:50.273Z"
+    },
+    "todo:9": {
+      "task_key": "todo:9",
+      "task_label": "9",
+      "task_title": "Update Translated READMEs (6 files)",
+      "session_id": "ses_1e7dcf94bffeBaaRuz3utTHWHe",
+      "agent": "Sisyphus-Junior",
+      "category": "writing",
+      "updated_at": "2026-05-11T17:45:43.322Z"
     }
   }
 }

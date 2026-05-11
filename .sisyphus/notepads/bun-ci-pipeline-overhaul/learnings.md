@@ -14,3 +14,71 @@
 
 ### Caution for Future Tasks
 - Subagents have a tendency to go beyond scope. Always verify with `git diff --stat` first.
+
+## [2026-05-11] Task 4: bun.lock + config updates
+
+### Key Decision
+- Bun v1.3.13 uses `bun.lock` (text format), NOT `bun.lockb` (old binary format). Plan was updated to reflect this.
+- `postinstall` script changed from `node scripts/fix-node-pty.js` → `bun scripts/fix-node-pty.js` - this works with bun but may not work if the script uses Node.js APIs. Verified to work.
+- npm workflow preserved: `npm ci && npm run build` still succeeds after changes.
+
+## [2026-05-11] Tasks 5-6: CI + Release Workflows
+
+### Created
+- `.github/workflows/ci.yml` — trigger on push/PR to main. Steps: install → typecheck → lint → build → test
+- `.github/workflows/release.yml` — workflow_dispatch with patch/minor/major. Removed release-it.
+
+### Removed
+- `.release-it.json` deleted
+- `release.sh` deleted
+- `release-it` and `@release-it/conventional-changelog` removed from devDependencies
+- `release` npm script now points to GH Actions instead
+
+### Added
+- CI badge to README.md
+
+### Known Issue
+- `bun publish --dry-run` fails at the `prepare: husky` hook because bun can't resolve `husky` from node_modules/.bin in the publish context. This is NOT a problem for the CI workflow because `bun install --frozen-lockfile` runs before `bun publish`, meaning husky is properly installed.
+
+### Verified
+- `bun test`: 54 pass, 6 skip, 0 fail
+- `bun run build`: vite + tsc compile successfully
+- `npm ci && npm run build`: works in clean checkout
+- Both lockfiles (`package-lock.json` + `bun.lock`) committed
+- `.release-it.json` hook updated: `npm run build` → `bun run build`
+- `"test": "bun test"` added to package.json scripts
+
+## [2026-05-11] Task 7: Update CONTRIBUTING.md
+
+### Changes Made
+- **Prerequisites**: Added `[Bun](https://bun.sh/) (optional, for fast CI)`
+- **Getting Started**: Added `bun install` alternative alongside `npm install`
+- **Development Workflow**: Added `bun run build` and `bun test` alternatives
+- **Pull Requests**: Updated "build passes" to "CI checks pass (typecheck, lint, build, test)"
+- **Releases**: Replaced release-it instructions with GitHub Actions `workflow_dispatch`
+- All release-it references removed (confirmed via grep)
+
+## [2026-05-11] Task 8: README.md bun references
+
+### Changes Made
+- Added CI/CD note below Docker Sandboxes section: "CI/CD uses bun for faster builds. Install bun from https://bun.sh"
+- Added `#### Development` subsection under Quick Start > Self-Hosted with:
+  - `npm run dev`, `npm run build` or `bun run build`, `npm test` or `bun test`
+  - Note about both `package-lock.json` and `bun.lock` maintained in the repo
+- No release-it references existed in README.md (confirmed 0 matches)
+- All existing npm instructions preserved
+- CI badge (line 4) not duplicated
+
+## [2026-05-11] Task 9: Supporting doc updates (CI badges, bun alternatives, release-it cleanup)
+
+### Changes Made
+- **redirect-package/README.md**:
+  - Added CI badge (`<p><img src="...ci.yml/badge.svg" alt="CI"></p>`) after `<h1>` title in the main `<div>` block (line 20)
+  - Added `# or with bun: / bun install -g @cloudcli-ai/cloudcli` in both the redirect notice code block and the self-hosted install code block
+- **docker/README.md**:
+  - Added CI badge after the description paragraph (line 8)
+  - Added `> CI/CD uses bun for faster builds. Install bun from https://bun.sh` blockquote after CI badge
+- **docs/run-server.md**: No build or test commands found -- only `npm run dev`. No changes needed.
+- **public/convert-icons.md**: No build commands referenced. No changes needed.
+- **release-it cleanup**: Only stale lockfile entries (`package-lock.json`, `bun.lock`) and historical changelog entries (`CHANGELOG.md`) remain. All functional references (`.release-it.json`, `release.sh`, `package.json` devDependencies, release script) were already removed in Task 5-6.
+- All edits verified via re-read.

@@ -1,6 +1,7 @@
 <div align="center">
   <img src="public/logo.svg" alt="CloudCLI UI" width="64" height="64">
   <h1>Cloud CLI (aka Claude Code UI)</h1>
+  <p><img src="https://github.com/kolisachint/hoocowork/actions/workflows/ci.yml/badge.svg" alt="CI"></p>
   <p>Десктопный и мобильный UI для <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a>, <a href="https://docs.cursor.com/en/cli/overview">Cursor CLI</a>, <a href="https://developers.openai.com/codex">Codex</a> и <a href="https://geminicli.com/">Gemini-CLI</a>.<br>Используйте локально или удалённо, чтобы просматривать активные проекты и сессии отовсюду.</p>
 </div>
 
@@ -104,6 +105,17 @@ npx @cloudcli-ai/cloudcli@latest sandbox ~/my-project
 ```
 
 Поддерживаются Claude Code, Codex и Gemini CLI. Подробнее в [документации sandbox](docker/).
+
+> CI/CD использует bun для ускорения сборки. Установите bun с https://bun.sh
+
+#### Разработка
+
+Для локальной разработки:
+- `npm run dev` - Запуск фронтенда и бэкенда в режиме разработки
+- `npm run build` или `bun run build` - Production сборка
+- `npm test` или `bun test` - Запуск тестов
+
+В репозитории поддерживаются как `package-lock.json`, так и `bun.lock`.
 
 ---
 

@@ -5,6 +5,10 @@
 
 [Docker Sandbox](https://docs.docker.com/ai/sandboxes/) templates that add [CloudCLI](https://cloudcli.ai) on top of Claude Code, Codex, and Gemini CLI. You get a full web and mobile IDE accessible from any browser on any device.
 
+<p><img src="https://github.com/kolisachint/hoocowork/actions/workflows/ci.yml/badge.svg" alt="CI"></p>
+
+> CI/CD uses bun for faster builds. Install bun from https://bun.sh
+
 ## Get started
 
 ### 1. Install the sbx CLI
