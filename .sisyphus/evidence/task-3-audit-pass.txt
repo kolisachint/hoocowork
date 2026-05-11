@@ -1,0 +1,68 @@
+# npm audit report
+
+@anthropic-ai/sdk  0.79.0 - 0.91.0
+Severity: moderate
+Claude SDK for TypeScript has Insecure Default File Permissions in Local Filesystem Memory Tool - https://github.com/advisories/GHSA-p7fg-763f-g4gf
+fix available via `npm audit fix --force`
+Will install @anthropic-ai/claude-agent-sdk@0.2.90, which is a breaking change
+node_modules/@anthropic-ai/sdk
+  @anthropic-ai/claude-agent-sdk  >=0.2.91
+  Depends on vulnerable versions of @anthropic-ai/sdk
+  node_modules/@anthropic-ai/claude-agent-sdk
+
+prismjs  <1.30.0
+Severity: moderate
+PrismJS DOM Clobbering vulnerability - https://github.com/advisories/GHSA-x7hr-w5r2-h6wg
+fix available via `npm audit fix --force`
+Will install react-syntax-highlighter@16.1.1, which is a breaking change
+node_modules/refractor/node_modules/prismjs
+  refractor  <=4.6.0
+  Depends on vulnerable versions of prismjs
+  node_modules/refractor
+    react-syntax-highlighter  6.0.0 - 15.6.6
+    Depends on vulnerable versions of refractor
+    node_modules/react-syntax-highlighter
+
+tar  <=7.5.10
+Severity: high
+node-tar Vulnerable to Arbitrary File Creation/Overwrite via Hardlink Path Traversal - https://github.com/advisories/GHSA-34x7-hfp2-rc4v
+node-tar is Vulnerable to Arbitrary File Overwrite and Symlink Poisoning via Insufficient Path Sanitization - https://github.com/advisories/GHSA-8qq5-rm4j-mr97
+Arbitrary File Read/Write via Hardlink Target Escape Through Symlink Chain in node-tar Extraction - https://github.com/advisories/GHSA-83g3-92jg-28cx
+tar has Hardlink Path Traversal via Drive-Relative Linkpath - https://github.com/advisories/GHSA-qffp-2rhf-9h96
+node-tar Symlink Path Traversal via Drive-Relative Linkpath - https://github.com/advisories/GHSA-9ppj-qmqm-q256
+Race Condition in node-tar Path Reservations via Unicode Ligature Collisions on macOS APFS - https://github.com/advisories/GHSA-r6q2-hw4h-h46w
+fix available via `npm audit fix --force`
+Will install node-gyp@12.3.0, which is a breaking change
+node_modules/tar
+  cacache  14.0.0 - 18.0.4
+  Depends on vulnerable versions of tar
+  node_modules/cacache
+    make-fetch-happen  7.1.1 - 14.0.0
+    Depends on vulnerable versions of cacache
+    node_modules/make-fetch-happen
+      node-gyp  <=10.3.1
+      Depends on vulnerable versions of make-fetch-happen
+      Depends on vulnerable versions of tar
+      node_modules/node-gyp
+
+undici  <=6.23.0
+Severity: high
+Undici: Malicious WebSocket 64-bit length overflows parser and crashes the client - https://github.com/advisories/GHSA-f269-vfmq-vjvj
+Undici has an HTTP Request/Response Smuggling issue - https://github.com/advisories/GHSA-2mjp-6q6p-2qxm
+Undici has Unbounded Memory Consumption in WebSocket permessage-deflate Decompression - https://github.com/advisories/GHSA-vrm6-8vpv-qv8q
+Undici has Unhandled Exception in WebSocket Client Due to Invalid server_max_window_bits Validation - https://github.com/advisories/GHSA-v9p9-hfj2-hcw8
+Undici has CRLF Injection in undici via `upgrade` option - https://github.com/advisories/GHSA-4992-7rv2-5pvq
+fix available via `npm audit fix --force`
+Will install release-it@20.0.1, which is a breaking change
+node_modules/undici
+  release-it  18.0.0-next.0 - 19.2.4
+  Depends on vulnerable versions of undici
+  node_modules/release-it
+    @release-it/conventional-changelog  10.0.0 - 10.0.6
+    Depends on vulnerable versions of release-it
+    node_modules/@release-it/conventional-changelog
+
+12 vulnerabilities (5 moderate, 7 high)
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
