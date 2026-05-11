@@ -12,6 +12,7 @@ Thanks for your interest in contributing to CloudCLI UI! Before you start, pleas
 
 - [Node.js](https://nodejs.org/) 22 or later
 - [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) installed and configured
+- [Bun](https://bun.sh/) (optional, for fast CI)
 
 ## Getting Started
 
@@ -24,6 +25,8 @@ Thanks for your interest in contributing to CloudCLI UI! Before you start, pleas
 3. Install dependencies:
    ```bash
    npm install
+   # or with Bun:
+   bun install
    ```
 4. Start the development server:
    ```bash
@@ -58,9 +61,10 @@ claudecodeui/
 ## Development Workflow
 
 - `npm run dev` — Start both the frontend and backend in development mode
-- `npm run build` — Create a production build
+- `npm run build` — Create a production build (or `bun run build`)
 - `npm run server` — Start only the backend server
 - `npm run client` — Start only the Vite dev server
+- `npm test` — Run the test suite (or `bun test`)
 
 ## Making Changes
 
@@ -131,21 +135,15 @@ feat!: redesign settings page layout
 - Fill in the PR description with what changed and why
 - Link any related issues
 - Include screenshots for UI changes
-- Make sure the build passes (`npm run build`)
+- Make sure CI checks pass (typecheck, lint, build, test) before merging
 - Keep PRs focused — avoid unrelated changes
 
 ## Releases
 
-Releases are managed by maintainers using [release-it](https://github.com/release-it/release-it) with the [conventional changelog plugin](https://github.com/release-it/conventional-changelog).
-
-```bash
-npm run release           # interactive (prompts for version bump)
-npm run release -- patch  # patch release
-npm run release -- minor  # minor release
-```
+Releases are managed via GitHub Actions. Maintainers trigger the Release workflow manually using `workflow_dispatch` with a patch, minor, or major version increment.
 
 This automatically:
-- Bumps the version based on commit types (`feat` = minor, `fix` = patch)
+- Bumps the version based on the selected increment
 - Generates categorized release notes
 - Updates `CHANGELOG.md`
 - Creates a git tag and GitHub Release

@@ -106,6 +106,16 @@ npx @kolisachint/hoocowork@latest sandbox ~/my-project
 
 Supports Claude Code, Codex, and Gemini CLI. See the [sandbox docs](docker/) for setup and advanced options.
 
+> CI/CD uses bun for faster builds. Install bun from https://bun.sh
+
+#### Development
+
+For local development:
+- `npm run dev` - Start frontend and backend in dev mode
+- `npm run build` or `bun run build` - Production build
+- `npm test` or `bun test` - Run tests
+
+Both `package-lock.json` and `bun.lock` are maintained in the repo.
 
 ---
 
