@@ -4,14 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       increment:
-        description: 'Version bump: patch, minor, major, or explicit (e.g. 1.27.0)'
+        description: 'Version bump: patch, minor, major'
         required: true
         default: 'patch'
-        type: string
-      release_name:
-        description: 'Custom release name (optional, defaults to "CloudCLI UI vX.Y.Z")'
-        required: false
-        type: string
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   release:
@@ -19,32 +19,55 @@ jobs:
     permissions:
       contents: write
       id-token: write
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.RELEASE_PAT }}
 
-      - uses: actions/setup-node@v6
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org
+          bun-version: latest
 
       - name: git config
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
-      - run: npm ci
+      - run: bun install --frozen-lockfile
 
-      - name: Release
+      - run: bun run build
+
+      - run: bun test
+
+      - name: Bump version
         run: |
-          ARGS="--ci --increment=${{ inputs.increment }}"
-          if [ -n "${{ inputs.release_name }}" ]; then
-            ARGS="$ARGS --github.releaseName=\"${{ inputs.release_name }}\""
-          fi
-          npx release-it $ARGS
+          NEW_VERSION=$(bun x semver -i ${{ inputs.increment }} $(node -p "require('./package.json').version"))
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          node -e "const p=require('./package.json'); p.version='$NEW_VERSION'; require('fs').writeFileSync('package.json', JSON.stringify(p, null, 2)+'\n')"
+
+      - name: Generate changelog
+        run: |
+          bun x conventional-changelog-cli -p conventionalcommits -i CHANGELOG.md -s
+
+      - name: Commit and tag
+        run: |
+          git add package.json CHANGELOG.md
+          git commit -m "chore(release): v${{ env.NEW_VERSION }}"
+          git tag v${{ env.NEW_VERSION }}
+          git push origin main --tags
+
+      - name: Create GitHub Release
+        run: |
+          gh release create v${{ env.NEW_VERSION }} \
+            --title "CloudCLI UI v${{ env.NEW_VERSION }}" \
+            --notes-file <(bun x conventional-changelog-cli -p conventionalcommits -r 2 | tail -n +5)
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
+
+      - name: Publish to npm
+        run: bun publish --access public
+        env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          BUN_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
