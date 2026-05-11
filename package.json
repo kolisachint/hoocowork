@@ -38,9 +38,10 @@
     "lint": "eslint src/ server/",
     "lint:fix": "eslint src/ server/ --fix",
     "start": "npm run build && npm run server",
+    "test": "bun test",
     "release": "./release.sh",
-    "prepublishOnly": "npm run build",
-    "postinstall": "node scripts/fix-node-pty.js",
+    "prepublishOnly": "bun run build",
+    "postinstall": "bun scripts/fix-node-pty.js",
     "prepare": "husky",
     "update:platform": "./update-platform.sh"
   },

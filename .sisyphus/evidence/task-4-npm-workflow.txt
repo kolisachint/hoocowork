@@ -1,0 +1,10 @@
+Task 4 - npm Workflow Preservation
+====================================
+Date: 2026-05-11
+
+Result: PASS
+
+Steps:
+1. rm -rf node_modules
+2. npm ci → succeeded
+3. npm run build → succeeded (vite + tsc + tsc-alias)
