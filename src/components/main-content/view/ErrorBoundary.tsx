@@ -32,7 +32,7 @@ function ErrorFallback({
 }: ErrorFallbackProps) {
   return (
     <div className="flex flex-col items-center justify-center p-8 text-center">
-      <div className="max-w-md rounded-lg border border-[var(--err)]/20 bg-[var(--err)]/5 p-6">
+      <div className="border-[var(--err)]/20 bg-[var(--err)]/5 max-w-md rounded-lg border p-6">
         <div className="mb-4 flex items-center">
           <div className="flex-shrink-0">
             <svg className="h-5 w-5 text-[var(--err)]" viewBox="0 0 20 20" fill="currentColor">
@@ -50,7 +50,7 @@ function ErrorFallback({
           {showDetails && (
             <details className="mt-4">
               <summary className="cursor-pointer font-mono text-xs">Error Details</summary>
-              <pre className="mt-2 max-h-40 overflow-auto rounded bg-[var(--err)]/10 p-2 text-xs">
+              <pre className="bg-[var(--err)]/10 mt-2 max-h-40 overflow-auto rounded p-2 text-xs">
                 {formatError(error)}
                 {componentStack}
               </pre>
@@ -60,7 +60,7 @@ function ErrorFallback({
         <div className="mt-4">
           <button
             onClick={resetErrorBoundary}
-            className="rounded bg-[var(--err)] px-4 py-2 text-sm text-white hover:bg-[var(--err)]/90 focus:outline-none focus:ring-2 focus:ring-[var(--err)]"
+            className="hover:bg-[var(--err)]/90 rounded bg-[var(--err)] px-4 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[var(--err)]"
           >
             Try Again
           </button>

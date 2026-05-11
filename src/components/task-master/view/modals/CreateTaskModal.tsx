@@ -15,7 +15,7 @@ export default function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProp
       <div className="w-full max-w-md rounded-lg border border-border bg-background shadow-xl">
         <div className="flex items-center justify-between border-b border-border p-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--brand-accent)]/10">
+            <div className="bg-[var(--brand-accent)]/10 flex h-8 w-8 items-center justify-center rounded-lg">
               <Sparkles className="h-4 w-4 text-[var(--brand-accent)]" />
             </div>
             <h3 className="text-lg font-semibold text-foreground">Create AI-Generated Task</h3>
@@ -29,9 +29,9 @@ export default function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProp
         </div>
 
         <div className="space-y-6 p-6">
-          <div className="rounded-lg border border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 p-4">
+          <div className="border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 rounded-lg border p-4">
             <div className="flex items-start gap-3">
-              <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[var(--brand-accent)]/10">
+              <div className="bg-[var(--brand-accent)]/10 mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg">
                 <Sparkles className="h-4 w-4 text-[var(--brand-accent)]" />
               </div>
               <div>
@@ -54,7 +54,7 @@ export default function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProp
               href="https://github.com/eyaltoledano/claude-task-master/blob/main/docs/examples.md"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block text-sm font-medium text-[var(--brand-accent)] underline hover:text-[var(--brand-accent)]/80"
+              className="hover:text-[var(--brand-accent)]/80 inline-block text-sm font-medium text-[var(--brand-accent)] underline"
             >
               View TaskMaster documentation
             </a>

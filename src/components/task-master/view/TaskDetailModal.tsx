@@ -13,6 +13,7 @@ import {
   Save,
   X,
 } from 'lucide-react';
+
 import { cn } from '../../../lib/utils';
 import { copyTextToClipboard } from '../../../utils/clipboard';
 import { api } from '../../../utils/api';
@@ -185,7 +186,7 @@ export default function TaskDetailModal({
                 <button
                   onClick={handleSaveChanges}
                   disabled={isSaving}
-                  className="rounded-md p-2 text-[var(--ok)] hover:bg-[var(--ok)]/10 disabled:opacity-50"
+                  className="hover:bg-[var(--ok)]/10 rounded-md p-2 text-[var(--ok)] disabled:opacity-50"
                   title="Save"
                 >
                   <Save className={cn('w-5 h-5', isSaving && 'animate-spin')} />
@@ -251,7 +252,7 @@ export default function TaskDetailModal({
                     <button
                       key={String(dependency)}
                       onClick={() => onTaskClick?.({ id: dependency })}
-                      className="rounded bg-[var(--brand-accent)]/10 px-2 py-1 text-sm text-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/20"
+                      className="bg-[var(--brand-accent)]/10 hover:bg-[var(--brand-accent)]/20 rounded px-2 py-1 text-sm text-[var(--brand-accent)]"
                     >
                       <ArrowRight className="mr-1 inline h-3 w-3" />
                       {dependency}
@@ -305,7 +306,7 @@ export default function TaskDetailModal({
                 {showTestStrategy ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
               </button>
               {showTestStrategy && (
-                <div className="border-t border-border bg-[var(--brand-accent)]/5 p-4">
+                <div className="bg-[var(--brand-accent)]/5 border-t border-border p-4">
                   <p className="whitespace-pre-wrap text-muted-foreground">{task.testStrategy}</p>
                 </div>
               )}

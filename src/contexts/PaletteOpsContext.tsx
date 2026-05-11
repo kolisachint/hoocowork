@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useMemo, useRef } from 'react';
 import type { MutableRefObject, ReactNode } from 'react';
 
@@ -22,6 +23,7 @@ export function PaletteOpsProvider({ children }: { children: ReactNode }) {
   return <PaletteOpsContext.Provider value={ref}>{children}</PaletteOpsContext.Provider>;
 }
 
+ 
 export function usePaletteOps(): PaletteOps {
   const ref = useContext(PaletteOpsContext);
   return useMemo<PaletteOps>(
@@ -34,6 +36,7 @@ export function usePaletteOps(): PaletteOps {
   );
 }
 
+ 
 export function usePaletteOpsRegister(partial: Partial<PaletteOps>) {
   const ref = useContext(PaletteOpsContext);
   const { openFile, openSettings, refreshProjects } = partial;

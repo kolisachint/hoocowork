@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { authenticatedFetch } from "../../../utils/api";
 import { ReleaseInfo } from "../../../types/sharedTypes";
 import { copyTextToClipboard } from "../../../utils/clipboard";
@@ -128,7 +129,7 @@ export function VersionUpgradeModal({
                         <span className="text-sm font-medium text-[var(--ink-2)]">{t('versionUpdate.currentVersion')}</span>
                         <span className="font-mono text-sm text-[var(--ink)]">{currentVersion}</span>
                     </div>
-                    <div className="flex items-center justify-between rounded-lg border border-[var(--brand-accent)]/30 bg-[var(--brand-accent-soft)] p-3">
+                    <div className="border-[var(--brand-accent)]/30 flex items-center justify-between rounded-lg border bg-[var(--brand-accent-soft)] p-3">
                         <span className="text-sm font-medium text-[var(--brand-accent)]">{t('versionUpdate.latestVersion')}</span>
                         <span className="font-mono text-sm text-[var(--ink)]">{latestVersion}</span>
                     </div>
@@ -144,7 +145,7 @@ export function VersionUpgradeModal({
                                     href={releaseInfo.htmlUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center gap-1 text-xs text-[var(--brand-accent)] hover:opacity-80 hover:underline"
+                                    className="flex items-center gap-1 text-xs text-[var(--brand-accent)] hover:underline hover:opacity-80"
                                 >
                                     {t('versionUpdate.viewFullRelease')}
                                     <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -169,14 +170,14 @@ export function VersionUpgradeModal({
                             <pre className="whitespace-pre-wrap font-mono text-xs text-[var(--ok)]">{updateOutput}</pre>
                         </div>
                         {IS_PLATFORM && reloadCountdown !== null && (
-                            <div className="rounded-md border border-[var(--brand-accent)]/30 bg-[var(--brand-accent-soft)] px-3 py-2 text-xs text-[var(--brand-accent)]">
+                            <div className="border-[var(--brand-accent)]/30 rounded-md border bg-[var(--brand-accent-soft)] px-3 py-2 text-xs text-[var(--brand-accent)]">
                                 {reloadCountdown === 0
                                     ? 'Refresh the page now. If that doesn\'t work, RESTART the environment.'
                                     : `Refresh the page in ${reloadCountdown} ${reloadCountdown === 1 ? 'second' : 'seconds'}. If that doesn\'t work, RESTART the environment.`}
                             </div>
                         )}
                         {updateError && (
-                            <div className="rounded-md border border-[var(--err)]/30 bg-[var(--err-soft)] px-3 py-2 text-xs text-[var(--err)]">
+                            <div className="border-[var(--err)]/30 rounded-md border bg-[var(--err-soft)] px-3 py-2 text-xs text-[var(--err)]">
                                 {updateError}
                             </div>
                         )}

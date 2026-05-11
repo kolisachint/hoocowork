@@ -1,5 +1,6 @@
-import type { LoadingProgress, Project, ProjectSession, LLMProvider } from '../../../types/app';
 import type { TFunction } from 'i18next';
+
+import type { LoadingProgress, Project, ProjectSession, LLMProvider } from '../../../types/app';
 
 export type ProjectSortOrder = 'name' | 'date';
 

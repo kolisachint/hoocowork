@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { isSshGitUrl } from '../utils/pathUtils';
 import type { WizardFormState } from '../types';
 
@@ -71,7 +72,7 @@ export default function StepReview({
         </div>
       </div>
 
-      <div className="rounded-lg border border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 p-4">
+      <div className="border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 rounded-lg border p-4">
         {isCreating && cloneProgress ? (
           <div className="space-y-2">
             <p className="text-sm font-medium text-foreground">

@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { useCallback, useRef } from 'react';
 import type { Dispatch, RefObject, SetStateAction } from 'react';
+
 import type { ChatMessage } from '../../types/types';
 import type { Project, ProjectSession, LLMProvider } from '../../../../types/app';
 import { getIntrinsicMessageKey } from '../../utils/messageKeys';
 import { useSessionStore } from '../../../../stores/useSessionStore';
+
 import MessageComponent from './MessageComponent';
 import ProviderSelectionEmptyState from './ProviderSelectionEmptyState';
 import PiTreeChat from './PiTreeChat';
@@ -143,7 +145,7 @@ export default function ChatMessagesPane({
       ref={scrollContainerRef}
       onWheel={onWheel}
       onTouchMove={onTouchMove}
-      className="chat-stream"
+      className="chat-stream min-h-0 flex-1 overflow-y-auto"
     >
       {isLoadingSessionMessages && chatMessages.length === 0 ? (
         <div className="mt-8 text-center text-muted-foreground">
@@ -233,7 +235,7 @@ export default function ChatMessagesPane({
 
           {/* Performance warning when all messages are loaded */}
           {allMessagesLoaded && (
-            <div className="border-b border-[var(--warn)]/20 bg-[var(--warn)]/5 py-1.5 text-center text-xs text-[var(--warn)] dark:border-[var(--warn)]/80 dark:bg-[var(--warn)]/10 dark:text-[var(--warn)]">
+            <div className="border-[var(--warn)]/20 bg-[var(--warn)]/5 dark:border-[var(--warn)]/80 dark:bg-[var(--warn)]/10 border-b py-1.5 text-center text-xs text-[var(--warn)] dark:text-[var(--warn)]">
               {t('session.messages.perfWarning')}
             </div>
           )}

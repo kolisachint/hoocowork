@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { AlertTriangle, EyeOff, Trash2 } from 'lucide-react';
 import type { TFunction } from 'i18next';
+
 import { Button } from '../../../../shared/view/ui';
 import Settings from '../../../settings/view/Settings';
 import VersionUpgradeModal from '../../../version-upgrade/view';
@@ -104,7 +105,7 @@ export default function SidebarModals({
             <div className="w-full max-w-md overflow-hidden rounded-xl border border-border bg-card shadow-2xl">
               <div className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[var(--warn)]/10 dark:bg-[var(--warn)]/10/30">
+                  <div className="bg-[var(--warn)]/10 dark:bg-[var(--warn)]/10/30 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full">
                     <AlertTriangle className="h-6 w-6 text-[var(--warn)] dark:text-[var(--warn)]" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -137,7 +138,7 @@ export default function SidebarModals({
                 </Button>
                 <Button
                   variant="destructive"
-                  className="w-full justify-start bg-[var(--err)] text-white hover:bg-[var(--err)]/90"
+                  className="hover:bg-[var(--err)]/90 w-full justify-start bg-[var(--err)] text-white"
                   onClick={() => onConfirmDeleteProject(true)}
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
@@ -158,7 +159,7 @@ export default function SidebarModals({
             <div className="w-full max-w-md overflow-hidden rounded-xl border border-border bg-card shadow-2xl">
               <div className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[var(--err)]/10">
+                  <div className="bg-[var(--err)]/10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full">
                     <AlertTriangle className="h-6 w-6 text-[var(--err)]" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -184,7 +185,7 @@ export default function SidebarModals({
                 </Button>
                 <Button
                   variant="destructive"
-                  className="flex-1 bg-[var(--err)] text-white hover:bg-[var(--err)]/90"
+                  className="hover:bg-[var(--err)]/90 flex-1 bg-[var(--err)] text-white"
                   onClick={onConfirmDeleteSession}
                 >
                   <Trash2 className="mr-2 h-4 w-4" />

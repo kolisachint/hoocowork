@@ -4,7 +4,11 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 
-const testFn = process.isBun ? test.skip : test;
+// Check for Bun runtime in a way that satisfies both standard tsc and Bun's tsc.
+// Using typeof Bun !== 'undefined' would require @types/bun or a declaration.
+// process.versions.bun is a string ("1.2.3") when running in Bun, undefined in Node.
+const isBun = !!(process.versions as Record<string, string | undefined>).bun;
+const testFn = isBun ? test.skip : test;
 
 import { closeConnection } from '@/modules/database/connection.js';
 import { initializeDatabase } from '@/modules/database/init-db.js';

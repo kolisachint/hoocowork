@@ -1,4 +1,5 @@
 import { Sparkles, X } from 'lucide-react';
+
 import { PRD_DOCS_URL } from '../constants';
 
 type GenerateTasksModalProps = {
@@ -21,7 +22,7 @@ export default function GenerateTasksModal({
       <div className="w-full max-w-md rounded-lg border border-border bg-background shadow-xl">
         <div className="flex items-center justify-between border-b border-border p-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--brand-accent)]/10">
+            <div className="bg-[var(--brand-accent)]/10 flex h-8 w-8 items-center justify-center rounded-lg">
               <Sparkles className="h-4 w-4 text-[var(--brand-accent)]" />
             </div>
             <h3 className="text-lg font-semibold text-foreground">
@@ -37,7 +38,7 @@ export default function GenerateTasksModal({
         </div>
 
         <div className="space-y-4 p-6">
-          <div className="rounded-lg border border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 p-4">
+          <div className="border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 rounded-lg border p-4">
             <h4 className="mb-2 font-semibold text-foreground">
               Ask Claude Code directly
             </h4>
@@ -58,7 +59,7 @@ export default function GenerateTasksModal({
               href={PRD_DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block text-sm font-medium text-[var(--brand-accent)] underline hover:text-[var(--brand-accent)]/80"
+              className="hover:text-[var(--brand-accent)]/80 inline-block text-sm font-medium text-[var(--brand-accent)] underline"
             >
               View TaskMaster documentation
             </a>

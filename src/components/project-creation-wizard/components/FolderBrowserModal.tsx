@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Eye, EyeOff, FolderOpen, FolderPlus, Loader2, Plus, X } from 'lucide-react';
+
 import { Button, Input } from '../../../shared/view/ui';
 import { browseFilesystemFolders, createFolderInFilesystem } from '../data/workspaceApi';
 import { getParentPath, joinFolderPath } from '../utils/pathUtils';
@@ -101,7 +102,7 @@ export default function FolderBrowserModal({
       <div className="flex max-h-[80vh] w-full max-w-2xl flex-col rounded-lg border border-border bg-background shadow-xl">
         <div className="flex items-center justify-between border-b border-border p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--brand-accent)]/10">
+            <div className="bg-[var(--brand-accent)]/10 flex h-8 w-8 items-center justify-center rounded-lg">
               <FolderOpen className="h-4 w-4 text-[var(--brand-accent)]" />
             </div>
             <h3 className="text-lg font-semibold text-foreground">Select Folder</h3>
@@ -140,7 +141,7 @@ export default function FolderBrowserModal({
         </div>
 
         {showNewFolderInput && (
-          <div className="border-b border-border bg-[var(--brand-accent)]/5 px-4 py-3">
+          <div className="bg-[var(--brand-accent)]/5 border-b border-border px-4 py-3">
             <div className="flex items-center gap-2">
               <Input
                 type="text"

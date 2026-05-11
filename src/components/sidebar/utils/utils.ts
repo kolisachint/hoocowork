@@ -1,4 +1,5 @@
 import type { TFunction } from 'i18next';
+
 import type { Project } from '../../../types/app';
 import type { ProjectSortOrder, SettingsProject, SessionViewModel, SessionWithProvider } from '../types/types';
 

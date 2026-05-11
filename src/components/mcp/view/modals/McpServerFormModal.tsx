@@ -418,7 +418,7 @@ export default function McpServerFormModal({
             <Button
               type="submit"
               disabled={isSubmitting || !canSubmit}
-              className="bg-[var(--brand-accent)] text-white hover:bg-[var(--brand-accent)]/90 disabled:opacity-50"
+              className="hover:bg-[var(--brand-accent)]/90 bg-[var(--brand-accent)] text-white disabled:opacity-50"
             >
               {isSubmitting
                 ? t('mcpForm.actions.saving')

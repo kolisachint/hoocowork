@@ -49,6 +49,7 @@ function isTaskMasterMessage(
   return message.type.startsWith('taskmaster-');
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTaskMaster() {
   const context = useContext(TaskMasterContext);
   if (!context) {

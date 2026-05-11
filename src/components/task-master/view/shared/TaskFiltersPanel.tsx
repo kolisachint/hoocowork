@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+
 import type { TaskBoardSortField, TaskBoardSortOrder } from '../../types';
 
 type TaskFiltersPanelProps = {
@@ -99,7 +100,7 @@ export default function TaskFiltersPanel({
         <div className="text-sm text-muted-foreground">
           {t('filters.showing', { filtered: filteredTaskCount, total: totalTaskCount })}
         </div>
-        <button onClick={onClearFilters} className="text-sm font-medium text-[var(--brand-accent)] hover:text-[var(--brand-accent)]/80">
+        <button onClick={onClearFilters} className="hover:text-[var(--brand-accent)]/80 text-sm font-medium text-[var(--brand-accent)]">
           {t('filters.clearFilters')}
         </button>
       </div>

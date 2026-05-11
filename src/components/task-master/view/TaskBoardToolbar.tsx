@@ -11,8 +11,10 @@ import {
   Search,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
 import { cn } from '../../../lib/utils';
 import type { PrdFile, TaskBoardSortField, TaskBoardSortOrder, TaskBoardView } from '../types';
+
 import TaskFiltersPanel from './shared/TaskFiltersPanel';
 import TaskQuickSortBar from './shared/TaskQuickSortBar';
 
@@ -173,7 +175,7 @@ export default function TaskBoardToolbar({
                   <>
                     <button
                       onClick={() => setIsPrdDropdownOpen((current) => !current)}
-                      className="flex items-center gap-2 rounded-lg bg-[var(--brand-accent)] px-3 py-2 font-medium text-white hover:bg-[var(--brand-accent)]/90"
+                      className="hover:bg-[var(--brand-accent)]/90 flex items-center gap-2 rounded-lg bg-[var(--brand-accent)] px-3 py-2 font-medium text-white"
                       title={t('buttons.prdsAvailable', { count: existingPrds.length })}
                     >
                       <FileText className="h-4 w-4" />
@@ -192,7 +194,7 @@ export default function TaskBoardToolbar({
                               onCreatePrd();
                               setIsPrdDropdownOpen(false);
                             }}
-                            className="flex w-full items-center gap-2 rounded px-3 py-2 text-left text-sm font-medium text-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/10"
+                            className="hover:bg-[var(--brand-accent)]/10 flex w-full items-center gap-2 rounded px-3 py-2 text-left text-sm font-medium text-[var(--brand-accent)]"
                           >
                             <Plus className="h-4 w-4" />
                             {t('buttons.createNewPRD')}
@@ -220,7 +222,7 @@ export default function TaskBoardToolbar({
                 ) : (
                   <button
                     onClick={onCreatePrd}
-                    className="flex items-center gap-2 rounded-lg bg-[var(--brand-accent)] px-3 py-2 font-medium text-white hover:bg-[var(--brand-accent)]/90"
+                    className="hover:bg-[var(--brand-accent)]/90 flex items-center gap-2 rounded-lg bg-[var(--brand-accent)] px-3 py-2 font-medium text-white"
                     title={t('buttons.addPRD')}
                   >
                     <FileText className="h-4 w-4" />
@@ -232,7 +234,7 @@ export default function TaskBoardToolbar({
               {(hasTaskMasterConfigured || totalTaskCount > 0) && (
                 <button
                   onClick={onOpenCreateTask}
-                  className="flex items-center gap-2 rounded-lg bg-[var(--brand-accent)] px-3 py-2 font-medium text-white hover:bg-[var(--brand-accent)]/90"
+                  className="hover:bg-[var(--brand-accent)]/90 flex items-center gap-2 rounded-lg bg-[var(--brand-accent)] px-3 py-2 font-medium text-white"
                   title={t('buttons.addTask')}
                 >
                   <Plus className="h-4 w-4" />

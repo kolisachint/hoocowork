@@ -167,7 +167,7 @@ export default function McpServers({ selectedProvider, currentProjects }: McpSer
       </div>
 
       {(loadError || deleteError) && (
-        <div className="rounded-[var(--radius-2)] border border-[var(--err)]/30 bg-[var(--err-soft)] px-3 py-2 text-sm text-[var(--err)]">
+        <div className="border-[var(--err)]/30 rounded-[var(--radius-2)] border bg-[var(--err-soft)] px-3 py-2 text-sm text-[var(--err)]">
           {deleteError || loadError}
         </div>
       )}

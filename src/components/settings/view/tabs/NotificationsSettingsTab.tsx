@@ -1,5 +1,6 @@
 import { Bell, BellOff, BellRing, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
 import type { NotificationPreferencesState } from '../../types/types';
 
 type NotificationsSettingsTabProps = {
@@ -30,13 +31,13 @@ export default function NotificationsSettingsTab({
     <div className="space-y-6 md:space-y-8">
       <div className="space-y-4">
         <div className="flex items-center gap-3">
-          <Bell className="w-5 h-5 text-[var(--brand-accent)]" />
+          <Bell className="h-5 w-5 text-[var(--brand-accent)]" />
           <h3 className="text-lg font-medium text-foreground">{t('notifications.title')}</h3>
         </div>
         <p className="text-sm text-muted-foreground">{t('notifications.description')}</p>
       </div>
 
-      <div className="space-y-4 bg-card border border-border rounded-lg p-4">
+      <div className="space-y-4 rounded-lg border border-border bg-card p-4">
         <h4 className="font-medium text-foreground">{t('notifications.webPush.title')}</h4>
         {!pushSupported ? (
           <p className="text-sm text-muted-foreground">{t('notifications.webPush.unsupported')}</p>
@@ -54,18 +55,18 @@ export default function NotificationsSettingsTab({
                   onEnablePush();
                 }
               }}
-              className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
                 isPushSubscribed
-                  ? 'bg-[var(--err)]/10 text-[var(--err)] hover:bg-[var(--err)]/20 dark:bg-[var(--err)]/10 dark:text-[var(--err)] dark:hover:bg-[var(--err)]/20'
-                  : 'bg-[var(--brand-accent)] text-white hover:bg-[var(--brand-accent)]/90 dark:bg-[var(--brand-accent)] dark:hover:bg-[var(--brand-accent)]/90'
+                  ? 'bg-[var(--err)]/10 hover:bg-[var(--err)]/20 dark:bg-[var(--err)]/10 dark:hover:bg-[var(--err)]/20 text-[var(--err)] dark:text-[var(--err)]'
+                  : 'hover:bg-[var(--brand-accent)]/90 dark:hover:bg-[var(--brand-accent)]/90 bg-[var(--brand-accent)] text-white dark:bg-[var(--brand-accent)]'
               }`}
             >
               {isPushLoading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" />
               ) : isPushSubscribed ? (
-                <BellOff className="w-4 h-4" />
+                <BellOff className="h-4 w-4" />
               ) : (
-                <BellRing className="w-4 h-4" />
+                <BellRing className="h-4 w-4" />
               )}
               {isPushLoading
                 ? t('notifications.webPush.loading')
@@ -82,7 +83,7 @@ export default function NotificationsSettingsTab({
         )}
       </div>
 
-      <div className="space-y-4 bg-card border border-border rounded-lg p-4">
+      <div className="space-y-4 rounded-lg border border-border bg-card p-4">
         <h4 className="font-medium text-foreground">{t('notifications.events.title')}</h4>
         <div className="space-y-3">
           <label className="flex items-center gap-2 text-sm text-foreground">
@@ -98,7 +99,7 @@ export default function NotificationsSettingsTab({
                   },
                 })
               }
-              className="w-4 h-4"
+              className="h-4 w-4"
             />
             {t('notifications.events.actionRequired')}
           </label>
@@ -116,7 +117,7 @@ export default function NotificationsSettingsTab({
                   },
                 })
               }
-              className="w-4 h-4"
+              className="h-4 w-4"
             />
             {t('notifications.events.stop')}
           </label>
@@ -134,7 +135,7 @@ export default function NotificationsSettingsTab({
                   },
                 })
               }
-              className="w-4 h-4"
+              className="h-4 w-4"
             />
             {t('notifications.events.error')}
           </label>

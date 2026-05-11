@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+
 import { useTasksSettings } from '../../../../../contexts/TasksSettingsContext';
 import SettingsCard from '../../SettingsCard';
 import SettingsRow from '../../SettingsRow';
@@ -34,9 +35,9 @@ export default function TasksSettingsTab() {
         ) : (
           <>
             {!isTaskMasterInstalled && (
-              <div className="rounded-xl border border-[var(--warn)]/20 bg-[var(--warn)]/5 p-4 dark:border-[var(--warn)]/20 dark:bg-[var(--warn)]/10">
+              <div className="border-[var(--warn)]/20 bg-[var(--warn)]/5 dark:border-[var(--warn)]/20 dark:bg-[var(--warn)]/10 rounded-xl border p-4">
                 <div className="flex items-start gap-3">
-                  <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[var(--warn)]/10 dark:bg-[var(--warn)]/10/50">
+                  <div className="bg-[var(--warn)]/10 dark:bg-[var(--warn)]/10/50 mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full">
                     <svg className="h-4 w-4 text-[var(--warn)] dark:text-[var(--warn)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
                     </svg>
@@ -48,7 +49,7 @@ export default function TasksSettingsTab() {
                     <div className="space-y-3 text-sm text-muted-foreground dark:text-muted-foreground">
                       <p>{t('tasks.notInstalled.description')}</p>
 
-                      <div className="rounded-lg bg-[var(--warn)]/10 p-3 font-mono text-sm dark:bg-[var(--warn)]/10/40">
+                      <div className="bg-[var(--warn)]/10 dark:bg-[var(--warn)]/10/40 rounded-lg p-3 font-mono text-sm">
                         <code>{t('tasks.notInstalled.installCommand')}</code>
                       </div>
 

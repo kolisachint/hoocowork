@@ -53,7 +53,7 @@ export default function TaskHelpModal({ isOpen, onClose, onCreatePrd }: TaskHelp
       <div className="max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-lg border border-border bg-background shadow-xl">
         <div className="flex items-center justify-between border-b border-border p-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--brand-accent)]/10">
+            <div className="bg-[var(--brand-accent)]/10 flex h-10 w-10 items-center justify-center rounded-lg">
               <FileText className="h-5 w-5 text-[var(--brand-accent)]" />
             </div>
             <div>
@@ -88,7 +88,7 @@ export default function TaskHelpModal({ isOpen, onClose, onCreatePrd }: TaskHelp
                         onCreatePrd();
                         onClose();
                       }}
-                      className="mt-3 inline-flex items-center gap-2 rounded-lg bg-[var(--brand-accent)]/10 px-3 py-1.5 text-sm text-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/20"
+                      className="bg-[var(--brand-accent)]/10 hover:bg-[var(--brand-accent)]/20 mt-3 inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-[var(--brand-accent)]"
                     >
                       <FileText className="h-4 w-4" />
                       {t('buttons.addPRD')}
@@ -109,14 +109,14 @@ export default function TaskHelpModal({ isOpen, onClose, onCreatePrd }: TaskHelp
             </ul>
           </div>
 
-          <div className="rounded-lg border border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 p-4">
+          <div className="border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 rounded-lg border p-4">
             <h4 className="mb-2 font-medium text-foreground">{t('helpGuide.learnMore.title')}</h4>
             <p className="mb-3 text-sm text-muted-foreground">{t('helpGuide.learnMore.description')}</p>
             <a
               href="https://github.com/eyaltoledano/claude-task-master"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-[var(--brand-accent)] px-3 py-2 text-sm font-medium text-white hover:bg-[var(--brand-accent)]/90"
+              className="hover:bg-[var(--brand-accent)]/90 inline-flex items-center gap-2 rounded-lg bg-[var(--brand-accent)] px-3 py-2 text-sm font-medium text-white"
             >
               {t('helpGuide.learnMore.githubButton')}
               <ExternalLink className="h-4 w-4" />

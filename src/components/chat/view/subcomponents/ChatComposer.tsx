@@ -12,13 +12,8 @@ import type {
   TouchEvent,
 } from 'react';
 import { ImageIcon, MessageSquareIcon, XIcon, ArrowDownIcon } from 'lucide-react';
+
 import type { PendingPermissionRequest, PermissionMode, Provider } from '../../types/types';
-import CommandMenu from './CommandMenu';
-import ClaudeStatus from './ClaudeStatus';
-import ImageAttachment from './ImageAttachment';
-import PermissionRequestsBanner from './PermissionRequestsBanner';
-import ThinkingModeSelector from './ThinkingModeSelector';
-import TokenUsagePie from './TokenUsagePie';
 import {
   PromptInput,
   PromptInputHeader,
@@ -29,6 +24,13 @@ import {
   PromptInputButton,
   PromptInputSubmit,
 } from '../../../../shared/view/ui';
+
+import CommandMenu from './CommandMenu';
+import ClaudeStatus from './ClaudeStatus';
+import ImageAttachment from './ImageAttachment';
+import PermissionRequestsBanner from './PermissionRequestsBanner';
+import ThinkingModeSelector from './ThinkingModeSelector';
+import TokenUsagePie from './TokenUsagePie';
 
 interface MentionableFile {
   name: string;
@@ -324,11 +326,11 @@ export default function ChatComposer({
                 permissionMode === 'default'
                   ? 'border-border/60 bg-muted/50 text-muted-foreground hover:bg-muted'
                   : permissionMode === 'acceptEdits'
-                    ? 'border-[var(--ok)]/30/60 bg-[var(--ok)]/5 text-[var(--ok)] hover:bg-[var(--ok)]/10 dark:border-[var(--ok)]/60/40 dark:bg-[var(--ok)]/10/15 dark:text-[var(--ok)] dark:hover:bg-[var(--ok)]/10/25'
+                    ? 'border-[var(--ok)]/30/60 bg-[var(--ok)]/5 hover:bg-[var(--ok)]/10 dark:border-[var(--ok)]/60/40 dark:bg-[var(--ok)]/10/15 dark:hover:bg-[var(--ok)]/10/25 text-[var(--ok)] dark:text-[var(--ok)]'
                     : permissionMode === 'auto'
-                      ? 'border-[var(--brand-accent)]/30/60 bg-[var(--brand-accent)]/5 text-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/10 dark:border-[var(--brand-accent)]/40 dark:bg-[var(--brand-accent)]/10/15 dark:text-[var(--brand-accent)] dark:hover:bg-[var(--brand-accent)]/10/25'
+                      ? 'border-[var(--brand-accent)]/30/60 bg-[var(--brand-accent)]/5 hover:bg-[var(--brand-accent)]/10 dark:border-[var(--brand-accent)]/40 dark:bg-[var(--brand-accent)]/10/15 dark:hover:bg-[var(--brand-accent)]/10/25 text-[var(--brand-accent)] dark:text-[var(--brand-accent)]'
                       : permissionMode === 'bypassPermissions'
-                        ? 'border-[var(--warn)]/30/60 bg-[var(--warn)]/5 text-[var(--warn)] hover:bg-[var(--warn)]/10 dark:border-[var(--warn)]/60/40 dark:bg-[var(--warn)]/10/15 dark:text-[var(--warn)] dark:hover:bg-[var(--warn)]/10/25'
+                        ? 'border-[var(--warn)]/30/60 bg-[var(--warn)]/5 hover:bg-[var(--warn)]/10 dark:border-[var(--warn)]/60/40 dark:bg-[var(--warn)]/10/15 dark:hover:bg-[var(--warn)]/10/25 text-[var(--warn)] dark:text-[var(--warn)]'
                         : 'border-primary/20 bg-primary/5 text-primary hover:bg-primary/10'
               }`}
               title={t('input.clickToChangeMode')}
@@ -382,7 +384,7 @@ export default function ChatComposer({
               <PromptInputButton
                 tooltip={{ content: t('input.clearInput', { defaultValue: 'Clear input' }) }}
                 onClick={onClearInput}
-                className="hidden sm:No-flex"
+                className="sm:No-flex hidden"
               >
                 <XIcon />
               </PromptInputButton>

@@ -1,6 +1,8 @@
 import { useState } from 'react';
+
 import { cn } from '../../../lib/utils';
 import { ensurePrdExtension } from '../utils/fileName';
+
 import GenerateTasksModal from './GenerateTasksModal';
 import PrdEditorBody from './PrdEditorBody';
 import PrdEditorFooter from './PrdEditorFooter';
@@ -65,7 +67,7 @@ export default function PrdEditorWorkspace({
         )}
       >
         {loadError && (
-          <div className="border-b border-[var(--warn)]/20 bg-[var(--warn)]/5 px-4 py-3 text-sm text-muted-foreground dark:border-[var(--warn)]/80 dark:bg-[var(--warn)]/10/20 dark:text-muted-foreground">
+          <div className="border-[var(--warn)]/20 bg-[var(--warn)]/5 dark:border-[var(--warn)]/80 dark:bg-[var(--warn)]/10/20 border-b px-4 py-3 text-sm text-muted-foreground dark:text-muted-foreground">
             {loadError}
           </div>
         )}

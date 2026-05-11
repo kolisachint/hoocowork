@@ -11,8 +11,10 @@ import {
   Terminal,
   Zap,
 } from 'lucide-react';
+
 import { cn } from '../../../lib/utils';
 import { useTaskMaster } from '../context/TaskMasterContext';
+
 import TaskDetailModal from './TaskDetailModal';
 import TaskMasterSetupModal from './modals/TaskMasterSetupModal';
 
@@ -25,7 +27,7 @@ type NextTaskBannerProps = {
 function PriorityIndicator({ priority }: { priority?: string }) {
   if (priority === 'high') {
     return (
-      <div className="flex h-4 w-4 items-center justify-center rounded bg-[var(--err)]/10" title="High Priority">
+      <div className="bg-[var(--err)]/10 flex h-4 w-4 items-center justify-center rounded" title="High Priority">
         <Zap className="h-2.5 w-2.5 text-[var(--err)]" />
       </div>
     );
@@ -33,7 +35,7 @@ function PriorityIndicator({ priority }: { priority?: string }) {
 
   if (priority === 'medium') {
     return (
-      <div className="flex h-4 w-4 items-center justify-center rounded bg-[var(--warn)]/10" title="Medium Priority">
+      <div className="bg-[var(--warn)]/10 flex h-4 w-4 items-center justify-center rounded" title="Medium Priority">
         <Flag className="h-2.5 w-2.5 text-[var(--warn)]" />
       </div>
     );
@@ -87,7 +89,7 @@ export default function NextTaskBanner({ onShowAllTasks = null, onStartTask = nu
 
             <button
               onClick={() => setShowSetupModal(true)}
-              className="flex items-center gap-1 rounded bg-[var(--brand-accent)] px-2 py-1 text-xs text-white transition-colors hover:bg-[var(--brand-accent)]/90"
+              className="hover:bg-[var(--brand-accent)]/90 flex items-center gap-1 rounded bg-[var(--brand-accent)] px-2 py-1 text-xs text-white transition-colors"
             >
               <Terminal className="h-3 w-3" />
               Initialize
@@ -128,7 +130,7 @@ export default function NextTaskBanner({ onShowAllTasks = null, onStartTask = nu
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0 flex-1">
               <div className="mb-1 flex items-center gap-2">
-                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--brand-accent)]/10">
+                <div className="bg-[var(--brand-accent)]/10 flex h-5 w-5 items-center justify-center rounded-full">
                   <Target className="h-3 w-3 text-[var(--brand-accent)]" />
                 </div>
                 <span className="text-xs font-medium text-muted-foreground">Task {nextTask.id}</span>
@@ -140,7 +142,7 @@ export default function NextTaskBanner({ onShowAllTasks = null, onStartTask = nu
             <div className="flex flex-shrink-0 items-center gap-1">
               <button
                 onClick={() => onStartTask?.()}
-                className="flex items-center gap-1 rounded-md bg-[var(--brand-accent)] px-3 py-1.5 text-xs font-medium text-white hover:bg-[var(--brand-accent)]/90"
+                className="hover:bg-[var(--brand-accent)]/90 flex items-center gap-1 rounded-md bg-[var(--brand-accent)] px-3 py-1.5 text-xs font-medium text-white"
               >
                 <Play className="h-3 w-3" />
                 Start Task
@@ -198,7 +200,7 @@ export default function NextTaskBanner({ onShowAllTasks = null, onStartTask = nu
             {onShowAllTasks && (
               <button
                 onClick={onShowAllTasks}
-                className="rounded bg-[var(--brand-accent)] px-2 py-1 text-xs text-white transition-colors hover:bg-[var(--brand-accent)]/90"
+                className="hover:bg-[var(--brand-accent)]/90 rounded bg-[var(--brand-accent)] px-2 py-1 text-xs text-white transition-colors"
               >
                 Review
               </button>

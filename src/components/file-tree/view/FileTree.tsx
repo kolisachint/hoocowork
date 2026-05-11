@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AlertTriangle, Check, X, Loader2, Folder, Upload } from 'lucide-react';
+
 import { cn } from '../../../lib/utils';
 import { ICON_SIZE_CLASS, getFileIconData } from '../constants/fileIcons';
 import { useExpandedDirectories } from '../hooks/useExpandedDirectories';
@@ -13,6 +14,7 @@ import type { FileTreeImageSelection, FileTreeNode } from '../types/types';
 import { formatFileSize, formatRelativeTime, isImageFile } from '../utils/fileTreeUtils';
 import { Project } from '../../../types/app';
 import { ScrollArea, Input } from '../../../shared/view/ui';
+
 import FileTreeBody from './FileTreeBody';
 import FileTreeDetailedColumns from './FileTreeDetailedColumns';
 import FileTreeHeader from './FileTreeHeader';
@@ -133,7 +135,7 @@ export default function FileTree({ selectedProject, onFileOpen }: FileTreeProps)
     >
       {/* Drag overlay */}
       {upload.isDragOver && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center border-2 border-dashed border-[var(--brand-accent)] bg-[var(--brand-accent)]/10">
+        <div className="bg-[var(--brand-accent)]/10 absolute inset-0 z-50 flex items-center justify-center border-2 border-dashed border-[var(--brand-accent)]">
           <div className="flex items-center gap-3 rounded-lg bg-background/95 px-6 py-4 shadow-lg">
             <Upload className="h-6 w-6 text-[var(--brand-accent)]" />
             <span className="text-sm font-medium">{t('fileTree.dropToUpload', 'Drop files to upload')}</span>
@@ -229,7 +231,7 @@ export default function FileTree({ selectedProject, onFileOpen }: FileTreeProps)
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50">
           <div className="mx-4 max-w-sm rounded-lg border border-border bg-background p-4 shadow-lg">
             <div className="mb-4 flex items-center gap-3">
-              <div className="rounded-full bg-[var(--err)]/10 p-2">
+              <div className="bg-[var(--err)]/10 rounded-full p-2">
                 <AlertTriangle className="h-5 w-5 text-[var(--err)]" />
               </div>
               <div>
@@ -259,7 +261,7 @@ export default function FileTree({ selectedProject, onFileOpen }: FileTreeProps)
               <button
                 onClick={operations.handleConfirmDelete}
                 disabled={operations.operationLoading}
-                className="flex items-center gap-2 rounded-md bg-[var(--err)] px-3 py-1.5 text-sm text-white transition-colors hover:bg-[var(--err)]/90 disabled:opacity-50"
+                className="hover:bg-[var(--err)]/90 flex items-center gap-2 rounded-md bg-[var(--err)] px-3 py-1.5 text-sm text-white transition-colors disabled:opacity-50"
               >
                 {operations.operationLoading && <Loader2 className="h-4 w-4 animate-spin" />}
                 {t('fileTree.delete.confirm', 'Delete')}

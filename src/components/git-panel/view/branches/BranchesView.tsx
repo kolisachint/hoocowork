@@ -1,5 +1,6 @@
 import { Check, GitBranch, Globe, Plus, RefreshCw, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+
 import type { ConfirmationRequest, GitRemoteStatus } from '../../types/types';
 import NewBranchModal from '../modals/NewBranchModal';
 
@@ -111,7 +112,7 @@ function BranchRow({ name, isCurrent, isRemote, aheadCount, behindCount, isMobil
 
 function SectionHeader({ label, count }: { label: string; count: number }) {
   return (
-    <div className="sticky top-0 z-10 flex items-center justify-between bg-[var(--paper)]/95 px-4 py-2">
+    <div className="bg-[var(--paper)]/95 sticky top-0 z-10 flex items-center justify-between px-4 py-2">
       <span className="git-eyebrow">{label}</span>
       <span className="git-count rounded-full bg-[var(--paper-3)] px-1.5 py-0.5">{count}</span>
     </div>

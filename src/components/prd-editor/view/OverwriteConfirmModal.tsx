@@ -26,7 +26,7 @@ export default function OverwriteConfirmModal({
       <div className="relative w-full max-w-md rounded-lg border border-border bg-background shadow-xl dark:border-border dark:bg-muted">
         <div className="p-6">
           <div className="mb-4 flex items-center">
-            <div className="mr-3 rounded-full bg-[var(--warn)]/10 p-2 dark:bg-[var(--warn)]/10">
+            <div className="bg-[var(--warn)]/10 dark:bg-[var(--warn)]/10 mr-3 rounded-full p-2">
               <AlertTriangle className="h-5 w-5 text-[var(--warn)] dark:text-[var(--warn)]" />
             </div>
             <h3 className="text-lg font-semibold text-foreground">File Already Exists</h3>
@@ -47,7 +47,7 @@ export default function OverwriteConfirmModal({
             <button
               onClick={onConfirm}
               disabled={saving}
-              className="flex items-center gap-2 rounded-md bg-[var(--warn)] px-4 py-2 text-sm text-white transition-colors hover:bg-[var(--warn)]/90 disabled:opacity-50"
+              className="hover:bg-[var(--warn)]/90 flex items-center gap-2 rounded-md bg-[var(--warn)] px-4 py-2 text-sm text-white transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               <span>{saving ? 'Saving...' : 'Overwrite'}</span>

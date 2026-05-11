@@ -1,9 +1,11 @@
+/* eslint-disable react-refresh/only-export-components */
 "use client";
 
 import * as React from 'react';
 import { BrainIcon, ChevronDownIcon } from 'lucide-react';
 
 import { cn } from '../../../lib/utils';
+
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from './Collapsible';
 import { Shimmer } from './Shimmer';
 

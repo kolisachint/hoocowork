@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Plus, Terminal } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
 import { cn } from '../../../../lib/utils';
 import Shell from '../../../shell/view/Shell';
 import type { TaskMasterProject } from '../../types';
@@ -35,7 +36,7 @@ export default function TaskMasterSetupModal({ isOpen, project, onClose, onAfter
       <div className="flex h-[600px] w-full max-w-4xl flex-col rounded-lg border border-border bg-background shadow-xl">
         <div className="flex items-center justify-between border-b border-border p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--brand-accent)]/10">
+            <div className="bg-[var(--brand-accent)]/10 flex h-8 w-8 items-center justify-center rounded-lg">
               <Terminal className="h-4 w-4 text-[var(--brand-accent)]" />
             </div>
             <div>

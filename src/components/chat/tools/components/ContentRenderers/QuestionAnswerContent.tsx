@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import type { Question } from '../../../types/types';
 
 interface QuestionAnswerContentProps {
@@ -57,7 +58,7 @@ export const QuestionAnswerContent: React.FC<QuestionAnswerContentProps> = ({
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   {q.header && (
-                    <span className="inline-flex items-center rounded border border-[var(--brand-accent)]/30 bg-[var(--brand-accent-soft)] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-[var(--brand-accent)]">
+                    <span className="border-[var(--brand-accent)]/30 inline-flex items-center rounded border bg-[var(--brand-accent-soft)] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-[var(--brand-accent)]">
                       {q.header}
                     </span>
                   )}
@@ -82,7 +83,7 @@ export const QuestionAnswerContent: React.FC<QuestionAnswerContentProps> = ({
                         >
                           {lbl}
                           {isCustom && (
-                            <span className="text-[9px] font-normal text-[var(--brand-accent)]/70">(custom)</span>
+                            <span className="text-[var(--brand-accent)]/70 text-[9px] font-normal">(custom)</span>
                           )}
                         </span>
                       );
@@ -117,7 +118,7 @@ export const QuestionAnswerContent: React.FC<QuestionAnswerContentProps> = ({
                         key={opt.label}
                         className={`flex items-start gap-2 rounded-lg px-2.5 py-1.5 text-[12px] ${
                           wasSelected
-                            ? 'border border-[var(--brand-accent)]/30 bg-[var(--brand-accent-soft)]'
+                            ? 'border-[var(--brand-accent)]/30 border bg-[var(--brand-accent-soft)]'
                             : 'text-[var(--ink-4)]'
                         }`}
                       >
@@ -151,7 +152,7 @@ export const QuestionAnswerContent: React.FC<QuestionAnswerContentProps> = ({
                   {answerLabels.filter(lbl => !q.options.some(o => o.label === lbl)).map(lbl => (
                     <div
                       key={lbl}
-                      className="flex items-start gap-2 rounded-lg border border-[var(--brand-accent)]/30 bg-[var(--brand-accent-soft)] px-2.5 py-1.5 text-[12px]"
+                      className="border-[var(--brand-accent)]/30 flex items-start gap-2 rounded-lg border bg-[var(--brand-accent-soft)] px-2.5 py-1.5 text-[12px]"
                     >
                       <div className={`mt-0.5 h-3.5 w-3.5 flex-shrink-0 ${q.multiSelect ? 'rounded-[3px]' : 'rounded-full'} flex items-center justify-center border-[1.5px] border-[var(--brand-accent)] bg-[var(--brand-accent)]`}>
                         <svg className="h-2 w-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>

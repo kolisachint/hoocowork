@@ -1,0 +1,33 @@
+
+> @kolisachint/hoocowork@1.33.0 lint
+> eslint src/ server/
+
+
+/Users/sachinkoli/github/hoocowork/src/components/chat/hooks/useChatComposerState.ts
+  341:5  warning  React Hook useCallback has missing dependencies: 'openCodeModel' and 'piModel'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  760:6  warning  React Hook useEffect has a missing dependency: 'selectedProject'. Either include it or remove the dependency array                  react-hooks/exhaustive-deps
+
+/Users/sachinkoli/github/hoocowork/src/components/chat/hooks/useChatSessionState.ts
+  111:33  warning  'setIsLoadingMoreMessages' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                                  unused-imports/no-unused-vars
+  128:9   warning  'isLoadingSessionRef' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                                       unused-imports/no-unused-vars
+  250:9   warning  The 'storeMessages' conditional could make the dependencies of useMemo Hook (at line 267) change on every render. To fix this, wrap the initialization of 'storeMessages' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  480:6   warning  React Hook useEffect has missing dependencies: 'currentSessionId' and 'selectedSession'. Either include them or remove the dependency array                                                          react-hooks/exhaustive-deps
+
+/Users/sachinkoli/github/hoocowork/src/components/chat/tools/components/InteractiveRenderers/AskUserQuestionPanel.tsx
+  12:9  warning  The 'questions' logical expression could make the dependencies of useCallback Hook (at line 83) change on every render. To fix this, wrap the initialization of 'questions' in its own useMemo() Hook   react-hooks/exhaustive-deps
+  12:9  warning  The 'questions' logical expression could make the dependencies of useCallback Hook (at line 133) change on every render. To fix this, wrap the initialization of 'questions' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/Users/sachinkoli/github/hoocowork/src/components/file-tree/hooks/useFileTreeOperations.ts
+  285:6  warning  React Hook useCallback has missing dependencies: 'downloadFolderAsZip' and 'downloadSingleFile'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/sachinkoli/github/hoocowork/src/components/shell/hooks/useShellTerminal.ts
+  248:28  warning  The ref value 'terminalContainerRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'terminalContainerRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+
+/Users/sachinkoli/github/hoocowork/src/contexts/PaletteOpsContext.tsx
+  53:83  warning  The ref value 'ref.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'ref.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+
+/Users/sachinkoli/github/hoocowork/src/contexts/WebSocketContext.tsx
+  53:6  warning  React Hook useEffect has a missing dependency: 'connect'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+✖ 12 problems (0 errors, 12 warnings)
+

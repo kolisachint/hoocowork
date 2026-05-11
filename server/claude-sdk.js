@@ -12,12 +12,15 @@
  * - WebSocket message streaming
  */
 
-import { query } from '@anthropic-ai/claude-agent-sdk';
 import crypto from 'crypto';
 import { promises as fs } from 'fs';
 import path from 'path';
 import os from 'os';
+
+import { query } from '@anthropic-ai/claude-agent-sdk';
+
 import { CLAUDE_MODELS } from '../shared/modelConstants.js';
+
 import { resolveClaudeCodeExecutablePath } from './shared/claude-cli-path.js';
 import {
   createNotificationEvent,

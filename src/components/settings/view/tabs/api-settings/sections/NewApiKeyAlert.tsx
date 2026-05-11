@@ -1,5 +1,6 @@
 import { Check, Copy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
 import { Button } from '../../../../../../shared/view/ui';
 import type { CreatedApiKey } from '../types';
 
@@ -19,7 +20,7 @@ export default function NewApiKeyAlert({
   const { t } = useTranslation('settings');
 
   return (
-    <div className="rounded-lg border border-[var(--warn)]/20 bg-[var(--warn)]/10 p-4">
+    <div className="border-[var(--warn)]/20 bg-[var(--warn)]/10 rounded-lg border p-4">
       <h4 className="mb-2 font-semibold text-[var(--warn)]">{t('apiKeys.newKey.alertTitle')}</h4>
       <p className="mb-3 text-sm text-muted-foreground">{t('apiKeys.newKey.alertMessage')}</p>
       <div className="flex items-center gap-2">

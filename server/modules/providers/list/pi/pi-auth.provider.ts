@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process';
+
 import type { IProviderAuth } from '@/shared/interfaces.js';
 import type { ProviderAuthStatus } from '@/shared/types.js';
 

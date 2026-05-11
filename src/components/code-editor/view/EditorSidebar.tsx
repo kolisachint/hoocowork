@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import type { MouseEvent, MutableRefObject } from 'react';
+
 import type { CodeEditorFile } from '../types/types';
+
 import CodeEditor from './CodeEditor';
 
 type EditorSidebarProps = {
@@ -111,7 +113,7 @@ export default function EditorSidebar({
         <div
           ref={resizeHandleRef}
           onMouseDown={onResizeStart}
-          className="group relative w-1 flex-shrink-0 cursor-col-resize bg-muted transition-colors hover:bg-[var(--brand-accent)] dark:bg-muted dark:hover:bg-[var(--brand-accent)]/90"
+          className="dark:hover:bg-[var(--brand-accent)]/90 group relative w-1 flex-shrink-0 cursor-col-resize bg-muted transition-colors hover:bg-[var(--brand-accent)] dark:bg-muted"
           title="Drag to resize"
         >
           <div className="absolute inset-y-0 left-1/2 w-1 -translate-x-1/2 bg-[var(--brand-accent)] opacity-0 transition-opacity group-hover:opacity-100 dark:bg-[var(--brand-accent)]" />

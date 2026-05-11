@@ -1,8 +1,9 @@
 import { spawn } from 'child_process';
-import crossSpawn from 'cross-spawn';
 import path from 'path';
 import os from 'os';
 import fs from 'fs';
+
+import crossSpawn from 'cross-spawn';
 
 import { notifyRunFailed, notifyRunStopped } from './services/notification-orchestrator.js';
 import { sessionsService } from './modules/providers/services/sessions.service.js';

@@ -1,5 +1,6 @@
 import { Key, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
 import { Input } from '../../../shared/view/ui';
 import type { GithubTokenCredential, TokenMode } from '../types';
 
@@ -129,7 +130,7 @@ export default function GithubAuthenticationCard({
 
       {!loadingTokens && availableTokens.length === 0 && (
         <div className="space-y-4">
-          <div className="rounded-lg border border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 p-3">
+          <div className="border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 rounded-lg border p-3">
             <p className="text-sm text-foreground">
               {t('projectWizard.step2.publicRepoInfo')}
             </p>

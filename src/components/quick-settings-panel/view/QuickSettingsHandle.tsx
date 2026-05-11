@@ -8,6 +8,7 @@ import {
   GripVertical,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
 import type { QuickSettingsHandleStyle } from '../types';
 
 type QuickSettingsHandleProps = {
@@ -52,7 +53,7 @@ export default function QuickSettingsHandle({
       onClick={onClick}
       onMouseDown={onMouseDown}
       onTouchStart={onTouchStart}
-      className={`fixed ${placementClass} z-50 ${transitionClass} border bg-background ${borderClass} rounded-l-md p-2 shadow-lg transition-colors hover:bg-muted ${cursorClass} touch-none`}
+      className={`fixed ${placementClass} z-40 ${transitionClass} border bg-background ${borderClass} rounded-l-md p-2 shadow-lg transition-colors hover:bg-muted ${cursorClass} touch-none`}
       style={{
         ...style,
         touchAction: 'none',

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AlertTriangle, Plus, Shield, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
 import { Button, Input } from '../../../../../../../shared/view/ui';
 import type { CodexPermissionMode, GeminiPermissionMode } from '../../../../../types/types';
 
@@ -98,7 +99,7 @@ function ClaudePermissions({
           <AlertTriangle className="h-5 w-5 text-[var(--warn)]" />
           <h3 className="text-lg font-medium text-foreground">{t('permissions.title')}</h3>
         </div>
-        <div className="rounded-lg border border-[var(--warn)]/30 bg-[var(--warn-soft)] p-4">
+        <div className="border-[var(--warn)]/30 rounded-lg border bg-[var(--warn-soft)] p-4">
           <label className="flex items-center gap-3">
             <input
               type="checkbox"
@@ -171,7 +172,7 @@ function ClaudePermissions({
 
         <div className="space-y-2">
           {allowedTools.map((tool) => (
-            <div key={tool} className="flex items-center justify-between rounded-lg border border-[var(--ok)]/30 bg-[var(--ok-soft)] p-3">
+            <div key={tool} className="border-[var(--ok)]/30 flex items-center justify-between rounded-lg border bg-[var(--ok-soft)] p-3">
               <span className="font-mono text-sm text-[var(--ok)]">{tool}</span>
               <Button
                 variant="ghost"
@@ -224,7 +225,7 @@ function ClaudePermissions({
 
         <div className="space-y-2">
           {disallowedTools.map((tool) => (
-            <div key={tool} className="flex items-center justify-between rounded-lg border border-[var(--err)]/30 bg-[var(--err-soft)] p-3">
+            <div key={tool} className="border-[var(--err)]/30 flex items-center justify-between rounded-lg border bg-[var(--err-soft)] p-3">
               <span className="font-mono text-sm text-[var(--err)]">{tool}</span>
               <Button
                 variant="ghost"
@@ -244,7 +245,7 @@ function ClaudePermissions({
         </div>
       </div>
 
-      <div className="rounded-lg border border-[var(--brand-accent)]/30 bg-[var(--brand-accent-soft)] p-4">
+      <div className="border-[var(--brand-accent)]/30 rounded-lg border bg-[var(--brand-accent-soft)] p-4">
         <h4 className="mb-2 font-medium text-[var(--ink)]">
           {t('permissions.toolExamples.title')}
         </h4>
@@ -309,7 +310,7 @@ function CursorPermissions({
           <AlertTriangle className="h-5 w-5 text-[var(--warn)]" />
           <h3 className="text-lg font-medium text-foreground">{t('permissions.title')}</h3>
         </div>
-        <div className="rounded-lg border border-[var(--warn)]/30 bg-[var(--warn-soft)] p-4">
+        <div className="border-[var(--warn)]/30 rounded-lg border bg-[var(--warn-soft)] p-4">
           <label className="flex items-center gap-3">
             <input
               type="checkbox"
@@ -382,7 +383,7 @@ function CursorPermissions({
 
         <div className="space-y-2">
           {allowedCommands.map((command) => (
-            <div key={command} className="flex items-center justify-between rounded-lg border border-[var(--ok)]/30 bg-[var(--ok-soft)] p-3">
+            <div key={command} className="border-[var(--ok)]/30 flex items-center justify-between rounded-lg border bg-[var(--ok-soft)] p-3">
               <span className="font-mono text-sm text-[var(--ok)]">{command}</span>
               <Button
                 variant="ghost"
@@ -435,7 +436,7 @@ function CursorPermissions({
 
         <div className="space-y-2">
           {disallowedCommands.map((command) => (
-            <div key={command} className="flex items-center justify-between rounded-lg border border-[var(--err)]/30 bg-[var(--err-soft)] p-3">
+            <div key={command} className="border-[var(--err)]/30 flex items-center justify-between rounded-lg border bg-[var(--err-soft)] p-3">
               <span className="font-mono text-sm text-[var(--err)]">{command}</span>
               <Button
                 variant="ghost"
@@ -455,15 +456,15 @@ function CursorPermissions({
         </div>
       </div>
 
-      <div className="rounded-lg border border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 p-4 dark:border-[var(--brand-accent)]/20 dark:bg-[var(--brand-accent)]/10">
+      <div className="border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 dark:border-[var(--brand-accent)]/20 dark:bg-[var(--brand-accent)]/10 rounded-lg border p-4">
         <h4 className="mb-2 font-medium text-foreground dark:text-foreground">
           {t('permissions.shellExamples.title')}
         </h4>
         <ul className="space-y-1 text-sm text-muted-foreground dark:text-muted-foreground">
-          <li><code className="rounded bg-[var(--brand-accent)]/10 px-1 dark:bg-[var(--brand-accent)]/20">"Shell(ls)"</code> {t('permissions.shellExamples.ls')}</li>
-          <li><code className="rounded bg-[var(--brand-accent)]/10 px-1 dark:bg-[var(--brand-accent)]/20">"Shell(git status)"</code> {t('permissions.shellExamples.gitStatus')}</li>
-          <li><code className="rounded bg-[var(--brand-accent)]/10 px-1 dark:bg-[var(--brand-accent)]/20">"Shell(npm install)"</code> {t('permissions.shellExamples.npmInstall')}</li>
-          <li><code className="rounded bg-[var(--brand-accent)]/10 px-1 dark:bg-[var(--brand-accent)]/20">"Shell(rm -rf)"</code> {t('permissions.shellExamples.rmRf')}</li>
+          <li><code className="bg-[var(--brand-accent)]/10 dark:bg-[var(--brand-accent)]/20 rounded px-1">"Shell(ls)"</code> {t('permissions.shellExamples.ls')}</li>
+          <li><code className="bg-[var(--brand-accent)]/10 dark:bg-[var(--brand-accent)]/20 rounded px-1">"Shell(git status)"</code> {t('permissions.shellExamples.gitStatus')}</li>
+          <li><code className="bg-[var(--brand-accent)]/10 dark:bg-[var(--brand-accent)]/20 rounded px-1">"Shell(npm install)"</code> {t('permissions.shellExamples.npmInstall')}</li>
+          <li><code className="bg-[var(--brand-accent)]/10 dark:bg-[var(--brand-accent)]/20 rounded px-1">"Shell(rm -rf)"</code> {t('permissions.shellExamples.rmRf')}</li>
         </ul>
       </div>
     </div>

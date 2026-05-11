@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { Terminal } from '@xterm/xterm';
+
 import { sendSocketMessage } from '../../utils/socket';
 
 type Shortcut =
@@ -108,7 +109,7 @@ export default function TerminalShortcutsPanel({
 
   return (
     <div className={`pointer-events-none fixed inset-x-0 ${bottomOffset} z-20 px-2 md:hidden`}>
-      <div className="pointer-events-auto flex items-center gap-1 overflow-x-auto rounded-lg border border-border/80 bg-[var(--paper)]/95 px-1.5 py-1.5 shadow-lg backdrop-blur-sm [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="bg-[var(--paper)]/95 pointer-events-auto flex items-center gap-1 overflow-x-auto rounded-lg border border-border/80 px-1.5 py-1.5 shadow-lg backdrop-blur-sm [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <button
           type="button"
           onPointerDown={preventFocusSteal}

@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Trash2, RefreshCw, GitBranch, Loader2, ServerCrash, ShieldAlert, ExternalLink, BookOpen, Download, BarChart3 } from 'lucide-react';
+
 import { usePlugins } from '../../../contexts/PluginsContext';
 import type { Plugin } from '../../../contexts/PluginsContext';
+
 import PluginIcon from './PluginIcon';
 
 const STARTER_PLUGIN_URL = 'https://github.com/cloudcli-ai/cloudcli-plugin-starter';
@@ -162,7 +164,7 @@ function PluginCard({
               title={confirmingUninstall ? t('pluginSettings.confirmUninstall') : t('pluginSettings.uninstallPlugin')}
               aria-label={t('pluginSettings.uninstallPlugin')}
               className={`rounded p-1.5 transition-colors ${confirmingUninstall
-                ? 'bg-[var(--err)]/10 text-[var(--err)] hover:bg-[var(--err)]/20'
+                ? 'bg-[var(--err)]/10 hover:bg-[var(--err)]/20 text-[var(--err)]'
                 : 'text-muted-foreground hover:bg-muted hover:text-[var(--err)]'
                 }`}
             >
@@ -175,7 +177,7 @@ function PluginCard({
 
         {/* Confirm uninstall banner */}
         {confirmingUninstall && (
-          <div className="mt-3 flex items-center justify-between gap-3 rounded border border-[var(--err)]/20 bg-[var(--err)]/5 px-3 py-2">
+          <div className="border-[var(--err)]/20 bg-[var(--err)]/5 mt-3 flex items-center justify-between gap-3 rounded border px-3 py-2">
             <span className="text-sm text-[var(--err)]">
               {t('pluginSettings.confirmUninstallMessage', { name: plugin.displayName })}
             </span>
@@ -188,7 +190,7 @@ function PluginCard({
               </button>
               <button
                 onClick={onUninstall}
-                className="rounded border border-[var(--err)]/30 px-2.5 py-1 text-sm font-medium text-[var(--err)] transition-colors hover:bg-[var(--err)]/10"
+                className="border-[var(--err)]/30 hover:bg-[var(--err)]/10 rounded border px-2.5 py-1 text-sm font-medium text-[var(--err)] transition-colors"
               >
                 {t('pluginSettings.remove')}
               </button>
@@ -214,7 +216,7 @@ function StarterPluginCard({ onInstall, installing }: { onInstall: () => void; i
 
   return (
     <div className="relative flex overflow-hidden rounded-lg border border-dashed border-border bg-card transition-all duration-200 hover:border-[var(--brand-accent)]">
-      <div className="w-[3px] flex-shrink-0 bg-[var(--brand-accent)]/30" />
+      <div className="bg-[var(--brand-accent)]/30 w-[3px] flex-shrink-0" />
       <div className="min-w-0 flex-1 p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2.5">
@@ -226,7 +228,7 @@ function StarterPluginCard({ onInstall, installing }: { onInstall: () => void; i
                 <span className="text-sm font-semibold leading-none text-foreground">
                   {t('pluginSettings.starterPlugin.name')}
                 </span>
-                <span className="rounded bg-[var(--brand-accent)]/10 px-1.5 py-0.5 text-[10px] font-medium text-[var(--brand-accent)]">
+                <span className="bg-[var(--brand-accent)]/10 rounded px-1.5 py-0.5 text-[10px] font-medium text-[var(--brand-accent)]">
                   {t('pluginSettings.starterPlugin.badge')}
                 </span>
                 <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
@@ -250,7 +252,7 @@ function StarterPluginCard({ onInstall, installing }: { onInstall: () => void; i
           <button
             onClick={onInstall}
             disabled={installing}
-            className="flex flex-shrink-0 items-center gap-1.5 rounded-md bg-[var(--brand-accent)] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[var(--brand-accent)]/90 disabled:opacity-50"
+            className="hover:bg-[var(--brand-accent)]/90 flex flex-shrink-0 items-center gap-1.5 rounded-md bg-[var(--brand-accent)] px-4 py-2 text-sm font-medium text-white transition-colors disabled:opacity-50"
           >
             {installing ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -271,7 +273,7 @@ function TerminalPluginCard({ onInstall, installing }: { onInstall: () => void; 
 
   return (
     <div className="relative flex overflow-hidden rounded-lg border border-dashed border-border bg-card transition-all duration-200 hover:border-[var(--brand-accent)]">
-      <div className="w-[3px] flex-shrink-0 bg-[var(--brand-accent)]/30" />
+      <div className="bg-[var(--brand-accent)]/30 w-[3px] flex-shrink-0" />
       <div className="min-w-0 flex-1 p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2.5">
@@ -287,7 +289,7 @@ function TerminalPluginCard({ onInstall, installing }: { onInstall: () => void; 
                 <span className="text-sm font-semibold leading-none text-foreground">
                   {t('pluginSettings.terminalPlugin.name')}
                 </span>
-                <span className="rounded bg-[var(--brand-accent)]/10 px-1.5 py-0.5 text-[10px] font-medium text-[var(--brand-accent)]">
+                <span className="bg-[var(--brand-accent)]/10 rounded px-1.5 py-0.5 text-[10px] font-medium text-[var(--brand-accent)]">
                   {t('pluginSettings.terminalPlugin.badge')}
                 </span>
                 <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
@@ -311,7 +313,7 @@ function TerminalPluginCard({ onInstall, installing }: { onInstall: () => void; 
           <button
             onClick={onInstall}
             disabled={installing}
-            className="flex flex-shrink-0 items-center gap-1.5 rounded-md bg-[var(--brand-accent)] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[var(--brand-accent)]/90 disabled:opacity-50"
+            className="hover:bg-[var(--brand-accent)]/90 flex flex-shrink-0 items-center gap-1.5 rounded-md bg-[var(--brand-accent)] px-4 py-2 text-sm font-medium text-white transition-colors disabled:opacity-50"
           >
             {installing ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />

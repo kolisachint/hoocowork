@@ -1,8 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
 import { GitBranch, GitCommitHorizontal } from 'lucide-react';
+
 import type { ChatMessage } from '../../types/types';
 import type { Project, TreeNode } from '../../../../types/app';
 import { normalizedToChatMessages } from '../../hooks/useChatMessages';
+
 import MessageComponent from './MessageComponent';
 
 interface PiTreeChatProps {
@@ -23,7 +25,6 @@ interface PiTreeChatProps {
 }
 
 export default function PiTreeChat({
-  visibleMessages,
   treeNodes,
   activePath,
   onSetActivePath,

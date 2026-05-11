@@ -1,7 +1,9 @@
-import express from 'express';
 import { spawn } from 'child_process';
 import path from 'path';
 import { promises as fs } from 'fs';
+
+import express from 'express';
+
 import { projectsDb } from '../modules/database/index.js';
 import { queryClaudeSDK } from '../claude-sdk.js';
 import { spawnCursor } from '../cursor-cli.js';
@@ -37,7 +39,7 @@ function spawnAsync(command, args, options = {}) {
         return;
       }
 
-      const error = new Error(`Command failed: ${command} ${args.join(' ')}`);
+      const error = new Error(`Command failed: ${command} ${args.join(' ')}${stderr ? `\n${stderr}` : ''}`);
       error.code = code;
       error.stdout = stdout;
       error.stderr = stderr;
@@ -574,6 +576,16 @@ router.post('/initial-commit', async (req, res) => {
   }
 });
 
+// Validate commit message format (conventional commits)
+function validateCommitMessage(message) {
+  if (!message || !message.trim()) {
+    throw new Error('Commit message is required');
+  }
+  // Allow any non-empty message (projects may have different linting rules)
+  // The git command will fail with the actual lint error if message doesn't pass hooks
+  return message.trim();
+}
+
 // Commit changes
 router.post('/commit', async (req, res) => {
   const { project, message, files } = req.body;
@@ -589,6 +601,9 @@ router.post('/commit', async (req, res) => {
     await validateGitRepository(projectPath);
     const repositoryRootPath = await getRepositoryRootPath(projectPath);
     
+    // Validate commit message
+    const validMessage = validateCommitMessage(message);
+    
     // Stage selected files
     for (const file of files) {
       const { repositoryRelativeFilePath } = await resolveRepositoryFilePath(projectPath, file);
@@ -596,7 +611,7 @@ router.post('/commit', async (req, res) => {
     }
 
     // Commit with message
-    const { stdout } = await spawnAsync('git', ['commit', '-m', message], { cwd: repositoryRootPath });
+    const { stdout } = await spawnAsync('git', ['commit', '-m', validMessage], { cwd: repositoryRootPath });
     
     res.json({ success: true, output: stdout });
   } catch (error) {

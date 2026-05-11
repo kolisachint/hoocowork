@@ -1,5 +1,6 @@
 import { ExternalLink, Star, MessageSquare } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
 import { IS_PLATFORM } from '../../../../../../constants/config';
 import type { ReleaseInfo } from '../../../../../../types/sharedTypes';
 
@@ -65,7 +66,7 @@ export default function VersionInfoSection({
                   href={releasesUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 rounded-full bg-[var(--ok)]/10 px-2 py-0.5 text-[10px] font-medium text-[var(--ok)] transition-colors hover:bg-[var(--ok)]/20 dark:text-[var(--ok)]"
+                  className="bg-[var(--ok)]/10 hover:bg-[var(--ok)]/20 flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium text-[var(--ok)] transition-colors dark:text-[var(--ok)]"
                 >
                   {t('apiKeys.version.updateAvailable', { version: latestVersion })}
                   <ExternalLink className="h-2.5 w-2.5" />

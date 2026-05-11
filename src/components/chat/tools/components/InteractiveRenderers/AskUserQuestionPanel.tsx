@@ -1,4 +1,6 @@
+ 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
+
 import type { PermissionPanelProps } from '../../configs/permissionPanelRegistry';
 import type { Question } from '../../../types/types';
 
@@ -173,7 +175,7 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
                 Claude needs your input
               </span>
               {q.header && (
-                <span className="inline-flex items-center rounded border border-[var(--brand-accent)]/30 bg-[var(--brand-accent-soft)] px-1.5 py-px text-[9px] font-semibold uppercase tracking-wider text-[var(--brand-accent)]">
+                <span className="border-[var(--brand-accent)]/30 inline-flex items-center rounded border bg-[var(--brand-accent-soft)] px-1.5 py-px text-[9px] font-semibold uppercase tracking-wider text-[var(--brand-accent)]">
                   {q.header}
                 </span>
               )}
@@ -199,7 +201,7 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
                     i === currentStep
                       ? 'w-5 bg-[var(--brand-accent)]'
                       : i < currentStep
-                        ? 'w-2.5 bg-[var(--brand-accent)]/50'
+                        ? 'bg-[var(--brand-accent)]/50 w-2.5'
                         : 'w-2.5 bg-[var(--paper-3)]'
                   }`}
                 />
@@ -228,7 +230,7 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
                   onClick={() => toggleOption(currentStep, opt.label, multi)}
                   className={`group flex w-full items-center gap-2.5 rounded-lg border px-3 py-2 text-left transition-all duration-150 ${
                     isSelected
-                      ? 'border-[var(--brand-accent)]/40 bg-[var(--brand-accent-soft)] ring-1 ring-[var(--brand-accent)]/20'
+                      ? 'border-[var(--brand-accent)]/40 ring-[var(--brand-accent)]/20 bg-[var(--brand-accent-soft)] ring-1'
                       : 'border-[var(--line)] hover:border-[var(--line-2)] hover:bg-[var(--paper-2)]'
                   }`}
                 >
@@ -276,7 +278,7 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
               onClick={() => toggleOther(currentStep, multi)}
               className={`group flex w-full items-center gap-2.5 rounded-lg border px-3 py-2 text-left transition-all duration-150 ${
                 isOtherOn
-                  ? 'border-[var(--brand-accent)]/40 bg-[var(--brand-accent-soft)] ring-1 ring-[var(--brand-accent)]/20'
+                  ? 'border-[var(--brand-accent)]/40 ring-[var(--brand-accent)]/20 bg-[var(--brand-accent-soft)] ring-1'
                   : 'border-dashed border-[var(--line)] hover:border-[var(--line-2)] hover:bg-[var(--paper-2)]'
               }`}
             >
@@ -322,7 +324,7 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
                     placeholder="Type your answer..."
                     className="w-full rounded-[var(--radius-1)] border-0 bg-[var(--paper-2)] px-3 py-1.5 text-[13px] text-[var(--ink)] outline-none ring-1 ring-[var(--line)] transition-shadow duration-200 placeholder:text-[var(--ink-4)] focus:ring-2 focus:ring-[var(--brand-accent)]"
                   />
-                  <kbd className="absolute right-2 top-1/2 -translate-y-1/2 kit-kbd">
+                  <kbd className="kit-kbd absolute right-2 top-1/2 -translate-y-1/2">
                     Enter
                   </kbd>
                 </div>

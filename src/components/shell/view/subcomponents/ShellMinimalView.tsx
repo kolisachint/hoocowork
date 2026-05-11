@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { RefObject } from 'react';
+
 import type { AuthCopyStatus } from '../../types/types';
 import { resolveAuthUrlForDisplay } from '../../utils/auth';
 
@@ -49,7 +50,7 @@ export default function ShellMinimalView({
       />
 
       {showMobileAuthPanel && (
-        <div className="absolute inset-x-0 bottom-14 z-20 border-t border-border/80 bg-[var(--paper)]/95 p-3 backdrop-blur-sm md:hidden">
+        <div className="bg-[var(--paper)]/95 absolute inset-x-0 bottom-14 z-20 border-t border-border/80 p-3 backdrop-blur-sm md:hidden">
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between gap-2">
               <p className="text-xs text-muted-foreground">Open or copy the login URL:</p>
@@ -77,7 +78,7 @@ export default function ShellMinimalView({
                 onClick={() => {
                   openAuthUrlInBrowser(displayAuthUrl);
                 }}
-                className="flex-1 rounded bg-[var(--brand-accent)] px-3 py-2 text-xs font-medium text-white hover:bg-[var(--brand-accent)]/90"
+                className="hover:bg-[var(--brand-accent)]/90 flex-1 rounded bg-[var(--brand-accent)] px-3 py-2 text-xs font-medium text-white"
               >
                 Open URL
               </button>

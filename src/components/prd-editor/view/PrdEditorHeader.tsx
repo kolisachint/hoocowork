@@ -12,6 +12,7 @@ import {
   Sun,
   X,
 } from 'lucide-react';
+
 import { cn } from '../../../lib/utils';
 
 type PrdEditorHeaderProps = {
@@ -123,11 +124,11 @@ export default function PrdEditorHeader({
             </div>
 
             <div className="flex flex-shrink-0 items-center gap-2">
-              <span className="whitespace-nowrap rounded bg-[var(--brand-accent)]/10 px-2 py-1 text-xs text-[var(--brand-accent)]">
+              <span className="bg-[var(--brand-accent)]/10 whitespace-nowrap rounded px-2 py-1 text-xs text-[var(--brand-accent)]">
                 PRD
               </span>
               {isNewFile && (
-                <span className="whitespace-nowrap rounded bg-[var(--ok)]/10 px-2 py-1 text-xs text-[var(--ok)]">
+                <span className="bg-[var(--ok)]/10 whitespace-nowrap rounded px-2 py-1 text-xs text-[var(--ok)]">
                   New
                 </span>
               )}

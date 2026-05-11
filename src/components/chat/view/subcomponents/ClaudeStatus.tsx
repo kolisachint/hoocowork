@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { cn } from '../../../../lib/utils';
 import SessionProviderLogo from '../../../llm-logo-provider/SessionProviderLogo';
 
@@ -82,7 +83,7 @@ export default function ClaudeStatus({
           <div className="relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/20 ring-1 ring-primary/10">
             <SessionProviderLogo provider={provider} className="h-3.5 w-3.5" />
             {isLoading && (
-              <span className="absolute inset-0 animate-pulse rounded-full ring-2 ring-[var(--ok)]/20" />
+              <span className="ring-[var(--ok)]/20 absolute inset-0 animate-pulse rounded-full ring-2" />
             )}
           </div>
 

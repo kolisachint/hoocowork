@@ -1,5 +1,6 @@
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import SessionProviderLogo from '../../../llm-logo-provider/SessionProviderLogo';
 import type {
   ChatMessage,
@@ -12,6 +13,7 @@ import { getClaudePermissionSuggestion } from '../../utils/chatPermissions';
 import type { Project } from '../../../../types/app';
 import { ToolRenderer, shouldHideToolResult } from '../../tools';
 import { Reasoning, ReasoningTrigger, ReasoningContent } from '../../../../shared/view/ui';
+
 import { Markdown } from './Markdown';
 import MessageCopyControl from './MessageCopyControl';
 
@@ -136,7 +138,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                 ))}
               </div>
             )}
-            <div className="mt-1 flex items-center justify-end gap-1 text-xs text-[var(--brand-accent-ink)]/80">
+            <div className="text-[var(--brand-accent-ink)]/80 mt-1 flex items-center justify-end gap-1 text-xs">
               {shouldShowUserCopyControl && (
                 <MessageCopyControl content={userCopyContent} messageType="user" />
               )}
@@ -217,7 +219,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                     // Error results - red error box with content
                     <div
                       id={`tool-result-${message.toolId}`}
-                      className="relative mt-2 scroll-mt-4 rounded border border-[var(--err)]/30 bg-[var(--err-soft)] p-3"
+                      className="border-[var(--err)]/30 relative mt-2 scroll-mt-4 rounded border bg-[var(--err-soft)] p-3"
                     >
                       <div className="relative mb-2 flex items-center gap-1.5">
                         <svg className="h-4 w-4 text-[var(--err)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -230,7 +232,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                           {String(message.toolResult.content || '')}
                         </Markdown>
                         {permissionSuggestion && (
-                          <div className="mt-4 border-t border-[var(--err)]/30 pt-3">
+                          <div className="border-[var(--err)]/30 mt-4 border-t pt-3">
                             <div className="flex flex-wrap items-center gap-2">
                               <button
                                 type="button"
@@ -245,7 +247,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                                 }}
                                 disabled={permissionSuggestion.isAllowed || permissionGrantState === 'granted'}
                                 className={`inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs font-medium transition-colors ${permissionSuggestion.isAllowed || permissionGrantState === 'granted'
-                                  ? 'cursor-default border-[var(--ok)]/40 bg-[var(--ok-soft)] text-[var(--ok)]'
+                                  ? 'border-[var(--ok)]/40 cursor-default bg-[var(--ok-soft)] text-[var(--ok)]'
                                   : 'border-[var(--err)]/40 bg-[var(--paper)] text-[var(--err)] hover:bg-[var(--paper-2)]'
                                   }`}
                               >
@@ -300,7 +302,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
               </>
             ) : message.isInteractivePrompt ? (
               // Special handling for interactive prompts
-              <div className="rounded-lg border border-[var(--warn)]/20 bg-[var(--warn)]/5 p-4 dark:border-[var(--warn)]/80 dark:bg-[var(--warn)]/10">
+              <div className="border-[var(--warn)]/20 bg-[var(--warn)]/5 dark:border-[var(--warn)]/80 dark:bg-[var(--warn)]/10 rounded-lg border p-4">
                 <div className="flex items-start gap-3">
                   <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[var(--warn)]">
                     <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -365,7 +367,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                             ))}
                           </div>
 
-                          <div className="rounded-lg bg-[var(--warn)]/10 p-3 dark:bg-[var(--warn)]/10">
+                          <div className="bg-[var(--warn)]/10 dark:bg-[var(--warn)]/10 rounded-lg p-3">
                             <p className="mb-1 text-sm font-medium text-foreground dark:text-foreground">
                               {t('interactive.waiting')}
                             </p>

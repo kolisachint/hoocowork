@@ -1,5 +1,6 @@
 import { FileText, Settings, Terminal } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
 import { cn } from '../../../lib/utils';
 import type { PrdFile } from '../types';
 
@@ -59,7 +60,7 @@ export default function TaskEmptyState({
   return (
     <div className={cn('text-center py-12', className)}>
       <div className="mx-auto max-w-4xl">
-        <div className="mb-6 rounded-xl border border-[var(--brand-accent)]/30 bg-[var(--brand-accent-soft)] p-6 text-left">
+        <div className="border-[var(--brand-accent)]/30 mb-6 rounded-xl border bg-[var(--brand-accent-soft)] p-6 text-left">
           <div className="mb-4 flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--brand-accent-soft)]">
               <FileText className="h-5 w-5 text-[var(--brand-accent)]" />
@@ -77,7 +78,7 @@ export default function TaskEmptyState({
 
               <button
                 onClick={onCreatePrd}
-                className="inline-flex items-center gap-2 rounded bg-[var(--brand-accent)]/10 px-2 py-1 text-xs text-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/20 dark:bg-[var(--brand-accent)]/10 dark:text-[var(--brand-accent)] dark:hover:bg-[var(--brand-accent)]/20"
+                className="bg-[var(--brand-accent)]/10 hover:bg-[var(--brand-accent)]/20 dark:bg-[var(--brand-accent)]/10 dark:hover:bg-[var(--brand-accent)]/20 inline-flex items-center gap-2 rounded px-2 py-1 text-xs text-[var(--brand-accent)] dark:text-[var(--brand-accent)]"
               >
                 <FileText className="h-3 w-3" />
                 {t('gettingStarted.steps.createPRD.addButton')}
@@ -120,7 +121,7 @@ export default function TaskEmptyState({
 
           <button
             onClick={onCreatePrd}
-            className="inline-flex items-center gap-2 rounded-lg bg-[var(--brand-accent)] px-4 py-2 font-medium text-white hover:bg-[var(--brand-accent)]/90"
+            className="hover:bg-[var(--brand-accent)]/90 inline-flex items-center gap-2 rounded-lg bg-[var(--brand-accent)] px-4 py-2 font-medium text-white"
           >
             <FileText className="h-4 w-4" />
             {t('buttons.addPRD')}
