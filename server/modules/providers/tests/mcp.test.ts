@@ -255,8 +255,12 @@ test('providerMcpService global adder writes to all providers and rejects unsupp
     });
 
     const expectCursorGlobal = process.platform !== 'win32';
-    assert.equal(globalResult.length, expectCursorGlobal ? 4 : 3);
-    assert.ok(globalResult.every((entry) => entry.created === true));
+    assert.equal(globalResult.length, expectCursorGlobal ? 6 : 5);
+
+    // claude, codex, cursor, gemini support MCP; pi, opencode do not (yet)
+    const expectedCreatedCount = expectCursorGlobal ? 4 : 3;
+    const createdCount = globalResult.filter((entry) => entry.created).length;
+    assert.equal(createdCount, expectedCreatedCount);
 
     const claudeProject = await readJson(path.join(workspacePath, '.mcp.json'));
     assert.ok((claudeProject.mcpServers as Record<string, unknown>)['global-http']);

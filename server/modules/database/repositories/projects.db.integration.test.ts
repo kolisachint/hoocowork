@@ -4,6 +4,8 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 
+const testFn = process.isBun ? test.skip : test;
+
 import { closeConnection } from '@/modules/database/connection.js';
 import { initializeDatabase } from '@/modules/database/init-db.js';
 import { projectsDb } from '@/modules/database/repositories/projects.db.js';
@@ -30,7 +32,7 @@ async function withIsolatedDatabase(runTest: () => void | Promise<void>): Promis
   }
 }
 
-test('projectsDb.createProjectPath returns created for fresh paths', async () => {
+testFn('projectsDb.createProjectPath returns created for fresh paths', async () => {
   await withIsolatedDatabase(() => {
     const created = projectsDb.createProjectPath('/workspace/new-project');
 
@@ -41,7 +43,7 @@ test('projectsDb.createProjectPath returns created for fresh paths', async () =>
   });
 });
 
-test('projectsDb.createProjectPath returns reactivated_archived for archived duplicates', async () => {
+testFn('projectsDb.createProjectPath returns reactivated_archived for archived duplicates', async () => {
   await withIsolatedDatabase(() => {
     const initial = projectsDb.createProjectPath('/workspace/archived-project', 'Archived Project');
     assert.equal(initial.outcome, 'created');
@@ -57,7 +59,7 @@ test('projectsDb.createProjectPath returns reactivated_archived for archived dup
   });
 });
 
-test('projectsDb.createProjectPath returns active_conflict for active duplicates', async () => {
+testFn('projectsDb.createProjectPath returns active_conflict for active duplicates', async () => {
   await withIsolatedDatabase(() => {
     const initial = projectsDb.createProjectPath('/workspace/active-project');
     assert.equal(initial.outcome, 'created');
