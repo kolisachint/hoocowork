@@ -880,6 +880,8 @@
 
   /* Text wrapping improvements */
   .chat-message {
+    width: 100%;
+    min-width: 0;
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
@@ -894,7 +896,7 @@
   }
 
   /* Prevent horizontal scroll in chat area */
-  .chat-message * {
+  .chat-message > * {
     max-width: 100%;
     box-sizing: border-box;
   }

@@ -204,10 +204,10 @@
 .chat-meta { display: flex; gap: var(--s-2); }
 
 .chat-stream { flex: 1; overflow-y: auto; padding: var(--s-5); display: flex; flex-direction: column; gap: var(--s-4); }
-.msg { display: grid; grid-template-columns: 24px 1fr; gap: var(--s-2); min-width: 0; }
+.msg { display: grid; grid-template-columns: 24px 1fr; gap: var(--s-2); min-width: 0; width: 100%; overflow: hidden; }
 .msg-gutter { color: var(--ink-4); font-family: var(--font-mono); padding-top: 2px; }
 .msg-user .msg-gutter { color: var(--accent); }
-.msg-body { font-size: var(--fs-base); line-height: var(--lh-normal); color: var(--ink); }
+.msg-body { font-size: var(--fs-base); line-height: var(--lh-normal); color: var(--ink); min-width: 0; word-break: break-word; overflow-wrap: break-word; }
 .msg-user .msg-body { color: var(--ink); }
 .msg-assistant .msg-body { color: var(--ink-2); }
 
