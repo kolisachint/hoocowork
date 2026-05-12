@@ -48,7 +48,7 @@ const CodeBlock = ({ node, inline, className, children, ...props }: CodeBlockPro
   return (
     <div className="group relative my-2">
       {language && language !== 'text' && (
-        <div className="absolute left-3 top-2 z-10 text-xs font-medium uppercase text-muted-foreground">{language}</div>
+        <div className="badge badge-default absolute left-3 top-2 z-10">{language}</div>
       )}
 
       <button

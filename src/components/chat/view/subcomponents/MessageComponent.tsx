@@ -116,7 +116,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
     <div
       ref={messageRef}
       data-message-timestamp={message.timestamp || undefined}
-      className={`chat-message ${message.type} ${isGrouped ? 'grouped' : ''} ${message.type === 'user' ? 'flex justify-end px-3 sm:px-0' : 'px-3 sm:px-0'}`}
+      className={`chat-message msg ${message.type} ${isGrouped ? 'grouped' : ''} ${message.type === 'user' ? 'msg-user flex justify-end px-3 sm:px-0' : 'msg-assistant px-3 sm:px-0'}`}
     >
       {message.type === 'user' ? (
         /* User message bubble on the right */
@@ -163,7 +163,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
         /* Claude/Error/Tool messages on the left */
         <div className="w-full">
           {!isGrouped && (
-            <div className="mb-2 flex items-center space-x-3">
+            <div className="msg-gutter mb-2 flex items-center space-x-3">
               {message.type === 'error' ? (
                 <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[var(--err)] text-sm text-[var(--paper)]">
                   !
@@ -177,16 +177,16 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                   <SessionProviderLogo provider={provider} className="h-full w-full" />
                 </div>
               )}
-              <div className="text-sm font-medium text-[var(--ink)]">
+              <div className="tool-head text-sm font-medium text-[var(--ink)]">
                 {message.type === 'error' ? t('messageTypes.error') : message.type === 'tool' ? t('messageTypes.tool') : (provider === 'cursor' ? t('messageTypes.cursor') : provider === 'codex' ? t('messageTypes.codex') : provider === 'gemini' ? t('messageTypes.gemini') : provider === 'pi' ? t('messageTypes.pi', { defaultValue: 'Pi' }) : t('messageTypes.claude'))}
               </div>
             </div>
           )}
 
-          <div className="w-full">
+          <div className="msg-body w-full">
 
             {message.isToolUse ? (
-              <>
+              <div className="msg-tool">
                 <div className="flex flex-col">
                   <div className="flex flex-col">
                     <Markdown className="prose prose-sm max-w-none dark:prose-invert">
@@ -219,9 +219,9 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                     // Error results - red error box with content
                     <div
                       id={`tool-result-${message.toolId}`}
-                      className="border-[var(--err)]/30 relative mt-2 scroll-mt-4 rounded border bg-[var(--err-soft)] p-3"
+                      className="msg-tool border-[var(--err)]/30 relative mt-2 scroll-mt-4 rounded border bg-[var(--err-soft)] p-3"
                     >
-                      <div className="relative mb-2 flex items-center gap-1.5">
+                      <div className="tool-head relative mb-2 flex items-center gap-1.5">
                         <svg className="h-4 w-4 text-[var(--err)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -299,7 +299,7 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                     </div>
                   )
                 )}
-              </>
+              </div>
             ) : message.isInteractivePrompt ? (
               // Special handling for interactive prompts
               <div className="border-[var(--warn)]/20 bg-[var(--warn)]/5 dark:border-[var(--warn)]/80 dark:bg-[var(--warn)]/10 rounded-lg border p-4">

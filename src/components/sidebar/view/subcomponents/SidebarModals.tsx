@@ -102,32 +102,32 @@ export default function SidebarModals({
       {deleteConfirmation &&
         ReactDOM.createPortal(
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-md overflow-hidden rounded-xl border border-border bg-card shadow-2xl">
+            <div className="w-full max-w-md overflow-hidden rounded-xl border shadow-2xl" style={{ background: 'var(--paper)' }}>
               <div className="p-6">
                 <div className="flex items-start gap-4">
                   <div className="bg-[var(--warn)]/10 dark:bg-[var(--warn)]/10/30 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full">
                     <AlertTriangle className="h-6 w-6 text-[var(--warn)] dark:text-[var(--warn)]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="mb-2 text-lg font-semibold text-foreground">
+                    <h3 className="mb-2 text-lg font-semibold">
                       {t('deleteConfirmation.deleteProject')}
                     </h3>
-                    <p className="mb-1 text-sm text-muted-foreground">
+                    <p className="mb-1 text-sm" style={{ color: 'var(--ink-3)' }}>
                       {t('deleteConfirmation.confirmDelete')}{' '}
-                      <span className="font-medium text-foreground">
+                      <span className="font-medium">
                         {deleteConfirmation.project.displayName || deleteConfirmation.project.projectId}
                       </span>
                       ?
                     </p>
                     {deleteConfirmation.sessionCount > 0 && (
-                      <p className="mt-2 text-sm text-muted-foreground">
+                      <p className="mt-2 text-sm" style={{ color: 'var(--ink-3)' }}>
                         {t('deleteConfirmation.sessionCount', { count: deleteConfirmation.sessionCount })}
                       </p>
                     )}
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col gap-2 border-t border-border bg-muted/30 p-4">
+              <div className="flex flex-col gap-2 border-t p-4" style={{ background: 'var(--paper-2)' }}>
                 <Button
                   variant="outline"
                   className="w-full justify-start"
@@ -156,30 +156,30 @@ export default function SidebarModals({
       {sessionDeleteConfirmation &&
         ReactDOM.createPortal(
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-md overflow-hidden rounded-xl border border-border bg-card shadow-2xl">
+            <div className="w-full max-w-md overflow-hidden rounded-xl border shadow-2xl" style={{ background: 'var(--paper)' }}>
               <div className="p-6">
                 <div className="flex items-start gap-4">
                   <div className="bg-[var(--err)]/10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full">
                     <AlertTriangle className="h-6 w-6 text-[var(--err)]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="mb-2 text-lg font-semibold text-foreground">
+                    <h3 className="mb-2 text-lg font-semibold">
                       {t('deleteConfirmation.deleteSession')}
                     </h3>
-                    <p className="mb-1 text-sm text-muted-foreground">
+                    <p className="mb-1 text-sm" style={{ color: 'var(--ink-3)' }}>
                       {t('deleteConfirmation.confirmDelete')}{' '}
-                      <span className="font-medium text-foreground">
+                      <span className="font-medium">
                         {sessionDeleteConfirmation.sessionTitle || t('sessions.unnamed')}
                       </span>
                       ?
                     </p>
-                    <p className="mt-3 text-xs text-muted-foreground">
+                    <p className="mt-3 text-xs" style={{ color: 'var(--ink-3)' }}>
                       {t('deleteConfirmation.cannotUndo')}
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="flex gap-3 border-t border-border bg-muted/30 p-4">
+              <div className="flex gap-3 border-t p-4" style={{ background: 'var(--paper-2)' }}>
                 <Button variant="outline" className="flex-1" onClick={onCancelDeleteSession}>
                   {t('actions.cancel')}
                 </Button>

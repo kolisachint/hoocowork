@@ -54,8 +54,8 @@ export default function PiTreeChat({
 
   const renderBranchSwitcher = (nodeId: string, children: string[]) => {
     return (
-      <div className="my-2 rounded-lg border border-dashed border-border bg-muted/30 p-2">
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+      <div className="msg-tool my-2">
+        <div className="tool-head">
           <GitBranch className="h-3 w-3" />
           <span>Branch point</span>
         </div>

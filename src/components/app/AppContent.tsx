@@ -141,7 +141,7 @@ function AppContentInner() {
   return (
     <div className="fixed inset-0 flex bg-background" style={{ bottom: 'var(--keyboard-height, 0px)' }}>
       {!isMobile ? (
-        <div className="h-full flex-shrink-0 border-r border-border/50">
+        <div className="sidebar">
           <Sidebar {...sidebarSharedProps} />
         </div>
       ) : (
@@ -150,7 +150,7 @@ function AppContentInner() {
             }`}
         >
           <button
-            className="fixed inset-0 bg-background/60 backdrop-blur-sm transition-opacity duration-150 ease-out"
+            className="fixed inset-0 bg-background/60 backdrop-blur-sm keep-blur transition-opacity duration-150 ease-out"
             onClick={(event) => {
               event.stopPropagation();
               setSidebarOpen(false);
@@ -173,7 +173,7 @@ function AppContentInner() {
         </div>
       )}
 
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="main">
         <MainContent
           selectedProject={selectedProject}
           selectedSession={selectedSession}

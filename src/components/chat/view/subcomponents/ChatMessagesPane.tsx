@@ -145,7 +145,7 @@ export default function ChatMessagesPane({
       ref={scrollContainerRef}
       onWheel={onWheel}
       onTouchMove={onTouchMove}
-      className="chat-stream min-h-0 flex-1 overflow-y-auto"
+      className="chat-stream min-h-0"
     >
       {isLoadingSessionMessages && chatMessages.length === 0 ? (
         <div className="mt-8 text-center text-muted-foreground">

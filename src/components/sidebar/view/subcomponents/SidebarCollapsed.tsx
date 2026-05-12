@@ -28,15 +28,15 @@ export default function SidebarCollapsed({
   t,
 }: SidebarCollapsedProps) {
   return (
-    <div className="flex h-full w-12 flex-col items-center gap-1 bg-background/80 py-3 backdrop-blur-sm">
+    <div className="flex h-full w-12 flex-col items-center gap-1 py-3" style={{ background: 'var(--paper)' }}>
       {/* Expand button with brand logo */}
       <button
         onClick={onExpand}
-        className="group flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-accent/80"
+        className="group flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-[var(--paper-3)]"
         aria-label={t('common:versionUpdate.ariaLabels.showSidebar')}
         title={t('common:versionUpdate.ariaLabels.showSidebar')}
       >
-        <PanelLeftOpen className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground" />
+        <PanelLeftOpen className="h-4 w-4 transition-colors group-hover:text-foreground" style={{ color: 'var(--ink-3)' }} />
       </button>
 
       <div className="nav-divider my-1 w-6" />
@@ -44,11 +44,11 @@ export default function SidebarCollapsed({
       {/* Settings */}
       <button
         onClick={onShowSettings}
-        className="group flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-accent/80"
+        className="group flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-[var(--paper-3)]"
         aria-label={t('actions.settings')}
         title={t('actions.settings')}
       >
-        <Settings className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground" />
+        <Settings className="h-4 w-4 transition-colors group-hover:text-foreground" style={{ color: 'var(--ink-3)' }} />
       </button>
 
       {/* Report Issue */}
@@ -56,11 +56,11 @@ export default function SidebarCollapsed({
         href={GITHUB_ISSUES_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-accent/80"
+        className="group flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-[var(--paper-3)]"
         aria-label={t('actions.reportIssue')}
         title={t('actions.reportIssue')}
       >
-        <Bug className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground" />
+        <Bug className="h-4 w-4 transition-colors group-hover:text-foreground" style={{ color: 'var(--ink-3)' }} />
       </a>
 
       {/* Discord */}
@@ -68,18 +68,18 @@ export default function SidebarCollapsed({
         href={DISCORD_INVITE_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-accent/80"
+        className="group flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-[var(--paper-3)]"
         aria-label={t('actions.joinCommunity')}
         title={t('actions.joinCommunity')}
       >
-        <DiscordIcon className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground" />
+        <DiscordIcon className="h-4 w-4 transition-colors group-hover:text-foreground" style={{ color: 'var(--ink-3)' }} />
       </a>
 
       {/* Update indicator */}
       {updateAvailable && (
         <button
           onClick={onShowVersionModal}
-          className="relative flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-accent/80"
+          className="relative flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-[var(--paper-3)]"
           aria-label={t('common:versionUpdate.ariaLabels.updateAvailable')}
           title={t('common:versionUpdate.ariaLabels.updateAvailable')}
         >

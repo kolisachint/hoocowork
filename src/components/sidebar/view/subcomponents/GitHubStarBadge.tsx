@@ -24,7 +24,7 @@ export default function GitHubStarBadge() {
         href={GITHUB_REPO_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground"
+        className="badge inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground"
       >
         <GitHubIcon className="h-3.5 w-3.5" />
         <Star className="h-3 w-3" />

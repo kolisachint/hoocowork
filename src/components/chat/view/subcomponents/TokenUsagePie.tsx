@@ -13,11 +13,11 @@ export default function TokenUsagePie({ used, total }: TokenUsagePieProps) {
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (percentage / 100) * circumference;
 
-  // Color based on usage level
+  // Color based on usage level — use design system tokens
   const getColor = () => {
-    if (percentage < 50) return '#3b82f6'; // blue
-    if (percentage < 75) return '#f59e0b'; // orange
-    return '#ef4444'; // red
+    if (percentage < 50) return 'var(--info)';
+    if (percentage < 75) return 'var(--warn)';
+    return 'var(--err)';
   };
 
   return (

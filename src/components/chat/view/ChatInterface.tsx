@@ -317,7 +317,7 @@ function ChatInterface({
 
   return (
     <PermissionContext.Provider value={permissionContextValue}>
-      <section className="chat flex h-full flex-col">
+      <section className="chat">
         <ChatMessagesPane
           scrollContainerRef={scrollContainerRef}
           onWheel={handleScroll}

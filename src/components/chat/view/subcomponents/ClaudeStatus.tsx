@@ -92,7 +92,7 @@ export default function ClaudeStatus({
               {providerLabel}
             </span>
             <div className="flex items-center gap-1.5">
-              <span className={cn("h-1.5 w-1.5 rounded-full", isLoading ? "bg-[var(--ok)] animate-pulse" : "bg-[var(--warn)]")} />
+              <span className={cn("status-dot", isLoading ? "dot-ok animate-pulse" : "bg-[var(--warn)]")} />
               <p className="truncate text-xs font-medium text-foreground">
                 {statusText}<span className="inline-block w-4 text-primary">{isLoading ? dots : ''}</span>
               </p>

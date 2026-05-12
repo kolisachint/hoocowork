@@ -394,7 +394,7 @@ export default function ChatComposer({
 
           <div className="flex items-center gap-2">
             <div
-              className={`hidden text-xs text-muted-foreground/50 transition-opacity duration-200 lg:block ${
+              className={`composer-hint hidden text-xs text-muted-foreground/50 transition-opacity duration-200 lg:block ${
                 input.trim() ? 'opacity-0' : 'opacity-100'
               }`}
             >
