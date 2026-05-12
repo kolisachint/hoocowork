@@ -18,7 +18,7 @@ const spawnFunction = process.platform === 'win32' ? crossSpawn : spawn;
  * JSON.stringifies. Stringifying first here would double-encode the payload
  * and the client would silently drop it. Raw ws fallback for SSE-style usage.
  */
-function sendPiMessage(ws, message) {
+function sendHoocodeMessage(ws, message) {
   try {
     if (ws && (ws.isWebSocketWriter || ws.isSSEStreamWriter)) {
       ws.send(message);
@@ -28,20 +28,20 @@ function sendPiMessage(ws, message) {
       ws.send(JSON.stringify(message));
     }
   } catch (error) {
-    console.error('[Pi CLI] failed to send message:', error?.message || error);
+    console.error('[Hoocode CLI] failed to send message:', error?.message || error);
   }
 }
 
-let activePiProcesses = new Map();
+let activeHoocodeProcesses = new Map();
 
-function getPiSessionDir(projectPath) {
+function getHoocodeSessionDir(projectPath) {
   const cleanPath = (projectPath || process.cwd()).replace(/[^\x20-\x7E]/g, '').trim();
   const encodedPath = cleanPath.replace(/[^a-zA-Z0-9-]/g, '-');
-  return path.join(os.homedir(), '.pi', 'agent', 'sessions', encodedPath);
+  return path.join(os.homedir(), '.hoocode', 'agent', 'sessions', encodedPath);
 }
 
 function findSessionFile(sessionId, projectPath) {
-  const sessionDir = getPiSessionDir(projectPath);
+  const sessionDir = getHoocodeSessionDir(projectPath);
   if (!fs.existsSync(sessionDir)) {
     return null;
   }
@@ -50,7 +50,7 @@ function findSessionFile(sessionId, projectPath) {
   return match ? path.join(sessionDir, match) : null;
 }
 
-async function spawnPi(command, options = {}, ws) {
+async function spawnHoocode(command, options = {}, ws) {
   return new Promise(async (resolve, reject) => {
     const { sessionId, projectPath, cwd, model, forkSessionId, parentMessageId } = options;
     let capturedSessionId = sessionId;
@@ -58,49 +58,49 @@ async function spawnPi(command, options = {}, ws) {
     let settled = false;
 
     const workingDir = cwd || projectPath || process.cwd();
-    let processKey = capturedSessionId || `pi-${Date.now()}`;
+    let processKey = capturedSessionId || `hoocode-${Date.now()}`;
 
     const settleOnce = (callback) => {
       if (settled) return;
       settled = true;
-      activePiProcesses.delete(processKey);
+      activeHoocodeProcesses.delete(processKey);
       callback();
     };
 
-    // Guard: a stale project entry (created from a Pi session-folder name like
+    // Guard: a stale project entry (created from a Hoocode session-folder name like
     // "Users-sachinkoli-github-foo" rather than a real path) will give us a
-    // workingDir that doesn't exist on disk. Pi exits silently with code -2 in
+    // workingDir that doesn't exist on disk. Hoocode exits silently with code -2 in
     // that case, leaving the chat hanging. Detect up-front and explain.
     try {
       const stat = fs.statSync(workingDir);
       if (!stat.isDirectory()) {
-        sendPiMessage(ws, createNormalizedMessage({
+        sendHoocodeMessage(ws, createNormalizedMessage({
           kind: 'error',
-          content: `Pi working directory is not a directory: ${workingDir}`,
+          content: `Hoocode working directory is not a directory: ${workingDir}`,
           sessionId: capturedSessionId,
-          provider: 'pi',
+          provider: 'hoocode',
         }));
-        sendPiMessage(ws, createNormalizedMessage({
+        sendHoocodeMessage(ws, createNormalizedMessage({
           kind: 'complete',
           exitCode: 1,
           sessionId: capturedSessionId,
-          provider: 'pi',
+          provider: 'hoocode',
         }));
         settleOnce(() => resolve({ exitCode: 1 }));
         return;
       }
     } catch {
-      sendPiMessage(ws, createNormalizedMessage({
+      sendHoocodeMessage(ws, createNormalizedMessage({
         kind: 'error',
-        content: `Pi project folder not found on disk: ${workingDir}. The project entry in the sidebar may point at a stale or encoded path — pick the project with the real path (e.g. /Users/...) before starting a new chat.`,
+        content: `Hoocode project folder not found on disk: ${workingDir}. The project entry in the sidebar may point at a stale or encoded path — pick the project with the real path (e.g. /Users/...) before starting a new chat.`,
         sessionId: capturedSessionId,
-        provider: 'pi',
+        provider: 'hoocode',
       }));
-      sendPiMessage(ws, createNormalizedMessage({
+      sendHoocodeMessage(ws, createNormalizedMessage({
         kind: 'complete',
         exitCode: 1,
         sessionId: capturedSessionId,
-        provider: 'pi',
+        provider: 'hoocode',
       }));
       settleOnce(() => resolve({ exitCode: 1 }));
       return;
@@ -123,13 +123,13 @@ async function spawnPi(command, options = {}, ws) {
     }
 
     try {
-      const authStatus = await providerAuthService.getProviderAuthStatus('pi');
+      const authStatus = await providerAuthService.getProviderAuthStatus('hoocode');
       if (!authStatus.installed) {
-        sendPiMessage(ws, createNormalizedMessage({
+        sendHoocodeMessage(ws, createNormalizedMessage({
           kind: 'error',
-          content: 'Pi is not installed. Run `npm install -g @earendil-works/pi-coding-agent` to install.',
+          content: 'Hoocode is not installed. Run `npm install -g hoocode` to install.',
           sessionId: capturedSessionId,
-          provider: 'pi',
+          provider: 'hoocode',
         }));
         settleOnce(() => resolve({ exitCode: 1 }));
         return;
@@ -138,15 +138,15 @@ async function spawnPi(command, options = {}, ws) {
       // Continue anyway, spawn will fail naturally if not installed
     }
 
-    console.log('[Pi CLI] spawn args:', args.join(' '), 'cwd=', workingDir);
-    const piProcess = spawnFunction('pi', args, {
+    console.log('[Hoocode CLI] spawn args:', args.join(' '), 'cwd=', workingDir);
+    const hoocodeProcess = spawnFunction('hoocode', args, {
       cwd: workingDir,
-      // Detach stdin so pi doesn't block waiting for input in --print mode.
+      // Detach stdin so hoocode doesn't block waiting for input in --print mode.
       stdio: ['ignore', 'pipe', 'pipe'],
       env: { ...process.env, FORCE_COLOR: '0', NO_COLOR: '1' },
     });
 
-    activePiProcesses.set(processKey, piProcess);
+    activeHoocodeProcesses.set(processKey, hoocodeProcess);
 
     let buffer = '';
     let stderrBuffer = '';
@@ -155,7 +155,7 @@ async function spawnPi(command, options = {}, ws) {
 
     let stdoutByteCount = 0;
     let eventTypeCounts = {};
-    piProcess.stdout.on('data', (data) => {
+    hoocodeProcess.stdout.on('data', (data) => {
       stdoutByteCount += data.length;
       buffer += data.toString();
       const lines = buffer.split('\n');
@@ -167,22 +167,22 @@ async function spawnPi(command, options = {}, ws) {
           const event = JSON.parse(line);
           producedAnyJson = true;
           eventTypeCounts[event.type] = (eventTypeCounts[event.type] || 0) + 1;
-          const normalized = sessionsService.normalizeMessage('pi', event, capturedSessionId);
+          const normalized = sessionsService.normalizeMessage('hoocode', event, capturedSessionId);
           for (const msg of normalized) {
             if (msg.kind === 'session_created' && msg.newSessionId && !capturedSessionId) {
               capturedSessionId = msg.newSessionId;
               // Re-key the process map so abort lookups work by real session id
-              activePiProcesses.delete(processKey);
+              activeHoocodeProcesses.delete(processKey);
               processKey = capturedSessionId;
-              activePiProcesses.set(processKey, piProcess);
+              activeHoocodeProcesses.set(processKey, hoocodeProcess);
               if (!sessionCreatedSent) {
                 sessionCreatedSent = true;
-                sendPiMessage(ws, msg);
+                sendHoocodeMessage(ws, msg);
                 sessionCreatedReceived = true;
                 // If this is a fork/resume without a command, kill after session info
                 if (!command || !command.trim()) {
                   try {
-                    piProcess.kill('SIGTERM');
+                    hoocodeProcess.kill('SIGTERM');
                   } catch {
                     // ignore
                   }
@@ -190,7 +190,7 @@ async function spawnPi(command, options = {}, ws) {
                 continue;
               }
             }
-            sendPiMessage(ws, msg);
+            sendHoocodeMessage(ws, msg);
           }
         } catch (parseError) {
           // Skip non-JSON lines
@@ -198,31 +198,31 @@ async function spawnPi(command, options = {}, ws) {
       }
     });
 
-    piProcess.stderr.on('data', (data) => {
+    hoocodeProcess.stderr.on('data', (data) => {
       const text = data.toString();
       stderrBuffer += text;
       const trimmed = text.trim();
       if (!trimmed) return;
-      sendPiMessage(ws, createNormalizedMessage({
+      sendHoocodeMessage(ws, createNormalizedMessage({
         kind: 'status',
         content: trimmed,
         sessionId: capturedSessionId,
-        provider: 'pi',
+        provider: 'hoocode',
       }));
     });
 
-    piProcess.on('error', (error) => {
+    hoocodeProcess.on('error', (error) => {
       const isMissing = error?.code === 'ENOENT';
       if (!isMissing) {
-        console.error('[Pi CLI] Process error:', error);
+        console.error('[Hoocode CLI] Process error:', error);
       }
-      sendPiMessage(ws, createNormalizedMessage({
+      sendHoocodeMessage(ws, createNormalizedMessage({
         kind: 'error',
         content: isMissing
-          ? 'Pi is not installed. Run `npm install -g @earendil-works/pi-coding-agent` to install.'
-          : `Pi process error: ${error.message}`,
+          ? 'Hoocode is not installed. Run `npm install -g hoocode` to install.'
+          : `Hoocode process error: ${error.message}`,
         sessionId: capturedSessionId,
-        provider: 'pi',
+        provider: 'hoocode',
       }));
       // Resolve rather than reject for ENOENT so the WS layer doesn't log a duplicate
       // "Chat WebSocket error" — the user already got the friendly install hint above.
@@ -233,46 +233,46 @@ async function spawnPi(command, options = {}, ws) {
       }
     });
 
-    piProcess.on('close', (exitCode) => {
-      console.log('[Pi CLI] close exitCode=' + exitCode + ' stdoutBytes=' + stdoutByteCount + ' producedAnyJson=' + producedAnyJson + ' events=' + JSON.stringify(eventTypeCounts));
+    hoocodeProcess.on('close', (exitCode) => {
+      console.log('[Hoocode CLI] close exitCode=' + exitCode + ' stdoutBytes=' + stdoutByteCount + ' producedAnyJson=' + producedAnyJson + ' events=' + JSON.stringify(eventTypeCounts));
       if (buffer.trim()) {
         try {
           const event = JSON.parse(buffer.trim());
           producedAnyJson = true;
-          const normalized = sessionsService.normalizeMessage('pi', event, capturedSessionId);
+          const normalized = sessionsService.normalizeMessage('hoocode', event, capturedSessionId);
           for (const msg of normalized) {
-            sendPiMessage(ws, msg);
+            sendHoocodeMessage(ws, msg);
           }
         } catch {
           // ignore final non-JSON buffer
         }
       }
 
-      // If Pi exited without emitting any JSON event (e.g. unauthenticated
+      // If Hoocode exited without emitting any JSON event (e.g. unauthenticated
       // provider, missing API key, invalid model), surface the buffered stderr
       // as an error so the chat doesn't appear stuck on "Processing".
       if (!producedAnyJson) {
-        const detail = stderrBuffer.trim() || `pi exited with code ${exitCode ?? 0} and produced no output`;
-        console.warn('[Pi CLI] no JSON output. stderr:', detail.slice(0, 500));
-        sendPiMessage(ws, createNormalizedMessage({
+        const detail = stderrBuffer.trim() || `hoocode exited with code ${exitCode ?? 0} and produced no output`;
+        console.warn('[Hoocode CLI] no JSON output. stderr:', detail.slice(0, 500));
+        sendHoocodeMessage(ws, createNormalizedMessage({
           kind: 'error',
           content: detail,
           sessionId: capturedSessionId,
-          provider: 'pi',
+          provider: 'hoocode',
         }));
       }
 
-      sendPiMessage(ws, createNormalizedMessage({
+      sendHoocodeMessage(ws, createNormalizedMessage({
         kind: 'complete',
         exitCode: exitCode ?? 0,
         sessionId: capturedSessionId,
-        provider: 'pi',
+        provider: 'hoocode',
       }));
 
       if (exitCode !== 0 && exitCode !== null) {
-        notifyRunFailed({ provider: 'pi', sessionId: capturedSessionId, error: `Pi exited with code ${exitCode}` });
+        notifyRunFailed({ provider: 'hoocode', sessionId: capturedSessionId, error: `Hoocode exited with code ${exitCode}` });
       } else {
-        notifyRunStopped({ provider: 'pi', sessionId: capturedSessionId });
+        notifyRunStopped({ provider: 'hoocode', sessionId: capturedSessionId });
       }
 
       settleOnce(() => resolve({ exitCode: exitCode ?? 0 }));
@@ -281,13 +281,13 @@ async function spawnPi(command, options = {}, ws) {
 }
 
 function abortPiSession(sessionId) {
-  const proc = activePiProcesses.get(sessionId);
+  const proc = activeHoocodeProcesses.get(sessionId);
   if (!proc) {
     return false;
   }
   try {
     proc.kill('SIGTERM');
-    activePiProcesses.delete(sessionId);
+    activeHoocodeProcesses.delete(sessionId);
     return true;
   } catch {
     return false;
@@ -295,15 +295,15 @@ function abortPiSession(sessionId) {
 }
 
 function isPiSessionActive(sessionId) {
-  return activePiProcesses.has(sessionId);
+  return activeHoocodeProcesses.has(sessionId);
 }
 
 function getActivePiSessions() {
-  return Array.from(activePiProcesses.keys());
+  return Array.from(activeHoocodeProcesses.keys());
 }
 
 export {
-  spawnPi,
+  spawnHoocode,
   abortPiSession,
   isPiSessionActive,
   getActivePiSessions,

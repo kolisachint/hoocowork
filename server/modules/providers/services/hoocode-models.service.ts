@@ -2,7 +2,7 @@ import { spawn } from 'node:child_process';
 
 import { providerAuthService } from '@/modules/providers/services/provider-auth.service.js';
 
-type PiModel = {
+type HoocodeModel = {
   provider: string;
   model: string;
   id: string;
@@ -14,17 +14,17 @@ type PiModel = {
 
 type CacheEntry = {
   fetchedAt: number;
-  models: PiModel[];
+  models: HoocodeModel[];
 };
 
 const CACHE_TTL_MS = 10 * 60 * 1000;
 const PI_LIST_TIMEOUT_MS = 8000;
 let cache: CacheEntry | null = null;
-let inflight: Promise<PiModel[]> | null = null;
+let inflight: Promise<HoocodeModel[]> | null = null;
 
 const toBoolean = (raw: string): boolean => raw.trim().toLowerCase() === 'yes';
 
-const parsePiListOutput = (raw: string): PiModel[] => {
+const parsePiListOutput = (raw: string): HoocodeModel[] => {
   const lines = raw.split('\n').map((l) => l.replace(/\s+$/, '')).filter(Boolean);
   if (lines.length < 2) {
     return [];
@@ -35,7 +35,7 @@ const parsePiListOutput = (raw: string): PiModel[] => {
     return [];
   }
 
-  const out: PiModel[] = [];
+  const out: HoocodeModel[] = [];
   for (let i = 1; i < lines.length; i += 1) {
     const cols = lines[i].split(/\s{2,}/);
     if (cols.length < 2) {
@@ -58,9 +58,9 @@ const parsePiListOutput = (raw: string): PiModel[] => {
   return out;
 };
 
-const runPiListModels = (): Promise<PiModel[]> =>
+const runPiListModels = (): Promise<HoocodeModel[]> =>
   new Promise((resolve, reject) => {
-    const child = spawn('pi', ['--list-models'], {
+    const child = spawn('hoocode', ['--list-models'], {
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     let stdout = '';
@@ -117,15 +117,15 @@ const runPiListModels = (): Promise<PiModel[]> =>
     });
   });
 
-export type PiModelsResult = {
+export type HoocodeModelsResult = {
   installed: boolean;
-  models: PiModel[];
+  models: HoocodeModel[];
   fetchedAt: string | null;
   cached: boolean;
 };
 
-class PiModelsService {
-  async getModels({ force = false }: { force?: boolean } = {}): Promise<PiModelsResult> {
+class HoocodeModelsService {
+  async getModels({ force = false }: { force?: boolean } = {}): Promise<HoocodeModelsResult> {
     const now = Date.now();
     if (!force && cache && now - cache.fetchedAt < CACHE_TTL_MS) {
       return {
@@ -136,7 +136,7 @@ class PiModelsService {
       };
     }
 
-    const installed = await providerAuthService.isProviderInstalled('pi');
+    const installed = await providerAuthService.isProviderInstalled('hoocode');
     if (!installed) {
       return { installed: false, models: [], fetchedAt: null, cached: false };
     }
@@ -162,4 +162,4 @@ class PiModelsService {
   }
 }
 
-export const piModelsService = new PiModelsService();
+export const hoocodeModelsService = new HoocodeModelsService();

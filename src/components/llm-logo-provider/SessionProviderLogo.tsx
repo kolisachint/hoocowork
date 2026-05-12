@@ -5,7 +5,7 @@ import CodexLogo from './CodexLogo';
 import CursorLogo from './CursorLogo';
 import GeminiLogo from './GeminiLogo';
 import OpenCodeLogo from './OpenCodeLogo';
-import PiLogo from './PiLogo';
+import HoocodeLogo from './HoocodeLogo';
 
 type SessionProviderLogoProps = {
   provider?: LLMProvider | string | null;
@@ -28,8 +28,8 @@ export default function SessionProviderLogo({
     return <GeminiLogo className={className} />;
   }
 
-  if (provider === 'pi') {
-    return <PiLogo className={className} />;
+  if (provider === 'hoocode') {
+    return <HoocodeLogo className={className} />;
   }
 
   if (provider === 'opencode') {

@@ -5,7 +5,7 @@ export const MCP_PROVIDER_NAMES: Record<McpProvider, string> = {
   cursor: 'Cursor',
   codex: 'Codex',
   gemini: 'Gemini',
-  pi: 'Pi',
+  hoocode: 'Hoocode',
   opencode: 'OpenCode',
 };
 
@@ -14,7 +14,7 @@ export const MCP_SUPPORTED_SCOPES: Record<McpProvider, McpScope[]> = {
   cursor: ['user', 'project'],
   codex: ['user', 'project'],
   gemini: ['user', 'project'],
-  pi: ['user'],
+  hoocode: ['user'],
   opencode: ['user'],
 };
 
@@ -23,7 +23,7 @@ export const MCP_SUPPORTED_TRANSPORTS: Record<McpProvider, McpTransport[]> = {
   cursor: ['stdio', 'http'],
   codex: ['stdio', 'http'],
   gemini: ['stdio', 'http', 'sse'],
-  pi: ['stdio', 'http'],
+  hoocode: ['stdio', 'http'],
   opencode: ['stdio', 'http'],
 };
 
@@ -36,7 +36,7 @@ export const MCP_PROVIDER_BUTTON_CLASSES: Record<McpProvider, string> = {
   cursor: 'bg-[var(--brand-accent)] text-[var(--brand-accent-ink)] hover:opacity-90',
   codex: 'bg-[var(--ink)] text-[var(--paper)] hover:opacity-90',
   gemini: 'bg-[var(--brand-accent)] text-[var(--brand-accent-ink)] hover:opacity-90',
-  pi: 'bg-[var(--ok)] text-[var(--paper)] hover:opacity-90',
+  hoocode: 'bg-[var(--ok)] text-[var(--paper)] hover:opacity-90',
   opencode: 'bg-[var(--warn)] text-[var(--paper)] hover:opacity-90',
 };
 
@@ -45,7 +45,7 @@ export const MCP_SUPPORTS_WORKING_DIRECTORY: Record<McpProvider, boolean> = {
   cursor: false,
   codex: true,
   gemini: true,
-  pi: false,
+  hoocode: false,
   opencode: false,
 };
 

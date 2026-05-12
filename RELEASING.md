@@ -139,5 +139,5 @@ bun build --compile server/binary-entry.ts --outfile=hoocowork-$(node -e "consol
 | Install | `npm install -g @kolisachint/hoocowork` | Download from Releases |
 | Update | `npm update -g @kolisachint/hoocowork` | `hoocowork update` |
 | Config | `.env` in app root | `~/.hoocowork/.env` |
-| Database | `~/.cloudcli/auth.db` | `~/.hoocowork/auth.db` |
+| Database | `~/.hoocowork/auth.db` | `~/.hoocowork/auth.db` |
 | Entry point | `server/cli.js` | `server/binary-entry.ts`, binary |

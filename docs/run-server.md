@@ -4,16 +4,16 @@
 
 ## One-shot restart
 
-Run from the project root. Kills any leftover `concurrently` / `tsx` / `vite` processes belonging to this checkout, waits for them to exit, then relaunches `npm run dev` in the background with logs streaming to `/tmp/claudecodeui2-dev.log`:
+Run from the project root. Kills any leftover `concurrently` / `tsx` / `vite` processes belonging to this checkout, waits for them to exit, then relaunches `npm run dev` in the background with logs streaming to `/tmp/hoocowork-dev.log`:
 
 ```bash
-PIDS=$(ps aux | grep -E "claudecodeui2/node_modules/.bin/(concurrently|tsx|vite)" | grep -v grep | awk '{print $2}'); [ -n "$PIDS" ] && kill -9 $PIDS 2>/dev/null; sleep 2; (nohup npm run dev > /tmp/claudecodeui2-dev.log 2>&1 &)
+PIDS=$(ps aux | grep -E "hoocowork/node_modules/.bin/(concurrently|tsx|vite)" | grep -v grep | awk '{print $2}'); [ -n "$PIDS" ] && kill -9 $PIDS 2>/dev/null; sleep 2; (nohup npm run dev > /tmp/hoocowork-dev.log 2>&1 &)
 ```
 
 Tail the log to confirm boot:
 
 ```bash
-tail -f /tmp/claudecodeui2-dev.log
+tail -f /tmp/hoocowork-dev.log
 ```
 
 You should see, in order :

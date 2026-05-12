@@ -5,10 +5,10 @@ import { IS_PLATFORM } from '../../../../constants/config';
 import { useVersionCheck } from '../../../../hooks/useVersionCheck';
 import PremiumFeatureCard from '../PremiumFeatureCard';
 
-const GITHUB_REPO_URL = 'https://github.com/siteboon/claudecodeui';
+const GITHUB_REPO_URL = 'https://github.com/kolisachint/hoocowork';
 const DISCORD_URL = 'https://discord.gg/buxwujPNRE';
-const DOCS_URL = 'https://cloudcli.ai/docs/plugin-overview';
-const CLOUDCLI_URL = 'https://cloudcli.ai';
+const DOCS_URL = 'https://hoocowork.app/docs/plugin-overview';
+const HOOCOWORK_URL = 'https://hoocowork.app';
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -28,7 +28,7 @@ function DiscordIcon({ className }: { className?: string }) {
 
 export default function AboutTab() {
   const { t } = useTranslation('settings');
-  const { updateAvailable, latestVersion, currentVersion, releaseInfo } = useVersionCheck('siteboon', 'claudecodeui');
+  const { updateAvailable, latestVersion, currentVersion, releaseInfo } = useVersionCheck('kolisachint', 'hoocowork');
   const releasesUrl = releaseInfo?.htmlUrl || `${GITHUB_REPO_URL}/releases`;
 
   return (
@@ -40,7 +40,7 @@ export default function AboutTab() {
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-base font-semibold">CloudCLI</span>
+            <span className="text-base font-semibold">HooCowork</span>
             <a
               href={releasesUrl}
               target="_blank"
@@ -109,25 +109,25 @@ export default function AboutTab() {
           Docs
         </a>
         <a
-          href={CLOUDCLI_URL}
+          href={HOOCOWORK_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-1.5 transition-colors" style={{ color: 'var(--ink-3)' }}
         >
           <ExternalLink className="h-3.5 w-3.5" />
-          cloudcli.ai
+          hoocowork.app
         </a>
       </div>
 
       {/* Hosted CTA (OSS mode only) */}
       {!IS_PLATFORM && (
         <div className="rounded-xl border p-4" style={{ borderColor: 'var(--accent)', background: 'var(--paper-2)' }}>
-          <h4 className="text-sm font-medium">Try CloudCLI Hosted</h4>
+          <h4 className="text-sm font-medium">Try HooCowork Hosted</h4>
           <p className="mt-1 text-xs" style={{ color: 'var(--ink-3)' }}>
             Team collaboration, shared MCP configs, settings sync across environments, and managed infrastructure.
           </p>
           <a
-            href={CLOUDCLI_URL}
+            href={HOOCOWORK_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-2 inline-flex items-center gap-1 text-xs font-medium transition-colors hover:underline" style={{ color: 'var(--accent)' }}
@@ -141,7 +141,7 @@ export default function AboutTab() {
       {/* Premium feature placeholders (OSS mode only) */}
       {!IS_PLATFORM && (
         <div className="space-y-4 pt-6" style={{ borderTopColor: 'var(--line)' }}>
-          <h3 className="text-sm font-medium">CloudCLI Pro Features</h3>
+          <h3 className="text-sm font-medium">HooCowork Pro Features</h3>
           <PremiumFeatureCard
             icon={<Cloud className="h-5 w-5" />}
             title="Sync Settings"

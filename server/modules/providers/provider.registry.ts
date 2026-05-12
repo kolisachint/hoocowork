@@ -3,7 +3,7 @@ import { CodexProvider } from '@/modules/providers/list/codex/codex.provider.js'
 import { CursorProvider } from '@/modules/providers/list/cursor/cursor.provider.js';
 import { GeminiProvider } from '@/modules/providers/list/gemini/gemini.provider.js';
 import { OpenCodeProvider } from '@/modules/providers/list/opencode/opencode.provider.js';
-import { PiProvider } from '@/modules/providers/list/pi/pi.provider.js';
+import { HoocodeProvider } from '@/modules/providers/list/hoocode/hoocode.provider.js';
 import type { IProvider } from '@/shared/interfaces.js';
 import type { LLMProvider } from '@/shared/types.js';
 import { AppError } from '@/shared/utils.js';
@@ -13,7 +13,7 @@ const providers: Record<LLMProvider, IProvider> = {
   codex: new CodexProvider(),
   cursor: new CursorProvider(),
   gemini: new GeminiProvider(),
-  pi: new PiProvider(),
+  hoocode: new HoocodeProvider(),
   opencode: new OpenCodeProvider(),
 };
 

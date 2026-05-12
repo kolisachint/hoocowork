@@ -20,7 +20,7 @@ import SidebarProjectItem from './SidebarProjectItem';
 const MOD_KEY =
   typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform) ? '⌘' : 'Ctrl';
 
-const GITHUB_REPO_URL = 'https://github.com/siteboon/claudecodeui';
+const GITHUB_REPO_URL = 'https://github.com/kolisachint/hoocowork';
 
 
 
@@ -107,7 +107,7 @@ export default function SidebarContent({
 
   // Set document title based on selected project
   useEffect(() => {
-    let title = 'CloudCLI UI';
+    let title = 'HooCowork';
     const name = pl.selectedProject?.displayName?.trim();
     if (name) title = `${name} - ${title}`;
     document.title = title;
@@ -119,7 +119,7 @@ export default function SidebarContent({
       <div className="sidebar-header" style={isPWA && isMobile ? { paddingTop: 'var(--s-4)' } : undefined}>
         <div className="brand">
           {IS_PLATFORM ? (
-            <a href="https://cloudcli.ai/dashboard" className="brand" style={{ textDecoration: 'none' }} title={t('tooltips.viewEnvironments')}>
+            <a href="https://hoocowork.app/dashboard" className="brand" style={{ textDecoration: 'none' }} title={t('tooltips.viewEnvironments')}>
               <span className="brand-mark" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 64 64" fill="none">
                   <rect x="2" y="2" width="60" height="60" rx="3" stroke="currentColor" strokeWidth="2" />
@@ -396,7 +396,7 @@ export default function SidebarContent({
             className="foot-row foot-meta"
             style={{ textDecoration: 'none' }}
           >
-            CloudCLI v{currentVersion} – {t('branding.openSource')}
+            HooCowork v{currentVersion} – {t('branding.openSource')}
           </a>
         )}
       </div>

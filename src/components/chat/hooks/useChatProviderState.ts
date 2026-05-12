@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { authenticatedFetch } from '../../../utils/api';
-import { CLAUDE_MODELS, CODEX_MODELS, CURSOR_MODELS, GEMINI_MODELS, OPENCODE_MODELS, PI_MODELS } from '../../../../shared/modelConstants';
+import { CLAUDE_MODELS, CODEX_MODELS, CURSOR_MODELS, GEMINI_MODELS, OPENCODE_MODELS, HOOCODE_MODELS } from '../../../../shared/modelConstants';
 import type { PendingPermissionRequest, PermissionMode } from '../types/types';
 import type { ProjectSession, LLMProvider } from '../../../types/app';
 
@@ -12,7 +12,7 @@ const getPermissionModesForProvider = (provider: LLMProvider): PermissionMode[] 
   if (provider === 'claude') {
     return ['default', 'auto', 'acceptEdits', 'bypassPermissions', 'plan'];
   }
-  if (provider === 'pi') {
+  if (provider === 'hoocode') {
     return ['default', 'acceptEdits', 'bypassPermissions'];
   }
   return ['default', 'acceptEdits', 'bypassPermissions', 'plan'];
@@ -40,8 +40,8 @@ export function useChatProviderState({ selectedSession }: UseChatProviderStateAr
   const [geminiModel, setGeminiModel] = useState<string>(() => {
     return localStorage.getItem('gemini-model') || GEMINI_MODELS.DEFAULT;
   });
-  const [piModel, setPiModel] = useState<string>(() => {
-    return localStorage.getItem('pi-model') || PI_MODELS.DEFAULT;
+  const [hoocodeModel, setHoocodeModel] = useState<string>(() => {
+    return localStorage.getItem('hoocode-model') || HOOCODE_MODELS.DEFAULT;
   });
   const [openCodeModel, setOpenCodeModel] = useState<string>(() => {
     return localStorage.getItem('opencode-model') || OPENCODE_MODELS.DEFAULT;
@@ -128,8 +128,8 @@ export function useChatProviderState({ selectedSession }: UseChatProviderStateAr
     setCodexModel,
     geminiModel,
     setGeminiModel,
-    piModel,
-    setPiModel,
+    hoocodeModel,
+    setHoocodeModel,
     openCodeModel,
     setOpenCodeModel,
     permissionMode,

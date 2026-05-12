@@ -4,7 +4,7 @@ import { Trans, useTranslation } from "react-i18next";
 
 import { useServerPlatform } from "../../../../hooks/useServerPlatform";
 import SessionProviderLogo from "../../../llm-logo-provider/SessionProviderLogo";
-import { usePiModels } from "../../hooks/usePiModels";
+import { useHoocodeModels } from "../../hooks/useHoocodeModels";
 import { useOpenCodeModels } from "../../hooks/useOpenCodeModels";
 import {
   CLAUDE_MODELS,
@@ -12,7 +12,7 @@ import {
   CODEX_MODELS,
   GEMINI_MODELS,
   OPENCODE_MODELS,
-  PI_MODELS,
+  HOOCODE_MODELS,
   PROVIDERS,
 } from "../../../../../shared/modelConstants";
 import type { ProjectSession, LLMProvider } from "../../../../types/app";
@@ -48,8 +48,8 @@ type ProviderSelectionEmptyStateProps = {
   setCodexModel: (model: string) => void;
   geminiModel: string;
   setGeminiModel: (model: string) => void;
-  piModel: string;
-  setPiModel: (model: string) => void;
+  hoocodeModel: string;
+  setHoocodeModel: (model: string) => void;
   openCodeModel: string;
   setOpenCodeModel: (model: string) => void;
   tasksEnabled: boolean;
@@ -74,7 +74,7 @@ function getModelConfig(p: LLMProvider) {
   if (p === "claude") return CLAUDE_MODELS;
   if (p === "codex") return CODEX_MODELS;
   if (p === "gemini") return GEMINI_MODELS;
-  if (p === "pi") return PI_MODELS;
+  if (p === "hoocode") return HOOCODE_MODELS;
   if (p === "opencode") return OPENCODE_MODELS;
   return CURSOR_MODELS;
 }
@@ -85,13 +85,13 @@ function getCurrentModel(
   cu: string,
   co: string,
   g: string,
-  pi: string,
+  hoocode: string,
   oc: string,
 ) {
   if (p === "claude") return c;
   if (p === "codex") return co;
   if (p === "gemini") return g;
-  if (p === "pi") return pi;
+  if (p === "hoocode") return hoocode;
   if (p === "opencode") return oc;
   return cu;
 }
@@ -100,7 +100,7 @@ function getProviderDisplayName(p: LLMProvider) {
   if (p === "claude") return "Claude";
   if (p === "cursor") return "Cursor";
   if (p === "codex") return "Codex";
-  if (p === "pi") return "Pi";
+  if (p === "hoocode") return "Hoocode";
   if (p === "opencode") return "OpenCode";
   return "Gemini";
 }
@@ -119,8 +119,8 @@ export default function ProviderSelectionEmptyState({
   setCodexModel,
   geminiModel,
   setGeminiModel,
-  piModel,
-  setPiModel,
+  hoocodeModel,
+  setHoocodeModel,
   openCodeModel,
   setOpenCodeModel,
   tasksEnabled,
@@ -132,13 +132,13 @@ export default function ProviderSelectionEmptyState({
   const { isWindowsServer } = useServerPlatform();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  // Lazy-load Pi's full model catalog (~197 entries) once the picker opens.
-  // The static PI_MODELS list is only used as a fallback while loading or if
-  // `pi --list-models` fails (Pi not installed, etc.).
-  const { models: piDynamicModels, loading: piLoading, error: piError, installed: piInstalled, refresh: refreshPi } =
-    usePiModels({ enabled: dialogOpen });
+  // Lazy-load Hoocode's full model catalog (~197 entries) once the picker opens.
+  // The static HOOCODE_MODELS list is only used as a fallback while loading or if
+  // `hoocode --list-models` fails (Hoocode not installed, etc.).
+  const { models: hoocodeDynamicModels, loading: hoocodeLoading, error: hoocodeError, installed: hoocodeInstalled, refresh: refreshHoocode } =
+    useHoocodeModels({ enabled: dialogOpen });
 
-  // Same lazy-load pattern as Pi: only fetch the OpenCode catalog (~186
+  // Same lazy-load pattern as Hoocode: only fetch the OpenCode catalog (~186
   // entries) once the picker opens, fall back to the static OPENCODE_MODELS
   // list while loading or if the binary isn't installed.
   const { models: openCodeDynamicModels, installed: openCodeInstalled } =
@@ -147,15 +147,15 @@ export default function ProviderSelectionEmptyState({
   const visibleProviderGroups = useMemo(() => {
     let base = isWindowsServer ? PROVIDER_GROUPS.filter((p) => p.id !== "cursor") : PROVIDER_GROUPS;
 
-    if (piInstalled && piDynamicModels.length > 0) {
-      // Replace the static Pi group with the live catalog. Keep "Auto" first
-      // because the server special-cases it (omits --model so Pi uses its default).
-      const dynamicPiModels = [
-        { value: "auto", label: "Auto (Pi default)" },
-        ...piDynamicModels.map((m) => ({ value: m.value, label: m.label })),
+    if (hoocodeInstalled && hoocodeDynamicModels.length > 0) {
+      // Replace the static Hoocode group with the live catalog. Keep "Auto" first
+      // because the server special-cases it (omits --model so Hoocode uses its default).
+      const dynamicHoocodeModels = [
+        { value: "auto", label: "Auto (Hoocode default)" },
+        ...hoocodeDynamicModels.map((m) => ({ value: m.value, label: m.label })),
       ];
       base = base.map((group) =>
-        group.id === "pi" ? { ...group, models: dynamicPiModels } : group,
+        group.id === "hoocode" ? { ...group, models: dynamicHoocodeModels } : group,
       );
     }
 
@@ -172,7 +172,7 @@ export default function ProviderSelectionEmptyState({
     }
 
     return base;
-  }, [isWindowsServer, piDynamicModels, piInstalled, openCodeDynamicModels, openCodeInstalled]);
+  }, [isWindowsServer, hoocodeDynamicModels, hoocodeInstalled, openCodeDynamicModels, openCodeInstalled]);
 
   useEffect(() => {
     if (isWindowsServer && provider === "cursor") {
@@ -191,7 +191,7 @@ export default function ProviderSelectionEmptyState({
     cursorModel,
     codexModel,
     geminiModel,
-    piModel,
+    hoocodeModel,
     openCodeModel,
   );
 
@@ -214,9 +214,9 @@ export default function ProviderSelectionEmptyState({
       } else if (providerId === "gemini") {
         setGeminiModel(modelValue);
         localStorage.setItem("gemini-model", modelValue);
-      } else if (providerId === "pi") {
-        setPiModel(modelValue);
-        localStorage.setItem("pi-model", modelValue);
+      } else if (providerId === "hoocode") {
+        setHoocodeModel(modelValue);
+        localStorage.setItem("hoocode-model", modelValue);
       } else if (providerId === "opencode") {
         setOpenCodeModel(modelValue);
         localStorage.setItem("opencode-model", modelValue);
@@ -225,7 +225,7 @@ export default function ProviderSelectionEmptyState({
         localStorage.setItem("cursor-model", modelValue);
       }
     },
-    [setClaudeModel, setCursorModel, setCodexModel, setGeminiModel, setPiModel, setOpenCodeModel],
+    [setClaudeModel, setCursorModel, setCodexModel, setGeminiModel, setHoocodeModel, setOpenCodeModel],
   );
 
   const handleModelSelect = useCallback(
@@ -291,17 +291,17 @@ export default function ProviderSelectionEmptyState({
                     defaultValue: "Search models...",
                   })}
                 />
-                {(piLoading || piError) && (
+                {(hoocodeLoading || hoocodeError) && (
                   <div className="flex items-center justify-between gap-2 border-b border-border/40 px-3 py-1.5 text-[11px] text-muted-foreground">
                     <span>
-                      {piLoading
-                        ? "Loading Pi catalog…"
-                        : `Pi catalog: ${piError}. Showing fallback list.`}
+                      {hoocodeLoading
+                        ? "Loading Hoocode catalog…"
+                        : `Hoocode catalog: ${hoocodeError}. Showing fallback list.`}
                     </span>
-                    {!piLoading && piError && (
+                    {!hoocodeLoading && hoocodeError && (
                       <button
                         type="button"
-                        onClick={() => void refreshPi()}
+                        onClick={() => void refreshHoocode()}
                         className="rounded border border-border/60 px-1.5 py-0.5 hover:bg-muted/40"
                       >
                         Retry
@@ -368,9 +368,9 @@ export default function ProviderSelectionEmptyState({
                 gemini: t("providerSelection.readyPrompt.gemini", {
                   model: geminiModel,
                 }),
-                pi: t("providerSelection.readyPrompt.pi", {
-                  model: piModel,
-                  defaultValue: `Ready to chat with Pi (${piModel})`,
+                hoocode: t("providerSelection.readyPrompt.hoocode", {
+                  model: hoocodeModel,
+                  defaultValue: `Ready to chat with Hoocode (${hoocodeModel})`,
                 }),
                 opencode: t("providerSelection.readyPrompt.opencode", {
                   model: openCodeModel,

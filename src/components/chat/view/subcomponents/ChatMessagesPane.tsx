@@ -9,7 +9,7 @@ import { useSessionStore } from '../../../../stores/useSessionStore';
 
 import MessageComponent from './MessageComponent';
 import ProviderSelectionEmptyState from './ProviderSelectionEmptyState';
-import PiTreeChat from './PiTreeChat';
+import HoocodeTreeChat from './HoocodeTreeChat';
 
 interface ChatMessagesPaneProps {
   scrollContainerRef: RefObject<HTMLDivElement>;
@@ -30,8 +30,8 @@ interface ChatMessagesPaneProps {
   setCodexModel: (model: string) => void;
   geminiModel: string;
   setGeminiModel: (model: string) => void;
-  piModel: string;
-  setPiModel: (model: string) => void;
+  hoocodeModel: string;
+  setHoocodeModel: (model: string) => void;
   openCodeModel: string;
   setOpenCodeModel: (model: string) => void;
   tasksEnabled: boolean;
@@ -80,8 +80,8 @@ export default function ChatMessagesPane({
   setCodexModel,
   geminiModel,
   setGeminiModel,
-  piModel,
-  setPiModel,
+  hoocodeModel,
+  setHoocodeModel,
   openCodeModel,
   setOpenCodeModel,
   tasksEnabled,
@@ -169,8 +169,8 @@ export default function ChatMessagesPane({
           setCodexModel={setCodexModel}
           geminiModel={geminiModel}
           setGeminiModel={setGeminiModel}
-          piModel={piModel}
-          setPiModel={setPiModel}
+          hoocodeModel={hoocodeModel}
+          setHoocodeModel={setHoocodeModel}
           openCodeModel={openCodeModel}
           setOpenCodeModel={setOpenCodeModel}
           tasksEnabled={tasksEnabled}
@@ -258,12 +258,12 @@ export default function ChatMessagesPane({
             </div>
           )}
 
-          {provider === 'pi' ? (
+          {provider === 'hoocode' ? (
             (() => {
               const treeData = selectedSession?.id ? sessionStore.getTree(selectedSession.id) : undefined;
               if (treeData && treeData.nodes.size > 0) {
                 return (
-                  <PiTreeChat
+                  <HoocodeTreeChat
                     visibleMessages={visibleMessages}
                     treeNodes={treeData.nodes}
                     activePath={treeData.activePath}
@@ -281,7 +281,7 @@ export default function ChatMessagesPane({
                     showRawParameters={showRawParameters}
                     showThinking={showThinking}
                     selectedProject={selectedProject}
-                    provider="pi"
+                    provider="hoocode"
                   />
                 );
               }

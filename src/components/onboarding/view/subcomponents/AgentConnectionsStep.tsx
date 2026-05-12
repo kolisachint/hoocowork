@@ -42,7 +42,7 @@ const providerCards = [
     loginButtonClassName: KIT_LOGIN,
   },
   {
-    provider: 'pi' as const,
+    provider: 'hoocode' as const,
     title: 'Pi',
     connectedClassName: KIT_CONNECTED,
     iconContainerClassName: KIT_ICON_WRAP,

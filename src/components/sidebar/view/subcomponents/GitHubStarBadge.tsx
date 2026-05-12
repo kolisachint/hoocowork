@@ -3,7 +3,7 @@ import { Star, X } from 'lucide-react';
 import { useGitHubStars } from '../../../../hooks/useGitHubStars';
 import { IS_PLATFORM } from '../../../../constants/config';
 
-const GITHUB_REPO_URL = 'https://github.com/siteboon/claudecodeui';
+const GITHUB_REPO_URL = 'https://github.com/kolisachint/hoocowork';
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -14,7 +14,7 @@ function GitHubIcon({ className }: { className?: string }) {
 }
 
 export default function GitHubStarBadge() {
-  const { formattedCount, isDismissed, dismiss } = useGitHubStars('siteboon', 'claudecodeui');
+  const { formattedCount, isDismissed, dismiss } = useGitHubStars('kolisachint', 'hoocowork');
 
   if (IS_PLATFORM || isDismissed) return null;
 

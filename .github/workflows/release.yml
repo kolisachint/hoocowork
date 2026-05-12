@@ -61,7 +61,7 @@ jobs:
       - name: Create GitHub Release
         run: |
           gh release create v${{ env.NEW_VERSION }} \
-            --title "CloudCLI UI v${{ env.NEW_VERSION }}" \
+            --title "HooCowork v${{ env.NEW_VERSION }}" \
             --notes-file <(bun x conventional-changelog-cli -p conventionalcommits -r 2 | tail -n +5) \
             --generate-notes
         env:

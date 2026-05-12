@@ -62,7 +62,7 @@ const projectsHaveChanges = (
       serialize(nextProject.cursorSessions) !== serialize(prevProject.cursorSessions) ||
       serialize(nextProject.codexSessions) !== serialize(prevProject.codexSessions) ||
       serialize(nextProject.geminiSessions) !== serialize(prevProject.geminiSessions) ||
-      serialize(nextProject.piSessions) !== serialize(prevProject.piSessions)
+      serialize(nextProject.hoocodeSessions) !== serialize(prevProject.hoocodeSessions)
     );
   });
 };
@@ -99,7 +99,7 @@ const getProjectSessions = (project: Project): ProjectSession[] => {
     ...(project.codexSessions ?? []),
     ...(project.cursorSessions ?? []),
     ...(project.geminiSessions ?? []),
-    ...(project.piSessions ?? []),
+    ...(project.hoocodeSessions ?? []),
   ];
 };
 
@@ -147,7 +147,7 @@ const mergeExpandedSessionPages = (previousProjects: Project[], incomingProjects
       cursorSessions: mergeSessionProviderLists(incomingProject.cursorSessions ?? [], previousProject.cursorSessions ?? []),
       codexSessions: mergeSessionProviderLists(incomingProject.codexSessions ?? [], previousProject.codexSessions ?? []),
       geminiSessions: mergeSessionProviderLists(incomingProject.geminiSessions ?? [], previousProject.geminiSessions ?? []),
-      piSessions: mergeSessionProviderLists(incomingProject.piSessions ?? [], previousProject.piSessions ?? []),
+      hoocodeSessions: mergeSessionProviderLists(incomingProject.hoocodeSessions ?? [], previousProject.hoocodeSessions ?? []),
     };
 
     const totalSessions = Number(incomingProject.sessionMeta?.total ?? previousLoadedCount);
@@ -163,7 +163,7 @@ const mergeExpandedSessionPages = (previousProjects: Project[], incomingProjects
 
 const mergeProjectSessionPage = (
   existingProject: Project,
-  sessionsPage: Pick<Project, 'sessions' | 'cursorSessions' | 'codexSessions' | 'geminiSessions' | 'piSessions' | 'sessionMeta'>,
+  sessionsPage: Pick<Project, 'sessions' | 'cursorSessions' | 'codexSessions' | 'geminiSessions' | 'hoocodeSessions' | 'sessionMeta'>,
 ): Project => {
   const mergedProject: Project = {
     ...existingProject,
@@ -171,7 +171,7 @@ const mergeProjectSessionPage = (
     cursorSessions: mergeSessionProviderLists(existingProject.cursorSessions ?? [], sessionsPage.cursorSessions ?? []),
     codexSessions: mergeSessionProviderLists(existingProject.codexSessions ?? [], sessionsPage.codexSessions ?? []),
     geminiSessions: mergeSessionProviderLists(existingProject.geminiSessions ?? [], sessionsPage.geminiSessions ?? []),
-    piSessions: mergeSessionProviderLists(existingProject.piSessions ?? [], sessionsPage.piSessions ?? []),
+    hoocodeSessions: mergeSessionProviderLists(existingProject.hoocodeSessions ?? [], sessionsPage.hoocodeSessions ?? []),
   };
 
   const totalSessions = Number(sessionsPage.sessionMeta?.total ?? existingProject.sessionMeta?.total ?? 0);
@@ -562,17 +562,17 @@ export function useProjectsState({
         return;
       }
 
-      const piSession = project.piSessions?.find((session) => session.id === sessionId);
-      if (piSession) {
+      const hoocodeSession = project.hoocodeSessions?.find((session) => session.id === sessionId);
+      if (hoocodeSession) {
         const shouldUpdateProject = selectedProject?.projectId !== project.projectId;
         const shouldUpdateSession =
-          selectedSession?.id !== sessionId || selectedSession.__provider !== 'pi';
+          selectedSession?.id !== sessionId || selectedSession.__provider !== 'hoocode';
 
         if (shouldUpdateProject) {
           setSelectedProject(project);
         }
         if (shouldUpdateSession) {
-          setSelectedSession({ ...piSession, __provider: 'pi' });
+          setSelectedSession({ ...hoocodeSession, __provider: 'hoocode' });
         }
         return;
       }
@@ -603,7 +603,7 @@ export function useProjectsState({
     // include every supported provider — falling through to 'claude' for an
     // unrecognized value caused the shell to spawn `claude --resume <id>`
     // for Pi sessions, producing "No conversation found with session ID".
-    const allowedProviders: LLMProvider[] = ['claude', 'cursor', 'codex', 'gemini', 'pi', 'opencode'];
+    const allowedProviders: LLMProvider[] = ['claude', 'cursor', 'codex', 'gemini', 'hoocode', 'opencode'];
     const normalizedProvider: LLMProvider =
       (allowedProviders as string[]).includes(providerFromStorage ?? '')
         ? (providerFromStorage as LLMProvider)
@@ -689,14 +689,14 @@ export function useProjectsState({
           const cursorSessions = project.cursorSessions?.filter((session) => session.id !== sessionIdToDelete) ?? [];
           const codexSessions = project.codexSessions?.filter((session) => session.id !== sessionIdToDelete) ?? [];
           const geminiSessions = project.geminiSessions?.filter((session) => session.id !== sessionIdToDelete) ?? [];
-          const piSessions = project.piSessions?.filter((session) => session.id !== sessionIdToDelete) ?? [];
+          const hoocodeSessions = project.hoocodeSessions?.filter((session) => session.id !== sessionIdToDelete) ?? [];
 
           const removedFromProject = (
             sessions.length !== (project.sessions?.length ?? 0)
             || cursorSessions.length !== (project.cursorSessions?.length ?? 0)
             || codexSessions.length !== (project.codexSessions?.length ?? 0)
             || geminiSessions.length !== (project.geminiSessions?.length ?? 0)
-            || piSessions.length !== (project.piSessions?.length ?? 0)
+            || hoocodeSessions.length !== (project.hoocodeSessions?.length ?? 0)
           );
 
           if (!removedFromProject) {
@@ -709,7 +709,7 @@ export function useProjectsState({
             cursorSessions,
             codexSessions,
             geminiSessions,
-            piSessions,
+            hoocodeSessions,
           };
 
           const totalSessions = Math.max(0, Number(project.sessionMeta?.total ?? 0) - 1);
@@ -803,7 +803,7 @@ export function useProjectsState({
       throw new Error(message);
     }
 
-    const sessionsPage = (await response.json()) as Pick<Project, 'sessions' | 'cursorSessions' | 'codexSessions' | 'geminiSessions' | 'piSessions' | 'sessionMeta'>;
+    const sessionsPage = (await response.json()) as Pick<Project, 'sessions' | 'cursorSessions' | 'codexSessions' | 'geminiSessions' | 'hoocodeSessions' | 'sessionMeta'>;
 
     let mergedProjectForSelection: Project | null = null;
     setProjects((previousProjects) =>

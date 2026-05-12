@@ -27,7 +27,7 @@ export type OnboardingStatusPayload = {
   hasCompletedOnboarding?: boolean;
 };
 
-export type ApiErrorPayload = {
+export type AhoocodeErrorPayload = {
   error?: string;
   message?: string;
 };

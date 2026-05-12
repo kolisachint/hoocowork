@@ -14,6 +14,7 @@ import { useSessionStore } from '../../../stores/useSessionStore';
 
 import ChatMessagesPane from './subcomponents/ChatMessagesPane';
 import ChatComposer from './subcomponents/ChatComposer';
+import ChatHeader from './subcomponents/ChatHeader';
 
 
 type PendingViewSession = {
@@ -75,8 +76,8 @@ function ChatInterface({
     setCodexModel,
     geminiModel,
     setGeminiModel,
-    piModel,
-    setPiModel,
+    hoocodeModel,
+    setHoocodeModel,
     openCodeModel,
     setOpenCodeModel,
     permissionMode,
@@ -188,7 +189,7 @@ function ChatInterface({
     claudeModel,
     codexModel,
     geminiModel,
-    piModel,
+    hoocodeModel,
     openCodeModel,
     isLoading,
     canAbortSession,
@@ -279,7 +280,7 @@ function ChatInterface({
   }, [resetStreamingState]);
 
   useEffect(() => {
-    if (provider === 'pi' && selectedSession?.id) {
+    if (provider === 'hoocode' && selectedSession?.id) {
       sessionStore.buildTree(selectedSession.id);
     }
   }, [provider, selectedSession?.id, chatMessages.length, sessionStore]);
@@ -289,6 +290,18 @@ function ChatInterface({
     handlePermissionDecision,
   }), [pendingPermissionRequests, handlePermissionDecision]);
 
+  const activeModelLabel = useMemo(() => {
+    switch (provider) {
+      case 'cursor': return cursorModel;
+      case 'codex': return codexModel;
+      case 'gemini': return geminiModel;
+      case 'hoocode': return hoocodeModel;
+      case 'opencode': return openCodeModel;
+      case 'claude':
+      default: return claudeModel;
+    }
+  }, [provider, claudeModel, cursorModel, codexModel, geminiModel, hoocodeModel, openCodeModel]);
+
   if (!selectedProject) {
     const selectedProviderLabel =
       provider === 'cursor'
@@ -297,8 +310,8 @@ function ChatInterface({
           ? t('messageTypes.codex')
           : provider === 'gemini'
             ? t('messageTypes.gemini')
-            : provider === 'pi'
-              ? t('messageTypes.pi', { defaultValue: 'Pi' })
+            : provider === 'hoocode'
+              ? t('messageTypes.hoocode', { defaultValue: 'Hoocode' })
               : t('messageTypes.claude');
 
     return (
@@ -318,6 +331,17 @@ function ChatInterface({
   return (
     <PermissionContext.Provider value={permissionContextValue}>
       <section className="chat">
+        <ChatHeader
+          session={selectedSession ?? null}
+          currentSessionId={currentSessionId}
+          provider={provider}
+          modelLabel={activeModelLabel}
+          isProcessing={isLoading}
+          isConnected={Boolean(ws)}
+          tokenBudget={tokenBudget}
+          totalMessages={totalMessages}
+          onOpenSettings={onShowSettings}
+        />
         <ChatMessagesPane
           scrollContainerRef={scrollContainerRef}
           onWheel={handleScroll}
@@ -337,8 +361,8 @@ function ChatInterface({
           setCodexModel={setCodexModel}
           geminiModel={geminiModel}
           setGeminiModel={setGeminiModel}
-          piModel={piModel}
-          setPiModel={setPiModel}
+          hoocodeModel={hoocodeModel}
+          setHoocodeModel={setHoocodeModel}
           openCodeModel={openCodeModel}
           setOpenCodeModel={setOpenCodeModel}
           tasksEnabled={tasksEnabled}
@@ -368,14 +392,14 @@ function ChatInterface({
           onForkThread={(_nodeId) => {
             if (!selectedProject || !currentSessionId) return;
             sendMessage({
-              type: 'pi-command',
+              type: 'hoocode-command',
               command: '',
               options: {
                 sessionId: currentSessionId,
                 projectPath: selectedProject.fullPath || selectedProject.path || '',
                 cwd: selectedProject.fullPath || selectedProject.path || '',
                 forkSessionId: currentSessionId,
-                model: piModel,
+                model: hoocodeModel,
               },
             });
           }}
@@ -443,8 +467,8 @@ function ChatInterface({
                   ? t('messageTypes.codex')
                   : provider === 'gemini'
                     ? t('messageTypes.gemini')
-                    : provider === 'pi'
-                      ? t('messageTypes.pi', { defaultValue: 'Pi' })
+                    : provider === 'hoocode'
+                      ? t('messageTypes.hoocode', { defaultValue: 'Hoocode' })
                       : t('messageTypes.claude'),
           })}
           isTextareaExpanded={isTextareaExpanded}

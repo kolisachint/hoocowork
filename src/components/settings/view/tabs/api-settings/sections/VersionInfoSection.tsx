@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { IS_PLATFORM } from '../../../../../../constants/config';
 import type { ReleaseInfo } from '../../../../../../types/sharedTypes';
 
-const GITHUB_REPO_URL = 'https://github.com/siteboon/claudecodeui';
+const GITHUB_REPO_URL = 'https://github.com/kolisachint/hoocowork';
 const DISCORD_URL = 'https://discord.gg/buxwujPNRE';
-const DOCS_URL = 'https://cloudcli.ai/docs/plugin-overview';
-const CLOUDCLI_URL = 'https://cloudcli.ai';
+const DOCS_URL = 'https://hoocowork.app/docs/plugin-overview';
+const HOOCOWORK_URL = 'https://hoocowork.app';
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -43,7 +43,7 @@ export default function VersionInfoSection({
 
   return (
     <div className="pt-6" style={{ borderTop: '1px solid var(--line)' }}>
-      {/* About CloudCLI */}
+      {/* About HooCowork */}
       <div className="space-y-4">
         {/* Logo + name + version */}
         <div className="flex items-center gap-3">
@@ -52,7 +52,7 @@ export default function VersionInfoSection({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold">CloudCLI</span>
+              <span className="text-sm font-semibold">HooCowork</span>
               <a
                 href={releasesUrl}
                 target="_blank"
@@ -121,25 +121,25 @@ export default function VersionInfoSection({
             Docs
           </a>
           <a
-            href={CLOUDCLI_URL}
+            href={HOOCOWORK_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1 transition-colors" style={{ color: 'var(--ink-3)' }}
           >
             <ExternalLink className="h-3 w-3" />
-            cloudcli.ai
+            hoocowork.app
           </a>
         </div>
 
         {/* Hosted CTA (OSS mode only) */}
         {!IS_PLATFORM && (
           <div className="rounded-xl border p-4" style={{ borderColor: 'var(--accent)', background: 'var(--paper-2)' }}>
-            <h4 className="text-sm font-medium">Try CloudCLI Hosted</h4>
+            <h4 className="text-sm font-medium">Try HooCowork Hosted</h4>
             <p className="mt-1 text-xs" style={{ color: 'var(--ink-3)' }}>
               Team collaboration, shared MCP configs, settings sync across environments, and managed infrastructure.
             </p>
             <a
-              href={CLOUDCLI_URL}
+              href={HOOCOWORK_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-2 inline-flex items-center gap-1 text-xs font-medium transition-colors hover:underline" style={{ color: 'var(--accent)' }}

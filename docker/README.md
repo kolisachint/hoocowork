@@ -1,9 +1,9 @@
 <!-- Docker Hub short description (100 chars max): -->
 <!-- Sandbox templates for running AI coding agents with a web & mobile IDE (Claude Code, Codex, Gemini) -->
 
-# Sandboxed coding agents with a web & mobile IDE (CloudCLI)
+# Sandboxed coding agents with a web & mobile IDE (HooCowork)
 
-[Docker Sandbox](https://docs.docker.com/ai/sandboxes/) templates that add [CloudCLI](https://cloudcli.ai) on top of Claude Code, Codex, and Gemini CLI. You get a full web and mobile IDE accessible from any browser on any device.
+[Docker Sandbox](https://docs.docker.com/ai/sandboxes/) templates that add [HooCowork](https://hoocowork.app) on top of Claude Code, Codex, and Gemini CLI. You get a full web and mobile IDE accessible from any browser on any device.
 
 <p><img src="https://github.com/kolisachint/hoocowork/actions/workflows/ci.yml/badge.svg" alt="CI"></p>
 
@@ -33,7 +33,7 @@ sbx secret set -g anthropic
 ### 3. Launch Claude Code
 
 ```bash
-npx @cloudcli-ai/cloudcli@latest sandbox ~/my-project
+npx @kolisachint/hoocowork@latest sandbox ~/my-project
 ```
 
 Open **http://localhost:3001**. Set a password on first visit. Start building.
@@ -45,20 +45,20 @@ Store the matching API key and pass `--agent`:
 ```bash
 # OpenAI Codex
 sbx secret set -g openai
-npx @cloudcli-ai/cloudcli@latest sandbox ~/my-project --agent codex
+npx @kolisachint/hoocowork@latest sandbox ~/my-project --agent codex
 
 # Gemini CLI
 sbx secret set -g google
-npx @cloudcli-ai/cloudcli@latest sandbox ~/my-project --agent gemini
+npx @kolisachint/hoocowork@latest sandbox ~/my-project --agent gemini
 ```
 
 ### Available templates
 
 | Agent | Template |
 |-------|----------|
-| **Claude Code** (default) | `docker.io/cloudcliai/sandbox:claude-code` |
-| OpenAI Codex | `docker.io/cloudcliai/sandbox:codex` |
-| Gemini CLI | `docker.io/cloudcliai/sandbox:gemini` |
+| **Claude Code** (default) | `docker.io/hoocowork/sandbox:claude-code` |
+| OpenAI Codex | `docker.io/hoocowork/sandbox:codex` |
+| Gemini CLI | `docker.io/hoocowork/sandbox:gemini` |
 
 These are used with `--template` when running `sbx` directly (see [Advanced usage](#advanced-usage)).
 
@@ -72,12 +72,12 @@ sbx rm my-project                    # Remove everything
 sbx exec my-project bash             # Open a shell inside the sandbox
 ```
 
-If you install CloudCLI globally (`npm install -g @cloudcli-ai/cloudcli`), you can also use:
+If you install HooCowork globally (`npm install -g @kolisachint/hoocowork`), you can also use:
 
 ```bash
-cloudcli sandbox ls
-cloudcli sandbox start my-project    # Restart and re-launch web UI
-cloudcli sandbox logs my-project     # View server logs
+hoocowork sandbox ls
+hoocowork sandbox start my-project    # Restart and re-launch web UI
+hoocowork sandbox logs my-project     # View server logs
 ```
 
 ## What you get
@@ -96,7 +96,7 @@ Your project directory is mounted bidirectionally — edits propagate in real ti
 Set variables at creation time with `--env`:
 
 ```bash
-npx @cloudcli-ai/cloudcli@latest sandbox ~/my-project --env SERVER_PORT=8080
+npx @kolisachint/hoocowork@latest sandbox ~/my-project --env SERVER_PORT=8080
 ```
 
 Or inside a running sandbox:
@@ -105,18 +105,18 @@ Or inside a running sandbox:
 sbx exec my-project bash -c 'echo "export SERVER_PORT=8080" >> /etc/sandbox-persistent.sh'
 ```
 
-Restart CloudCLI for changes to take effect:
+Restart HooCowork for changes to take effect:
 
 ```bash
 sbx exec my-project bash -c 'pkill -f "server/index.js"'
-sbx exec -d my-project cloudcli start --port 3001
+sbx exec -d my-project hoocowork start --port 3001
 ```
 
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `SERVER_PORT` | `3001` | Web UI port |
 | `HOST` | `0.0.0.0` | Bind address (must be `0.0.0.0` for `sbx ports`) |
-| `DATABASE_PATH` | `~/.cloudcli/auth.db` | SQLite database location |
+| `DATABASE_PATH` | `~/.hoocowork/auth.db` | SQLite database location |
 
 ## Advanced usage
 
@@ -124,20 +124,20 @@ For branch mode, multiple workspaces, memory limits, or the terminal agent exper
 
 ```bash
 # Terminal agent + web UI
-sbx run --template docker.io/cloudcliai/sandbox:claude-code claude ~/my-project --name my-project
+sbx run --template docker.io/hoocowork/sandbox:claude-code claude ~/my-project --name my-project
 sbx ports my-project --publish 3001:3001
 
 # Branch mode (Git worktree isolation)
-sbx run --template docker.io/cloudcliai/sandbox:claude-code claude ~/my-project --branch my-feature
+sbx run --template docker.io/hoocowork/sandbox:claude-code claude ~/my-project --branch my-feature
 
 # Multiple workspaces
-sbx run --template docker.io/cloudcliai/sandbox:claude-code claude ~/project ~/shared-libs:ro
+sbx run --template docker.io/hoocowork/sandbox:claude-code claude ~/project ~/shared-libs:ro
 
 # Pass a prompt directly
-sbx run --template docker.io/cloudcliai/sandbox:claude-code claude ~/my-project -- "Fix the auth bug"
+sbx run --template docker.io/hoocowork/sandbox:claude-code claude ~/my-project -- "Fix the auth bug"
 ```
 
-CloudCLI auto-starts via `.bashrc` when using `sbx run`.
+HooCowork auto-starts via `.bashrc` when using `sbx run`.
 
 Full options in the [Docker Sandboxes usage guide](https://docs.docker.com/ai/sandboxes/usage/).
 
@@ -154,10 +154,10 @@ The web UI itself doesn't need a policy — access it via `sbx ports`.
 
 ## Links
 
-- [CloudCLI Cloud](https://cloudcli.ai) — fully managed, no setup required
-- [Documentation](https://cloudcli.ai/docs) — full configuration guide
+- [HooCowork](https://hoocowork.app) — fully managed, no setup required
+- [Documentation](https://hoocowork.app/docs) — full configuration guide
 - [Discord](https://discord.gg/buxwujPNRE) — community support
-- [GitHub](https://github.com/siteboon/claudecodeui) — source code and issues
+- [GitHub](https://github.com/kolisachint/hoocowork) — source code and issues
 
 ## License
 

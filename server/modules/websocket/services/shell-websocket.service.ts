@@ -119,7 +119,7 @@ function buildShellCommand(
     return 'codex';
   }
 
-  if (provider === 'pi') {
+  if (provider === 'hoocode') {
     if (hasSession && sessionId) {
       // Pi accepts a partial UUID via --session and resumes; if the rollout
       // is missing it errors fast and we fall back to a fresh `pi`.
@@ -128,7 +128,7 @@ function buildShellCommand(
       }
       return `pi --session "${sessionId}" || pi`;
     }
-    return 'pi';
+    return 'hoocode';
   }
 
   if (provider === 'opencode') {

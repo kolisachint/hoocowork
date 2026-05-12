@@ -733,7 +733,7 @@ async function parseClaudeSessionMatches(
           }
         }
 
-        if (!entry.message?.content || entry.isApiErrorMessage) {
+        if (!entry.message?.content || entry.isAhoocodeErrorMessage) {
           continue;
         }
 

@@ -57,7 +57,7 @@ const mcpServersCache = new Map<string, McpServersCacheEntry>();
 
 const toResponseJson = async <T>(response: Response): Promise<T> => response.json() as Promise<T>;
 
-const getApiErrorMessage = (payload: unknown, fallback: string): string => {
+const getAhoocodeErrorMessage = (payload: unknown, fallback: string): string => {
   if (!payload || typeof payload !== 'object') {
     return fallback;
   }
@@ -154,7 +154,7 @@ const fetchProviderScopeServers = async (
   const data = await toResponseJson<ApiResponse<ProviderMcpServerResponse>>(response);
 
   if (!response.ok || !data.success) {
-    throw new Error(getApiErrorMessage(data, `Failed to load ${provider} MCP servers`));
+    throw new Error(getAhoocodeErrorMessage(data, `Failed to load ${provider} MCP servers`));
   }
 
   return (data.data.servers || []).map((server) => normalizeServer(provider, scope, server, project));
@@ -176,7 +176,7 @@ const deleteProviderServer = async (
   const data = await toResponseJson<ApiResponse<{ removed: boolean }>>(response);
 
   if (!response.ok || !data.success) {
-    throw new Error(getApiErrorMessage(data, 'Failed to delete MCP server'));
+    throw new Error(getAhoocodeErrorMessage(data, 'Failed to delete MCP server'));
   }
 };
 
@@ -191,7 +191,7 @@ const saveProviderServer = async (
   const data = await toResponseJson<ApiResponse<{ server: ProviderMcpServer }>>(response);
 
   if (!response.ok || !data.success) {
-    throw new Error(getApiErrorMessage(data, 'Failed to save MCP server'));
+    throw new Error(getAhoocodeErrorMessage(data, 'Failed to save MCP server'));
   }
 };
 
@@ -205,7 +205,7 @@ const saveGlobalServer = async (
   const data = await toResponseJson<ApiResponse<GlobalMcpServerResponse>>(response);
 
   if (!response.ok || !data.success) {
-    throw new Error(getApiErrorMessage(data, 'Failed to save MCP server to all providers'));
+    throw new Error(getAhoocodeErrorMessage(data, 'Failed to save MCP server to all providers'));
   }
 
   return data.data.results || [];

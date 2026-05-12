@@ -2,7 +2,7 @@ import express, { type Request, type Response } from 'express';
 
 import { providerAuthService } from '@/modules/providers/services/provider-auth.service.js';
 import { providerMcpService } from '@/modules/providers/services/mcp.service.js';
-import { piModelsService } from '@/modules/providers/services/pi-models.service.js';
+import { hoocodeModelsService } from '@/modules/providers/services/hoocode-models.service.js';
 import { openCodeModelsService } from '@/modules/providers/services/opencode-models.service.js';
 import { sessionConversationsSearchService } from '@/modules/providers/services/session-conversations-search.service.js';
 import { sessionsService } from '@/modules/providers/services/sessions.service.js';
@@ -174,7 +174,7 @@ const parseMcpUpsertPayload = (payload: unknown): UpsertProviderMcpServerInput =
 
 const parseProvider = (value: unknown): LLMProvider => {
   const normalized = normalizeProviderParam(value);
-  if (normalized === 'claude' || normalized === 'codex' || normalized === 'cursor' || normalized === 'gemini' || normalized === 'pi') {
+  if (normalized === 'claude' || normalized === 'codex' || normalized === 'cursor' || normalized === 'gemini' || normalized === 'hoocode') {
     return normalized;
   }
 
@@ -256,7 +256,7 @@ router.get(
   '/pi/models',
   asyncHandler(async (req: Request, res: Response) => {
     const force = parseOptionalBooleanQuery(req.query.force, 'force') === true;
-    const result = await piModelsService.getModels({ force });
+    const result = await hoocodeModelsService.getModels({ force });
     res.json(createApiSuccessResponse(result));
   }),
 );

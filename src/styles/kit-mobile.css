@@ -58,7 +58,11 @@
 
   /* ---- Chat: full-bleed; composer sticks ---- */
   .chat-header { padding: 10px 14px; }
-  .chat-header .chat-meta { display: none; }
+  .chat-header-actions { padding: 6px 12px; }
+  .chat-header-info { padding: 8px 12px; gap: 8px; }
+  .chat-header .chat-meta-time,
+  .chat-header .chat-meta-count { display: none; }
+  .chat-tab span:not(.chat-tab-glyph) { display: none; }
   .chat-stream { padding: var(--s-3) var(--s-4); gap: var(--s-3); }
   .msg { grid-template-columns: 18px 1fr; gap: 6px; }
   .composer { padding: var(--s-2) var(--s-3) var(--s-3); }

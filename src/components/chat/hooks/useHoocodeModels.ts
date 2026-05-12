@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { authenticatedFetch } from '../../../utils/api';
 
-export type PiModelOption = {
+export type HoocodeModelOption = {
   value: string;
   label: string;
   provider: string;
@@ -11,7 +11,7 @@ export type PiModelOption = {
   context: string | null;
 };
 
-type PiModelsResponse = {
+type HoocodeModelsResponse = {
   success: boolean;
   data?: {
     installed: boolean;
@@ -30,15 +30,15 @@ type PiModelsResponse = {
   error?: { message?: string };
 };
 
-type UsePiModelsResult = {
-  models: PiModelOption[];
+type UseHoocodeModelsResult = {
+  models: HoocodeModelOption[];
   loading: boolean;
   error: string | null;
   installed: boolean;
   refresh: () => Promise<void>;
 };
 
-const toOption = (m: NonNullable<PiModelsResponse['data']>['models'][number]): PiModelOption => ({
+const toOption = (m: NonNullable<HoocodeModelsResponse['data']>['models'][number]): HoocodeModelOption => ({
   value: m.id,
   label: `${m.model} · ${m.provider}`,
   provider: m.provider,
@@ -47,8 +47,8 @@ const toOption = (m: NonNullable<PiModelsResponse['data']>['models'][number]): P
   context: m.context,
 });
 
-export function usePiModels({ enabled = true }: { enabled?: boolean } = {}): UsePiModelsResult {
-  const [models, setModels] = useState<PiModelOption[]>([]);
+export function useHoocodeModels({ enabled = true }: { enabled?: boolean } = {}): UseHoocodeModelsResult {
+  const [models, setModels] = useState<HoocodeModelOption[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [installed, setInstalled] = useState(true);
@@ -62,15 +62,15 @@ export function usePiModels({ enabled = true }: { enabled?: boolean } = {}): Use
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
-      const payload = (await response.json()) as PiModelsResponse;
+      const payload = (await response.json()) as HoocodeModelsResponse;
       const data = payload.data;
       if (!payload.success || !data) {
-        throw new Error(payload.error?.message || 'Failed to load Pi models');
+        throw new Error(payload.error?.message || 'Failed to load Hoocode models');
       }
       setInstalled(data.installed);
       setModels(data.models.map(toOption));
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : 'Failed to load Pi models');
+      setError(caughtError instanceof Error ? caughtError.message : 'Failed to load Hoocode models');
     } finally {
       setLoading(false);
       fetchedOnceRef.current = true;

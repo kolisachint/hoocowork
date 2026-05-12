@@ -12,7 +12,7 @@ import type {
   AuthUserPayload,
   OnboardingStatusPayload,
 } from '../types';
-import { parseJsonSafely, resolveApiErrorMessage } from '../utils';
+import { parseJsonSafely, resolveAhoocodeErrorMessage } from '../utils';
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
@@ -138,7 +138,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         const payload = await parseJsonSafely<AuthSessionPayload>(response);
 
         if (!response.ok || !payload?.token || !payload.user) {
-          const message = resolveApiErrorMessage(payload, AUTH_ERROR_MESSAGES.loginFailed);
+          const message = resolveAhoocodeErrorMessage(payload, AUTH_ERROR_MESSAGES.loginFailed);
           setError(message);
           return { success: false, error: message };
         }
@@ -164,7 +164,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         const payload = await parseJsonSafely<AuthSessionPayload>(response);
 
         if (!response.ok || !payload?.token || !payload.user) {
-          const message = resolveApiErrorMessage(payload, AUTH_ERROR_MESSAGES.registrationFailed);
+          const message = resolveAhoocodeErrorMessage(payload, AUTH_ERROR_MESSAGES.registrationFailed);
           setError(message);
           return { success: false, error: message };
         }

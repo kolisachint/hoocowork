@@ -14,7 +14,7 @@ type SessionSummary = {
   lastActivity: string;
 };
 
-type SessionsByProvider = Record<'claude' | 'cursor' | 'codex' | 'gemini' | 'pi' | 'opencode', SessionSummary[]>;
+type SessionsByProvider = Record<'claude' | 'cursor' | 'codex' | 'gemini' | 'hoocode' | 'opencode', SessionSummary[]>;
 
 type SessionRepositoryRow = {
   provider: string;
@@ -34,7 +34,7 @@ export type ProjectListItem = {
   cursorSessions: SessionSummary[];
   codexSessions: SessionSummary[];
   geminiSessions: SessionSummary[];
-  piSessions: SessionSummary[];
+  hoocodeSessions: SessionSummary[];
   openCodeSessions: SessionSummary[];
   sessionMeta: {
     hasMore: boolean;
@@ -72,7 +72,7 @@ export type ProjectSessionsPageApiView = {
   cursorSessions: SessionSummary[];
   codexSessions: SessionSummary[];
   geminiSessions: SessionSummary[];
-  piSessions: SessionSummary[];
+  hoocodeSessions: SessionSummary[];
   openCodeSessions: SessionSummary[];
   sessionMeta: {
     hasMore: boolean;
@@ -139,7 +139,7 @@ function bucketSessionRowsByProvider(rows: SessionRepositoryRow[]): SessionsByPr
     cursor: [],
     codex: [],
     gemini: [],
-    pi: [],
+    hoocode: [],
     opencode: [],
   };
 
@@ -245,7 +245,7 @@ export async function getProjectsWithSessions(
       cursorSessions: sessionsPage.sessionsByProvider.cursor,
       codexSessions: sessionsPage.sessionsByProvider.codex,
       geminiSessions: sessionsPage.sessionsByProvider.gemini,
-      piSessions: sessionsPage.sessionsByProvider.pi,
+      hoocodeSessions: sessionsPage.sessionsByProvider.hoocode,
       openCodeSessions: sessionsPage.sessionsByProvider.opencode,
       sessionMeta: {
         hasMore: sessionsPage.hasMore,
@@ -285,7 +285,7 @@ export async function getProjectSessionsPage(
     cursorSessions: sessionsPage.sessionsByProvider.cursor,
     codexSessions: sessionsPage.sessionsByProvider.codex,
     geminiSessions: sessionsPage.sessionsByProvider.gemini,
-    piSessions: sessionsPage.sessionsByProvider.pi,
+    hoocodeSessions: sessionsPage.sessionsByProvider.hoocode,
     openCodeSessions: sessionsPage.sessionsByProvider.opencode,
     sessionMeta: {
       hasMore: sessionsPage.hasMore,

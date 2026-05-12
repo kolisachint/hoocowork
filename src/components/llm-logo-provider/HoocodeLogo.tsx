@@ -1,8 +1,8 @@
-type PiLogoProps = {
+type HoocodeLogoProps = {
   className?: string;
 };
 
-export default function PiLogo({ className = 'w-5 h-5' }: PiLogoProps) {
+export default function HoocodeLogo({ className = 'w-5 h-5' }: HoocodeLogoProps) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -20,7 +20,7 @@ export default function PiLogo({ className = 'w-5 h-5' }: PiLogoProps) {
         fontWeight="bold"
         fontFamily="system-ui, sans-serif"
       >
-        π
+        H
       </text>
     </svg>
   );

@@ -12,10 +12,10 @@ import {
 import type { IProviderSessionSynchronizer } from '@/shared/interfaces.js';
 import type { AnyRecord } from '@/shared/types.js';
 
-const PI_UNTITLED = 'Untitled Pi Session';
+const PI_UNTITLED = 'Untitled Hoocode Session';
 
 function getPiSessionsRoot(): string {
-  return path.join(os.homedir(), '.pi', 'agent', 'sessions');
+  return path.join(os.homedir(), '.hoocode', 'agent', 'sessions');
 }
 
 type ParsedPiSession = {
@@ -87,8 +87,8 @@ async function extractFirstUserText(filePath: string): Promise<string | undefine
   }
 }
 
-export class PiSessionSynchronizer implements IProviderSessionSynchronizer {
-  private readonly provider = 'pi' as const;
+export class HoocodeSessionSynchronizer implements IProviderSessionSynchronizer {
+  private readonly provider = 'hoocode' as const;
 
   async synchronize(_since?: Date): Promise<number> {
     const root = getPiSessionsRoot();

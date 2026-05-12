@@ -26,7 +26,7 @@ export default function AgentsSettingsTab({
   const { isWindowsServer } = useServerPlatform();
 
   const visibleAgents = useMemo<AgentProvider[]>(() => {
-    const all: AgentProvider[] = ['claude', 'cursor', 'codex', 'gemini', 'pi', 'opencode'];
+    const all: AgentProvider[] = ['claude', 'cursor', 'codex', 'gemini', 'hoocode', 'opencode'];
     if (isWindowsServer) {
       return all.filter((id) => id !== 'cursor');
     }
@@ -40,10 +40,10 @@ export default function AgentsSettingsTab({
     }
   }, [isWindowsServer, selectedAgent]);
 
-  // Pi only supports the Account category — snap back to it when switching to
-  // Pi while a different (unsupported) category was selected.
+  // Hoocode only supports the Account category — snap back to it when switching to
+  // Hoocode while a different (unsupported) category was selected.
   useEffect(() => {
-    if (selectedAgent === 'pi' && selectedCategory !== 'account') {
+    if (selectedAgent === 'hoocode' && selectedCategory !== 'account') {
       setSelectedCategory('account');
     }
   }, [selectedAgent, selectedCategory]);
@@ -65,9 +65,9 @@ export default function AgentsSettingsTab({
       authStatus: providerAuthStatus.gemini,
       onLogin: () => onProviderLogin('gemini'),
     },
-    pi: {
-      authStatus: providerAuthStatus.pi,
-      onLogin: () => onProviderLogin('pi'),
+    hoocode: {
+      authStatus: providerAuthStatus.hoocode,
+      onLogin: () => onProviderLogin('hoocode'),
     },
     opencode: {
       authStatus: providerAuthStatus.opencode,
@@ -79,7 +79,7 @@ export default function AgentsSettingsTab({
     providerAuthStatus.codex,
     providerAuthStatus.cursor,
     providerAuthStatus.gemini,
-    providerAuthStatus.pi,
+    providerAuthStatus.hoocode,
     providerAuthStatus.opencode,
   ]);
 

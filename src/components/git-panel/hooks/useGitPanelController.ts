@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { authenticatedFetch } from '../../../utils/api';
 import { DEFAULT_BRANCH, RECENT_COMMITS_LIMIT } from '../constants/constants';
 import type {
-  GitApiErrorResponse,
+  GitAhoocodeErrorResponse,
   GitBranchesResponse,
   GitCommitSummary,
   GitCommitsResponse,
@@ -203,7 +203,7 @@ export function useGitPanelController({
 
     try {
       const response = await fetchWithAuth(`/api/git/remote-status?project=${encodeURIComponent(selectedProject.projectId)}`);
-      const data = await readJson<GitRemoteStatus | GitApiErrorResponse>(response);
+      const data = await readJson<GitRemoteStatus | GitAhoocodeErrorResponse>(response);
 
       if (!data.error) {
         setRemoteStatus(data as GitRemoteStatus);

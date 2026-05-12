@@ -6,8 +6,8 @@ import type { AgentCategoryTabsSectionProps } from '../types';
 
 const AGENT_CATEGORIES: AgentCategory[] = ['account', 'permissions', 'mcp'];
 
-// Pi only exposes account info — MCP and per-tool permissions aren't supported
-// by the backend (see pi-mcp.provider.ts). Hide the irrelevant tabs so the UI
+// Hoocode only exposes account info — MCP and per-tool permissions aren't supported
+// by the backend (see hoocode-mcp.provider.ts). Hide the irrelevant tabs so the UI
 // doesn't dead-end into a broken state.
 const PI_AGENT_CATEGORIES: AgentCategory[] = ['account'];
 
@@ -17,7 +17,7 @@ export default function AgentCategoryTabsSection({
   selectedAgent,
 }: AgentCategoryTabsSectionProps) {
   const { t } = useTranslation('settings');
-  const categories = selectedAgent === 'pi' ? PI_AGENT_CATEGORIES : AGENT_CATEGORIES;
+  const categories = selectedAgent === 'hoocode' ? PI_AGENT_CATEGORIES : AGENT_CATEGORIES;
 
   return (
     <div className="flex-shrink-0 border-b" style={{ borderColor: 'var(--line)' }}>

@@ -29,7 +29,7 @@ type ChatWebSocketDependencies = {
   spawnCursor: (command: string, options: unknown, writer: WebSocketWriter) => Promise<unknown>;
   queryCodex: (command: string, options: unknown, writer: WebSocketWriter) => Promise<unknown>;
   spawnGemini: (command: string, options: unknown, writer: WebSocketWriter) => Promise<unknown>;
-  spawnPi: (command: string, options: unknown, writer: WebSocketWriter) => Promise<unknown>;
+  spawnHoocode: (command: string, options: unknown, writer: WebSocketWriter) => Promise<unknown>;
   spawnOpenCode: (command: string, options: unknown, writer: WebSocketWriter) => Promise<unknown>;
   abortClaudeSDKSession: (sessionId: string) => Promise<boolean>;
   abortCursorSession: (sessionId: string) => boolean;
@@ -71,7 +71,7 @@ function readProvider(value: unknown): LLMProvider {
     || value === 'cursor'
     || value === 'codex'
     || value === 'gemini'
-    || value === 'pi'
+    || value === 'hoocode'
     || value === 'opencode'
   ) {
     return value;
@@ -150,8 +150,8 @@ export function handleChatConnection(
         return;
       }
 
-      if (messageType === 'pi-command') {
-        await dependencies.spawnPi(data.command ?? '', data.options, writer);
+      if (messageType === 'hoocode-command') {
+        await dependencies.spawnHoocode(data.command ?? '', data.options, writer);
         return;
       }
 
@@ -184,7 +184,7 @@ export function handleChatConnection(
           success = dependencies.abortCodexSession(sessionId);
         } else if (provider === 'gemini') {
           success = dependencies.abortGeminiSession(sessionId);
-        } else if (provider === 'pi') {
+        } else if (provider === 'hoocode') {
           success = dependencies.abortPiSession(sessionId);
         } else if (provider === 'opencode') {
           success = dependencies.abortOpenCodeSession(sessionId);
@@ -244,7 +244,7 @@ export function handleChatConnection(
           isActive = dependencies.isCodexSessionActive(sessionId);
         } else if (provider === 'gemini') {
           isActive = dependencies.isGeminiSessionActive(sessionId);
-        } else if (provider === 'pi') {
+        } else if (provider === 'hoocode') {
           isActive = dependencies.isPiSessionActive(sessionId);
         } else if (provider === 'opencode') {
           isActive = dependencies.isOpenCodeSessionActive(sessionId);

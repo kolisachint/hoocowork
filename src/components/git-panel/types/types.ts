@@ -106,35 +106,35 @@ export type GitPanelController = {
   openFile: (filePath: string) => Promise<void>;
 };
 
-export type GitApiErrorResponse = {
+export type GitAhoocodeErrorResponse = {
   error?: string;
   details?: string;
 };
 
-export type GitDiffResponse = GitApiErrorResponse & {
+export type GitDiffResponse = GitAhoocodeErrorResponse & {
   diff?: string;
 };
 
-export type GitBranchesResponse = GitApiErrorResponse & {
+export type GitBranchesResponse = GitAhoocodeErrorResponse & {
   branches?: string[];
   localBranches?: string[];
   remoteBranches?: string[];
 };
 
-export type GitCommitsResponse = GitApiErrorResponse & {
+export type GitCommitsResponse = GitAhoocodeErrorResponse & {
   commits?: GitCommitSummary[];
 };
 
-export type GitOperationResponse = GitApiErrorResponse & {
+export type GitOperationResponse = GitAhoocodeErrorResponse & {
   success?: boolean;
   output?: string;
 };
 
-export type GitGenerateMessageResponse = GitApiErrorResponse & {
+export type GitGenerateMessageResponse = GitAhoocodeErrorResponse & {
   message?: string;
 };
 
-export type GitFileWithDiffResponse = GitApiErrorResponse & {
+export type GitFileWithDiffResponse = GitAhoocodeErrorResponse & {
   oldContent?: string;
   currentContent?: string;
   isDeleted?: boolean;

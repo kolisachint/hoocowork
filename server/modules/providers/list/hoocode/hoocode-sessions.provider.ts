@@ -8,10 +8,10 @@ import type { IProviderSessions } from '@/shared/interfaces.js';
 import type { AnyRecord, FetchHistoryOptions, FetchHistoryResult, NormalizedMessage } from '@/shared/types.js';
 import { createNormalizedMessage, generateMessageId, readObjectRecord } from '@/shared/utils.js';
 
-const PROVIDER = 'pi';
+const PROVIDER = 'hoocode';
 
 /**
- * Pi rollouts live under ~/.pi/agent/sessions/<slug>/<timestamp>_<id>.jsonl, but
+ * Hoocode rollouts live under ~/.hoocode/agent/sessions/<slug>/<timestamp>_<id>.jsonl, but
  * the slug-encoded folder name is lossy (path separators collapse to `-`) and
  * cannot be reliably reversed to a real cwd. The synchronizer persists the
  * jsonl_path on the session row, so prefer that. Fall back to a directory scan
@@ -23,7 +23,7 @@ function findSessionFile(sessionId: string, projectPath: string): string | null 
     return indexed;
   }
 
-  const root = path.join(os.homedir(), '.pi', 'agent', 'sessions');
+  const root = path.join(os.homedir(), '.hoocode', 'agent', 'sessions');
   if (!fs.existsSync(root)) return null;
 
   const cleanPath = (projectPath || '').replace(/[^\x20-\x7E]/g, '').trim();
@@ -121,7 +121,7 @@ function flattenToolResultMessageContent(content: unknown): string {
     .join('\n');
 }
 
-export class PiSessionsProvider implements IProviderSessions {
+export class HoocodeSessionsProvider implements IProviderSessions {
   normalizeMessage(rawMessage: unknown, sessionId: string | null): NormalizedMessage[] {
     const raw = readObjectRecord(rawMessage);
     if (!raw) return [];
@@ -148,7 +148,7 @@ export class PiSessionsProvider implements IProviderSessions {
       const ts = (raw.timestamp as string | undefined)
         ?? (typeof msg.timestamp === 'number' ? new Date(msg.timestamp).toISOString() : undefined)
         ?? new Date().toISOString();
-      const messageId = (raw.id as string | undefined) ?? generateMessageId('pi');
+      const messageId = (raw.id as string | undefined) ?? generateMessageId('hoocode');
       const parentId = raw.parentId as string | undefined;
 
       if (role === 'user' || role === 'assistant') {
@@ -159,7 +159,7 @@ export class PiSessionsProvider implements IProviderSessions {
           for (const part of content) {
             if (part?.type === 'thinking' && typeof part.thinking === 'string' && part.thinking.trim()) {
               messages.push(createNormalizedMessage({
-                id: generateMessageId('pi'),
+                id: generateMessageId('hoocode'),
                 sessionId,
                 timestamp: ts,
                 provider: PROVIDER,
@@ -246,7 +246,7 @@ export class PiSessionsProvider implements IProviderSessions {
 
       if (text) {
         messages.push(createNormalizedMessage({
-          id: generateMessageId('pi'),
+          id: generateMessageId('hoocode'),
           sessionId: sessionId ?? '',
           timestamp: new Date().toISOString(),
           provider: PROVIDER,
@@ -262,7 +262,7 @@ export class PiSessionsProvider implements IProviderSessions {
         const toolCalls = extractToolCalls(content);
         for (const tc of toolCalls) {
           messages.push(createNormalizedMessage({
-            id: generateMessageId('pi'),
+            id: generateMessageId('hoocode'),
             sessionId: sessionId ?? '',
             timestamp: new Date().toISOString(),
             provider: PROVIDER,
@@ -279,7 +279,7 @@ export class PiSessionsProvider implements IProviderSessions {
         const toolResults = extractToolResults(content);
         for (const tr of toolResults) {
           messages.push(createNormalizedMessage({
-            id: generateMessageId('pi'),
+            id: generateMessageId('hoocode'),
             sessionId: sessionId ?? '',
             timestamp: new Date().toISOString(),
             provider: PROVIDER,
@@ -299,7 +299,7 @@ export class PiSessionsProvider implements IProviderSessions {
       const event = raw.assistantMessageEvent as AnyRecord;
       if (event.type === 'thinking_delta' && event.delta) {
         messages.push(createNormalizedMessage({
-          id: generateMessageId('pi'),
+          id: generateMessageId('hoocode'),
           sessionId: sessionId ?? '',
           timestamp: new Date().toISOString(),
           provider: PROVIDER,
@@ -309,7 +309,7 @@ export class PiSessionsProvider implements IProviderSessions {
       }
       if (event.type === 'text_delta' && event.delta) {
         messages.push(createNormalizedMessage({
-          id: generateMessageId('pi'),
+          id: generateMessageId('hoocode'),
           sessionId: sessionId ?? '',
           timestamp: new Date().toISOString(),
           provider: PROVIDER,
@@ -330,7 +330,7 @@ export class PiSessionsProvider implements IProviderSessions {
         const finalText = extractTextFromContent(content);
         if (finalText) {
           messages.push(createNormalizedMessage({
-            id: generateMessageId('pi'),
+            id: generateMessageId('hoocode'),
             sessionId: sessionId ?? '',
             timestamp: new Date().toISOString(),
             provider: PROVIDER,
@@ -345,7 +345,7 @@ export class PiSessionsProvider implements IProviderSessions {
         const toolCalls = extractToolCalls(content);
         for (const tc of toolCalls) {
           messages.push(createNormalizedMessage({
-            id: generateMessageId('pi'),
+            id: generateMessageId('hoocode'),
             sessionId: sessionId ?? '',
             timestamp: new Date().toISOString(),
             provider: PROVIDER,
@@ -432,7 +432,7 @@ export class PiSessionsProvider implements IProviderSessions {
         limit,
       };
     } catch (error) {
-      console.error(`[PiProvider] Failed to load session ${sessionId}:`, error);
+      console.error(`[HoocodeProvider] Failed to load session ${sessionId}:`, error);
       return { messages: [], total: 0, hasMore: false, offset: 0, limit: null };
     }
   }

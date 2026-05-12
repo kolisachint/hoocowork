@@ -43,7 +43,7 @@ interface UseChatComposerStateArgs {
   claudeModel: string;
   codexModel: string;
   geminiModel: string;
-  piModel: string;
+  hoocodeModel: string;
   openCodeModel: string;
   isLoading: boolean;
   canAbortSession: boolean;
@@ -117,7 +117,7 @@ export function useChatComposerState({
   claudeModel,
   codexModel,
   geminiModel,
-  piModel,
+  hoocodeModel,
   openCodeModel,
   isLoading,
   canAbortSession,
@@ -292,7 +292,7 @@ export function useChatComposerState({
           projectId: selectedProject.projectId,
           sessionId: currentSessionId,
           provider,
-          model: provider === 'cursor' ? cursorModel : provider === 'codex' ? codexModel : provider === 'gemini' ? geminiModel : provider === 'pi' ? piModel : provider === 'opencode' ? openCodeModel : claudeModel,
+          model: provider === 'cursor' ? cursorModel : provider === 'codex' ? codexModel : provider === 'gemini' ? geminiModel : provider === 'hoocode' ? hoocodeModel : provider === 'opencode' ? openCodeModel : claudeModel,
           tokenUsage: tokenBudget,
         };
 
@@ -649,16 +649,16 @@ export function useChatComposerState({
             toolsSettings,
           },
         });
-      } else if (provider === 'pi') {
+      } else if (provider === 'hoocode') {
         sendMessage({
-          type: 'pi-command',
+          type: 'hoocode-command',
           command: messageContent,
           options: {
             projectPath: resolvedProjectPath,
             cwd: resolvedProjectPath,
             sessionId: effectiveSessionId,
             resume: Boolean(effectiveSessionId),
-            model: piModel,
+            model: hoocodeModel,
             sessionSummary,
           },
         });
@@ -717,7 +717,7 @@ export function useChatComposerState({
       cursorModel,
       executeCommand,
       geminiModel,
-      piModel,
+      hoocodeModel,
       openCodeModel,
       isLoading,
       onSessionActive,

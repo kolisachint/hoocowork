@@ -323,7 +323,7 @@
       "gemini": {
         "description": "Google Gemini AI assistant"
       },
-      "pi": {
+      "hoocode": {
         "description": "Pi coding agent",
         "configuredViaKeys": "Authenticated via API keys configured on the server",
         "manageKeysHint": "Manage Pi credentials in API & Tokens"

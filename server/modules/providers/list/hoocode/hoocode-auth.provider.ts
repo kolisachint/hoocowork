@@ -3,13 +3,13 @@ import { execSync } from 'node:child_process';
 import type { IProviderAuth } from '@/shared/interfaces.js';
 import type { ProviderAuthStatus } from '@/shared/types.js';
 
-export class PiProviderAuth implements IProviderAuth {
+export class HoocodeProviderAuth implements IProviderAuth {
   async getStatus(): Promise<ProviderAuthStatus> {
     try {
       execSync('pi --version', { stdio: 'ignore' });
       return {
         installed: true,
-        provider: 'pi',
+        provider: 'hoocode',
         authenticated: true,
         email: null,
         method: 'cli',
@@ -17,7 +17,7 @@ export class PiProviderAuth implements IProviderAuth {
     } catch {
       return {
         installed: false,
-        provider: 'pi',
+        provider: 'hoocode',
         authenticated: false,
         email: null,
         method: null,

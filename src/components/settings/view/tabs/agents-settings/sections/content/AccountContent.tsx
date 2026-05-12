@@ -30,9 +30,9 @@ const agentConfig: Record<AgentProvider, AgentVisualConfig> = {
     name: 'Gemini',
     description: 'Google Gemini AI assistant',
   },
-  pi: {
-    name: 'Pi',
-    description: 'Pi AI coding agent',
+  hoocode: {
+    name: 'Hoocode',
+    description: 'Hoocode AI coding agent',
   },
   opencode: {
     name: 'OpenCode',
@@ -90,13 +90,13 @@ export default function AccountContent({ agent, authStatus, onLogin }: AccountCo
             </div>
           </div>
 
-          {agent === 'pi' ? (
+          {agent === 'hoocode' ? (
             <div className="pt-4" style={{ borderTop: '1px solid var(--line)' }}>
               <div className={`text-sm ${'text-[var(--ink-3)]'}`}>
-                {t('agents.account.pi.configuredViaKeys')}
+                {t('agents.account.hoocode.configuredViaKeys')}
               </div>
               <div className="mt-1 text-xs opacity-80" style={{ color: 'var(--ink-3)' }}>
-                {t('agents.account.pi.manageKeysHint')}
+                {t('agents.account.hoocode.manageKeysHint')}
               </div>
             </div>
           ) : authStatus.method !== 'api_key' && (

@@ -1,7 +1,7 @@
 import { ExternalLink, Lock } from 'lucide-react';
 import type { ReactNode } from 'react';
 
-const CLOUDCLI_URL = 'https://cloudcli.ai';
+const HOOCOWORK_URL = 'https://hoocowork.app';
 
 type PremiumFeatureCardProps = {
   icon: ReactNode;
@@ -14,7 +14,7 @@ export default function PremiumFeatureCard({
   icon,
   title,
   description,
-  ctaText = 'Available with CloudCLI Pro',
+  ctaText = 'Available with HooCowork Pro',
 }: PremiumFeatureCardProps) {
   return (
     <div className="p-5 border border-dashed" style={{ borderColor: 'var(--line)', background: 'var(--paper-2)' }}>
@@ -31,7 +31,7 @@ export default function PremiumFeatureCard({
             {description}
           </p>
           <a
-            href={CLOUDCLI_URL}
+            href={HOOCOWORK_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-3 inline-flex items-center gap-1 text-xs font-medium transition-colors hover:underline" style={{ color: 'var(--accent)' }}

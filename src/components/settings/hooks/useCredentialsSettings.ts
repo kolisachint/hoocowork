@@ -15,7 +15,7 @@ type UseCredentialsSettingsArgs = {
   confirmDeleteGithubCredentialText: string;
 };
 
-const getApiError = (payload: { error?: string } | undefined, fallback: string) => (
+const getAhoocodeError = (payload: { error?: string } | undefined, fallback: string) => (
   payload?.error || fallback
 );
 
@@ -75,7 +75,7 @@ export function useCredentialsSettings({
 
       const payload = await response.json() as ApiKeysResponse;
       if (!response.ok || !payload.success) {
-        console.error('Error creating API key:', getApiError(payload, 'Failed to create API key'));
+        console.error('Error creating API key:', getAhoocodeError(payload, 'Failed to create API key'));
         return;
       }
 
@@ -102,7 +102,7 @@ export function useCredentialsSettings({
 
       if (!response.ok) {
         const payload = await response.json() as ApiKeysResponse;
-        console.error('Error deleting API key:', getApiError(payload, 'Failed to delete API key'));
+        console.error('Error deleting API key:', getAhoocodeError(payload, 'Failed to delete API key'));
         return;
       }
 
@@ -121,7 +121,7 @@ export function useCredentialsSettings({
 
       if (!response.ok) {
         const payload = await response.json() as ApiKeysResponse;
-        console.error('Error toggling API key:', getApiError(payload, 'Failed to toggle API key'));
+        console.error('Error toggling API key:', getAhoocodeError(payload, 'Failed to toggle API key'));
         return;
       }
 
@@ -149,7 +149,7 @@ export function useCredentialsSettings({
 
       const payload = await response.json() as GithubCredentialsResponse;
       if (!response.ok || !payload.success) {
-        console.error('Error creating GitHub credential:', getApiError(payload, 'Failed to create GitHub credential'));
+        console.error('Error creating GitHub credential:', getAhoocodeError(payload, 'Failed to create GitHub credential'));
         return;
       }
 
@@ -176,7 +176,7 @@ export function useCredentialsSettings({
 
       if (!response.ok) {
         const payload = await response.json() as GithubCredentialsResponse;
-        console.error('Error deleting GitHub credential:', getApiError(payload, 'Failed to delete GitHub credential'));
+        console.error('Error deleting GitHub credential:', getAhoocodeError(payload, 'Failed to delete GitHub credential'));
         return;
       }
 
@@ -195,7 +195,7 @@ export function useCredentialsSettings({
 
       if (!response.ok) {
         const payload = await response.json() as GithubCredentialsResponse;
-        console.error('Error toggling GitHub credential:', getApiError(payload, 'Failed to toggle GitHub credential'));
+        console.error('Error toggling GitHub credential:', getAhoocodeError(payload, 'Failed to toggle GitHub credential'));
         return;
       }
 

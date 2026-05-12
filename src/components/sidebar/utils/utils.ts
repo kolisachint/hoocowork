@@ -62,7 +62,7 @@ export const getSessionDate = (session: SessionWithProvider): Date => {
     return new Date(session.createdAt || session.lastActivity || 0);
   }
 
-  if (session.__provider === 'pi') {
+  if (session.__provider === 'hoocode') {
     return new Date(session.createdAt || session.lastActivity || 0);
   }
 
@@ -86,8 +86,8 @@ export const getSessionName = (session: SessionWithProvider, t: TFunction): stri
     return session.summary || session.name || t('projects.newSession');
   }
 
-  if (session.__provider === 'pi') {
-    return session.summary || session.name || t('projects.piSession', { defaultValue: 'Pi Session' });
+  if (session.__provider === 'hoocode') {
+    return session.summary || session.name || t('projects.hoocodeSession', { defaultValue: 'Hoocode Session' });
   }
 
   if (session.__provider === 'opencode') {
@@ -106,7 +106,7 @@ export const getSessionTime = (session: SessionWithProvider): string => {
     return String(session.createdAt || session.lastActivity || '');
   }
 
-  if (session.__provider === 'pi') {
+  if (session.__provider === 'hoocode') {
     return String(session.createdAt || session.lastActivity || '');
   }
 
@@ -129,7 +129,7 @@ export const createSessionViewModel = (
     isCursorSession: session.__provider === 'cursor',
     isCodexSession: session.__provider === 'codex',
     isGeminiSession: session.__provider === 'gemini',
-    isPiSession: session.__provider === 'pi',
+    isPiSession: session.__provider === 'hoocode',
     isOpenCodeSession: session.__provider === 'opencode',
     isActive: diffInMinutes < 10,
     sessionName: getSessionName(session, t),
@@ -159,9 +159,9 @@ export const getAllSessions = (project: Project): SessionWithProvider[] => {
     __provider: 'gemini' as const,
   }));
 
-  const piSessions = (project.piSessions || []).map((session) => ({
+  const hoocodeSessions = (project.hoocodeSessions || []).map((session) => ({
     ...session,
-    __provider: 'pi' as const,
+    __provider: 'hoocode' as const,
   }));
 
   const openCodeSessions = (project.openCodeSessions || []).map((session) => ({
@@ -174,7 +174,7 @@ export const getAllSessions = (project: Project): SessionWithProvider[] => {
     ...cursorSessions,
     ...codexSessions,
     ...geminiSessions,
-    ...piSessions,
+    ...hoocodeSessions,
     ...openCodeSessions,
   ].sort((a, b) => getSessionDate(b).getTime() - getSessionDate(a).getTime());
 };

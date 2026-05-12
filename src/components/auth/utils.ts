@@ -1,4 +1,4 @@
-import type { ApiErrorPayload } from './types';
+import type { AhoocodeErrorPayload } from './types';
 
 export async function parseJsonSafely<T>(response: Response): Promise<T | null> {
   try {
@@ -8,7 +8,7 @@ export async function parseJsonSafely<T>(response: Response): Promise<T | null> 
   }
 }
 
-export function resolveApiErrorMessage(payload: ApiErrorPayload | null, fallback: string): string {
+export function resolveAhoocodeErrorMessage(payload: AhoocodeErrorPayload | null, fallback: string): string {
   if (!payload) {
     return fallback;
   }

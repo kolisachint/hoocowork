@@ -34,8 +34,8 @@ const PROVIDER_WATCH_PATHS: Array<{ provider: LLMProvider; rootPath: string }> =
     rootPath: path.join(os.homedir(), '.gemini', 'tmp'),
   },
   {
-    provider: 'pi',
-    rootPath: path.join(os.homedir(), '.pi', 'agent', 'sessions'),
+    provider: 'hoocode',
+    rootPath: path.join(os.homedir(), '.hoocode', 'agent', 'sessions'),
   },
 ];
 

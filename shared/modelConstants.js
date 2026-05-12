@@ -96,16 +96,16 @@ export const GEMINI_MODELS = {
 };
 
 /**
- * Pi Models
+ * Hoocode Models
  *
- * Identifiers must match patterns from `pi --list-models` since the server
- * passes the value straight through as `pi --model <value>`. The special
- * sentinel "auto" is handled server-side (server/pi-cli.js) by omitting
- * --model so the Pi CLI's own default is used.
+ * Identifiers must match patterns from `hoocode --list-models` since the server
+ * passes the value straight through as `hoocode --model <value>`. The special
+ * sentinel "auto" is handled server-side (server/hoocode-cli.js) by omitting
+ * --model so the Hoocode CLI's own default is used.
  */
-export const PI_MODELS = {
+export const HOOCODE_MODELS = {
   OPTIONS: [
-    { value: "auto", label: "Auto (Pi default)" },
+    { value: "auto", label: "Auto (Hoocode default)" },
     { value: "opencode/claude-opus-4-7", label: "Claude Opus 4.7" },
     { value: "opencode/claude-opus-4-6", label: "Claude Opus 4.6" },
     { value: "opencode/claude-sonnet-4-6", label: "Claude Sonnet 4.6" },
@@ -133,7 +133,7 @@ export const PI_MODELS = {
  *
  * This static list is a curated fallback. The full catalog is loaded
  * dynamically from `opencode models` via /api/providers/opencode/models when
- * the picker opens, mirroring the Pi flow.
+ * the picker opens, mirroring the Hoocode flow.
  */
 export const OPENCODE_MODELS = {
   OPTIONS: [
@@ -167,6 +167,6 @@ export const PROVIDERS = [
   { id: "codex", name: "OpenAI", models: CODEX_MODELS },
   { id: "gemini", name: "Google", models: GEMINI_MODELS },
   { id: "cursor", name: "Cursor", models: CURSOR_MODELS },
-  { id: "pi", name: "Pi", models: PI_MODELS },
+  { id: "hoocode", name: "Hoocode", models: HOOCODE_MODELS },
   { id: "opencode", name: "OpenCode", models: OPENCODE_MODELS },
 ];

@@ -46,11 +46,11 @@ import {
     getActiveGeminiSessions,
 } from './gemini-cli.js';
 import {
-    spawnPi,
+    spawnHoocode,
     abortPiSession,
     isPiSessionActive,
     getActivePiSessions,
-} from './pi-cli.js';
+} from './hoocode-cli.js';
 import {
     spawnOpenCode,
     abortOpenCodeSession,
@@ -106,7 +106,7 @@ const wss = createWebSocketServer(server, {
         spawnCursor,
         queryCodex,
         spawnGemini,
-        spawnPi,
+        spawnHoocode,
         spawnOpenCode,
         abortClaudeSDKSession,
         abortCursorSession,
@@ -245,7 +245,7 @@ app.post('/api/system/update', authenticateToken, async (req, res) => {
             ? 'npm run update:platform'
             : installMode === 'git'
                 ? 'git checkout main && git pull && npm install'
-                : 'npm install -g @cloudcli-ai/cloudcli@latest';
+                : 'npm install -g @kolisachint/hoocowork@latest';
 
         const updateCwd = IS_PLATFORM || installMode === 'git'
             ? projectRoot
@@ -1496,12 +1496,12 @@ async function startServer() {
 
             console.log('');
             console.log(c.dim('═'.repeat(63)));
-            console.log(`  ${c.bright('CloudCLI Server - Ready')}`);
+            console.log(`  ${c.bright('HooCowork Server - Ready')}`);
             console.log(c.dim('═'.repeat(63)));
             console.log('');
             console.log(`${c.info('[INFO]')} Server URL:  ${c.bright('http://' + DISPLAY_HOST + ':' + SERVER_PORT)}`);
             console.log(`${c.info('[INFO]')} Installed at: ${c.dim(appInstallPath)}`);
-            console.log(`${c.tip('[TIP]')}  Run "cloudcli status" for full configuration details`);
+            console.log(`${c.tip('[TIP]')}  Run "hoocowork status" for full configuration details`);
             console.log('');
 
             // Start watching the projects folder for changes

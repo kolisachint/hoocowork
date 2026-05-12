@@ -37,7 +37,7 @@ export type CreateProjectPayload = {
   customName?: string;
 };
 
-export type CreateProjectApiError = {
+export type CreateProjectAhoocodeError = {
   code?: string;
   message?: string;
   details?: unknown;
@@ -46,7 +46,7 @@ export type CreateProjectApiError = {
 export type CreateProjectResponse = {
   success?: boolean;
   project?: Record<string, unknown>;
-  error?: string | CreateProjectApiError;
+  error?: string | CreateProjectAhoocodeError;
   details?: string;
   message?: string;
 };

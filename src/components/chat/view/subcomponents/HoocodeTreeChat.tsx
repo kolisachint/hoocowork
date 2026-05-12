@@ -7,7 +7,7 @@ import { normalizedToChatMessages } from '../../hooks/useChatMessages';
 
 import MessageComponent from './MessageComponent';
 
-interface PiTreeChatProps {
+interface HoocodeTreeChatProps {
   visibleMessages: ChatMessage[];
   treeNodes: Map<string, TreeNode>;
   activePath: string[];
@@ -21,10 +21,10 @@ interface PiTreeChatProps {
   showRawParameters?: boolean;
   showThinking?: boolean;
   selectedProject: Project;
-  provider: 'pi';
+  provider: 'hoocode';
 }
 
-export default function PiTreeChat({
+export default function HoocodeTreeChat({
   treeNodes,
   activePath,
   onSetActivePath,
@@ -37,7 +37,7 @@ export default function PiTreeChat({
   showRawParameters,
   showThinking,
   selectedProject,
-}: PiTreeChatProps) {
+}: HoocodeTreeChatProps) {
   const activeSet = useMemo(() => new Set(activePath), [activePath]);
 
   const getBranchPoints = useCallback(() => {
@@ -138,7 +138,7 @@ export default function PiTreeChat({
                 showRawParameters={showRawParameters}
                 showThinking={showThinking}
                 selectedProject={selectedProject}
-                provider="pi"
+                provider="hoocode"
               />
               <button
                 onClick={() => onForkAtNode(nodeId)}

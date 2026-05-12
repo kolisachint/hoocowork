@@ -1,11 +1,11 @@
 FROM docker/sandbox-templates:codex
 
 USER root
-COPY shared/install-cloudcli.sh /tmp/install-cloudcli.sh
-RUN chmod +x /tmp/install-cloudcli.sh && /tmp/install-cloudcli.sh
+COPY shared/install-hoocowork.sh /tmp/install-hoocowork.sh
+RUN chmod +x /tmp/install-hoocowork.sh && /tmp/install-hoocowork.sh
 
 USER agent
-RUN npm install -g @cloudcli-ai/cloudcli && cloudcli --version
+RUN npm install -g @kolisachint/hoocowork && hoocowork --version
 
-COPY --chown=agent:agent shared/start-cloudcli.sh /home/agent/.cloudcli-start.sh
-RUN echo '. ~/.cloudcli-start.sh' >> /home/agent/.bashrc
+COPY --chown=agent:agent shared/start-hoocowork.sh /home/agent/.hoocowork-start.sh
+RUN echo '. ~/.hoocowork-start.sh' >> /home/agent/.bashrc

@@ -885,12 +885,20 @@
     hyphens: auto;
   }
 
-  /* Force wrap long URLs and code */
+  /* Force wrap long URLs and code without breaking every character */
   .chat-message pre,
   .chat-message code {
     white-space: pre-wrap !important;
-    word-break: break-all;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    min-width: 0;
+  }
+
+  /* Guard against grid/flex children collapsing to zero width and stacking glyphs */
+  .chat-message,
+  .chat-message > *,
+  .chat-stream > * {
+    min-width: 0;
   }
 
   /* Prevent horizontal scroll in chat area */
