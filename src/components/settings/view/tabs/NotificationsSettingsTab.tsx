@@ -32,17 +32,17 @@ export default function NotificationsSettingsTab({
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <Bell className="h-5 w-5 text-[var(--brand-accent)]" />
-          <h3 className="text-lg font-medium text-foreground">{t('notifications.title')}</h3>
+          <h3 className="text-lg font-medium">{t('notifications.title')}</h3>
         </div>
-        <p className="text-sm text-muted-foreground">{t('notifications.description')}</p>
+        <p className="text-sm" style={{ color: 'var(--ink-3)' }}>{t('notifications.description')}</p>
       </div>
 
-      <div className="space-y-4 rounded-lg border border-border bg-card p-4">
-        <h4 className="font-medium text-foreground">{t('notifications.webPush.title')}</h4>
+      <div className="space-y-4 rounded-lg border p-4" style={{ borderColor: 'var(--line)', background: 'var(--paper)' }}>
+        <h4 className="font-medium">{t('notifications.webPush.title')}</h4>
         {!pushSupported ? (
-          <p className="text-sm text-muted-foreground">{t('notifications.webPush.unsupported')}</p>
+          <p className="text-sm" style={{ color: 'var(--ink-3)' }}>{t('notifications.webPush.unsupported')}</p>
         ) : pushDenied ? (
-          <p className="text-sm text-muted-foreground">{t('notifications.webPush.denied')}</p>
+          <p className="text-sm" style={{ color: 'var(--ink-3)' }}>{t('notifications.webPush.denied')}</p>
         ) : (
           <div className="flex items-center gap-3">
             <button
@@ -75,7 +75,7 @@ export default function NotificationsSettingsTab({
                   : t('notifications.webPush.enable')}
             </button>
             {isPushSubscribed && (
-              <span className="text-sm text-[var(--ok)]">
+              <span               className="badge badge-ok text-sm">
                 {t('notifications.webPush.enabled')}
               </span>
             )}
@@ -83,10 +83,10 @@ export default function NotificationsSettingsTab({
         )}
       </div>
 
-      <div className="space-y-4 rounded-lg border border-border bg-card p-4">
-        <h4 className="font-medium text-foreground">{t('notifications.events.title')}</h4>
+      <div className="space-y-4 rounded-lg border p-4" style={{ borderColor: 'var(--line)', background: 'var(--paper)' }}>
+        <h4 className="font-medium">{t('notifications.events.title')}</h4>
         <div className="space-y-3">
-          <label className="flex items-center gap-2 text-sm text-foreground">
+          <label           className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"
               checked={notificationPreferences.events.actionRequired}
@@ -104,7 +104,7 @@ export default function NotificationsSettingsTab({
             {t('notifications.events.actionRequired')}
           </label>
 
-          <label className="flex items-center gap-2 text-sm text-foreground">
+          <label           className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"
               checked={notificationPreferences.events.stop}
@@ -122,7 +122,7 @@ export default function NotificationsSettingsTab({
             {t('notifications.events.stop')}
           </label>
 
-          <label className="flex items-center gap-2 text-sm text-foreground">
+          <label           className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"
               checked={notificationPreferences.events.error}

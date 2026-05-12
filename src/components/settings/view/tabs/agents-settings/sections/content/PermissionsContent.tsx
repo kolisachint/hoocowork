@@ -97,7 +97,7 @@ function ClaudePermissions({
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <AlertTriangle className="h-5 w-5 text-[var(--warn)]" />
-          <h3 className="text-lg font-medium text-foreground">{t('permissions.title')}</h3>
+          <h3 className="text-lg font-medium">{t('permissions.title')}</h3>
         </div>
         <div className="border-[var(--warn)]/30 rounded-lg border bg-[var(--warn-soft)] p-4">
           <label className="flex items-center gap-3">
@@ -105,7 +105,7 @@ function ClaudePermissions({
               type="checkbox"
               checked={skipPermissions}
               onChange={(event) => onSkipPermissionsChange(event.target.checked)}
-              className="h-4 w-4 rounded border-input bg-card text-primary focus:ring-2 focus:ring-primary"
+              className="h-4 w-4 rounded border-[var(--line)] bg-[var(--paper)] text-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]"
             />
             <div>
               <div className="font-medium text-[var(--ink)]">
@@ -122,9 +122,9 @@ function ClaudePermissions({
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <Shield className="h-5 w-5 text-[var(--ok)]" />
-          <h3 className="text-lg font-medium text-foreground">{t('permissions.allowedTools.title')}</h3>
+          <h3 className="text-lg font-medium text-[var(--ink)]">{t('permissions.allowedTools.title')}</h3>
         </div>
-        <p className="text-sm text-muted-foreground">{t('permissions.allowedTools.description')}</p>
+        <p className="text-sm" style={{ color: 'var(--ink-3)' }}>{t('permissions.allowedTools.description')}</p>
 
         <div className="flex flex-col gap-2 sm:flex-row">
           <Input
@@ -151,7 +151,7 @@ function ClaudePermissions({
         </div>
 
         <div className="space-y-2">
-          <p className="text-sm font-medium text-muted-foreground">
+          <p className="text-sm font-medium text-[var(--ink-3)]">
             {t('permissions.allowedTools.quickAdd')}
           </p>
           <div className="flex flex-wrap gap-2">
@@ -185,7 +185,7 @@ function ClaudePermissions({
             </div>
           ))}
           {allowedTools.length === 0 && (
-            <div className="py-6 text-center text-muted-foreground">
+            <div className="py-6 text-center text-[var(--ink-3)]">
               {t('permissions.allowedTools.empty')}
             </div>
           )}
@@ -195,9 +195,9 @@ function ClaudePermissions({
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <AlertTriangle className="h-5 w-5 text-[var(--err)]" />
-          <h3 className="text-lg font-medium text-foreground">{t('permissions.blockedTools.title')}</h3>
+          <h3 className="text-lg font-medium text-[var(--ink)]">{t('permissions.blockedTools.title')}</h3>
         </div>
-        <p className="text-sm text-muted-foreground">{t('permissions.blockedTools.description')}</p>
+        <p className="text-sm" style={{ color: 'var(--ink-3)' }}>{t('permissions.blockedTools.description')}</p>
 
         <div className="flex flex-col gap-2 sm:flex-row">
           <Input
@@ -238,7 +238,7 @@ function ClaudePermissions({
             </div>
           ))}
           {disallowedTools.length === 0 && (
-            <div className="py-6 text-center text-muted-foreground">
+            <div className="py-6 text-center text-[var(--ink-3)]">
               {t('permissions.blockedTools.empty')}
             </div>
           )}
@@ -308,7 +308,7 @@ function CursorPermissions({
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <AlertTriangle className="h-5 w-5 text-[var(--warn)]" />
-          <h3 className="text-lg font-medium text-foreground">{t('permissions.title')}</h3>
+          <h3 className="text-lg font-medium">{t('permissions.title')}</h3>
         </div>
         <div className="border-[var(--warn)]/30 rounded-lg border bg-[var(--warn-soft)] p-4">
           <label className="flex items-center gap-3">
@@ -316,7 +316,7 @@ function CursorPermissions({
               type="checkbox"
               checked={skipPermissions}
               onChange={(event) => onSkipPermissionsChange(event.target.checked)}
-              className="h-4 w-4 rounded border-input bg-card text-primary focus:ring-2 focus:ring-primary"
+              className="h-4 w-4 rounded border-[var(--line)] bg-[var(--paper)] text-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]"
             />
             <div>
               <div className="font-medium text-[var(--ink)]">
@@ -333,9 +333,9 @@ function CursorPermissions({
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <Shield className="h-5 w-5 text-[var(--ok)]" />
-          <h3 className="text-lg font-medium text-foreground">{t('permissions.allowedCommands.title')}</h3>
+          <h3 className="text-lg font-medium text-[var(--ink)]">{t('permissions.allowedCommands.title')}</h3>
         </div>
-        <p className="text-sm text-muted-foreground">{t('permissions.allowedCommands.description')}</p>
+        <p className="text-sm text-[var(--ink-3)]">{t('permissions.allowedCommands.description')}</p>
 
         <div className="flex flex-col gap-2 sm:flex-row">
           <Input
@@ -362,7 +362,7 @@ function CursorPermissions({
         </div>
 
         <div className="space-y-2">
-          <p className="text-sm font-medium text-muted-foreground">
+          <p className="text-sm font-medium text-[var(--ink-3)]">
             {t('permissions.allowedCommands.quickAdd')}
           </p>
           <div className="flex flex-wrap gap-2">
@@ -396,7 +396,7 @@ function CursorPermissions({
             </div>
           ))}
           {allowedCommands.length === 0 && (
-            <div className="py-6 text-center text-muted-foreground">
+            <div className="py-6 text-center text-[var(--ink-3)]">
               {t('permissions.allowedCommands.empty')}
             </div>
           )}
@@ -406,9 +406,9 @@ function CursorPermissions({
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <AlertTriangle className="h-5 w-5 text-[var(--err)]" />
-          <h3 className="text-lg font-medium text-foreground">{t('permissions.blockedCommands.title')}</h3>
+          <h3 className="text-lg font-medium text-[var(--ink)]">{t('permissions.blockedCommands.title')}</h3>
         </div>
-        <p className="text-sm text-muted-foreground">{t('permissions.blockedCommands.description')}</p>
+        <p className="text-sm text-[var(--ink-3)]">{t('permissions.blockedCommands.description')}</p>
 
         <div className="flex flex-col gap-2 sm:flex-row">
           <Input
@@ -449,7 +449,7 @@ function CursorPermissions({
             </div>
           ))}
           {disallowedCommands.length === 0 && (
-            <div className="py-6 text-center text-muted-foreground">
+            <div className="py-6 text-center text-[var(--ink-3)]">
               {t('permissions.blockedCommands.empty')}
             </div>
           )}
@@ -457,10 +457,10 @@ function CursorPermissions({
       </div>
 
       <div className="border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 dark:border-[var(--brand-accent)]/20 dark:bg-[var(--brand-accent)]/10 rounded-lg border p-4">
-        <h4 className="mb-2 font-medium text-foreground dark:text-foreground">
+        <h4 className="mb-2 font-medium text-[var(--ink)]">
           {t('permissions.shellExamples.title')}
         </h4>
-        <ul className="space-y-1 text-sm text-muted-foreground dark:text-muted-foreground">
+        <ul className="space-y-1 text-sm text-[var(--ink-3)]">
           <li><code className="bg-[var(--brand-accent)]/10 dark:bg-[var(--brand-accent)]/20 rounded px-1">"Shell(ls)"</code> {t('permissions.shellExamples.ls')}</li>
           <li><code className="bg-[var(--brand-accent)]/10 dark:bg-[var(--brand-accent)]/20 rounded px-1">"Shell(git status)"</code> {t('permissions.shellExamples.gitStatus')}</li>
           <li><code className="bg-[var(--brand-accent)]/10 dark:bg-[var(--brand-accent)]/20 rounded px-1">"Shell(npm install)"</code> {t('permissions.shellExamples.npmInstall')}</li>
@@ -485,14 +485,14 @@ function CodexPermissions({ permissionMode, onPermissionModeChange }: Omit<Codex
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <Shield className="h-5 w-5 text-[var(--ok)]" />
-          <h3 className="text-lg font-medium text-foreground">{t('permissions.codex.permissionMode')}</h3>
+          <h3 className="text-lg font-medium text-[var(--ink)]">{t('permissions.codex.permissionMode')}</h3>
         </div>
-        <p className="text-sm text-muted-foreground">{t('permissions.codex.description')}</p>
+        <p className="text-sm text-[var(--ink-3)]">{t('permissions.codex.description')}</p>
 
         <div
           className={`cursor-pointer rounded-lg border p-4 transition-all ${permissionMode === 'default'
-            ? 'border-border bg-accent'
-            : 'border-border bg-card/50 active:border-border active:bg-accent/50'
+            ? 'border-[var(--line)] bg-[var(--paper-3)]'
+            : 'border-[var(--line)] bg-[var(--paper-2)] active:border-[var(--line)] active:bg-[var(--paper-3)]/50'
             }`}
           onClick={() => onPermissionModeChange('default')}
         >
@@ -505,8 +505,8 @@ function CodexPermissions({ permissionMode, onPermissionModeChange }: Omit<Codex
               className="mt-1 h-4 w-4 text-[var(--ok)]"
             />
             <div>
-              <div className="font-medium text-foreground">{t('permissions.codex.modes.default.title')}</div>
-              <div className="text-sm text-muted-foreground">
+              <div className="font-medium text-[var(--ink)]">{t('permissions.codex.modes.default.title')}</div>
+              <div className="text-sm text-[var(--ink-3)]">
                 {t('permissions.codex.modes.default.description')}
               </div>
             </div>
@@ -516,7 +516,7 @@ function CodexPermissions({ permissionMode, onPermissionModeChange }: Omit<Codex
         <div
           className={`cursor-pointer rounded-lg border p-4 transition-all ${permissionMode === 'acceptEdits'
             ? 'border-[var(--ok)]/40 bg-[var(--ok-soft)]'
-            : 'border-border bg-card/50 active:border-border active:bg-accent/50'
+            : 'border-[var(--line)] bg-[var(--paper-2)] active:border-[var(--line)] active:bg-[var(--paper-3)]/50'
             }`}
           onClick={() => onPermissionModeChange('acceptEdits')}
         >
@@ -540,7 +540,7 @@ function CodexPermissions({ permissionMode, onPermissionModeChange }: Omit<Codex
         <div
           className={`cursor-pointer rounded-lg border p-4 transition-all ${permissionMode === 'bypassPermissions'
             ? 'border-[var(--warn)]/40 bg-[var(--warn-soft)]'
-            : 'border-border bg-card/50 active:border-border active:bg-accent/50'
+            : 'border-[var(--line)] bg-[var(--paper-2)] active:border-[var(--line)] active:bg-[var(--paper-3)]/50'
             }`}
           onClick={() => onPermissionModeChange('bypassPermissions')}
         >
@@ -565,10 +565,10 @@ function CodexPermissions({ permissionMode, onPermissionModeChange }: Omit<Codex
         </div>
 
         <details className="text-sm">
-          <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+          <summary className="cursor-pointer text-[var(--ink-3)] hover:text-[var(--ink)]">
             {t('permissions.codex.technicalDetails')}
           </summary>
-          <div className="mt-2 space-y-2 rounded-lg bg-muted/50 p-3 text-xs text-muted-foreground">
+          <div className="mt-2 space-y-2 rounded-lg bg-[var(--paper-3)] p-3 text-xs text-[var(--ink-3)]">
             <p><strong>{t('permissions.codex.modes.default.title')}:</strong> {t('permissions.codex.technicalInfo.default')}</p>
             <p><strong>{t('permissions.codex.modes.acceptEdits.title')}:</strong> {t('permissions.codex.technicalInfo.acceptEdits')}</p>
             <p><strong>{t('permissions.codex.modes.bypassPermissions.title')}:</strong> {t('permissions.codex.technicalInfo.bypassPermissions')}</p>
@@ -594,19 +594,19 @@ function GeminiPermissions({ permissionMode, onPermissionModeChange }: Omit<Gemi
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <Shield className="h-5 w-5 text-[var(--ok)]" />
-          <h3 className="text-lg font-medium text-foreground">
+          <h3 className="text-lg font-medium text-[var(--ink)]">
             {t('gemini.permissionMode')}
           </h3>
         </div>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-[var(--ink-3)]">
           {t('gemini.description')}
         </p>
 
         {/* Default Mode */}
         <div
           className={`cursor-pointer rounded-lg border p-4 transition-all ${permissionMode === 'default'
-            ? 'border-border bg-accent'
-            : 'border-border bg-card/50 active:border-border active:bg-accent/50'
+            ? 'border-[var(--line)] bg-[var(--paper-3)]'
+            : 'border-[var(--line)] bg-[var(--paper-2)] active:border-[var(--line)] active:bg-[var(--paper-3)]/50'
             }`}
           onClick={() => onPermissionModeChange('default')}
         >
@@ -619,8 +619,8 @@ function GeminiPermissions({ permissionMode, onPermissionModeChange }: Omit<Gemi
               className="mt-1 h-4 w-4 text-[var(--ok)]"
             />
             <div>
-              <div className="font-medium text-foreground">{t('gemini.modes.default.title')}</div>
-              <div className="text-sm text-muted-foreground">
+              <div className="font-medium text-[var(--ink)]">{t('gemini.modes.default.title')}</div>
+              <div className="text-sm text-[var(--ink-3)]">
                 {t('gemini.modes.default.description')}
               </div>
             </div>
@@ -631,7 +631,7 @@ function GeminiPermissions({ permissionMode, onPermissionModeChange }: Omit<Gemi
         <div
           className={`cursor-pointer rounded-lg border p-4 transition-all ${permissionMode === 'auto_edit'
             ? 'border-[var(--ok)]/40 bg-[var(--ok-soft)]'
-            : 'border-border bg-card/50 active:border-border active:bg-accent/50'
+            : 'border-[var(--line)] bg-[var(--paper-2)] active:border-[var(--line)] active:bg-[var(--paper-3)]/50'
             }`}
           onClick={() => onPermissionModeChange('auto_edit')}
         >
@@ -656,7 +656,7 @@ function GeminiPermissions({ permissionMode, onPermissionModeChange }: Omit<Gemi
         <div
           className={`cursor-pointer rounded-lg border p-4 transition-all ${permissionMode === 'yolo'
             ? 'border-[var(--warn)]/40 bg-[var(--warn-soft)]'
-            : 'border-border bg-card/50 active:border-border active:bg-accent/50'
+            : 'border-[var(--line)] bg-[var(--paper-2)] active:border-[var(--line)] active:bg-[var(--paper-3)]/50'
             }`}
           onClick={() => onPermissionModeChange('yolo')}
         >

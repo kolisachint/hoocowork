@@ -141,9 +141,7 @@ function AppContentInner() {
   return (
     <div className="fixed inset-0 flex bg-background" style={{ bottom: 'var(--keyboard-height, 0px)' }}>
       {!isMobile ? (
-        <div className="sidebar">
-          <Sidebar {...sidebarSharedProps} />
-        </div>
+        <Sidebar {...sidebarSharedProps} />
       ) : (
         <div
           className={`fixed inset-0 z-50 flex transition-all duration-150 ease-out ${sidebarOpen ? 'visible opacity-100' : 'invisible opacity-0'

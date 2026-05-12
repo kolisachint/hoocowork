@@ -1,0 +1,22 @@
+Task 7: Remove conflicting flex class from FileChangeItem.tsx
+============================================================
+Date: 2026-05-12
+
+Change Made:
+- File: src/components/git-panel/view/changes/FileChangeItem.tsx
+- Line 41: Removed `flex` class from git-file div className
+- Before: className={`git-file flex items-center ${isMobile ? 'px-2 py-1.5' : 'px-3 py-2'}`}
+- After:  className={`git-file items-center ${isMobile ? 'px-2 py-1.5' : 'px-3 py-2'}`}
+
+Verification:
+- grep for 'git-file flex' in git-panel: No matches found  ✅
+- grep for 'git-file': Shows 'git-file items-center' without flex  ✅
+- LSP diagnostics: N/A (TypeScript LSP not installed in env, but change is trivial string edit)
+
+Rationale:
+The .git-file CSS class uses display: grid, but the inline flex class overrode it.
+Removing flex lets the CSS grid layout take effect, preventing text overlapping in file items.
+
+Evidence that flex class no longer appears:
+$ grep -rn 'git-file flex' src/components/git-panel/
+# No output - flex class successfully removed

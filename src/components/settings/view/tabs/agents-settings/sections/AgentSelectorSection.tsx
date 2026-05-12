@@ -19,7 +19,7 @@ export default function AgentSelectorSection({
   agentContextById,
 }: AgentSelectorSectionProps) {
   return (
-    <div className="flex-shrink-0 border-b border-border px-3 py-2 md:px-4 md:py-3">
+    <div className="flex-shrink-0 border-b px-3 py-2 md:px-4 md:py-3" style={{ borderColor: 'var(--line)' }}>
       <PillBar className="w-full md:w-auto">
         {agents.map((agent) => {
           const dotColor =

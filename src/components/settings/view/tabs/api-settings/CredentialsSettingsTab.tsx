@@ -44,7 +44,7 @@ export default function CredentialsSettingsTab() {
   });
 
   if (loading) {
-    return <div className="text-muted-foreground">{t('apiKeys.loading')}</div>;
+    return <div style={{ color: 'var(--ink-3)' }}>{t('apiKeys.loading')}</div>;
   }
 
   return (

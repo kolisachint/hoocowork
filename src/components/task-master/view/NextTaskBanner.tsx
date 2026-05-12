@@ -42,8 +42,8 @@ function PriorityIndicator({ priority }: { priority?: string }) {
   }
 
   return (
-    <div className="flex h-4 w-4 items-center justify-center rounded bg-muted" title="Low Priority">
-      <Circle className="h-2.5 w-2.5 text-muted-foreground" />
+    <div className="flex h-4 w-4 items-center justify-center rounded bg-[var(--paper-2)]" title="Low Priority">
+      <Circle className="h-2.5 w-2.5 text-[var(--ink-3)]" />
     </div>
   );
 }
@@ -84,7 +84,7 @@ export default function NextTaskBanner({ onShowAllTasks = null, onStartTask = nu
           <div className="flex items-center justify-between gap-3">
             <div className="flex min-w-0 items-center gap-2">
               <List className="h-4 w-4 text-[var(--brand-accent)]" />
-              <p className="text-sm font-medium text-foreground">TaskMaster AI is not configured</p>
+              <p className="text-sm font-medium text-[var(--ink)]">TaskMaster AI is not configured</p>
             </div>
 
             <button
@@ -104,8 +104,8 @@ export default function NextTaskBanner({ onShowAllTasks = null, onStartTask = nu
             {showSetupDetails ? 'Hide details' : 'What is TaskMaster?'}
           </button>
 
-          {showSetupDetails && (
-            <div className="mt-3 space-y-1 text-xs text-foreground">
+            {showSetupDetails && (
+            <div className="mt-3 space-y-1 text-xs text-[var(--ink)]">
               <p>- AI-powered task management with dependencies and subtasks.</p>
               <p>- PRD-driven task generation for faster project bootstrapping.</p>
               <p>- Kanban and list views for day-to-day execution.</p>
@@ -126,17 +126,17 @@ export default function NextTaskBanner({ onShowAllTasks = null, onStartTask = nu
   if (nextTask) {
     return (
       <>
-        <div className={cn('bg-muted/50 border border-border rounded-lg p-3 mb-4', className)}>
+        <div className={cn('bg-[var(--paper-2)]/50 border border-[var(--line)] rounded-lg p-3 mb-4', className)}>
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0 flex-1">
               <div className="mb-1 flex items-center gap-2">
                 <div className="bg-[var(--brand-accent)]/10 flex h-5 w-5 items-center justify-center rounded-full">
                   <Target className="h-3 w-3 text-[var(--brand-accent)]" />
                 </div>
-                <span className="text-xs font-medium text-muted-foreground">Task {nextTask.id}</span>
+                <span className="text-xs font-medium text-[var(--ink-3)]">Task {nextTask.id}</span>
                 <PriorityIndicator priority={nextTask.priority} />
               </div>
-              <p className="line-clamp-1 text-sm font-medium text-foreground">{nextTask.title}</p>
+              <p className="line-clamp-1 text-sm font-medium text-[var(--ink)]">{nextTask.title}</p>
             </div>
 
             <div className="flex flex-shrink-0 items-center gap-1">
@@ -150,7 +150,7 @@ export default function NextTaskBanner({ onShowAllTasks = null, onStartTask = nu
 
               <button
                 onClick={() => setShowTaskDetail(true)}
-                className="rounded-md border border-border px-2 py-1.5 text-xs text-muted-foreground hover:bg-muted"
+                className="rounded-md border border-[var(--line)] px-2 py-1.5 text-xs text-[var(--ink-3)] hover:bg-[var(--paper-2)]"
                 title="View task details"
               >
                 <Eye className="h-3 w-3" />
@@ -159,7 +159,7 @@ export default function NextTaskBanner({ onShowAllTasks = null, onStartTask = nu
               {onShowAllTasks && (
                 <button
                   onClick={onShowAllTasks}
-                  className="rounded-md border border-border px-2 py-1.5 text-xs text-muted-foreground hover:bg-muted"
+                  className="rounded-md border border-[var(--line)] px-2 py-1.5 text-xs text-[var(--ink-3)] hover:bg-[var(--paper-2)]"
                   title="View all tasks"
                 >
                   <List className="h-3 w-3" />
@@ -189,12 +189,12 @@ export default function NextTaskBanner({ onShowAllTasks = null, onStartTask = nu
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <CheckCircle className="h-4 w-4 text-[var(--brand-accent)]" />
-            <span className="text-sm font-medium text-foreground">
+            <span className="text-sm font-medium text-[var(--ink)]">
               {completedTasks === tasks.length ? 'All tasks complete' : 'No pending tasks'}
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-[var(--ink-3)]">
               {completedTasks}/{tasks.length}
             </span>
             {onShowAllTasks && (

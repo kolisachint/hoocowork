@@ -30,7 +30,7 @@ export default function SettingsMainTabs({ activeTab, onChange }: SettingsMainTa
   const { t } = useTranslation('settings');
 
   return (
-    <div className="border-b border-border">
+    <div className="border-b" style={{ borderColor: 'var(--line)' }}>
        <div className="scrollbar-hide flex overflow-x-auto px-4 md:px-6" role="tablist" aria-label={t('mainTabs.label', { defaultValue: 'Settings' })}>
         {TAB_CONFIG.map((tab) => {
           const Icon = tab.icon;
@@ -45,7 +45,7 @@ export default function SettingsMainTabs({ activeTab, onChange }: SettingsMainTa
               className={`whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors ${
                 isActive
                   ? 'border-[var(--brand-accent)] text-[var(--brand-accent)]'
-                  : 'border-transparent text-muted-foreground hover:text-foreground'
+                  : 'border-transparent text-[var(--ink-3)] hover:text-[var(--ink)]'
               }`}
             >
               {Icon && <Icon className="mr-2 inline h-4 w-4" />}

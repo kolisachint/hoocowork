@@ -23,7 +23,7 @@ export default function AgentConnectionCard({
   loginButtonClassName,
   onLogin,
 }: AgentConnectionCardProps) {
-  const containerClassName = status.authenticated ? connectedClassName : 'border-border bg-card';
+  const containerClassName = status.authenticated ? connectedClassName : 'border-[var(--line)] bg-[var(--paper)]';
 
   const statusText = status.loading
     ? 'Checking...'
@@ -40,18 +40,18 @@ export default function AgentConnectionCard({
           </div>
 
           <div>
-            <div className="flex items-center gap-2 font-medium text-foreground">
+            <div className="flex items-center gap-2 font-medium text-[var(--ink)]">
               {title}
               {status.authenticated && <Check className="h-4 w-4 text-[var(--ok)]" />}
             </div>
-            <div className="text-xs text-muted-foreground">{statusText}</div>
+            <div className="text-xs text-[var(--ink-3)]">{statusText}</div>
           </div>
         </div>
 
         {!status.authenticated && !status.loading && (
           <button
             onClick={onLogin}
-            className={`${loginButtonClassName} rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors`}
+            className={`btn btn-sm ${loginButtonClassName} rounded-lg px-4 py-2 font-medium transition-colors`}
           >
             Login
           </button>

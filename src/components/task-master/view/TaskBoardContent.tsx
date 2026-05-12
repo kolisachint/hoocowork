@@ -93,7 +93,7 @@ export default function TaskBoardContent({
   if (filteredTaskCount === 0) {
     return (
       <div className="py-12 text-center">
-        <div className="text-muted-foreground">
+        <div className="text-[var(--ink-3)]">
           <Search className="mx-auto mb-4 h-12 w-12 opacity-50" />
           <h3 className="mb-2 text-lg font-medium">{t('noMatchingTasks.title')}</h3>
           <p className="text-sm">{t('noMatchingTasks.description')}</p>

@@ -50,7 +50,7 @@ const colorClasses = {
     dot: 'bg-[var(--info)]',
   },
   gray: {
-    dot: 'bg-foreground/60',
+    dot: 'bg-[var(--ink-3)]',
   },
   indigo: {
     dot: 'bg-[var(--info)]',
@@ -77,8 +77,8 @@ export default function AgentListItem({
         className={cn(
           'min-w-0 flex-1 touch-manipulation rounded-md px-2 py-2 text-center transition-all duration-150',
           isSelected
-            ? 'bg-background text-foreground shadow-sm'
-            : 'text-muted-foreground active:bg-background/50',
+            ? 'bg-[var(--paper)] shadow-sm'
+            : 'text-[var(--ink-3)] active:bg-[var(--paper)]/50',
         )}
       >
         <div className="flex items-center justify-center gap-1.5">

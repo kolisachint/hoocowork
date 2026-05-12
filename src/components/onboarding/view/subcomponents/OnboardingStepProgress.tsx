@@ -34,7 +34,7 @@ export default function OnboardingStepProgress({ currentStep }: OnboardingStepPr
                 </div>
 
                 <div className="mt-2 text-center">
-                  <p className={`text-sm font-medium ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}>
+                  <p className={`text-sm font-medium ${isActive ? 'text-[var(--ink)]' : 'text-[var(--ink-3)]'}`}>
                     {step.title}
                   </p>
                   {step.required && <span className="text-xs text-[var(--err)]">Required</span>}

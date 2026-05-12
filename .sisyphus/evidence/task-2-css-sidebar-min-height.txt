@@ -1,0 +1,5 @@
+Task: Fix sidebar scrolling - add min-height: 0 to .sidebar-projects
+File: src/styles/kit.css
+Change: Added min-height: 0 after flex: 1 on line 55
+Verification: grep shows line 55 = ".sidebar-projects { flex: 1; min-height: 0; overflow-y: auto; padding: 0 var(--s-2); }"
+Status: COMPLETE

@@ -52,7 +52,7 @@ function getPriorityBadgeClass(priority?: string): string {
   if (priority === 'high') return 'text-[var(--err)] bg-[var(--err)]/10';
   if (priority === 'medium') return 'text-[var(--warn)] bg-[var(--warn)]/10';
   if (priority === 'low') return 'text-[var(--brand-accent)] bg-[var(--brand-accent)]/10';
-  return 'text-muted-foreground bg-muted';
+  return 'text-[var(--ink-3)] bg-[var(--paper-2)]';
 }
 
 export default function TaskDetailModal({
@@ -150,17 +150,17 @@ export default function TaskDetailModal({
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 md:p-4">
       <div
         className={cn(
-          'w-full md:max-w-4xl h-full md:h-[90vh] bg-background border border-border md:rounded-lg shadow-xl flex flex-col',
+          'w-full md:max-w-4xl h-full md:h-[90vh] bg-[var(--paper)] border border-[var(--line)] md:rounded-lg shadow-xl flex flex-col',
           className,
         )}
       >
-        <div className="flex items-center justify-between border-b border-border p-4 md:p-6">
+        <div className="flex items-center justify-between border-b border-[var(--line)] p-4 md:p-6">
           <div className="flex min-w-0 flex-1 items-center gap-3">
             <StatusIcon className="h-6 w-6 text-[var(--brand-accent)]" />
             <div className="min-w-0 flex-1">
               <button
                 onClick={() => copyTextToClipboard(String(task.id))}
-                className="mb-2 inline-flex items-center gap-1 rounded bg-muted px-2 py-1 text-xs text-muted-foreground hover:bg-muted/80"
+                className="mb-2 inline-flex items-center gap-1 rounded bg-[var(--paper-2)] px-2 py-1 text-xs text-[var(--ink-3)] hover:bg-[var(--paper-3)]"
                 title="Copy task ID"
               >
                 <span>Task {task.id}</span>
@@ -172,10 +172,10 @@ export default function TaskDetailModal({
                   type="text"
                   value={editableTask.title}
                   onChange={(event) => setEditableTask({ ...editableTask, title: event.target.value })}
-                  className="w-full border-b-2 border-[var(--brand-accent)] bg-transparent text-lg font-semibold text-foreground focus:outline-none"
+                  className="w-full border-b-2 border-[var(--brand-accent)] bg-transparent text-lg font-semibold text-[var(--ink)] focus:outline-none"
                 />
               ) : (
-                <h1 className="line-clamp-2 text-lg font-semibold text-foreground md:text-xl">{task.title}</h1>
+                <h1 className="line-clamp-2 text-lg font-semibold text-[var(--ink)] md:text-xl">{task.title}</h1>
               )}
             </div>
           </div>
@@ -186,7 +186,7 @@ export default function TaskDetailModal({
                 <button
                   onClick={handleSaveChanges}
                   disabled={isSaving}
-                  className="hover:bg-[var(--ok)]/10 rounded-md p-2 text-[var(--ok)] disabled:opacity-50"
+                  className="icon-btn text-[var(--ok)] disabled:opacity-50"
                   title="Save"
                 >
                   <Save className={cn('w-5 h-5', isSaving && 'animate-spin')} />
@@ -197,7 +197,7 @@ export default function TaskDetailModal({
                     setIsEditMode(false);
                   }}
                   disabled={isSaving}
-                  className="rounded-md p-2 text-muted-foreground hover:bg-muted"
+                  className="icon-btn"
                   title="Cancel editing"
                 >
                   <X className="h-5 w-5" />
@@ -206,13 +206,13 @@ export default function TaskDetailModal({
             ) : (
               <button
                 onClick={() => setIsEditMode(true)}
-                className="rounded-md p-2 text-muted-foreground hover:bg-muted"
+                className="icon-btn"
                 title="Edit task"
               >
                 <Edit className="h-5 w-5" />
               </button>
             )}
-            <button onClick={onClose} className="rounded-md p-2 text-muted-foreground hover:bg-muted" title="Close">
+            <button onClick={onClose} className="icon-btn" title="Close">
               <X className="h-5 w-5" />
             </button>
           </div>
@@ -221,13 +221,13 @@ export default function TaskDetailModal({
         <div className="flex-1 space-y-6 overflow-y-auto p-4 md:p-6">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-muted-foreground">Status</label>
+              <label className="text-sm font-medium text-[var(--ink-3)]">Status</label>
               <select
                 value={task.status ?? 'pending'}
                 onChange={(event) => {
                   void handleStatusSelect(event.target.value);
                 }}
-                className="w-full rounded-md border border-border bg-background px-3 py-2 text-foreground"
+                className="w-full rounded-md border border-[var(--line)] bg-[var(--paper)] px-3 py-2 text-[var(--ink)]"
               >
                 {STATUS_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -238,14 +238,14 @@ export default function TaskDetailModal({
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-muted-foreground">Priority</label>
+              <label className="text-sm font-medium text-[var(--ink-3)]">Priority</label>
               <div className={cn('px-3 py-2 rounded-md text-sm font-medium capitalize', getPriorityBadgeClass(task.priority))}>
                 {task.priority ?? 'Not set'}
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-muted-foreground">Dependencies</label>
+              <label className="text-sm font-medium text-[var(--ink-3)]">Dependencies</label>
               {Array.isArray(task.dependencies) && task.dependencies.length > 0 ? (
                 <div className="flex flex-wrap gap-1">
                   {task.dependencies.map((dependency) => (
@@ -260,54 +260,54 @@ export default function TaskDetailModal({
                   ))}
                 </div>
               ) : (
-                <span className="text-sm text-muted-foreground">No dependencies</span>
+                <span className="text-sm text-[var(--ink-3)]">No dependencies</span>
               )}
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">Description</label>
+            <label className="text-sm font-medium text-[var(--ink-3)]">Description</label>
             {isEditMode ? (
               <textarea
                 rows={4}
                 value={editableTask.description ?? ''}
                 onChange={(event) => setEditableTask({ ...editableTask, description: event.target.value })}
-                className="w-full rounded-md border border-border bg-background px-3 py-2"
+                className="w-full rounded-md border border-[var(--line)] bg-[var(--paper)] px-3 py-2"
               />
             ) : (
-              <p className="whitespace-pre-wrap text-muted-foreground">{task.description || 'No description provided'}</p>
+              <p className="whitespace-pre-wrap text-[var(--ink-3)]">{task.description || 'No description provided'}</p>
             )}
           </div>
 
           {task.details && (
-            <div className="rounded-lg border border-border">
+            <div className="rounded-lg border border-[var(--line)]">
               <button
                 onClick={() => setShowDetails((current) => !current)}
-                className="flex w-full items-center justify-between p-4 text-left hover:bg-muted"
+                className="flex w-full items-center justify-between p-4 text-left hover:bg-[var(--paper-2)]"
               >
-                <span className="text-sm font-medium text-muted-foreground">Implementation Details</span>
+                <span className="text-sm font-medium text-[var(--ink-3)]">Implementation Details</span>
                 {showDetails ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
               </button>
               {showDetails && (
-                <div className="border-t border-border p-4">
-                  <p className="whitespace-pre-wrap text-muted-foreground">{task.details}</p>
+                <div className="border-t border-[var(--line)] p-4">
+                  <p className="whitespace-pre-wrap text-[var(--ink-3)]">{task.details}</p>
                 </div>
               )}
             </div>
           )}
 
           {task.testStrategy && (
-            <div className="rounded-lg border border-border">
+            <div className="rounded-lg border border-[var(--line)]">
               <button
                 onClick={() => setShowTestStrategy((current) => !current)}
-                className="flex w-full items-center justify-between p-4 text-left hover:bg-muted"
+                className="flex w-full items-center justify-between p-4 text-left hover:bg-[var(--paper-2)]"
               >
-                <span className="text-sm font-medium text-muted-foreground">Test Strategy</span>
+                <span className="text-sm font-medium text-[var(--ink-3)]">Test Strategy</span>
                 {showTestStrategy ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
               </button>
               {showTestStrategy && (
-                <div className="bg-[var(--brand-accent)]/5 border-t border-border p-4">
-                  <p className="whitespace-pre-wrap text-muted-foreground">{task.testStrategy}</p>
+                <div className="bg-[var(--brand-accent)]/5 border-t border-[var(--line)] p-4">
+                  <p className="whitespace-pre-wrap text-[var(--ink-3)]">{task.testStrategy}</p>
                 </div>
               )}
             </div>

@@ -28,7 +28,7 @@ export default function GitSettingsTab() {
         <SettingsCard className="p-4">
           <div className="space-y-4">
             <div>
-              <label htmlFor="settings-git-name" className="mb-2 block text-sm font-medium text-foreground">
+              <label htmlFor="settings-git-name" className="mb-2 block text-sm font-medium">
                 {t('git.name.label')}
               </label>
               <Input
@@ -40,11 +40,11 @@ export default function GitSettingsTab() {
                 disabled={isLoading}
                 className="w-full"
               />
-              <p className="mt-1 text-xs text-muted-foreground">{t('git.name.help')}</p>
+              <p className="mt-1 text-xs" style={{ color: 'var(--ink-3)' }}>{t('git.name.help')}</p>
             </div>
 
             <div>
-              <label htmlFor="settings-git-email" className="mb-2 block text-sm font-medium text-foreground">
+              <label htmlFor="settings-git-email" className="mb-2 block text-sm font-medium">
                 {t('git.email.label')}
               </label>
               <Input
@@ -56,7 +56,7 @@ export default function GitSettingsTab() {
                 disabled={isLoading}
                 className="w-full"
               />
-              <p className="mt-1 text-xs text-muted-foreground">{t('git.email.help')}</p>
+              <p className="mt-1 text-xs" style={{ color: 'var(--ink-3)' }}>{t('git.email.help')}</p>
             </div>
 
             <div className="flex items-center gap-2">
@@ -68,7 +68,7 @@ export default function GitSettingsTab() {
               </Button>
 
               {saveStatus === 'success' && (
-                <div className="flex items-center gap-2 text-sm text-[var(--ok)]">
+                <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--ok)' }}>
                   <Check className="h-4 w-4" />
                   {t('git.status.success')}
                 </div>

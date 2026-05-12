@@ -25,6 +25,9 @@ export function findServerRoot(startDir) {
 }
 
 export function findAppRoot(startDir) {
+  // Allow override via environment variable (used by binary entry point)
+  if (process.env.APP_ROOT) return process.env.APP_ROOT;
+
   const serverRoot = findServerRoot(startDir);
   const parentOfServerRoot = path.dirname(serverRoot);
 

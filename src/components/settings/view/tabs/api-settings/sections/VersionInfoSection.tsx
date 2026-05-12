@@ -42,22 +42,22 @@ export default function VersionInfoSection({
   const releasesUrl = releaseInfo?.htmlUrl || `${GITHUB_REPO_URL}/releases`;
 
   return (
-    <div className="border-t border-border/50 pt-6">
+    <div className="pt-6" style={{ borderTop: '1px solid var(--line)' }}>
       {/* About CloudCLI */}
       <div className="space-y-4">
         {/* Logo + name + version */}
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-primary/90 shadow-sm">
-            <MessageSquare className="h-4.5 w-4.5 text-primary-foreground" />
+          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg shadow-sm" style={{ background: 'var(--accent)' }}>
+            <MessageSquare className="h-4.5 w-4.5" style={{ color: 'var(--paper)' }} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-foreground">CloudCLI</span>
+              <span className="text-sm font-semibold">CloudCLI</span>
               <a
                 href={releasesUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors hover:text-foreground"
+                className="rounded-full px-2 py-0.5 text-[10px] font-medium transition-colors" style={{ background: 'var(--paper-3)', color: 'var(--ink-3)' }}
               >
                 v{currentVersion}
               </a>
@@ -66,14 +66,14 @@ export default function VersionInfoSection({
                   href={releasesUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-[var(--ok)]/10 hover:bg-[var(--ok)]/20 flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium text-[var(--ok)] transition-colors dark:text-[var(--ok)]"
+                  className="badge badge-ok flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium transition-colors"
                 >
                   {t('apiKeys.version.updateAvailable', { version: latestVersion })}
                   <ExternalLink className="h-2.5 w-2.5" />
                 </a>
               )}
             </div>
-            <p className="mt-0.5 text-xs text-muted-foreground">
+            <p className="mt-0.5 text-xs" style={{ color: 'var(--ink-3)' }}>
               Open-source AI coding assistant interface
             </p>
           </div>
@@ -84,7 +84,7 @@ export default function VersionInfoSection({
           href={GITHUB_REPO_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground"
+          className="inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors" style={{ borderColor: 'var(--line)', background: 'var(--paper)', color: 'var(--ink-3)' }}
         >
           <GitHubIcon className="h-4 w-4" />
           <Star className="h-3.5 w-3.5" />
@@ -97,7 +97,7 @@ export default function VersionInfoSection({
             href={GITHUB_REPO_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
+            className="flex items-center gap-1 transition-colors" style={{ color: 'var(--ink-3)' }}
           >
             <GitHubIcon className="h-3.5 w-3.5" />
             GitHub
@@ -106,7 +106,7 @@ export default function VersionInfoSection({
             href={DISCORD_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
+            className="flex items-center gap-1 transition-colors" style={{ color: 'var(--ink-3)' }}
           >
             <DiscordIcon className="h-3.5 w-3.5" />
             Discord
@@ -115,7 +115,7 @@ export default function VersionInfoSection({
             href={DOCS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
+            className="flex items-center gap-1 transition-colors" style={{ color: 'var(--ink-3)' }}
           >
             <ExternalLink className="h-3 w-3" />
             Docs
@@ -124,7 +124,7 @@ export default function VersionInfoSection({
             href={CLOUDCLI_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
+            className="flex items-center gap-1 transition-colors" style={{ color: 'var(--ink-3)' }}
           >
             <ExternalLink className="h-3 w-3" />
             cloudcli.ai
@@ -133,16 +133,16 @@ export default function VersionInfoSection({
 
         {/* Hosted CTA (OSS mode only) */}
         {!IS_PLATFORM && (
-          <div className="rounded-xl border border-primary/10 bg-primary/5 p-4">
-            <h4 className="text-sm font-medium text-foreground">Try CloudCLI Hosted</h4>
-            <p className="mt-1 text-xs text-muted-foreground">
+          <div className="rounded-xl border p-4" style={{ borderColor: 'var(--accent)', background: 'var(--paper-2)' }}>
+            <h4 className="text-sm font-medium">Try CloudCLI Hosted</h4>
+            <p className="mt-1 text-xs" style={{ color: 'var(--ink-3)' }}>
               Team collaboration, shared MCP configs, settings sync across environments, and managed infrastructure.
             </p>
             <a
               href={CLOUDCLI_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary transition-colors hover:underline"
+              className="mt-2 inline-flex items-center gap-1 text-xs font-medium transition-colors hover:underline" style={{ color: 'var(--accent)' }}
             >
               Learn more
               <ExternalLink className="h-3 w-3" />

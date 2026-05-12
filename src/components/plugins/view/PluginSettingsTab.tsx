@@ -13,24 +13,16 @@ const TERMINAL_PLUGIN_URL = 'https://github.com/cloudcli-ai/cloudcli-plugin-term
 /* ─── Toggle Switch ─────────────────────────────────────────────────────── */
 function ToggleSwitch({ checked, onChange, ariaLabel }: { checked: boolean; onChange: (v: boolean) => void; ariaLabel: string }) {
   return (
-    <label className="relative inline-flex cursor-pointer select-none items-center">
+    <label className="toggle">
       <input
         type="checkbox"
-        className="peer sr-only"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
         aria-label={ariaLabel}
       />
-      <div
-        className={`
-          relative h-5 w-9 rounded-full bg-muted transition-colors
-          duration-200 after:absolute
-          after:left-[2px] after:top-[2px] after:h-4 after:w-4
-          after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:duration-200
-          after:content-[''] peer-checked:bg-[var(--ok)]
-          peer-checked:after:translate-x-4
-        `}
-      />
+      <div className="toggle-track">
+        <div className="toggle-thumb" />
+      </div>
     </label>
   );
 }
@@ -95,16 +87,16 @@ function PluginCard({
         {/* Header row */}
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2.5">
-            <div className="h-5 w-5 flex-shrink-0 text-foreground/80">
+            <div className="plugin-glyph">
               <PluginIcon
                 pluginName={plugin.name}
                 iconFile={plugin.icon}
-                className="h-5 w-5 [&>svg]:h-full [&>svg]:w-full"
+                className="[&>svg]:h-full [&>svg]:w-full"
               />
             </div>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm font-semibold leading-none text-foreground">
+                <span className="plugin-name text-sm">
                   {plugin.displayName}
                 </span>
                 <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
@@ -116,7 +108,7 @@ function PluginCard({
                 <ServerDot running={!!plugin.serverRunning} t={t} />
               </div>
               {plugin.description && (
-                <p className="mt-1 text-sm leading-snug text-muted-foreground">
+                <p className="plugin-desc mt-1">
                   {plugin.description}
                 </p>
               )}
@@ -220,12 +212,12 @@ function StarterPluginCard({ onInstall, installing }: { onInstall: () => void; i
       <div className="min-w-0 flex-1 p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2.5">
-            <div className="h-5 w-5 flex-shrink-0 text-[var(--brand-accent)]">
+            <div className="plugin-glyph text-[var(--brand-accent)]">
               <BarChart3 className="h-5 w-5" />
             </div>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm font-semibold leading-none text-foreground">
+                <span className="plugin-name text-sm">
                   {t('pluginSettings.starterPlugin.name')}
                 </span>
                 <span className="bg-[var(--brand-accent)]/10 rounded px-1.5 py-0.5 text-[10px] font-medium text-[var(--brand-accent)]">
@@ -235,7 +227,7 @@ function StarterPluginCard({ onInstall, installing }: { onInstall: () => void; i
                   {t('pluginSettings.tab')}
                 </span>
               </div>
-              <p className="mt-1 text-sm leading-snug text-muted-foreground">
+              <p className="plugin-desc mt-1">
                 {t('pluginSettings.starterPlugin.description')}
               </p>
               <a
@@ -277,7 +269,7 @@ function TerminalPluginCard({ onInstall, installing }: { onInstall: () => void; 
       <div className="min-w-0 flex-1 p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2.5">
-            <div className="h-5 w-5 flex-shrink-0 text-[var(--brand-accent)]">
+            <div className="plugin-glyph text-[var(--brand-accent)]">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                 <rect x="3" y="3" width="18" height="18" rx="2"/>
                 <path d="M7 8l4 4-4 4"/>
@@ -286,7 +278,7 @@ function TerminalPluginCard({ onInstall, installing }: { onInstall: () => void; 
             </div>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm font-semibold leading-none text-foreground">
+                <span className="plugin-name text-sm">
                   {t('pluginSettings.terminalPlugin.name')}
                 </span>
                 <span className="bg-[var(--brand-accent)]/10 rounded px-1.5 py-0.5 text-[10px] font-medium text-[var(--brand-accent)]">
@@ -296,7 +288,7 @@ function TerminalPluginCard({ onInstall, installing }: { onInstall: () => void; 
                   {t('pluginSettings.tab')}
                 </span>
               </div>
-              <p className="mt-1 text-sm leading-snug text-muted-foreground">
+              <p className="plugin-desc mt-1">
                 {t('pluginSettings.terminalPlugin.description')}
               </p>
               <a

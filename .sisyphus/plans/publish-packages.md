@@ -1,21 +1,50 @@
-# Publish Packages to npm (v0.1.0)
+# Publish @kolisachint/hoocowork to npm (v0.1.0)
 
 ## TL;DR
-> **Publish both `@kolisachint/hoocowork` and `@siteboon/claude-code-ui` to npm with version `0.1.0`.**
+> **Publish `@kolisachint/hoocowork` to npm with version `0.1.0`, then restore original version.**
 >
-> **Steps**: Update versions → Build (main) → Publish both → Restore versions
+> **Steps**: Update version → Build → Publish → Restore version
 
 ---
 
 ## TODOs
 
-- [ ] 1. Update root `package.json` version from `1.33.0` to `0.1.0`
+- [x] 1. **Bump version to `0.1.0`**
+  
+  Update `package.json` version from `1.33.0` to `0.1.0`.
+  
+  **Acceptance**: `node -p "require('./package.json').version"` → `0.1.0`
+  
+  **QA**: Check version before publish.
 
-- [ ] 2. Update `redirect-package/package.json` version from `3.0.0` to `0.1.0`
+- [x] 2. **Publish `@kolisachint/hoocowork` to npm**
+  
+  Run: `bun publish --access public`
+  
+  This auto-builds via the `prepublishOnly: bun run build` script.
+  
+  **Acceptance**: `npm view @kolisachint/hoocowork version` shows `0.1.0`
+  
+  **QA Scenario**:
+  ```
+  Scenario: Package published successfully
+    Tool: Bash
+    Steps:
+      1. bun publish --access public
+      2. npm view @kolisachint/hoocowork version
+    Expected Result: Exit 0, version shows 0.1.0
+    Evidence: .sisyphus/evidence/publish-success.txt
+  ```
 
-- [ ] 3. Publish `@kolisachint/hoocowork` — `npm publish` (prepublishOnly runs build automatically)
+- [x] 3. **Restore original version**
+  
+  Update `package.json` version back to `1.33.0`.
+  
+  **Acceptance**: `node -p "require('./package.json').version"` → `1.33.0`
+  
+  **QA**: Verify version restored.
 
-- [ ] 4. Publish `@siteboon/claude-code-ui` — `npm publish` from `redirect-package/`
+---
 
-- [ ] 5. Restore original version numbers in both `package.json` files (1.33.0 and 3.0.0)
-
+## Commit Strategy
+No commits needed — version changes are temporary for publish.

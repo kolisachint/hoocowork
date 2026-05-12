@@ -29,7 +29,7 @@ export default function TaskQuickSortBar({ sortField, sortOrder, onSortChange }:
           'flex items-center gap-1 px-3 py-1.5 rounded-md text-sm',
           sortField === 'id'
             ? 'bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]'
-            : 'bg-muted text-muted-foreground hover:bg-muted/80',
+            : 'bg-[var(--paper-2)] text-[var(--ink-3)] hover:bg-[var(--paper-3)]/80',
         )}
       >
         {t('sort.id')} {getSortIcon('id', sortField, sortOrder)}
@@ -41,7 +41,7 @@ export default function TaskQuickSortBar({ sortField, sortOrder, onSortChange }:
           'flex items-center gap-1 px-3 py-1.5 rounded-md text-sm',
           sortField === 'status'
             ? 'bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]'
-            : 'bg-muted text-muted-foreground hover:bg-muted/80',
+            : 'bg-[var(--paper-2)] text-[var(--ink-3)] hover:bg-[var(--paper-3)]/80',
         )}
       >
         {t('sort.status')} {getSortIcon('status', sortField, sortOrder)}
@@ -53,7 +53,7 @@ export default function TaskQuickSortBar({ sortField, sortOrder, onSortChange }:
           'flex items-center gap-1 px-3 py-1.5 rounded-md text-sm',
           sortField === 'priority'
             ? 'bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]'
-            : 'bg-muted text-muted-foreground hover:bg-muted/80',
+            : 'bg-[var(--paper-2)] text-[var(--ink-3)] hover:bg-[var(--paper-3)]/80',
         )}
       >
         {t('sort.priority')} {getSortIcon('priority', sortField, sortOrder)}

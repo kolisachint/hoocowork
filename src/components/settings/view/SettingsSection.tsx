@@ -13,11 +13,11 @@ export default function SettingsSection({ title, description, children, classNam
   return (
     <div className={cn('space-y-3', className)}>
       <div>
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+        <h3 className="t-eyebrow">
           {title}
         </h3>
         {description && (
-          <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+          <p className="mt-1 text-sm text-[var(--ink-3)]">{description}</p>
         )}
       </div>
       {children}

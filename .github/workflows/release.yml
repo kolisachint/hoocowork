@@ -62,7 +62,8 @@ jobs:
         run: |
           gh release create v${{ env.NEW_VERSION }} \
             --title "CloudCLI UI v${{ env.NEW_VERSION }}" \
-            --notes-file <(bun x conventional-changelog-cli -p conventionalcommits -r 2 | tail -n +5)
+            --notes-file <(bun x conventional-changelog-cli -p conventionalcommits -r 2 | tail -n +5) \
+            --generate-notes
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
 
@@ -71,3 +72,80 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           BUN_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  release-binaries:
+    needs: release
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            binary-suffix: linux-x64
+          - os: ubuntu-latest
+            binary-suffix: linux-arm64
+          - os: windows-latest
+            binary-suffix: win-x64.exe
+          - os: macos-latest
+            binary-suffix: darwin-x64
+          - os: macos-latest
+            binary-suffix: darwin-arm64
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - run: bun run build
+
+      - run: bun run scripts/embed-assets.ts
+
+      - name: Build binary
+        run: |
+          BINARY_NAME="hoocowork-${{ matrix.binary-suffix }}"
+          BUN_ARGS=""
+          if [[ "${{ matrix.binary-suffix }}" == "win-x64.exe" ]]; then
+            BUN_ARGS="--target=bun-windows-x64 --windows-hide-console"
+          elif [[ "${{ matrix.binary-suffix }}" == "linux-arm64" ]]; then
+            BUN_ARGS="--target=bun-linux-arm64"
+          fi
+          bun build --compile server/binary-entry.ts --outfile="$BINARY_NAME" $BUN_ARGS
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hoocowork-${{ matrix.binary-suffix }}
+          path: hoocowork-${{ matrix.binary-suffix }}
+          if-no-files-found: error
+
+  upload-binaries:
+    needs: [release, release-binaries]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: hoocowork-*
+          path: ./binaries
+          merge-multiple: true
+
+      - name: Upload binaries to release
+        run: |
+          TAG=v$(node -p "require('./package.json').version")
+          for binary in ./binaries/*; do
+            echo "Uploading $binary to $TAG"
+            gh release upload "$TAG" "$binary" --clobber
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}

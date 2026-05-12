@@ -33,21 +33,21 @@ export default function TaskMasterSetupModal({ isOpen, project, onClose, onAfter
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 p-4 pt-16 backdrop-blur-sm">
-      <div className="flex h-[600px] w-full max-w-4xl flex-col rounded-lg border border-border bg-background shadow-xl">
-        <div className="flex items-center justify-between border-b border-border p-4">
+      <div className="flex h-[600px] w-full max-w-4xl flex-col rounded-lg border border-[var(--line)] bg-[var(--paper)] shadow-xl">
+        <div className="flex items-center justify-between border-b border-[var(--line)] p-4">
           <div className="flex items-center gap-3">
             <div className="bg-[var(--brand-accent)]/10 flex h-8 w-8 items-center justify-center rounded-lg">
               <Terminal className="h-4 w-4 text-[var(--brand-accent)]" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-foreground">{t('setupModal.title')}</h2>
-              <p className="text-sm text-muted-foreground">{t('setupModal.subtitle', { projectName: project.displayName })}</p>
+              <h2 className="text-lg font-semibold text-[var(--ink)]">{t('setupModal.title')}</h2>
+              <p className="text-sm text-[var(--ink-3)]">{t('setupModal.subtitle', { projectName: project.displayName })}</p>
             </div>
           </div>
 
           <button
             onClick={closeModal}
-            className="rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
+            className="icon-btn"
             title="Close"
           >
             <Plus className="h-5 w-5 rotate-45" />
@@ -71,9 +71,9 @@ export default function TaskMasterSetupModal({ isOpen, project, onClose, onAfter
           </div>
         </div>
 
-        <div className="border-t border-border bg-muted/50 p-4">
+        <div className="border-t border-[var(--line)] bg-[var(--paper-2)]/50 p-4">
           <div className="flex items-center justify-between">
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-[var(--ink-3)]">
               {isTaskMasterComplete ? (
                 <span className="flex items-center gap-2 text-[var(--ok)]">
                   <span className="h-2 w-2 rounded-full bg-[var(--ok)]" />
@@ -90,7 +90,7 @@ export default function TaskMasterSetupModal({ isOpen, project, onClose, onAfter
                 'px-4 py-2 text-sm font-medium rounded-md transition-colors',
                 isTaskMasterComplete
                   ? 'bg-[var(--ok)] hover:bg-[var(--ok)]/90 text-white'
-                  : 'text-muted-foreground bg-background border border-border hover:bg-muted',
+                  : 'text-[var(--ink-3)] bg-[var(--paper)] border border-[var(--line)] hover:bg-[var(--paper-2)]',
               )}
             >
               {isTaskMasterComplete ? t('setupModal.closeContinueButton') : t('setupModal.closeButton')}

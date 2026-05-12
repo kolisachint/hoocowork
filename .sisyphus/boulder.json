@@ -1,59 +1,32 @@
 {
-  "active_plan": "/Users/sachinkoli/github/hoocowork/.sisyphus/plans/bun-ci-pipeline-overhaul.md",
-  "started_at": "2026-05-11T16:22:20.560Z",
+  "active_plan": "/Users/sachinkoli/github/hoocowork/.sisyphus/plans/ui-rendering-fixes.md",
+  "started_at": "2026-05-12T13:04:26.834Z",
   "session_ids": [
-    "ses_1e834030bffeLBCHgWUi4jdi20"
+    "ses_1e3ead149ffeLSVW7EfzYbJNOv"
   ],
   "session_origins": {
-    "ses_1e834030bffeLBCHgWUi4jdi20": "direct"
+    "ses_1e3ead149ffeLSVW7EfzYbJNOv": "direct"
   },
-  "plan_name": "bun-ci-pipeline-overhaul",
+  "plan_name": "ui-rendering-fixes",
   "agent": "atlas",
   "task_sessions": {
     "todo:1": {
       "task_key": "todo:1",
       "task_label": "1",
-      "task_title": "Diagnose and Fix All Pre-existing Test Failures",
-      "session_id": "ses_1e82457b5fferRf51L1ELJpf5i",
+      "task_title": "Fix chat scrolling in kit.css",
+      "session_id": "ses_1e3b58dcbffeLc59V7uRt7K5BC",
       "agent": "Sisyphus-Junior",
       "category": "quick",
-      "updated_at": "2026-05-11T16:29:14.185Z"
-    },
-    "todo:2": {
-      "task_key": "todo:2",
-      "task_label": "2",
-      "task_title": "Full Code Audit + Lint Warning Cleanup",
-      "session_id": "ses_1e81d5935ffeHy3doepDjtAATW",
-      "agent": "Sisyphus-Junior",
-      "category": "unspecified-high",
-      "updated_at": "2026-05-11T16:56:48.127Z"
+      "updated_at": "2026-05-12T13:05:49.016Z"
     },
     "todo:5": {
       "task_key": "todo:5",
       "task_label": "5",
-      "task_title": "Create PR/Commit CI Workflow",
-      "session_id": "ses_1e7e293b6ffeCPJavOvPVKj8ZM",
+      "task_title": "Fix chat wrapper layout in MainContent.tsx",
+      "session_id": "ses_1e3b3b7aeffeh7KmBgfCwMHH5d",
       "agent": "Sisyphus-Junior",
       "category": "quick",
-      "updated_at": "2026-05-11T17:37:52.653Z"
-    },
-    "todo:7": {
-      "task_key": "todo:7",
-      "task_label": "7",
-      "task_title": "Update main README.md with bun and CI Badge",
-      "session_id": "ses_1e7deffe2ffeSj10uhE56jpkwa",
-      "agent": "Sisyphus-Junior",
-      "category": "writing",
-      "updated_at": "2026-05-11T17:42:50.273Z"
-    },
-    "todo:9": {
-      "task_key": "todo:9",
-      "task_label": "9",
-      "task_title": "Update Translated READMEs (6 files)",
-      "session_id": "ses_1e7dcf94bffeBaaRuz3utTHWHe",
-      "agent": "Sisyphus-Junior",
-      "category": "writing",
-      "updated_at": "2026-05-11T17:45:43.322Z"
+      "updated_at": "2026-05-12T13:08:10.441Z"
     }
   }
 }

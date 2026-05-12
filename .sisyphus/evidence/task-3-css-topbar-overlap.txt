@@ -1,0 +1,14 @@
+Task 3 — Fix top bar overlap in kit.css
+=========================================
+Date: 2026-05-12
+
+Changes Applied:
+  1. Added `overflow: hidden;` to .main class (line 106)
+  2. Added `position: sticky; top: 0; z-index: 20;` to .topbar class (line 112)
+
+Verification:
+  .main:   .main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+  .topbar: position: sticky; top: 0; z-index: 20;
+
+File modified: src/styles/kit.css
+Status: ✅ Complete

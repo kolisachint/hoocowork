@@ -172,13 +172,13 @@ export default function McpServers({ selectedProvider, currentProjects }: McpSer
         </div>
       )}
 
-      <div className="space-y-2">
+      <div className="mcp-list">
         {isLoading && servers.length === 0 && (
           <div className="py-8 text-center text-muted-foreground">Loading MCP servers...</div>
         )}
 
         {servers.map((server) => (
-          <div key={getServerKey(server)} className="mcp-row rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] p-4">
+          <div key={getServerKey(server)} className="mcp-row p-4">
             <div className="flex items-start justify-between">
               <div className="min-w-0 flex-1">
                 <div className="mb-2 flex flex-wrap items-center gap-2">

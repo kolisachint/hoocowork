@@ -1,0 +1,20 @@
+HooCowork npm Publish Evidence
+================================
+Date: 2026-05-11
+Package: @kolisachint/hoocowork
+Version published: 0.1.0
+Version restored: 1.33.0
+
+Steps completed:
+1. package.json version changed from 1.33.0 -> 0.1.0
+2. Version verified: 0.1.0
+3. bun publish --access public -> SUCCESS
+   - Build passed (prepublishOnly: bun run build)
+   - Note: prepare script (husky) temporarily cleared during publish
+4. npm view @kolisachint/hoocowork version -> 0.1.0 (CONFIRMED)
+5. package.json version restored to 1.33.0
+6. prepare script restored to "husky"
+7. Node verification: 1.33.0 (CONFIRMED)
+
+Temporary workaround: husky wasn't available in publish context,
+so prepare script was temporarily set to "" and then restored.

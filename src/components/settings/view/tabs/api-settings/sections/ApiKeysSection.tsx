@@ -34,7 +34,7 @@ export default function ApiKeysSection({
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Key className="h-5 w-5" />
-          <h3 className="text-lg font-semibold">{t('apiKeys.title')}</h3>
+          <h3 className="t-h3">{t('apiKeys.title')}</h3>
         </div>
         <Button size="sm" onClick={() => onShowNewKeyFormChange(!showNewKeyForm)}>
           <Plus className="mr-1 h-4 w-4" />
@@ -43,12 +43,12 @@ export default function ApiKeysSection({
       </div>
 
       <div className="mb-4">
-        <p className="mb-2 text-sm text-muted-foreground">{t('apiKeys.description')}</p>
+        <p className="mb-2 text-sm" style={{ color: 'var(--ink-3)' }}>{t('apiKeys.description')}</p>
         <a
           href="/api-docs.html"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+          className="inline-flex items-center gap-1 text-sm hover:underline" style={{ color: 'var(--accent)' }}
         >
           {t('apiKeys.apiDocsLink')}
           <ExternalLink className="h-3 w-3" />
@@ -56,7 +56,7 @@ export default function ApiKeysSection({
       </div>
 
       {showNewKeyForm && (
-        <div className="mb-4 rounded-lg border bg-card p-4">
+        <div className="mb-4 rounded-lg border p-4" style={{ borderColor: 'var(--line)', background: 'var(--paper)' }}>
           <Input
             placeholder={t('apiKeys.form.placeholder')}
             value={newKeyName}
@@ -74,14 +74,14 @@ export default function ApiKeysSection({
 
       <div className="space-y-2">
         {apiKeys.length === 0 ? (
-          <p className="text-sm italic text-muted-foreground">{t('apiKeys.empty')}</p>
+          <p className="text-sm italic" style={{ color: 'var(--ink-3)' }}>{t('apiKeys.empty')}</p>
         ) : (
           apiKeys.map((key) => (
-            <div key={key.id} className="flex items-center justify-between rounded-lg border p-3">
+            <div key={key.id} className="flex items-center justify-between rounded-lg border p-3" style={{ borderColor: 'var(--line)' }}>
               <div className="flex-1">
                 <div className="font-medium">{key.key_name}</div>
-                <code className="text-xs text-muted-foreground">{key.api_key}</code>
-                <div className="mt-1 text-xs text-muted-foreground">
+                <code className="text-xs" style={{ color: 'var(--ink-3)' }}>{key.api_key}</code>
+                <div className="mt-1 text-xs" style={{ color: 'var(--ink-3)' }}>
                   {t('apiKeys.list.created')} {new Date(key.created_at).toLocaleDateString()}
                   {key.last_used
                     ? ` - ${t('apiKeys.list.lastUsed')} ${new Date(key.last_used).toLocaleDateString()}`

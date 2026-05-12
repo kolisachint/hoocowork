@@ -40,14 +40,14 @@ export default function TaskFiltersPanel({
   }
 
   return (
-    <div className="space-y-4 rounded-lg bg-muted/50 p-4">
+    <div className="space-y-4 rounded-lg bg-[var(--paper-2)]/50 p-4">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div>
-          <label className="mb-1 block text-sm font-medium text-muted-foreground">{t('filters.status')}</label>
+          <label className="mb-1 block text-sm font-medium text-[var(--ink-3)]">{t('filters.status')}</label>
           <select
             value={statusFilter}
             onChange={(event) => onStatusFilterChange(event.target.value)}
-            className="w-full rounded-md border border-border bg-background px-3 py-2"
+            className="w-full rounded-md border border-[var(--line)] bg-[var(--paper)] px-3 py-2"
           >
             <option value="all">{t('filters.allStatuses')}</option>
             {statuses.map((status) => (
@@ -59,11 +59,11 @@ export default function TaskFiltersPanel({
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-muted-foreground">{t('filters.priority')}</label>
+          <label className="mb-1 block text-sm font-medium text-[var(--ink-3)]">{t('filters.priority')}</label>
           <select
             value={priorityFilter}
             onChange={(event) => onPriorityFilterChange(event.target.value)}
-            className="w-full rounded-md border border-border bg-background px-3 py-2"
+            className="w-full rounded-md border border-[var(--line)] bg-[var(--paper)] px-3 py-2"
           >
             <option value="all">{t('filters.allPriorities')}</option>
             {priorities.map((priority) => (
@@ -75,14 +75,14 @@ export default function TaskFiltersPanel({
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-muted-foreground">{t('filters.sortBy')}</label>
+          <label className="mb-1 block text-sm font-medium text-[var(--ink-3)]">{t('filters.sortBy')}</label>
           <select
             value={`${sortField}-${sortOrder}`}
             onChange={(event) => {
               const [field, order] = event.target.value.split('-') as [TaskBoardSortField, TaskBoardSortOrder];
               onSortConfigChange(field, order);
             }}
-            className="w-full rounded-md border border-border bg-background px-3 py-2"
+            className="w-full rounded-md border border-[var(--line)] bg-[var(--paper)] px-3 py-2"
           >
             <option value="id-asc">{t('sort.idAsc')}</option>
             <option value="id-desc">{t('sort.idDesc')}</option>
@@ -97,7 +97,7 @@ export default function TaskFiltersPanel({
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm text-[var(--ink-3)]">
           {t('filters.showing', { filtered: filteredTaskCount, total: totalTaskCount })}
         </div>
         <button onClick={onClearFilters} className="hover:text-[var(--brand-accent)]/80 text-sm font-medium text-[var(--brand-accent)]">

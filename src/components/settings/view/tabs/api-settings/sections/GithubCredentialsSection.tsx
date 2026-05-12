@@ -46,7 +46,7 @@ export default function GithubCredentialsSection({
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Github className="h-5 w-5" />
-          <h3 className="text-lg font-semibold">{t('apiKeys.github.title')}</h3>
+          <h3 className="t-h3">{t('apiKeys.github.title')}</h3>
         </div>
         <Button size="sm" onClick={() => onShowNewGithubFormChange(!showNewGithubForm)}>
           <Plus className="mr-1 h-4 w-4" />
@@ -54,10 +54,10 @@ export default function GithubCredentialsSection({
         </Button>
       </div>
 
-      <p className="mb-4 text-sm text-muted-foreground">{t('apiKeys.github.descriptionAlt')}</p>
+      <p className="mb-4 text-sm" style={{ color: 'var(--ink-3)' }}>{t('apiKeys.github.descriptionAlt')}</p>
 
       {showNewGithubForm && (
-        <div className="mb-4 space-y-3 rounded-lg border bg-card p-4">
+        <div className="mb-4 space-y-3 rounded-lg border p-4" style={{ borderColor: 'var(--line)', background: 'var(--paper)' }}>
           <Input
             placeholder={t('apiKeys.github.form.namePlaceholder')}
             value={newGithubName}
@@ -76,7 +76,7 @@ export default function GithubCredentialsSection({
               type="button"
               onClick={onToggleNewTokenVisibility}
               aria-label={showNewTokenPlainText ? 'Hide token' : 'Show token'}
-              className="absolute right-3 top-2.5 text-muted-foreground hover:text-foreground"
+              className="absolute right-3 top-2.5" style={{ color: 'var(--ink-3)' }}
             >
               {showNewTokenPlainText ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
@@ -99,7 +99,7 @@ export default function GithubCredentialsSection({
             href="https://github.com/settings/tokens"
             target="_blank"
             rel="noopener noreferrer"
-            className="block text-xs text-primary hover:underline"
+            className="block text-xs hover:underline" style={{ color: 'var(--accent)' }}
           >
             {t('apiKeys.github.form.howToCreate')}
           </a>
@@ -108,16 +108,16 @@ export default function GithubCredentialsSection({
 
       <div className="space-y-2">
         {githubCredentials.length === 0 ? (
-          <p className="text-sm italic text-muted-foreground">{t('apiKeys.github.empty')}</p>
+          <p className="text-sm italic" style={{ color: 'var(--ink-3)' }}>{t('apiKeys.github.empty')}</p>
         ) : (
           githubCredentials.map((credential) => (
-            <div key={credential.id} className="flex items-center justify-between rounded-lg border p-3">
+            <div key={credential.id} className="flex items-center justify-between rounded-lg border p-3" style={{ borderColor: 'var(--line)' }}>
               <div className="flex-1">
                 <div className="font-medium">{credential.credential_name}</div>
                 {credential.description && (
-                  <div className="text-xs text-muted-foreground">{credential.description}</div>
+                  <div className="text-xs" style={{ color: 'var(--ink-3)' }}>{credential.description}</div>
                 )}
-                <div className="mt-1 text-xs text-muted-foreground">
+                <div className="mt-1 text-xs" style={{ color: 'var(--ink-3)' }}>
                   {t('apiKeys.github.added')} {new Date(credential.created_at).toLocaleDateString()}
                 </div>
               </div>

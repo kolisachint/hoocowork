@@ -276,9 +276,7 @@ export default function McpServerFormModal({
               <textarea
                 value={formData.jsonInput}
                 onChange={(event) => updateJsonInput(event.target.value)}
-                className={`w-full border px-3 py-2 ${
-                  jsonValidationError ? 'border-[var(--err)]' : 'border-border'
-                } rounded-lg bg-muted/50 font-mono text-sm text-foreground focus:border-[var(--brand-accent)] focus:ring-[var(--brand-accent)]`}
+                className={`input ${jsonValidationError ? 'border-[var(--err)]' : ''}`}
                 rows={8}
                 placeholder={'{\n  "type": "stdio",\n  "command": "npx",\n  "args": ["@upstash/context7-mcp"]\n}'}
                 required
@@ -317,7 +315,7 @@ export default function McpServerFormModal({
                 <textarea
                   value={multilineText.args}
                   onChange={(event) => updateMultilineText('args', event.target.value)}
-                  className="w-full rounded-lg border border-border bg-muted/50 px-3 py-2 text-foreground focus:border-[var(--brand-accent)] focus:ring-[var(--brand-accent)]"
+                  className="input"
                   rows={3}
                   placeholder="--port&#10;3000"
                 />
@@ -361,7 +359,7 @@ export default function McpServerFormModal({
               <textarea
                 value={multilineText.env}
                 onChange={(event) => updateMultilineText('env', event.target.value)}
-                className="w-full rounded-lg border border-border bg-muted/50 px-3 py-2 text-foreground focus:border-[var(--brand-accent)] focus:ring-[var(--brand-accent)]"
+                className="input"
                 rows={3}
                 placeholder="API_KEY=your-key&#10;DEBUG=true"
               />
@@ -376,7 +374,7 @@ export default function McpServerFormModal({
               <textarea
                 value={multilineText.headers}
                 onChange={(event) => updateMultilineText('headers', event.target.value)}
-                className="w-full rounded-lg border border-border bg-muted/50 px-3 py-2 text-foreground focus:border-[var(--brand-accent)] focus:ring-[var(--brand-accent)]"
+                className="input"
                 rows={3}
                 placeholder="Authorization=Bearer token&#10;X-API-Key=your-key"
               />
@@ -391,7 +389,7 @@ export default function McpServerFormModal({
               <textarea
                 value={multilineText.envVars}
                 onChange={(event) => updateMultilineText('envVars', event.target.value)}
-                className="w-full rounded-lg border border-border bg-muted/50 px-3 py-2 text-foreground focus:border-[var(--brand-accent)] focus:ring-[var(--brand-accent)]"
+                className="input"
                 rows={3}
                 placeholder="GITHUB_TOKEN&#10;API_KEY"
               />

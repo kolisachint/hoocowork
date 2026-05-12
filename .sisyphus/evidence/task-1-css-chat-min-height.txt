@@ -1,0 +1,21 @@
+Task 1: Fix chat scrolling - Add min-height: 0 to .chat class
+==============================================================
+Date: 2026-05-12
+File: src/styles/kit.css
+Change: Added `min-height: 0` to the `.chat` class definition (line 195)
+
+Before:
+  .chat { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--paper); }
+After:
+  .chat { flex: 1; display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--paper); }
+
+Verification:
+  grep -n "min-height: 0" src/styles/kit.css | grep "\.chat"
+  => 195:.chat { flex: 1; display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--paper); }
+
+Purpose:
+  The .chat container needs min-height: 0 to properly shrink in a flex layout.
+  This allows its child .chat-stream (with overflow-y: auto) to scroll instead of expanding infinitely.
+
+Dependencies:
+  - Blocks: Task 5 (MainContent.tsx wrapper fix)

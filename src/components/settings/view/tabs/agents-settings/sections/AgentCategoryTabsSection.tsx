@@ -20,7 +20,7 @@ export default function AgentCategoryTabsSection({
   const categories = selectedAgent === 'pi' ? PI_AGENT_CATEGORIES : AGENT_CATEGORIES;
 
   return (
-    <div className="flex-shrink-0 border-b border-border">
+    <div className="flex-shrink-0 border-b" style={{ borderColor: 'var(--line)' }}>
       <div role="tablist" className="flex overflow-x-auto px-2 md:px-4">
         {categories.map((category) => (
           <button
@@ -31,8 +31,8 @@ export default function AgentCategoryTabsSection({
             className={cn(
               'whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium touch-manipulation transition-colors duration-150',
               selectedCategory === category
-                ? 'border-primary text-primary'
-                : 'border-transparent text-muted-foreground hover:text-foreground',
+                ? 'border-[var(--accent)] text-[var(--accent)]'
+                : 'border-transparent text-[var(--ink-3)] hover:text-[var(--ink)]',
             )}
           >
             {category === 'account' && t('tabs.account')}

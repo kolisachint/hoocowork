@@ -51,9 +51,13 @@ const c = {
     dim: (text) => `${colors.dim}${text}${colors.reset}`,
 };
 
-// Load package.json for version info
-const packageJsonPath = path.join(APP_ROOT, 'package.json');
-const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+let packageJson;
+if (process.env.BINARY_MODE === 'true' && globalThis.__BINARY_PACKAGE_JSON__) {
+  packageJson = globalThis.__BINARY_PACKAGE_JSON__;
+} else {
+  const packageJsonPath = path.join(APP_ROOT, 'package.json');
+  packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+}
 // Match the runtime fallback in load-env.js so "cloudcli status" reports the same default
 // database location that the backend will actually use when no DATABASE_PATH is configured.
 const DEFAULT_DATABASE_PATH = path.join(os.homedir(), '.cloudcli', 'auth.db');
@@ -135,6 +139,13 @@ function showStatus() {
     console.log(`       ${c.dim(envFilePath)}`);
     console.log(`       Status: ${envExists ? c.ok('[OK] Exists') : c.warn('[WARN] Not found (using defaults)')}`);
 
+    // Binary mode specific info
+    if (process.env.BINARY_MODE === 'true' && globalThis.__BINARY_PACKAGE_JSON__) {
+        console.log(`\n${c.info('[INFO]')} Distribution Type: ${c.bright('Standalone Binary')}`);
+        console.log(`       Binary Path: ${c.dim(process.argv[1] || 'unknown')}`);
+        console.log(`       Data Directory: ${c.dim(path.join(os.homedir(), '.hoocowork'))}`);
+    }
+
     console.log('\n' + c.dim('═'.repeat(60)));
     console.log(`\n${c.tip('[TIP]')} Hints:`);
     console.log(`      ${c.dim('>')} Use ${c.bright('cloudcli --port 8080')} to run on a custom port`);
@@ -208,8 +219,23 @@ function isNewerVersion(v1, v2) {
 // Check for updates
 async function checkForUpdates(silent = false) {
     try {
-        const { execSync } = await import('child_process');
-        const latestVersion = execSync('npm show @cloudcli-ai/cloudcli version', { encoding: 'utf8' }).trim();
+        let latestVersion;
+
+        if (process.env.BINARY_MODE === 'true') {
+            const response = await fetch('https://api.github.com/repos/kolisachint/hoocowork/releases/latest');
+            if (!response.ok) {
+                throw new Error('Could not fetch latest release');
+            }
+            const data = await response.json();
+            latestVersion = data.tag_name ? data.tag_name.replace(/^v/, '') : null;
+            if (!latestVersion) {
+                throw new Error('Could not parse release version');
+            }
+        } else {
+            const { execSync } = await import('child_process');
+            latestVersion = execSync('npm show @cloudcli-ai/cloudcli version', { encoding: 'utf8' }).trim();
+        }
+
         const currentVersion = packageJson.version;
 
         if (isNewerVersion(latestVersion, currentVersion)) {
@@ -228,9 +254,70 @@ async function checkForUpdates(silent = false) {
     }
 }
 
+// Get the binary asset name for the current platform
+function getBinaryAssetName() {
+    const platform = process.platform;
+    const arch = process.arch;
+    if (platform === 'win32') return 'hoocowork-win-x64.exe';
+    if (platform === 'darwin') return arch === 'arm64' ? 'hoocowork-darwin-arm64' : 'hoocowork-darwin-x64';
+    return 'hoocowork-linux-x64';
+}
+
 // Update the package
 async function updatePackage() {
     try {
+        if (process.env.BINARY_MODE === 'true') {
+            console.log(`${c.info('[INFO]')} Checking for binary updates...`);
+
+            const { hasUpdate, latestVersion, currentVersion } = await checkForUpdates(true);
+
+            if (!hasUpdate) {
+                console.log(`${c.ok('[OK]')} Already on the latest version (${currentVersion})`);
+                return;
+            }
+
+            console.log(`${c.info('[INFO]')} New version available: ${c.bright(latestVersion)}`);
+            console.log(`${c.info('[INFO]')} Downloading update...`);
+
+            try {
+                const response = await fetch('https://api.github.com/repos/kolisachint/hoocowork/releases/latest');
+                const release = await response.json();
+                const assetName = getBinaryAssetName();
+                const asset = release.assets.find((a) => a.name === assetName);
+
+                if (!asset) {
+                    console.log(`${c.warn('[WARN]')} No binary found for your platform (${assetName})`);
+                    console.log(`       Download manually from: ${release.html_url}`);
+                    return;
+                }
+
+                const binaryPath = process.argv[1] || '';
+                const binaryDir = path.dirname(binaryPath);
+                const tempPath = path.join(binaryDir, `${assetName}.tmp`);
+                const finalPath = path.join(binaryDir, assetName);
+
+                const downloadResponse = await fetch(asset.browser_download_url);
+                if (!downloadResponse.ok) {
+                    throw new Error('Download failed');
+                }
+
+                const arrayBuffer = await downloadResponse.arrayBuffer();
+                fs.writeFileSync(tempPath, Buffer.from(arrayBuffer));
+
+                fs.chmodSync(tempPath, 0o755);
+
+                console.log(`${c.ok('[OK]')} Downloaded to: ${c.dim(tempPath)}`);
+                console.log(`\n${c.tip('[TIP]')} To complete the update:`);
+                console.log(`      1. Stop any running instances of hoocowork`);
+                console.log(`      2. Replace the current binary with:`);
+                console.log(`         ${c.bright('mv ' + tempPath + ' ' + finalPath)}`);
+                console.log(`      3. Start hoocowork again\n`);
+            } catch (e) {
+                console.error(`${c.error('[ERROR]')} Download failed: ${e.message}`);
+            }
+            return;
+        }
+
         const { execSync } = await import('child_process');
         console.log(`${c.info('[INFO]')} Checking for updates...`);
 

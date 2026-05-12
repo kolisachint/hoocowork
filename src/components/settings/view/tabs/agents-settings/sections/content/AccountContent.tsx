@@ -13,65 +13,30 @@ type AccountContentProps = {
 
 type AgentVisualConfig = {
   name: string;
-  bgClass: string;
-  borderClass: string;
-  textClass: string;
-  subtextClass: string;
-  buttonClass: string;
   description?: string;
 };
 
 const agentConfig: Record<AgentProvider, AgentVisualConfig> = {
   claude: {
     name: 'Claude',
-    bgClass: 'bg-[var(--brand-accent)]/5',
-    borderClass: 'border-[var(--brand-accent)]/20',
-    textClass: 'text-foreground',
-    subtextClass: 'text-muted-foreground',
-    buttonClass: 'bg-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/90 active:bg-[var(--brand-accent)]/80',
   },
   cursor: {
     name: 'Cursor',
-    bgClass: 'bg-[var(--brand-accent)]/5',
-    borderClass: 'border-[var(--brand-accent)]/20',
-    textClass: 'text-foreground',
-    subtextClass: 'text-muted-foreground',
-    buttonClass: 'bg-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/90 active:bg-[var(--brand-accent)]/80',
   },
   codex: {
     name: 'Codex',
-    bgClass: 'bg-muted/50',
-    borderClass: 'border-border',
-    textClass: 'text-foreground',
-    subtextClass: 'text-muted-foreground',
-    buttonClass: 'bg-foreground/80 hover:bg-foreground/90 active:bg-foreground',
   },
   gemini: {
     name: 'Gemini',
     description: 'Google Gemini AI assistant',
-    bgClass: 'bg-[var(--brand-accent)]/5',
-    borderClass: 'border-[var(--brand-accent)]/20',
-    textClass: 'text-foreground',
-    subtextClass: 'text-muted-foreground',
-    buttonClass: 'bg-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/90 active:bg-[var(--brand-accent)]/80',
   },
   pi: {
     name: 'Pi',
     description: 'Pi AI coding agent',
-    bgClass: 'bg-[var(--brand-accent)]/5',
-    borderClass: 'border-[var(--brand-accent)]/20',
-    textClass: 'text-foreground',
-    subtextClass: 'text-muted-foreground',
-    buttonClass: 'bg-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/90 active:bg-[var(--brand-accent)]/80',
   },
   opencode: {
     name: 'OpenCode',
     description: 'OpenCode terminal coding agent',
-    bgClass: 'bg-[var(--brand-accent)]/5',
-    borderClass: 'border-[var(--brand-accent)]/20',
-    textClass: 'text-foreground',
-    subtextClass: 'text-muted-foreground',
-    buttonClass: 'bg-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/90 active:bg-[var(--brand-accent)]/80',
   },
 };
 
@@ -84,19 +49,19 @@ export default function AccountContent({ agent, authStatus, onLogin }: AccountCo
       <div className="mb-4 flex items-center gap-3">
         <SessionProviderLogo provider={agent} className="h-6 w-6" />
         <div>
-          <h3 className="text-lg font-medium text-foreground">{config.name}</h3>
-          <p className="text-sm text-muted-foreground">{t(`agents.account.${agent}.description`)}</p>
+          <h3 className="text-lg font-medium">{config.name}</h3>
+          <p className="text-sm" style={{ color: 'var(--ink-3)' }}>{t(`agents.account.${agent}.description`)}</p>
         </div>
       </div>
 
-      <div className={`${config.bgClass} border ${config.borderClass} rounded-lg p-4`}>
+      <div className="rounded-lg border p-4" style={{ background: 'var(--paper-2)', borderColor: 'var(--line)' }}>
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <div className="flex-1">
-              <div className={`font-medium ${config.textClass}`}>
+                  <div className="font-medium">
                 {t('agents.connectionStatus')}
               </div>
-              <div className={`text-sm ${config.subtextClass}`}>
+              <div className={`text-sm ${'text-[var(--ink-3)]'}`}>
                 {authStatus.loading ? (
                   t('agents.authStatus.checkingAuth')
                 ) : authStatus.authenticated ? (
@@ -110,15 +75,15 @@ export default function AccountContent({ agent, authStatus, onLogin }: AccountCo
             </div>
             <div>
               {authStatus.loading ? (
-                <Badge variant="secondary" className="bg-muted">
+                <Badge variant="secondary">
                   {t('agents.authStatus.checking')}
                 </Badge>
               ) : authStatus.authenticated ? (
-                <Badge variant="secondary" className="bg-[var(--ok)]/10 text-[var(--ok)]">
+                <Badge variant="secondary" className="badge-ok">
                   {t('agents.authStatus.connected')}
                 </Badge>
               ) : (
-                <Badge variant="secondary" className="bg-muted text-muted-foreground">
+                <Badge variant="secondary" className="badge-default">
                   {t('agents.authStatus.disconnected')}
                 </Badge>
               )}
@@ -126,22 +91,22 @@ export default function AccountContent({ agent, authStatus, onLogin }: AccountCo
           </div>
 
           {agent === 'pi' ? (
-            <div className="border-t border-border/50 pt-4">
-              <div className={`text-sm ${config.subtextClass}`}>
+            <div className="pt-4" style={{ borderTop: '1px solid var(--line)' }}>
+              <div className={`text-sm ${'text-[var(--ink-3)]'}`}>
                 {t('agents.account.pi.configuredViaKeys')}
               </div>
-              <div className={`mt-1 text-xs ${config.subtextClass} opacity-80`}>
+              <div className="mt-1 text-xs opacity-80" style={{ color: 'var(--ink-3)' }}>
                 {t('agents.account.pi.manageKeysHint')}
               </div>
             </div>
           ) : authStatus.method !== 'api_key' && (
-            <div className="border-t border-border/50 pt-4">
+            <div className="pt-4" style={{ borderTop: '1px solid var(--line)' }}>
               <div className="flex items-center justify-between">
                 <div>
-                  <div className={`font-medium ${config.textClass}`}>
+              <div className="font-medium">
                     {authStatus.authenticated ? t('agents.login.reAuthenticate') : t('agents.login.title')}
                   </div>
-                  <div className={`text-sm ${config.subtextClass}`}>
+              <div className="text-sm" style={{ color: 'var(--ink-3)' }}>
                     {authStatus.authenticated
                       ? t('agents.login.reAuthDescription')
                       : t('agents.login.description', { agent: config.name })}
@@ -149,7 +114,7 @@ export default function AccountContent({ agent, authStatus, onLogin }: AccountCo
                 </div>
                 <Button
                   onClick={onLogin}
-                  className={`${config.buttonClass} text-white`}
+                  className="btn btn-accent text-white"
                   size="sm"
                 >
                   <LogIn className="mr-2 h-4 w-4" />
@@ -160,8 +125,8 @@ export default function AccountContent({ agent, authStatus, onLogin }: AccountCo
           )}
 
           {authStatus.error && (
-            <div className="border-t border-border/50 pt-4">
-              <div className="text-sm text-[var(--err)]">
+            <div className="pt-4" style={{ borderTop: '1px solid var(--line)' }}>
+              <div className="text-sm" style={{ color: 'var(--err)' }}>
                 {t('agents.error', { error: authStatus.error })}
               </div>
             </div>

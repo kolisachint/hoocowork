@@ -8,9 +8,9 @@ type AgentConnectionsStepProps = {
   onOpenProviderLogin: (provider: LLMProvider) => void;
 };
 
-const KIT_CONNECTED = 'bg-secondary border-foreground';
-const KIT_ICON_WRAP = 'bg-secondary';
-const KIT_LOGIN = 'bg-primary hover:bg-primary/90 text-primary-foreground';
+const KIT_CONNECTED = 'border-[var(--ink)] bg-[var(--paper-2)]';
+const KIT_ICON_WRAP = 'bg-[var(--paper-2)]';
+const KIT_LOGIN = 'bg-[var(--accent)] hover:bg-[var(--accent-2)] text-[var(--accent-ink)]';
 
 const providerCards = [
   {
@@ -64,9 +64,9 @@ export default function AgentConnectionsStep({
   return (
     <div className="space-y-6">
       <div className="mb-6 text-center">
-        <p className="mb-2 text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">Step 2</p>
-        <h2 className="mb-2 text-2xl font-semibold tracking-tight text-foreground">Connect Your AI Agents</h2>
-        <p className="text-muted-foreground">
+        <p className="mb-2 text-xs font-medium uppercase tracking-[0.12em] text-[var(--ink-3)]">Step 2</p>
+        <h2 className="mb-2 text-2xl font-semibold tracking-tight text-[var(--ink)]">Connect Your AI Agents</h2>
+        <p className="text-[var(--ink-3)]">
           Login to one or more AI coding assistants. All are optional.
         </p>
       </div>
@@ -86,7 +86,7 @@ export default function AgentConnectionsStep({
         ))}
       </div>
 
-      <div className="pt-2 text-center text-sm text-muted-foreground">
+      <div className="pt-2 text-center text-sm text-[var(--ink-3)]">
         <p>You can configure these later in Settings.</p>
       </div>
     </div>

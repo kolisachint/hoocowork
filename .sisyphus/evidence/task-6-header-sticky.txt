@@ -1,0 +1,23 @@
+Task 6 Evidence: Add sticky positioning to MainContentHeader.tsx
+=============================================================
+Date: 2026-05-12
+
+Change Applied:
+- File: src/components/main-content/view/subcomponents/MainContentHeader.tsx
+- Line 39: Added `sticky top-0 z-20` classes to topbar div
+
+Before:
+  <div className="topbar pwa-header-safe">
+After:
+  <div className="topbar pwa-header-safe sticky top-0 z-20">
+
+Verification:
+  grep "sticky top-0 z-20" → Found at line 39 ✓
+
+LSP Diagnostics:
+  TypeScript language server not installed on this machine (environment issue)
+  No syntax or type errors expected — Tailwind classes are purely CSS utility classes
+
+Dependencies:
+  - Complements Task 3 (CSS .topbar sticky fix)
+  - Unblocks Task 10 (Visual QA for top bar)

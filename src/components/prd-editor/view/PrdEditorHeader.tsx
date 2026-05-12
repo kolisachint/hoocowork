@@ -52,7 +52,7 @@ function HeaderIconButton({ title, onClick, icon, active = false }: HeaderIconBu
         'p-2 rounded-md min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 flex items-center justify-center transition-colors',
         active
           ? 'text-[var(--brand-accent)] bg-[var(--brand-accent)]/10'
-          : 'text-muted-foreground hover:text-foreground hover:bg-muted',
+          : 'text-[var(--ink-3)] hover:text-[var(--ink)] hover:bg-[var(--paper-2)]',
       )}
     >
       {icon}
@@ -83,7 +83,7 @@ export default function PrdEditorHeader({
   const fileNameInputRef = useRef<HTMLInputElement | null>(null);
 
   return (
-    <div className="flex min-w-0 flex-shrink-0 items-center justify-between border-b border-border p-4">
+    <div className="flex min-w-0 flex-shrink-0 items-center justify-between border-b border-[var(--line)] p-4">
       <div className="flex min-w-0 flex-1 items-center gap-3">
         <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded bg-[var(--brand-accent)]">
           <FileText className="h-4 w-4 text-white" />
@@ -92,24 +92,24 @@ export default function PrdEditorHeader({
         <div className="min-w-0 flex-1">
           <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
             <div className="flex min-w-0 flex-1 items-center gap-1">
-              <div className="flex min-w-0 flex-1 items-center rounded-md border border-border bg-muted/50 px-3 py-2 focus-within:border-[var(--brand-accent)] focus-within:ring-2 focus-within:ring-[var(--brand-accent)]">
+              <div className="input-wrap flex min-w-0 flex-1 items-center rounded-md border border-[var(--line)] bg-[var(--paper-2)]/50 px-3 py-2 focus-within:border-[var(--brand-accent)] focus-within:ring-2 focus-within:ring-[var(--brand-accent)]">
                 <input
                   ref={fileNameInputRef}
                   type="text"
                   value={fileName}
                   onChange={(event) => onFileNameChange(event.target.value)}
-                  className="min-w-0 flex-1 border-none bg-transparent text-base font-medium text-foreground placeholder-muted-foreground outline-none sm:text-sm"
+                  className="min-w-0 flex-1 border-none bg-transparent text-base font-medium text-[var(--ink)] placeholder-[var(--ink-4)] outline-none sm:text-sm"
                   placeholder="Enter PRD filename"
                   maxLength={100}
                 />
-                <span className="ml-1 whitespace-nowrap text-sm text-muted-foreground sm:text-xs">
+                <span className="ml-1 whitespace-nowrap text-sm text-[var(--ink-3)] sm:text-xs">
                   .txt
                 </span>
               </div>
 
               <button
                 onClick={() => fileNameInputRef.current?.focus()}
-                className="p-1 text-muted-foreground transition-colors hover:text-[var(--brand-accent)]"
+                className="p-1 text-[var(--ink-3)] transition-colors hover:text-[var(--brand-accent)]"
                 title="Focus filename input"
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -135,7 +135,7 @@ export default function PrdEditorHeader({
             </div>
           </div>
 
-          <p className="mt-1 truncate text-xs text-muted-foreground sm:text-sm">
+          <p className="mt-1 truncate text-xs text-[var(--ink-3)] sm:text-sm">
             Product Requirements Document
           </p>
         </div>
@@ -212,7 +212,7 @@ export default function PrdEditorHeader({
 
         <button
           onClick={onToggleFullscreen}
-          className="hidden items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground md:flex"
+          className="hidden items-center justify-center icon-btn md:flex"
           title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
         >
           {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}

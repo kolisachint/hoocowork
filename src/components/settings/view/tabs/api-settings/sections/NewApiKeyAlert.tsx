@@ -20,11 +20,11 @@ export default function NewApiKeyAlert({
   const { t } = useTranslation('settings');
 
   return (
-    <div className="border-[var(--warn)]/20 bg-[var(--warn)]/10 rounded-lg border p-4">
+    <div className="rounded-lg border p-4" style={{ borderColor: 'var(--warn)', background: 'var(--paper-2)' }}>
       <h4 className="mb-2 font-semibold text-[var(--warn)]">{t('apiKeys.newKey.alertTitle')}</h4>
-      <p className="mb-3 text-sm text-muted-foreground">{t('apiKeys.newKey.alertMessage')}</p>
+      <p className="mb-3 text-sm" style={{ color: 'var(--ink-3)' }}>{t('apiKeys.newKey.alertMessage')}</p>
       <div className="flex items-center gap-2">
-        <code className="flex-1 break-all rounded bg-background/50 px-3 py-2 font-mono text-sm">
+        <code className="flex-1 break-all rounded px-3 py-2 font-mono text-sm" style={{ background: 'var(--paper)' }}>
           {apiKey.apiKey}
         </code>
         <Button

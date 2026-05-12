@@ -1,0 +1,31 @@
+PackageIdentifier: kolisachint.hoocowork
+PackageVersion: 1.33.0
+PackageLocale: en-US
+Publisher: kolisachint
+PublisherName: kolisachint
+PublisherUrl: https://github.com/kolisachint
+PackageName: HooCowork
+PackageUrl: https://hoocowork.app
+License: AGPL-3.0-or-later
+LicenseUrl: https://github.com/kolisachint/hoocowork/blob/main/LICENSE
+ShortDescription: A desktop and mobile UI for Claude Code, Cursor CLI, Codex, and Gemini-CLI
+Moniker: hoocowork
+Tags:
+  - claude
+  - codex
+  - cursor
+  - gemini
+  - ai
+  - cli
+  - chat
+InstallerType: portable
+Installers:
+  - Architecture: x64
+    Platform:
+      - Windows.Desktop
+    InstallerUrl: https://github.com/kolisachint/hoocowork/releases/download/v1.33.0/hoocowork-win-x64.exe
+    InstallerSha256: PLACEHOLDER_CI_FILLS_THIS
+Commands:
+  - hoocowork
+ManifestType: singleton
+ManifestVersion: 1.9.0

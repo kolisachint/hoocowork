@@ -1,0 +1,24 @@
+Task 5: Fix chat wrapper layout in MainContent.tsx
+===================================================
+Date: 2026-05-12
+
+Change Applied:
+- File: src/components/main-content/view/MainContent.tsx
+- Line 125: Chat tab wrapper div className updated
+- Before: <div className={`h-full ${activeTab === 'chat' ? 'block' : 'hidden'}`}>
+- After:  <div className={`h-full flex flex-col min-h-0 overflow-hidden ${activeTab === 'chat' ? 'block' : 'hidden'}`}>
+- Added classes: flex, flex-col, min-h-0, overflow-hidden
+
+Verification:
+$ grep -n "flex flex-col min-h-0" src/components/main-content/view/MainContent.tsx
+125:          <div className={`h-full flex flex-col min-h-0 overflow-hidden ${activeTab === 'chat' ? 'block' : 'hidden'}`}>
+
+Purpose:
+- Flex layout properly constrains the chat component within its parent
+- min-h-0 allows the flex child to shrink below its content height
+- overflow-hidden prevents overflow from breaking layout
+- This complements Task 1 (CSS .chat fix) for proper chat scrolling behavior
+
+Dependencies:
+- Depends on: Task 1 (CSS .chat min-height: 0 fix)
+- Blocks: Task 8 (Visual QA for chat scrolling)

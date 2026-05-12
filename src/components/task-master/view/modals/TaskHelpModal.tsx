@@ -50,21 +50,21 @@ export default function TaskHelpModal({ isOpen, onClose, onCreatePrd }: TaskHelp
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-      <div className="max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-lg border border-border bg-background shadow-xl">
-        <div className="flex items-center justify-between border-b border-border p-6">
+      <div className="max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-lg border border-[var(--line)] bg-[var(--paper)] shadow-xl">
+        <div className="flex items-center justify-between border-b border-[var(--line)] p-6">
           <div className="flex items-center gap-3">
             <div className="bg-[var(--brand-accent)]/10 flex h-10 w-10 items-center justify-center rounded-lg">
               <FileText className="h-5 w-5 text-[var(--brand-accent)]" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-foreground">{t('helpGuide.title')}</h2>
-              <p className="text-sm text-muted-foreground">{t('helpGuide.subtitle')}</p>
+              <h2 className="text-xl font-semibold text-[var(--ink)]">{t('helpGuide.title')}</h2>
+              <p className="text-sm text-[var(--ink-3)]">{t('helpGuide.subtitle')}</p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
+            className="icon-btn"
             title="Close"
           >
             <X className="h-5 w-5" />
@@ -79,8 +79,8 @@ export default function TaskHelpModal({ isOpen, onClose, onCreatePrd }: TaskHelp
                   {step.index}
                 </div>
                 <div>
-                  <h4 className="mb-2 font-medium text-foreground">{step.title}</h4>
-                  <p className="text-sm text-muted-foreground">{step.description}</p>
+                  <h4 className="mb-2 font-medium text-[var(--ink)]">{step.title}</h4>
+                  <p className="text-sm text-[var(--ink-3)]">{step.description}</p>
 
                   {step.index === 1 && (
                     <button
@@ -99,9 +99,9 @@ export default function TaskHelpModal({ isOpen, onClose, onCreatePrd }: TaskHelp
             </div>
           ))}
 
-          <div className="rounded-lg border border-border bg-muted/50 p-4">
-            <h4 className="mb-2 font-medium text-foreground">{t('helpGuide.proTips.title')}</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+          <div className="rounded-lg border border-[var(--line)] bg-[var(--paper-2)]/50 p-4">
+            <h4 className="mb-2 font-medium text-[var(--ink)]">{t('helpGuide.proTips.title')}</h4>
+            <ul className="space-y-2 text-sm text-[var(--ink-3)]">
               <li>{t('helpGuide.proTips.search')}</li>
               <li>{t('helpGuide.proTips.views')}</li>
               <li>{t('helpGuide.proTips.filters')}</li>
@@ -110,8 +110,8 @@ export default function TaskHelpModal({ isOpen, onClose, onCreatePrd }: TaskHelp
           </div>
 
           <div className="border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 rounded-lg border p-4">
-            <h4 className="mb-2 font-medium text-foreground">{t('helpGuide.learnMore.title')}</h4>
-            <p className="mb-3 text-sm text-muted-foreground">{t('helpGuide.learnMore.description')}</p>
+            <h4 className="mb-2 font-medium text-[var(--ink)]">{t('helpGuide.learnMore.title')}</h4>
+            <p className="mb-3 text-sm text-[var(--ink-3)]">{t('helpGuide.learnMore.description')}</p>
             <a
               href="https://github.com/eyaltoledano/claude-task-master"
               target="_blank"

@@ -150,11 +150,11 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
   return (
     <>
-      <div className="flex min-h-screen items-center justify-center bg-background p-4">
+      <div className="flex min-h-screen items-center justify-center bg-[var(--paper)] p-4">
         <div className="w-full max-w-2xl">
           <OnboardingStepProgress currentStep={currentStep} />
 
-          <div className="rounded-lg border border-border bg-card p-8 shadow-lg">
+          <div className="rounded-lg border border-[var(--line)] bg-[var(--paper)] p-8 shadow-lg">
             {currentStep === 0 ? (
               <GitConfigurationStep
                 gitName={gitName}
@@ -176,11 +176,11 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
               </div>
             )}
 
-            <div className="mt-8 flex items-center justify-between border-t border-border pt-6">
+            <div className="mt-8 flex items-center justify-between border-t border-[var(--line)] pt-6">
               <button
                 onClick={handlePreviousStep}
                 disabled={currentStep === 0 || isSubmitting}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                className="btn btn-ghost disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <ChevronLeft className="h-4 w-4" />
                 Previous
@@ -191,7 +191,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   <button
                     onClick={handleNextStep}
                     disabled={!isCurrentStepValid || isSubmitting}
-                    className="flex items-center gap-2 rounded-[var(--radius-2)] bg-[var(--ink)] px-6 py-3 font-medium text-[var(--paper)] transition-colors duration-200 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="btn btn-solid px-6 py-3 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>
@@ -209,7 +209,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   <button
                     onClick={handleFinish}
                     disabled={isSubmitting}
-                    className="flex items-center gap-2 rounded-[var(--radius-2)] bg-[var(--ok)] px-6 py-3 font-medium text-[var(--paper)] transition-colors duration-200 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="btn px-6 py-3 bg-[var(--ok)] text-[var(--paper)] border-[var(--ok)] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>

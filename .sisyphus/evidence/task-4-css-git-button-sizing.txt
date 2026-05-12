@@ -1,0 +1,22 @@
+Task 4: Fix git button sizing in kit-extra.css
+================================================
+
+Date: 2026-05-12
+File: src/styles/kit-extra.css
+Class: .git-act
+
+Change:
+- width: 22px; height: 22px;
++ min-width: 22px; min-height: 22px; padding: 4px 8px;
+
+Verification (grep -A5 '\.git-act {' src/styles/kit-extra.css):
+--------------------------------------------------------------
+.git-act {
+  min-width: 22px; min-height: 22px; padding: 4px 8px; display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; border: 1px solid var(--line); border-radius: var(--radius-1);
+  color: var(--ink-3); cursor: pointer; font-family: inherit;
+}
+.git-act:hover { color: var(--ink); border-color: var(--ink-2); }
+
+Result: PASS - Fixed width/height replaced with min-width/min-height + padding.
+This allows .git-act buttons to grow when they contain both icon and text content.
