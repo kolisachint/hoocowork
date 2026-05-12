@@ -4,13 +4,10 @@ import type { MainContentHeaderProps } from '../../types/types';
 
 import MobileMenuButton from './MobileMenuButton';
 import MainContentTabSwitcher from './MainContentTabSwitcher';
-import MainContentTitle from './MainContentTitle';
 
 export default function MainContentHeader({
   activeTab,
   setActiveTab,
-  selectedProject,
-  selectedSession,
   shouldShowTasksTab,
   isMobile,
   onMenuClick,
@@ -38,17 +35,13 @@ export default function MainContentHeader({
   return (
     <div className="topbar pwa-header-safe sticky top-0 z-20">
       <div className="flex items-center justify-between gap-3">
-        <div className="flex min-w-0 flex-1 items-center gap-2">
-          {isMobile && <MobileMenuButton onMenuClick={onMenuClick} />}
-          <MainContentTitle
-            activeTab={activeTab}
-            selectedProject={selectedProject}
-            selectedSession={selectedSession}
-            shouldShowTasksTab={shouldShowTasksTab}
-          />
-        </div>
+        {isMobile && (
+          <div className="flex flex-shrink-0 items-center">
+            <MobileMenuButton onMenuClick={onMenuClick} />
+          </div>
+        )}
 
-        <div className="relative min-w-0 flex-shrink overflow-hidden sm:flex-shrink-0">
+        <div className="relative min-w-0 flex-1 overflow-hidden">
           {canScrollLeft && (
             <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-background to-transparent" />
           )}

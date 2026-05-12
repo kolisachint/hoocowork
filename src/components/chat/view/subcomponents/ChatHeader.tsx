@@ -14,10 +14,6 @@ type ChatHeaderProps = {
   isConnected: boolean;
   tokenBudget?: TokenBudgetLike;
   totalMessages?: number;
-  onOpenShell?: () => void;
-  onOpenFiles?: () => void;
-  onOpenGit?: () => void;
-  onOpenSettings?: () => void;
   onCopySessionId?: () => void;
 };
 
@@ -49,10 +45,6 @@ const ChatHeader = memo(function ChatHeader({
   isConnected,
   tokenBudget,
   totalMessages,
-  onOpenShell,
-  onOpenFiles,
-  onOpenGit,
-  onOpenSettings,
   onCopySessionId,
 }: ChatHeaderProps) {
   const { t } = useTranslation('chat');
@@ -89,58 +81,6 @@ const ChatHeader = memo(function ChatHeader({
 
   return (
     <header className="chat-header-stack" data-component="chat-header">
-      {/* Row 1: shell/terminal action quick-access */}
-      <div className="chat-header chat-header-actions">
-        <nav className="chat-header-tabs" aria-label={t('header.surfaceNav', { defaultValue: 'Chat surface' })}>
-          <button
-            type="button"
-            className="chat-tab is-active"
-            aria-current="page"
-          >
-            <span className="chat-tab-glyph">❯</span>
-            <span>{t('header.tabChat', { defaultValue: 'Chat' })}</span>
-          </button>
-          <button
-            type="button"
-            className="chat-tab"
-            onClick={onOpenShell}
-            disabled={!onOpenShell}
-            title={t('header.tabShellHint', { defaultValue: 'Open integrated shell' })}
-          >
-            <span className="chat-tab-glyph">$</span>
-            <span>{t('header.tabShell', { defaultValue: 'Shell' })}</span>
-          </button>
-          <button
-            type="button"
-            className="chat-tab"
-            onClick={onOpenFiles}
-            disabled={!onOpenFiles}
-            title={t('header.tabFilesHint', { defaultValue: 'Open file tree' })}
-          >
-            <span className="chat-tab-glyph">⌘</span>
-            <span>{t('header.tabFiles', { defaultValue: 'Files' })}</span>
-          </button>
-          <button
-            type="button"
-            className="chat-tab"
-            onClick={onOpenGit}
-            disabled={!onOpenGit}
-            title={t('header.tabGitHint', { defaultValue: 'Open git panel' })}
-          >
-            <span className="chat-tab-glyph">⎇</span>
-            <span>{t('header.tabGit', { defaultValue: 'Git' })}</span>
-          </button>
-        </nav>
-        <div className="chat-header-quick">
-          {onOpenSettings && (
-            <button type="button" className="chat-quick-btn" onClick={onOpenSettings} title={t('header.settingsHint', { defaultValue: 'Session settings' })}>
-              <span aria-hidden>⚙</span>
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Row 2: session info bar */}
       <div className="chat-header chat-header-info">
         <div className="chat-title">
           <span className="chat-eyebrow">{t('header.session', { defaultValue: 'Session' })}</span>

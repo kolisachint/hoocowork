@@ -340,7 +340,6 @@ function ChatInterface({
           isConnected={Boolean(ws)}
           tokenBudget={tokenBudget}
           totalMessages={totalMessages}
-          onOpenSettings={onShowSettings}
         />
         <ChatMessagesPane
           scrollContainerRef={scrollContainerRef}
