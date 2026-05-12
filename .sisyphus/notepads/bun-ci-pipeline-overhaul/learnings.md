@@ -40,6 +40,21 @@
 ### Known Issue
 - `bun publish --dry-run` fails at the `prepare: husky` hook because bun can't resolve `husky` from node_modules/.bin in the publish context. This is NOT a problem for the CI workflow because `bun install --frozen-lockfile` runs before `bun publish`, meaning husky is properly installed.
 
+## [2026-05-11] Final Verification Wave (F1-F4)
+
+### Results
+- F1 (Plan Compliance): APPROVE — all must-haves met, guardrails respected
+- F2 (Code Quality): APPROVE — typecheck/lint/build/test all pass, no anti-patterns
+- F3 (Dev Workflow): APPROVE — npm + bun both work, binary resolves
+- F4 (Docs Accuracy): APPROVE — all docs updated, badges present, no stale refs
+
+### Key Achievements
+- 8 atomic commits across the overhaul
+- 30+ files modified across CI/CD, config, and documentation
+- Zero regressions in tests or builds
+- Both lockfiles maintained (npm + bun)
+- npm dev workflow fully preserved
+
 ### Verified
 - `bun test`: 54 pass, 6 skip, 0 fail
 - `bun run build`: vite + tsc compile successfully

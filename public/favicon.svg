@@ -1,9 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <!-- Background fills entire canvas -->
-  <rect x="0" y="0" width="64" height="64" fill="hsl(240 5.9% 10%)"/>
-  
-  <!-- MessageSquare icon - exact same as sidebar -->
-  <g transform="translate(32, 32) scale(1.333) translate(-12, -12)" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <!-- Paper background -->
+  <rect x="0" y="0" width="64" height="64" fill="#FAFAF7"/>
+  <!-- Hairline square border -->
+  <rect x="0.5" y="0.5" width="63" height="63" rx="3" stroke="#111110" stroke-width="1"/>
+  <!-- Prompt glyph > -->
+  <path d="M18 22L26 32L18 42" stroke="#111110" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+  <!-- Cursor bar -->
+  <rect x="32" y="40" width="14" height="2.5" fill="#111110"/>
 </svg>
