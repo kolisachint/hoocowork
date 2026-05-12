@@ -38,7 +38,7 @@ export default function FileChangeItem({
 
   return (
     <div className="border-b border-[var(--line)] last:border-0">
-      <div className={`git-file flex items-center ${isMobile ? 'px-2 py-1.5' : 'px-3 py-2'}`}>
+      <div className={`git-file items-center ${isMobile ? 'px-2 py-1.5' : 'px-3 py-2'}`}>
         <input
           type="checkbox"
           checked={isSelected}
