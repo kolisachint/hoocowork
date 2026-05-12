@@ -1,6 +1,6 @@
 <div align="center">
   <img src="public/logo.svg" alt="HooCowork" width="64" height="64">
-  <h1>Cloud CLI (Claude Code UI olarak da bilinir)</h1>
+  <h1>HooCowork (Claude Code UI olarak da bilinir)</h1>
   <p><img src="https://github.com/kolisachint/hoocowork/actions/workflows/ci.yml/badge.svg" alt="CI"></p>
   <p><a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a>, <a href="https://docs.cursor.com/en/cli/overview">Cursor CLI</a>, <a href="https://developers.openai.com/codex">Codex</a> ve <a href="https://geminicli.com/">Gemini-CLI</a> için masaüstü ve mobil arayüz.<br>Yerel ya da uzaktan kullanarak aktif projelerine ve oturumlarına her yerden erişebilirsin.</p>
 </div>
@@ -255,7 +255,7 @@ HooCowork — (https://hoocowork.app).
 
 
 ### Sponsorlar
-- [Siteboon — AI destekli web sitesi oluşturucu](https://siteboon.ai)
+- [Kolisachint](https://kolisachint.com)
 ---
 
 <div align="center">

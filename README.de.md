@@ -1,6 +1,6 @@
 <div align="center">
   <img src="public/logo.svg" alt="HooCowork" width="64" height="64">
-  <h1>Cloud CLI (auch bekannt als Claude Code UI)</h1>
+  <h1>HooCowork (auch bekannt als Claude Code UI)</h1>
   <p><img src="https://github.com/kolisachint/hoocowork/actions/workflows/ci.yml/badge.svg" alt="CI"></p>
   <p>Eine Desktop- und Mobile-Oberfläche für <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a>, <a href="https://docs.cursor.com/en/cli/overview">Cursor CLI</a>, <a href="https://developers.openai.com/codex">Codex</a> und <a href="https://geminicli.com/">Gemini-CLI</a>.<br>Lokal oder remote nutzbar – verwalte deine aktiven Projekte und Sitzungen von überall.</p>
 </div>
@@ -254,7 +254,7 @@ Dieses Projekt ist Open Source und kann unter der GPL v3-Lizenz kostenlos genutz
 
 
 ### Sponsoren
-- [Siteboon - KI-gestützter Website-Builder](https://siteboon.ai)
+- [Kolisachint](https://kolisachint.com)
 ---
 
 <div align="center">

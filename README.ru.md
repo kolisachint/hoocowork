@@ -1,6 +1,6 @@
 <div align="center">
   <img src="public/logo.svg" alt="HooCowork" width="64" height="64">
-  <h1>Cloud CLI (aka Claude Code UI)</h1>
+  <h1>HooCowork (aka Claude Code UI)</h1>
   <p><img src="https://github.com/kolisachint/hoocowork/actions/workflows/ci.yml/badge.svg" alt="CI"></p>
   <p>Десктопный и мобильный UI для <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a>, <a href="https://docs.cursor.com/en/cli/overview">Cursor CLI</a>, <a href="https://developers.openai.com/codex">Codex</a> и <a href="https://geminicli.com/">Gemini-CLI</a>.<br>Используйте локально или удалённо, чтобы просматривать активные проекты и сессии отовсюду.</p>
 </div>
@@ -254,7 +254,7 @@ GNU General Public License v3.0 - подробности в файле [LICENSE]
 
 
 ### Спонсоры
-- [Siteboon - AI powered website builder](https://siteboon.ai)
+- [Kolisachint](https://kolisachint.com)
 ---
 
 <div align="center">

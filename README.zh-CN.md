@@ -1,6 +1,6 @@
 <div align="center">
   <img src="public/logo.svg" alt="HooCowork" width="64" height="64">
-  <h1>Cloud CLI（又名 Claude Code UI）</h1>
+  <h1>HooCowork（又名 Claude Code UI）</h1>
   <p><img src="https://github.com/kolisachint/hoocowork/actions/workflows/ci.yml/badge.svg" alt="CI"></p>
   <p><a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a>、<a href="https://docs.cursor.com/en/cli/overview">Cursor CLI</a>、<a href="https://developers.openai.com/codex">Codex</a> 和 <a href="https://geminicli.com/">Gemini-CLI</a> 的桌面和移动端 UI。可在本地或远程使用，从任何地方查看激活的项目与会话。</p>
 </div>
@@ -246,7 +246,7 @@ GNU 通用公共许可证 v3.0 - 详见 [LICENSE](LICENSE) 文件。
 - **[TaskMaster AI](https://github.com/eyaltoledano/claude-task-master)** *(可选)* - AI 驱动的项目管理与任务规划
 
 ### 赞助商
-- [Siteboon - AI powered website builder](https://siteboon.ai)
+- [Kolisachint](https://kolisachint.com)
 ---
 
 <div align="center">
