@@ -111,6 +111,7 @@ jobs:
       - run: bun run scripts/embed-assets.ts
 
       - name: Build binary
+        shell: bash
         run: |
           BINARY_NAME="hoocowork-${{ matrix.binary-suffix }}"
           BUN_ARGS=""
