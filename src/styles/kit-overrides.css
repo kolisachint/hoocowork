@@ -166,3 +166,29 @@ a:not([class*="bg-"]):not([class*="text-"]):hover {
 .dark *::-webkit-scrollbar-thumb:hover {
   background-color: var(--line-2);
 }
+
+/* ---- Sidebar footer: bump readability, prevent edge-clip ---------- */
+.sidebar-foot {
+  padding: var(--s-3) var(--s-3);
+  gap: 4px;
+}
+.sidebar-foot .foot-row {
+  font-size: var(--fs-sm);
+  gap: 8px;
+  width: 100%;
+  padding: 4px 6px;
+  border-radius: var(--radius-1);
+  white-space: normal;
+  word-break: break-word;
+  line-height: var(--lh-snug);
+}
+.sidebar-foot .foot-row svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.sidebar-foot .foot-row.foot-meta {
+  font-size: var(--fs-xs);
+  padding: 2px 6px;
+}
+.sidebar-foot button.foot-row:hover { background: var(--paper-2); color: var(--ink); }

@@ -116,15 +116,14 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
     <div
       ref={messageRef}
       data-message-timestamp={message.timestamp || undefined}
-      className={`chat-message ${message.type} ${isGrouped ? 'grouped' : ''} ${message.type === 'user' ? 'flex justify-end px-3 sm:px-0' : 'px-3 sm:px-0'}`}
+      className={`chat-message ${message.type} ${isGrouped ? 'grouped' : ''} px-3 sm:px-0`}
     >
       {message.type === 'user' ? (
-        /* User message bubble on the right */
-        <div className="flex w-full items-end space-x-0 sm:w-auto sm:max-w-[85%] sm:space-x-3 md:max-w-md lg:max-w-lg xl:max-w-xl">
-          <div className="group flex-1 rounded-2xl rounded-br-md bg-[var(--brand-accent)] px-3 py-2 text-[var(--brand-accent-ink)] shadow-sm sm:flex-initial sm:px-4">
-            <div className="whitespace-pre-wrap break-words text-sm">
-              {message.content}
-            </div>
+        /* User message — minimal gutter + body per handoff-4 */
+        <div className="msg msg-user group w-full">
+          <div className="msg-gutter">❯</div>
+          <div className="msg-body">
+            <div className="whitespace-pre-wrap break-words">{message.content}</div>
             {message.images && message.images.length > 0 && (
               <div className="mt-2 grid grid-cols-2 gap-2">
                 {message.images.map((img, idx) => (
@@ -132,24 +131,21 @@ const MessageComponent = memo(({ message, prevMessage, createDiff, onFileOpen, o
                     key={img.name || idx}
                     src={img.data}
                     alt={img.name}
-                    className="h-auto max-w-full cursor-pointer rounded-lg transition-opacity hover:opacity-90"
+                    className="h-auto max-w-full cursor-pointer rounded transition-opacity hover:opacity-90"
                     onClick={() => window.open(img.data, '_blank')}
                   />
                 ))}
               </div>
             )}
-            <div className="text-[var(--brand-accent-ink)]/80 mt-1 flex items-center justify-end gap-1 text-xs">
-              {shouldShowUserCopyControl && (
-                <MessageCopyControl content={userCopyContent} messageType="user" />
-              )}
-              <span>{formattedTime}</span>
-            </div>
+            {(shouldShowUserCopyControl || formattedTime) && (
+              <div className="mt-1 flex items-center gap-2 text-[var(--fs-xs)] text-[var(--ink-4)] opacity-0 transition-opacity group-hover:opacity-100">
+                {shouldShowUserCopyControl && (
+                  <MessageCopyControl content={userCopyContent} messageType="user" />
+                )}
+                <span>{formattedTime}</span>
+              </div>
+            )}
           </div>
-          {!isGrouped && (
-            <div className="hidden h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[var(--brand-accent)] text-sm text-[var(--brand-accent-ink)] sm:flex">
-              U
-            </div>
-          )}
         </div>
       ) : message.isTaskNotification ? (
         /* Compact task notification on the left */
