@@ -1,3 +1,8 @@
+## [2.0.5](https://github.com/kolisachint/hoocowork/compare/v2.0.4...v2.0.5) (2026-05-13)
+
+### Bug Fixes
+
+* **ci:** pass GITHUB_TOKEN to bun install to avoid ripgrep rate limits ([d20e098](https://github.com/kolisachint/hoocowork/commit/d20e0981d616c6793152fec21cdc6f698fa74d7a))
 ## [2.0.4](https://github.com/kolisachint/hoocowork/compare/v2.0.3...v2.0.4) (2026-05-13)
 
 ### Bug Fixes
