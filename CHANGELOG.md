@@ -1,3 +1,8 @@
+## [2.0.4](https://github.com/kolisachint/hoocowork/compare/v2.0.3...v2.0.4) (2026-05-13)
+
+### Bug Fixes
+
+* **ci:** switch to npm publish with explicit .npmrc auth ([96b6297](https://github.com/kolisachint/hoocowork/commit/96b62970b95f0ca839517d2d8dc782dacb00d2e1))
 ## [2.0.3](https://github.com/kolisachint/hoocowork/compare/v2.0.2...v2.0.3) (2026-05-13)
 
 ### Bug Fixes
