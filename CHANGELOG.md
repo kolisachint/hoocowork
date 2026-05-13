@@ -1,3 +1,8 @@
+## [2.0.2](https://github.com/kolisachint/hoocowork/compare/v2.0.1...v2.0.2) (2026-05-13)
+
+### Bug Fixes
+
+* skip husky in CI environments during publish ([dd466f7](https://github.com/kolisachint/hoocowork/commit/dd466f7fbb61796088b77a087c21ea3d193c8322))
 ## [2.0.1](https://github.com/kolisachint/hoocowork/compare/v2.0.0...v2.0.1) (2026-05-13)
 
 ### Features
