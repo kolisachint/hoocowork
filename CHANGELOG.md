@@ -1,3 +1,8 @@
+## [2.0.6](https://github.com/kolisachint/hoocowork/compare/v2.0.5...v2.0.6) (2026-05-13)
+
+### Bug Fixes
+
+* **ci:** use bash shell for Build binary step on Windows runners ([6d1f006](https://github.com/kolisachint/hoocowork/commit/6d1f006e9b9e53f9d0cef3a99a88f4bc89679aa5))
 ## [2.0.5](https://github.com/kolisachint/hoocowork/compare/v2.0.4...v2.0.5) (2026-05-13)
 
 ### Bug Fixes
