@@ -123,6 +123,7 @@
 
     --tracking-tight: -0.02em;
     --tracking-norm:  -0.005em;
+    --tracking-wide:   0.06em;
     --tracking-caps:   0.12em;
 
     --ease-out:   cubic-bezier(0.2, 0, 0, 1);
