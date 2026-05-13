@@ -3,6 +3,7 @@ import express, { type Request, type Response } from 'express';
 import { providerAuthService } from '@/modules/providers/services/provider-auth.service.js';
 import { providerMcpService } from '@/modules/providers/services/mcp.service.js';
 import { hoocodeModelsService } from '@/modules/providers/services/hoocode-models.service.js';
+import { hoocodeModesService } from '@/modules/providers/services/hoocode-modes.service.js';
 import { openCodeModelsService } from '@/modules/providers/services/opencode-models.service.js';
 import { sessionConversationsSearchService } from '@/modules/providers/services/session-conversations-search.service.js';
 import { sessionsService } from '@/modules/providers/services/sessions.service.js';
@@ -257,6 +258,18 @@ router.get(
   asyncHandler(async (req: Request, res: Response) => {
     const force = parseOptionalBooleanQuery(req.query.force, 'force') === true;
     const result = await hoocodeModelsService.getModels({ force });
+    res.json(createApiSuccessResponse(result));
+  }),
+);
+
+// Hoocode modes live as filesystem entries at ~/.hoocode/modes/{name}/system.md.
+// There's no CLI flag to select a mode (modes are a /mode REPL concept), so the
+// chat composer reads this list and applies the chosen mode by passing the
+// system.md content via --append-system-prompt at spawn time.
+router.get(
+  '/hoocode/modes',
+  asyncHandler(async (_req: Request, res: Response) => {
+    const result = await hoocodeModesService.listModes();
     res.json(createApiSuccessResponse(result));
   }),
 );

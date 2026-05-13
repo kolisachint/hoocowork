@@ -6,7 +6,6 @@ import { SendHorizonalIcon, SquareIcon } from 'lucide-react';
 
 import { cn } from '../../../lib/utils';
 
-import { Button } from './Button';
 import Tooltip from './Tooltip';
 
 /* ─── Context ────────────────────────────────────────────────────── */
@@ -42,10 +41,7 @@ export const PromptInput = React.forwardRef<HTMLFormElement, PromptInputProps>(
         <form
           ref={ref}
           data-slot="prompt-input"
-          className={cn(
-            'relative overflow-hidden rounded-xl border border-border/50 bg-card/80 shadow-sm backdrop-blur-sm transition-all duration-200 focus-within:border-primary/30 focus-within:shadow-md focus-within:ring-1 focus-within:ring-primary/15',
-            className
-          )}
+          className={cn('composer-form relative flex flex-col gap-2', className)}
           {...props}
         >
           {children}
@@ -65,7 +61,7 @@ export const PromptInputHeader = React.forwardRef<
   <div
     ref={ref}
     data-slot="prompt-input-header"
-    className={cn('px-3 pt-3', className)}
+    className={cn('composer-attachments', className)}
     {...props}
   />
 ));
@@ -95,10 +91,7 @@ export const PromptInputTextarea = React.forwardRef<
   <textarea
     ref={ref}
     data-slot="prompt-input-textarea"
-    className={cn(
-      'chat-input-placeholder block max-h-[40vh] w-full resize-none overflow-y-auto bg-transparent px-4 py-2 text-sm leading-6 text-foreground placeholder-muted-foreground/50 focus:outline-none sm:max-h-[300px]',
-      className
-    )}
+    className={cn('composer-input chat-input-placeholder w-full', className)}
     {...props}
   />
 ));
@@ -113,7 +106,7 @@ export const PromptInputFooter = React.forwardRef<
   <div
     ref={ref}
     data-slot="prompt-input-footer"
-    className={cn('flex items-center justify-between border-t border-border/30 px-3 py-2', className)}
+    className={cn('composer-foot', className)}
     {...props}
   />
 ));
@@ -128,7 +121,7 @@ export const PromptInputTools = React.forwardRef<
   <div
     ref={ref}
     data-slot="prompt-input-tools"
-    className={cn('flex items-center gap-1', className)}
+    className={cn('composer-tools', className)}
     {...props}
   />
 ));
@@ -147,18 +140,16 @@ export interface PromptInputButtonProps extends React.ButtonHTMLAttributes<HTMLB
 }
 
 export const PromptInputButton = React.forwardRef<HTMLButtonElement, PromptInputButtonProps>(
-  ({ className, tooltip, children, ...props }, ref) => {
+  ({ className, tooltip, children, type, ...props }, ref) => {
     const button = (
-      <Button
+      <button
         ref={ref}
-        type="button"
-        variant="ghost"
-        size="icon"
-        className={cn('h-8 w-8 [&_svg]:size-4', className)}
+        type={type ?? 'button'}
+        className={cn('composer-tool', className)}
         {...props}
       >
         {children}
-      </Button>
+      </button>
     );
 
     if (tooltip) {
@@ -190,29 +181,37 @@ PromptInputButton.displayName = 'PromptInputButton';
 
 export interface PromptInputSubmitProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   status?: PromptInputStatus;
+  label?: React.ReactNode;
+  stopLabel?: React.ReactNode;
 }
 
 export const PromptInputSubmit = React.forwardRef<HTMLButtonElement, PromptInputSubmitProps>(
-  ({ className, status: statusProp, children, ...props }, ref) => {
+  ({ className, status: statusProp, children, label, stopLabel, ...props }, ref) => {
     const context = React.useContext(PromptInputContext);
     const status = statusProp ?? context?.status ?? 'ready';
     const isActive = status === 'submitted' || status === 'streaming';
 
     return (
-      <Button
+      <button
         ref={ref}
         type={isActive ? 'button' : 'submit'}
-        variant="default"
-        size="icon"
-        className={cn('h-8 w-8 rounded-lg', className)}
+        className={cn('btn btn-sm', isActive ? 'btn-outline' : 'btn-accent', className)}
         {...props}
       >
-        {children ?? (isActive ? (
-          <SquareIcon className="h-3.5 w-3.5 fill-current" />
-        ) : (
-          <SendHorizonalIcon className="h-4 w-4" />
-        ))}
-      </Button>
+        {children ?? (
+          isActive ? (
+            <>
+              <SquareIcon size={12} className="fill-current" />
+              {stopLabel ?? 'Stop'}
+            </>
+          ) : (
+            <>
+              {label ?? 'Send'}
+              <SendHorizonalIcon size={13} />
+            </>
+          )
+        )}
+      </button>
     );
   }
 );

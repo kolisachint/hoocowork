@@ -192,3 +192,87 @@ a:not([class*="bg-"]):not([class*="text-"]):hover {
   padding: 2px 6px;
 }
 .sidebar-foot button.foot-row:hover { background: var(--paper-2); color: var(--ink); }
+
+/* =========================================================================
+   Chat content polish — faithful to handoff-4 baseline (no bg tints on
+   content, no left rails). Adds focused visibility tweaks:
+     • brand-accent glyphs for user "❯" and tool "▍" markers
+     • neutral paper-3 chip for inline code (matches .cli-sub code baseline)
+     • terminal palette helpers (.cli-acc / .cli-ok / .cli-err / .cli-dim)
+       for highlighted CLI output text
+     • bolder, kit-token-driven prose (strong / em / links / quotes / heads)
+   ========================================================================= */
+
+/* ---- User message: just promote the gutter glyph to brand-accent ---- */
+.msg.msg-user .msg-gutter { color: var(--brand-accent); font-weight: 600; }
+
+/* ---- Tool panels: keep baseline paper-2 + border. Promote the bar
+   glyph (▍) from subtle --accent to --brand-accent so each tool reads
+   as its own block at a glance. Title/summary stay baseline.          */
+.msg-tool .tool-glyph { color: var(--brand-accent); }
+.msg-tool .tool-head .tool-name { color: var(--ink); font-weight: 600; }
+.msg-tool .tool-head .tool-summary { color: var(--ink-3); }
+
+/* Bash one-line terminal chip — raise above paper-2 parent and keep the
+   green "$ command" reading like a real prompt (baseline cli-sub code). */
+.msg-tool .bg-\[var\(--paper\)\] {
+  background: var(--paper-3) !important;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-1);
+}
+
+/* ---- Diff: text-color only, baseline-exact. Strip any bg tint. ----- */
+.tool-diff .diff-add { color: var(--ok); background: transparent; }
+.tool-diff .diff-rem { color: var(--err); background: transparent; }
+
+/* ---- Markdown / prose polish (assistant content) ------------------ */
+.prose strong { color: var(--ink); font-weight: 600; }
+.prose em { color: var(--ink-2); font-style: italic; }
+.prose a {
+  color: var(--brand-accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--brand-accent) 40%, transparent);
+  text-underline-offset: 2px;
+}
+.prose a:hover { text-decoration-color: var(--brand-accent); }
+.prose blockquote {
+  border-left: 2px solid var(--line);
+  color: var(--ink-2);
+  padding: 2px 12px;
+  margin: 8px 0;
+  font-style: normal;
+}
+.prose h1, .prose h2, .prose h3, .prose h4 { color: var(--ink); font-weight: 600; line-height: 1.3; }
+.prose h1 { font-size: var(--fs-xl); }
+.prose h2 { font-size: var(--fs-lg); }
+.prose h3 { font-size: var(--fs-md); }
+.prose ul, .prose ol { color: var(--ink-2); padding-left: 1.25em; }
+.prose ul li::marker, .prose ol li::marker { color: var(--ink-4); }
+.prose hr { border: none; border-top: 1px solid var(--line); margin: var(--s-3) 0; }
+.prose table { font-size: var(--fs-sm); }
+.prose thead { background: var(--paper-2); }
+.prose th, .prose td { padding: 6px 10px; border-color: var(--line); }
+.prose th { color: var(--ink); font-weight: 600; }
+
+/* ---- CLI palette helpers (handoff-4 terminal: dim/ok/acc/err) ----- */
+/* Apply to <span> inside Bash output or any rendered terminal text to
+   re-create the prompt/branch/✓/✗ highlight pattern. */
+.cli-dim { color: var(--ink-3); }
+.cli-ok  { color: var(--ok); }
+.cli-acc { color: var(--brand-accent); }
+.cli-err { color: var(--err); }
+
+/* When Bash stdout/stderr is rendered as <pre> inside a tool result, give
+   it the terminal-card look so colored spans land on the right surface. */
+.msg-tool pre.cli,
+.msg-tool .cli-output {
+  background: var(--paper-3);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-1);
+  font-family: var(--font-term);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
+  padding: var(--s-3);
+  white-space: pre-wrap;
+}

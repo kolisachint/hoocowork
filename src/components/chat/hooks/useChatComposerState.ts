@@ -373,6 +373,7 @@ export function useChatComposerState({
     setInput,
     textareaRef,
     onExecuteCommand: executeCommand,
+    provider,
   });
 
   const {
@@ -659,6 +660,7 @@ export function useChatComposerState({
             sessionId: effectiveSessionId,
             resume: Boolean(effectiveSessionId),
             model: hoocodeModel,
+            permissionMode,
             sessionSummary,
           },
         });

@@ -236,3 +236,22 @@
 
 .cp-foot { display: flex; align-items: center; gap: 8px; padding: var(--s-2) var(--s-4); border-top: 1px solid var(--line); font-size: var(--fs-xs); color: var(--ink-3); background: var(--paper-2); }
 .cp-foot .kbd { margin-right: 2px; }
+
+/* ---- Composer additions (handoff-4 chat) ----------------- */
+.composer-tools { flex-wrap: wrap; }
+.composer-spacer { flex: 1; }
+.composer-tool { gap: 4px; padding: 0 6px; }
+.composer-tool svg { width: 14px; height: 14px; }
+.composer-tool[data-busy="true"] { color: var(--ink-2); border-color: var(--line-2); }
+.composer-mode { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; height: 26px; }
+.composer-mode:hover { color: var(--ink); border-color: var(--line-2); }
+.composer-mode-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-4); display: inline-block; }
+.composer-mode-dot[data-mode="acceptEdits"] { background: var(--ok); }
+.composer-mode-dot[data-mode="auto"]        { background: var(--accent); }
+.composer-mode-dot[data-mode="bypassPermissions"] { background: var(--warn); }
+.composer-mode-dot[data-mode="plan"] { background: var(--accent); }
+.composer-model { height: 26px; max-width: 180px; }
+.composer-attachments { background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius-1); padding: var(--s-2); }
+.composer-form { width: 100%; }
+.composer-foot { gap: var(--s-3); }
+.composer-hint { color: var(--ink-4); }

@@ -5,7 +5,7 @@ import { CLAUDE_MODELS, CODEX_MODELS, CURSOR_MODELS, GEMINI_MODELS, OPENCODE_MOD
 import type { PendingPermissionRequest, PermissionMode } from '../types/types';
 import type { ProjectSession, LLMProvider } from '../../../types/app';
 
-const getPermissionModesForProvider = (provider: LLMProvider): PermissionMode[] => {
+const getPermissionModesForProvider = (provider: LLMProvider, hoocodeModes?: string[]): PermissionMode[] => {
   if (provider === 'codex') {
     return ['default', 'acceptEdits', 'bypassPermissions'];
   }
@@ -13,16 +13,23 @@ const getPermissionModesForProvider = (provider: LLMProvider): PermissionMode[] 
     return ['default', 'auto', 'acceptEdits', 'bypassPermissions', 'plan'];
   }
   if (provider === 'hoocode') {
-    return ['default', 'acceptEdits', 'bypassPermissions'];
+    // Hoocode modes are dynamic (filesystem entries under ~/.hoocode/modes/).
+    // Always include 'default' (no system-prompt override) plus whatever the
+    // server discovered. Falls back to a known set when the list hasn't loaded.
+    const dynamic = hoocodeModes && hoocodeModes.length > 0
+      ? hoocodeModes
+      : ['plan'];
+    return ['default', ...dynamic] as PermissionMode[];
   }
   return ['default', 'acceptEdits', 'bypassPermissions', 'plan'];
 };
 
 interface UseChatProviderStateArgs {
   selectedSession: ProjectSession | null;
+  hoocodeModes?: string[];
 }
 
-export function useChatProviderState({ selectedSession }: UseChatProviderStateArgs) {
+export function useChatProviderState({ selectedSession, hoocodeModes }: UseChatProviderStateArgs) {
   const [permissionMode, setPermissionMode] = useState<PermissionMode>('default');
   const [pendingPermissionRequests, setPendingPermissionRequests] = useState<PendingPermissionRequest[]>([]);
   const [provider, setProvider] = useState<LLMProvider>(() => {
@@ -55,9 +62,9 @@ export function useChatProviderState({ selectedSession }: UseChatProviderStateAr
     }
 
     const savedMode = localStorage.getItem(`permissionMode-${selectedSession.id}`) as PermissionMode | null;
-    const validModes = getPermissionModesForProvider(provider);
+    const validModes = getPermissionModesForProvider(provider, hoocodeModes);
     setPermissionMode(savedMode && validModes.includes(savedMode) ? savedMode : 'default');
-  }, [selectedSession?.id, provider]);
+  }, [selectedSession?.id, provider, hoocodeModes]);
 
   useEffect(() => {
     if (!selectedSession?.__provider || selectedSession.__provider === provider) {
@@ -105,7 +112,7 @@ export function useChatProviderState({ selectedSession }: UseChatProviderStateAr
   }, [provider]);
 
   const cyclePermissionMode = useCallback(() => {
-    const modes = getPermissionModesForProvider(provider);
+    const modes = getPermissionModesForProvider(provider, hoocodeModes);
 
     const currentIndex = modes.indexOf(permissionMode);
     const nextIndex = (currentIndex + 1) % modes.length;
@@ -115,7 +122,7 @@ export function useChatProviderState({ selectedSession }: UseChatProviderStateAr
     if (selectedSession?.id) {
       localStorage.setItem(`permissionMode-${selectedSession.id}`, nextMode);
     }
-  }, [permissionMode, provider, selectedSession?.id]);
+  }, [permissionMode, provider, selectedSession?.id, hoocodeModes]);
 
   return {
     provider,

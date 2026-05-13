@@ -80,6 +80,23 @@ async function scanCommandsDirectory(dir, baseDir, namespace) {
 }
 
 /**
+ * Hoocode built-in slash commands. These live inside hoocode's interactive REPL
+ * and aren't exposed via any CLI flag (no --list-commands), so we surface them
+ * here as a curated set. Selecting one in the menu inserts its name into the
+ * composer; actual execution still goes through the hoocode CLI spawn path.
+ */
+const hoocodeBuiltInCommands = [
+  { name: '/help', description: 'Show available hoocode commands', namespace: 'builtin', metadata: { type: 'builtin', provider: 'hoocode' } },
+  { name: '/clear', description: 'Clear the current session and start fresh', namespace: 'builtin', metadata: { type: 'builtin', provider: 'hoocode' } },
+  { name: '/model', description: 'Switch or view the active hoocode model', namespace: 'builtin', metadata: { type: 'builtin', provider: 'hoocode' } },
+  { name: '/mode', description: 'Switch the hoocode mode (ask, plan, agent, build, debug)', namespace: 'builtin', metadata: { type: 'builtin', provider: 'hoocode' } },
+  { name: '/resume', description: 'Resume a previous hoocode session', namespace: 'builtin', metadata: { type: 'builtin', provider: 'hoocode' } },
+  { name: '/export', description: 'Export the session to HTML', namespace: 'builtin', metadata: { type: 'builtin', provider: 'hoocode' } },
+  { name: '/cost', description: 'Show token usage for the current hoocode session', namespace: 'builtin', metadata: { type: 'builtin', provider: 'hoocode' } },
+  { name: '/quit', description: 'Exit the hoocode session', namespace: 'builtin', metadata: { type: 'builtin', provider: 'hoocode' } },
+];
+
+/**
  * Built-in commands that are always available
  */
 const builtInCommands = [
@@ -409,8 +426,10 @@ Custom commands can be created in:
  */
 router.post('/list', async (req, res) => {
   try {
-    const { projectPath } = req.body;
-    const allCommands = [...builtInCommands];
+    const { projectPath, provider } = req.body;
+    const normalizedProvider = typeof provider === 'string' ? provider.toLowerCase() : null;
+    const providerBuiltIns = normalizedProvider === 'hoocode' ? hoocodeBuiltInCommands : builtInCommands;
+    const allCommands = [...providerBuiltIns];
 
     // Scan project-level commands (.claude/commands/)
     if (projectPath) {
@@ -440,7 +459,7 @@ router.post('/list', async (req, res) => {
     customCommands.sort((a, b) => a.name.localeCompare(b.name));
 
     res.json({
-      builtIn: builtInCommands,
+      builtIn: providerBuiltIns,
       custom: customCommands,
       count: allCommands.length
     });

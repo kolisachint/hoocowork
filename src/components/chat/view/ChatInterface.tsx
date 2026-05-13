@@ -10,7 +10,17 @@ import { useChatProviderState } from '../hooks/useChatProviderState';
 import { useChatSessionState } from '../hooks/useChatSessionState';
 import { useChatRealtimeHandlers } from '../hooks/useChatRealtimeHandlers';
 import { useChatComposerState } from '../hooks/useChatComposerState';
+import { useHoocodeModes } from '../hooks/useHoocodeModes';
+import { useHoocodeModels } from '../hooks/useHoocodeModels';
 import { useSessionStore } from '../../../stores/useSessionStore';
+import {
+  CLAUDE_MODELS,
+  CURSOR_MODELS,
+  CODEX_MODELS,
+  GEMINI_MODELS,
+  HOOCODE_MODELS,
+  OPENCODE_MODELS,
+} from '../../../../shared/modelConstants';
 
 import ChatMessagesPane from './subcomponents/ChatMessagesPane';
 import ChatComposer from './subcomponents/ChatComposer';
@@ -65,6 +75,12 @@ function ChatInterface({
     accumulatedStreamRef.current = '';
   }, []);
 
+  // Pull hoocode-specific dynamic catalogs up-front so they can feed both the
+  // permission-mode cycle and the composer's model picker.
+  const { modes: hoocodeModesList } = useHoocodeModes({ enabled: true });
+  const { models: hoocodeModelsList } = useHoocodeModels({ enabled: true });
+  const hoocodeModeNames = useMemo(() => hoocodeModesList.map((m) => m.name), [hoocodeModesList]);
+
   const {
     provider,
     setProvider,
@@ -86,6 +102,7 @@ function ChatInterface({
     cyclePermissionMode,
   } = useChatProviderState({
     selectedSession,
+    hoocodeModes: hoocodeModeNames,
   });
 
   const {
@@ -302,6 +319,35 @@ function ChatInterface({
     }
   }, [provider, claudeModel, cursorModel, codexModel, geminiModel, hoocodeModel, openCodeModel]);
 
+  const modelOptions = useMemo(() => {
+    switch (provider) {
+      case 'cursor': return CURSOR_MODELS.OPTIONS;
+      case 'codex': return CODEX_MODELS.OPTIONS;
+      case 'gemini': return GEMINI_MODELS.OPTIONS;
+      case 'hoocode':
+        // Prefer the live `hoocode --list-models` catalog; fall back to the
+        // bundled defaults if hoocode isn't installed or the fetch fails.
+        return hoocodeModelsList.length > 0
+          ? hoocodeModelsList.map(({ value, label }) => ({ value, label }))
+          : HOOCODE_MODELS.OPTIONS;
+      case 'opencode': return OPENCODE_MODELS.OPTIONS;
+      case 'claude':
+      default: return CLAUDE_MODELS.OPTIONS;
+    }
+  }, [provider, hoocodeModelsList]);
+
+  const setActiveModel = useCallback((value: string) => {
+    switch (provider) {
+      case 'cursor': setCursorModel(value); localStorage.setItem('cursor-model', value); break;
+      case 'codex': setCodexModel(value); localStorage.setItem('codex-model', value); break;
+      case 'gemini': setGeminiModel(value); localStorage.setItem('gemini-model', value); break;
+      case 'hoocode': setHoocodeModel(value); localStorage.setItem('hoocode-model', value); break;
+      case 'opencode': setOpenCodeModel(value); localStorage.setItem('opencode-model', value); break;
+      case 'claude':
+      default: setClaudeModel(value); localStorage.setItem('claude-model', value); break;
+    }
+  }, [provider, setClaudeModel, setCursorModel, setCodexModel, setGeminiModel, setHoocodeModel, setOpenCodeModel]);
+
   if (!selectedProject) {
     const selectedProviderLabel =
       provider === 'cursor'
@@ -336,6 +382,7 @@ function ChatInterface({
           currentSessionId={currentSessionId}
           provider={provider}
           modelLabel={activeModelLabel}
+          permissionMode={permissionMode}
           isProcessing={isLoading}
           isConnected={Boolean(ws)}
           tokenBudget={tokenBudget}
@@ -472,6 +519,9 @@ function ChatInterface({
           })}
           isTextareaExpanded={isTextareaExpanded}
           sendByCtrlEnter={sendByCtrlEnter}
+          activeModel={activeModelLabel}
+          modelOptions={modelOptions}
+          onModelChange={setActiveModel}
         />
       </section>
 

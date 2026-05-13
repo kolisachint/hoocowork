@@ -10,6 +10,7 @@ type ChatHeaderProps = {
   currentSessionId: string | null;
   provider: LLMProvider | string;
   modelLabel: string;
+  permissionMode?: string;
   isProcessing: boolean;
   isConnected: boolean;
   tokenBudget?: TokenBudgetLike;
@@ -41,6 +42,7 @@ const ChatHeader = memo(function ChatHeader({
   currentSessionId,
   provider,
   modelLabel,
+  permissionMode,
   isProcessing,
   isConnected,
   tokenBudget,
@@ -93,6 +95,11 @@ const ChatHeader = memo(function ChatHeader({
           {modelLabel ? (
             <span className="badge badge-info" title={t('header.modelLabel', { defaultValue: 'Active model' })}>
               {modelLabel}
+            </span>
+          ) : null}
+          {permissionMode ? (
+            <span className="badge badge-default" title={t('header.modeLabel', { defaultValue: 'Permission mode' })}>
+              {t(`codex.modes.${permissionMode}`, { defaultValue: permissionMode })}
             </span>
           ) : null}
           <span className={`badge badge-${statusTone}`} title={t('header.statusLabel', { defaultValue: 'Connection status' })}>

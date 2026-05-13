@@ -11,7 +11,7 @@ import type {
   SetStateAction,
   TouchEvent,
 } from 'react';
-import { ImageIcon, MessageSquareIcon, XIcon, ArrowDownIcon } from 'lucide-react';
+import { PaperclipIcon, XIcon, ArrowDownIcon } from 'lucide-react';
 
 import type { PendingPermissionRequest, PermissionMode, Provider } from '../../types/types';
 import {
@@ -103,6 +103,9 @@ interface ChatComposerProps {
   placeholder: string;
   isTextareaExpanded: boolean;
   sendByCtrlEnter?: boolean;
+  activeModel: string;
+  modelOptions: { value: string; label: string }[];
+  onModelChange: (value: string) => void;
 }
 
 export default function ChatComposer({
@@ -158,6 +161,9 @@ export default function ChatComposer({
   placeholder,
   isTextareaExpanded,
   sendByCtrlEnter,
+  activeModel,
+  modelOptions,
+  onModelChange,
 }: ChatComposerProps) {
   const { t } = useTranslation('chat');
   const textareaRect = textareaRef.current?.getBoundingClientRect();
@@ -187,7 +193,7 @@ export default function ChatComposer({
       )}
 
       {pendingPermissionRequests.length > 0 && (
-        <div className="mx-auto mb-3 max-w-4xl">
+        <div className="mb-3 w-full">
           <PermissionRequestsBanner
             pendingPermissionRequests={pendingPermissionRequests}
             handlePermissionDecision={handlePermissionDecision}
@@ -196,7 +202,7 @@ export default function ChatComposer({
         </div>
       )}
 
-      {!hasQuestionPanel && <div className="relative mx-auto max-w-4xl">
+      {!hasQuestionPanel && <div className="relative w-full">
         {isUserScrolledUp && hasMessages && (
           <div className="absolute -top-10 left-0 right-0 z-10 flex justify-center">
             <button
@@ -253,44 +259,130 @@ export default function ChatComposer({
           {...getRootProps()}
         >
           {isDragActive && (
-            <div className="absolute inset-0 z-50 flex items-center justify-center rounded-2xl border-2 border-dashed border-primary/50 bg-primary/15">
-              <div className="rounded-xl border border-border/30 bg-card p-4 shadow-lg">
-                <svg className="mx-auto mb-2 h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                  />
-                </svg>
-                <p className="text-sm font-medium">Drop images here</p>
+            <div className="absolute inset-0 z-50 flex items-center justify-center rounded-[var(--radius-2)] border border-dashed border-[var(--accent)] bg-[var(--accent-soft)]">
+              <div className="rounded-[var(--radius-1)] border border-[var(--line)] bg-[var(--paper)] p-3">
+                <p className="text-sm font-medium text-[var(--ink)]">Drop images here</p>
               </div>
             </div>
           )}
 
           {attachedImages.length > 0 && (
             <PromptInputHeader>
-              <div className="rounded-xl bg-muted/40 p-2">
-                <div className="flex flex-wrap gap-2">
-                  {attachedImages.map((file, index) => (
-                    <ImageAttachment
-                      key={index}
-                      file={file}
-                      onRemove={() => onRemoveImage(index)}
-                      uploadProgress={uploadingImages.get(file.name)}
-                      error={imageErrors.get(file.name)}
-                    />
-                  ))}
-                </div>
+              <div className="flex flex-wrap gap-2">
+                {attachedImages.map((file, index) => (
+                  <ImageAttachment
+                    key={index}
+                    file={file}
+                    onRemove={() => onRemoveImage(index)}
+                    uploadProgress={uploadingImages.get(file.name)}
+                    error={imageErrors.get(file.name)}
+                  />
+                ))}
               </div>
             </PromptInputHeader>
           )}
 
           <input {...getInputProps()} />
 
+          <PromptInputTools>
+            <PromptInputButton
+              tooltip={{ content: t('input.attachImages') }}
+              onClick={openImagePicker}
+            >
+              <PaperclipIcon size={14} />
+            </PromptInputButton>
+
+            <PromptInputButton
+              tooltip={{ content: t('input.mentionFile', { defaultValue: 'Mention file' }) }}
+              onClick={() => {
+                const ta = textareaRef.current;
+                if (!ta) return;
+                const start = ta.selectionStart ?? input.length;
+                const end = ta.selectionEnd ?? input.length;
+                const prefix = input.slice(0, start);
+                const suffix = input.slice(end);
+                const needsSpace = start > 0 && !/\s$/.test(prefix);
+                const insertion = `${needsSpace ? ' ' : ''}@`;
+                const nextValue = `${prefix}${insertion}${suffix}`;
+                const syntheticEvent = {
+                  target: { ...ta, value: nextValue },
+                  currentTarget: { ...ta, value: nextValue },
+                } as unknown as ChangeEvent<HTMLTextAreaElement>;
+                onInputChange(syntheticEvent);
+                requestAnimationFrame(() => {
+                  ta.focus();
+                  const caret = prefix.length + insertion.length;
+                  try { ta.setSelectionRange(caret, caret); } catch { /* ignore */ }
+                });
+              }}
+            >
+              <span style={{ fontFamily: 'var(--font-mono)' }}>@</span>
+            </PromptInputButton>
+
+            <PromptInputButton
+              tooltip={{ content: t('input.showAllCommands') }}
+              onClick={onToggleCommandMenu}
+              className="relative"
+            >
+              <span style={{ fontFamily: 'var(--font-mono)' }}>/</span>
+              {slashCommandsCount > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[var(--accent)] text-[9px] font-bold text-[var(--accent-ink)]">
+                  {slashCommandsCount}
+                </span>
+              )}
+            </PromptInputButton>
+
+            <span className="composer-divider" />
+
+            <select
+              className="composer-model"
+              value={activeModel}
+              onChange={(event) => onModelChange(event.target.value)}
+              title={t('header.modelLabel', { defaultValue: 'Active model' })}
+            >
+              {modelOptions.length === 0 || !modelOptions.find((option) => option.value === activeModel) ? (
+                <option value={activeModel}>{activeModel}</option>
+              ) : null}
+              {modelOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <button
+              type="button"
+              onClick={onModeSwitch}
+              className="composer-mode composer-model"
+              title={t('input.clickToChangeMode')}
+            >
+              <span className="composer-mode-dot" data-mode={permissionMode} />
+              <span className="hidden whitespace-nowrap sm:inline">
+                {t(`codex.modes.${permissionMode}`, { defaultValue: permissionMode })}
+              </span>
+            </button>
+
+            {provider === 'claude' && (
+              <ThinkingModeSelector selectedMode={thinkingMode} onModeChange={setThinkingMode} onClose={() => {}} className="" />
+            )}
+
+            {hasInput && (
+              <PromptInputButton
+                tooltip={{ content: t('input.clearInput', { defaultValue: 'Clear input' }) }}
+                onClick={onClearInput}
+              >
+                <XIcon />
+              </PromptInputButton>
+            )}
+
+            <span className="composer-spacer" />
+
+            <TokenUsagePie used={tokenBudget?.used || 0} total={tokenBudget?.total || parseInt(import.meta.env.VITE_CONTEXT_WINDOW) || 160000} />
+          </PromptInputTools>
+
           <PromptInputBody>
-            <div ref={inputHighlightRef} aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
-              <div className="chat-input-placeholder block w-full whitespace-pre-wrap break-words px-4 py-2 text-sm leading-6 text-transparent">
+            <div ref={inputHighlightRef} aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden rounded-[var(--radius-2)]">
+              <div className="chat-input-placeholder block w-full whitespace-pre-wrap break-words px-[var(--s-3)] py-[var(--s-3)] text-transparent">
                 {renderInputWithMentions(input)}
               </div>
             </div>
@@ -307,102 +399,18 @@ export default function ChatComposer({
               onBlur={() => onInputFocusChange?.(false)}
               onInput={onTextareaInput}
               placeholder={placeholder}
+              rows={3}
             />
-        </PromptInputBody>
+          </PromptInputBody>
 
-        <PromptInputFooter>
-          <PromptInputTools>
-            <PromptInputButton
-              tooltip={{ content: t('input.attachImages') }}
-              onClick={openImagePicker}
-            >
-              <ImageIcon />
-            </PromptInputButton>
-
-            <button
-              type="button"
-              onClick={onModeSwitch}
-              className={`rounded-lg border p-2 text-xs font-medium transition-all duration-200 sm:px-2.5 sm:py-1 ${
-                permissionMode === 'default'
-                  ? 'border-border/60 bg-muted/50 text-muted-foreground hover:bg-muted'
-                  : permissionMode === 'acceptEdits'
-                    ? 'border-[var(--ok)]/30/60 bg-[var(--ok)]/5 hover:bg-[var(--ok)]/10 dark:border-[var(--ok)]/60/40 dark:bg-[var(--ok)]/10/15 dark:hover:bg-[var(--ok)]/10/25 text-[var(--ok)] dark:text-[var(--ok)]'
-                    : permissionMode === 'auto'
-                      ? 'border-[var(--brand-accent)]/30/60 bg-[var(--brand-accent)]/5 hover:bg-[var(--brand-accent)]/10 dark:border-[var(--brand-accent)]/40 dark:bg-[var(--brand-accent)]/10/15 dark:hover:bg-[var(--brand-accent)]/10/25 text-[var(--brand-accent)] dark:text-[var(--brand-accent)]'
-                      : permissionMode === 'bypassPermissions'
-                        ? 'border-[var(--warn)]/30/60 bg-[var(--warn)]/5 hover:bg-[var(--warn)]/10 dark:border-[var(--warn)]/60/40 dark:bg-[var(--warn)]/10/15 dark:hover:bg-[var(--warn)]/10/25 text-[var(--warn)] dark:text-[var(--warn)]'
-                        : 'border-primary/20 bg-primary/5 text-primary hover:bg-primary/10'
-              }`}
-              title={t('input.clickToChangeMode')}
-            >
-              <div className="flex items-center gap-1.5">
-                <div
-                  className={`h-2.5 w-2.5 rounded-full sm:h-1.5 sm:w-1.5 ${
-                    permissionMode === 'default'
-                      ? 'bg-muted-foreground'
-                      : permissionMode === 'acceptEdits'
-                        ? 'bg-[var(--ok)]'
-                        : permissionMode === 'auto'
-                          ? 'bg-[var(--brand-accent)]'
-                          : permissionMode === 'bypassPermissions'
-                            ? 'bg-[var(--warn)]'
-                            : 'bg-primary'
-                  }`}
-                />
-                <span className="hidden whitespace-nowrap sm:inline">
-                  {permissionMode === 'default' && t('codex.modes.default')}
-                  {permissionMode === 'acceptEdits' && t('codex.modes.acceptEdits')}
-                  {permissionMode === 'auto' && t('codex.modes.auto')}
-                  {permissionMode === 'bypassPermissions' && t('codex.modes.bypassPermissions')}
-                  {permissionMode === 'plan' && t('codex.modes.plan')}
-                </span>
-              </div>
-            </button>
-
-            {provider === 'claude' && (
-              <ThinkingModeSelector selectedMode={thinkingMode} onModeChange={setThinkingMode} onClose={() => {}} className="" />
-            )}
-
-            <TokenUsagePie used={tokenBudget?.used || 0} total={tokenBudget?.total || parseInt(import.meta.env.VITE_CONTEXT_WINDOW) || 160000} />
-
-            <PromptInputButton
-              tooltip={{ content: t('input.showAllCommands') }}
-              onClick={onToggleCommandMenu}
-              className="relative"
-            >
-              <MessageSquareIcon />
-              {slashCommandsCount > 0 && (
-                <span
-                  className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground"
-                >
-                  {slashCommandsCount}
-                </span>
-              )}
-            </PromptInputButton>
-
-            {hasInput && (
-              <PromptInputButton
-                tooltip={{ content: t('input.clearInput', { defaultValue: 'Clear input' }) }}
-                onClick={onClearInput}
-                className="sm:No-flex hidden"
-              >
-                <XIcon />
-              </PromptInputButton>
-            )}
-
-          </PromptInputTools>
-
-          <div className="flex items-center gap-2">
-            <div
-              className={`composer-hint hidden text-xs text-muted-foreground/50 transition-opacity duration-200 lg:block ${
-                input.trim() ? 'opacity-0' : 'opacity-100'
-              }`}
-            >
+          <PromptInputFooter>
+            <span className="composer-hint">
               {sendByCtrlEnter ? t('input.hintText.ctrlEnter') : t('input.hintText.enter')}
-            </div>
+            </span>
             <PromptInputSubmit
               disabled={!input.trim() || isLoading}
-              className="h-10 w-10 sm:h-10 sm:w-10"
+              label={t('input.send', { defaultValue: 'Send' })}
+              stopLabel={t('input.stop', { defaultValue: 'Stop' })}
               onMouseDown={(event) => {
                 event.preventDefault();
                 onSubmit(event as unknown as MouseEvent<HTMLButtonElement>);
@@ -412,9 +420,8 @@ export default function ChatComposer({
                 onSubmit(event as unknown as TouchEvent<HTMLButtonElement>);
               }}
             />
-          </div>
-        </PromptInputFooter>
-      </PromptInput>
+          </PromptInputFooter>
+        </PromptInput>
       </div>}
     </div>
   );

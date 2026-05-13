@@ -160,6 +160,32 @@ class HoocodeModelsService {
       cached: false,
     };
   }
+
+  // Returns the model's context window in tokens (e.g. "200K" → 200_000).
+  // Falls back to 200_000 when the model is unknown or the value can't be parsed.
+  async getContextWindow(modelId: string | null | undefined): Promise<number> {
+    const fallback = 200_000;
+    if (!modelId) return fallback;
+    try {
+      const result = await this.getModels();
+      const found =
+        result.models.find((m) => m.id === modelId) ??
+        result.models.find((m) => m.model === modelId) ??
+        result.models.find((m) => modelId.includes(m.model));
+      const raw = found?.context;
+      if (!raw) return fallback;
+      const match = raw.match(/^([\d.]+)\s*([KkMmGg]?)/);
+      if (!match) return fallback;
+      const num = parseFloat(match[1]);
+      const unit = match[2].toUpperCase();
+      if (unit === 'M') return Math.round(num * 1_000_000);
+      if (unit === 'G') return Math.round(num * 1_000_000_000);
+      if (unit === 'K') return Math.round(num * 1_000);
+      return Math.round(num);
+    } catch {
+      return fallback;
+    }
+  }
 }
 
 export const hoocodeModelsService = new HoocodeModelsService();

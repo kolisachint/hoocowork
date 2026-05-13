@@ -8,7 +8,13 @@ import crossSpawn from 'cross-spawn';
 import { notifyRunFailed, notifyRunStopped } from './services/notification-orchestrator.js';
 import { sessionsService } from './modules/providers/services/sessions.service.js';
 import { providerAuthService } from './modules/providers/services/provider-auth.service.js';
+import { hoocodeModesService } from './modules/providers/services/hoocode-modes.service.js';
+import { hoocodeModelsService } from './modules/providers/services/hoocode-models.service.js';
 import { createNormalizedMessage } from './shared/utils.js';
+
+// Mode names that are not "real" hoocode modes — these come from the codex-style
+// permission-mode UI and would never match a system.md file. Skip them silently.
+const NON_HOOCODE_MODES = new Set(['default', 'acceptEdits', 'bypassPermissions', 'auto']);
 
 const spawnFunction = process.platform === 'win32' ? crossSpawn : spawn;
 
@@ -52,7 +58,7 @@ function findSessionFile(sessionId, projectPath) {
 
 async function spawnHoocode(command, options = {}, ws) {
   return new Promise(async (resolve, reject) => {
-    const { sessionId, projectPath, cwd, model, forkSessionId, parentMessageId } = options;
+    const { sessionId, projectPath, cwd, model, forkSessionId, parentMessageId, permissionMode } = options;
     let capturedSessionId = sessionId;
     let sessionCreatedSent = false;
     let settled = false;
@@ -112,6 +118,21 @@ async function spawnHoocode(command, options = {}, ws) {
       args.push('--model', model);
     }
 
+    // Hoocode modes live as ~/.hoocode/modes/{name}/system.md files. There's no
+    // CLI flag to select one, so we read the system.md content and append it to
+    // the system prompt. UI-only permission modes (default/acceptEdits/etc.)
+    // have no hoocode equivalent and are skipped.
+    if (permissionMode && !NON_HOOCODE_MODES.has(permissionMode)) {
+      try {
+        const modeSystemPrompt = await hoocodeModesService.getSystemPrompt(permissionMode);
+        if (modeSystemPrompt) {
+          args.push('--append-system-prompt', modeSystemPrompt);
+        }
+      } catch (error) {
+        console.warn('[Hoocode CLI] failed to load mode system prompt:', permissionMode, error?.message || error);
+      }
+    }
+
     if (forkSessionId) {
       args.push('--fork', forkSessionId);
     } else if (capturedSessionId) {
@@ -155,6 +176,12 @@ async function spawnHoocode(command, options = {}, ws) {
 
     let stdoutByteCount = 0;
     let eventTypeCounts = {};
+    let contextWindowCache = null;
+    const resolveContextWindow = async () => {
+      if (contextWindowCache != null) return contextWindowCache;
+      contextWindowCache = await hoocodeModelsService.getContextWindow(model);
+      return contextWindowCache;
+    };
     hoocodeProcess.stdout.on('data', (data) => {
       stdoutByteCount += data.length;
       buffer += data.toString();
@@ -167,6 +194,30 @@ async function spawnHoocode(command, options = {}, ws) {
           const event = JSON.parse(line);
           producedAnyJson = true;
           eventTypeCounts[event.type] = (eventTypeCounts[event.type] || 0) + 1;
+
+          // Hoocode embeds cumulative usage on each assistant message_end.
+          // Surface it as a token_budget status so the composer's TokenUsagePie
+          // updates exactly like Claude/Codex do.
+          const usage = event?.message?.role === 'assistant' ? event?.message?.usage : null;
+          const totalTokens = usage?.totalTokens;
+          if (
+            (event.type === 'message_end' || event.type === 'message') &&
+            typeof totalTokens === 'number' &&
+            totalTokens > 0
+          ) {
+            resolveContextWindow().then((total) => {
+              sendHoocodeMessage(ws, createNormalizedMessage({
+                kind: 'status',
+                text: 'token_budget',
+                tokenBudget: { used: totalTokens, total },
+                sessionId: capturedSessionId,
+                provider: 'hoocode',
+              }));
+            }).catch((err) => {
+              console.warn('[Hoocode CLI] context-window lookup failed:', err?.message || err);
+            });
+          }
+
           const normalized = sessionsService.normalizeMessage('hoocode', event, capturedSessionId);
           for (const msg of normalized) {
             if (msg.kind === 'session_created' && msg.newSessionId && !capturedSessionId) {
