@@ -1,3 +1,8 @@
+## [2.0.8](https://github.com/kolisachint/hoocowork/compare/v2.0.7...v2.0.8) (2026-05-13)
+
+### Bug Fixes
+
+* **mobile:** show full sidebar drawer and enable scrolling ([6750ecb](https://github.com/kolisachint/hoocowork/commit/6750ecbcc00bd01ae0bdc5594f4df19f428ac78b))
 ## [2.0.7](https://github.com/kolisachint/hoocowork/compare/v2.0.6...v2.0.7) (2026-05-13)
 
 ### Bug Fixes
