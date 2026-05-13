@@ -42,7 +42,7 @@
     "release": "echo \"Use GitHub Actions workflow_dispatch to release\"",
     "prepublishOnly": "bun run build",
     "postinstall": "bun scripts/fix-node-pty.js",
-    "prepare": "husky",
+    "prepare": "node -e \"if (!process.env.CI) { require('child_process').execSync('husky', {stdio: 'inherit'}) }\"",
     "update:platform": "./update-platform.sh"
   },
   "keywords": [
