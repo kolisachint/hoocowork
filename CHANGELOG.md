@@ -1,3 +1,8 @@
+## [2.0.3](https://github.com/kolisachint/hoocowork/compare/v2.0.2...v2.0.3) (2026-05-13)
+
+### Bug Fixes
+
+* **ci:** write .npmrc for bun publish authentication ([08b1466](https://github.com/kolisachint/hoocowork/commit/08b146638622886a809383680ef19eafa9dd2bd3))
 ## [2.0.2](https://github.com/kolisachint/hoocowork/compare/v2.0.1...v2.0.2) (2026-05-13)
 
 ### Bug Fixes
