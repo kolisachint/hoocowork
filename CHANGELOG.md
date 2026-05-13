@@ -1,3 +1,8 @@
+## [2.0.1](https://github.com/kolisachint/hoocowork/compare/v2.0.0...v2.0.1) (2026-05-13)
+
+### Features
+
+* rebrand to HooCowork and rename pi provider to hoocode ([2d50b3a](https://github.com/kolisachint/hoocowork/commit/2d50b3a6e9a1d27a515e24827205613c53e2b400))
 # Changelog
 
 All notable changes to CloudCLI UI will be documented in this file.
