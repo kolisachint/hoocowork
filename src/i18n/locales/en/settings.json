@@ -474,7 +474,7 @@
     "starter": "Starter",
     "docs": "Docs",
     "starterPlugin": {
-      "name": "Project Stats",
+      "name": "Stats",
       "badge": "starter",
       "description": "File counts, lines of code, file-type breakdown, and recent activity for your project.",
       "install": "Install"
