@@ -121,12 +121,12 @@ function buildShellCommand(
 
   if (provider === 'hoocode') {
     if (hasSession && sessionId) {
-      // Pi accepts a partial UUID via --session and resumes; if the rollout
-      // is missing it errors fast and we fall back to a fresh `pi`.
+      // Hoocode accepts a partial UUID via --session and resumes; if the rollout
+      // is missing it errors fast and we fall back to a fresh `hoocode`.
       if (os.platform() === 'win32') {
-        return `pi --session "${sessionId}"; if ($LASTEXITCODE -ne 0) { pi }`;
+        return `hoocode --session "${sessionId}"; if ($LASTEXITCODE -ne 0) { hoocode }`;
       }
-      return `pi --session "${sessionId}" || pi`;
+      return `hoocode --session "${sessionId}" || hoocode`;
     }
     return 'hoocode';
   }

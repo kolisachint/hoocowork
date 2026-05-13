@@ -113,10 +113,15 @@ export default function EditorSidebar({
         <div
           ref={resizeHandleRef}
           onMouseDown={onResizeStart}
-          className="group relative w-1 flex-shrink-0 cursor-col-resize bg-transparent"
+          className="group relative w-3 flex-shrink-0 cursor-col-resize bg-[var(--line)]/30 hover:bg-[var(--line)]/50"
           title="Drag to resize"
         >
           <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-[var(--line)] transition-colors group-hover:bg-[var(--brand-accent)]" />
+          <div className="absolute inset-y-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col gap-0.5">
+            <div className="h-1 w-1 rounded-full bg-[var(--muted-foreground)]/40 transition-colors group-hover:bg-[var(--brand-accent)]" />
+            <div className="h-1 w-1 rounded-full bg-[var(--muted-foreground)]/40 transition-colors group-hover:bg-[var(--brand-accent)]" />
+            <div className="h-1 w-1 rounded-full bg-[var(--muted-foreground)]/40 transition-colors group-hover:bg-[var(--brand-accent)]" />
+          </div>
         </div>
       )}
 

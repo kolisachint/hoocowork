@@ -121,7 +121,7 @@ function MainContent({
       />
 
       <div className="flex min-h-0 flex-1 overflow-hidden">
-        <div className={`flex min-h-0 min-w-[200px] flex-col overflow-hidden ${editorExpanded ? 'hidden' : ''} flex-1`}>
+        <div className={`flex min-h-0 min-w-[200px] flex-col overflow-hidden ${editorExpanded ? 'hidden' : ''} ${activeTab === 'files' && editingFile ? 'flex-shrink-0' : 'flex-1'}`}>
           <div className={`h-full flex flex-col min-h-0 overflow-hidden ${activeTab === 'chat' ? 'block' : 'hidden'}`}>
             <ErrorBoundary showDetails>
               <ChatInterface
@@ -154,7 +154,7 @@ function MainContent({
 
           {activeTab === 'files' && (
             <div className="files">
-              <FileTree selectedProject={selectedProject} onFileOpen={handleFileOpen} />
+              <FileTree selectedProject={selectedProject} onFileOpen={handleFileOpen} isEditorOpen={!!editingFile} />
             </div>
           )}
 

@@ -25,9 +25,10 @@ import ImageViewer from './ImageViewer';
 type FileTreeProps = {
   selectedProject: Project | null;
   onFileOpen?: (filePath: string) => void;
+  isEditorOpen?: boolean;
 };
 
-export default function FileTree({ selectedProject, onFileOpen }: FileTreeProps) {
+export default function FileTree({ selectedProject, onFileOpen, isEditorOpen }: FileTreeProps) {
   const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState<FileTreeImageSelection | null>(null);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -127,7 +128,11 @@ export default function FileTree({ selectedProject, onFileOpen }: FileTreeProps)
   return (
     <div
       ref={upload.treeRef}
-      className="files-tree relative flex h-full flex-col bg-background"
+      className={cn(
+        'files-tree relative flex h-full flex-col bg-background',
+        !isEditorOpen && 'files-tree-full-width',
+        isEditorOpen && 'with-editor'
+      )}
       onDragEnter={upload.handleDragEnter}
       onDragOver={upload.handleDragOver}
       onDragLeave={upload.handleDragLeave}
