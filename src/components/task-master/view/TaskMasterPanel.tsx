@@ -80,8 +80,8 @@ export default function TaskMasterPanel({ isVisible }: TaskMasterPanelProps) {
 
   return (
     <>
-      <div className={`h-full ${isVisible ? 'block' : 'hidden'}`}>
-        <div className="flex h-full flex-col overflow-hidden">
+      <div className={`tm h-full ${isVisible ? 'block' : 'hidden'}`}>
+        <div className="tm-body flex h-full flex-col overflow-hidden">
           <TaskBoard
             tasks={tasks}
             onTaskClick={handleTaskClick}
