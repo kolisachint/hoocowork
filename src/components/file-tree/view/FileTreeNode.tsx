@@ -97,6 +97,7 @@ export default function FileTreeNode({
 
   // View mode only changes the row layout; selection, expansion, and recursion stay shared.
   const rowClassName = cn(
+    'tree-row',
     viewMode === 'detailed'
       ? 'group grid grid-cols-12 gap-2 py-[3px] pr-2 hover:bg-accent/60 cursor-pointer items-center rounded-sm transition-colors duration-100'
       : viewMode === 'compact'
