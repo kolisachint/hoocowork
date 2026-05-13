@@ -150,7 +150,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
   return (
     <>
-      <div className="flex min-h-screen items-center justify-center bg-[var(--paper)] p-4">
+      <div className="onboard flex min-h-screen items-center justify-center bg-[var(--paper)] p-4">
         <div className="w-full max-w-2xl">
           <OnboardingStepProgress currentStep={currentStep} />
 

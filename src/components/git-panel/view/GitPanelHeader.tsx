@@ -191,7 +191,7 @@ export default function GitPanelHeader({
                 <button
                   onClick={requestPublishConfirmation}
                   disabled={anyPending}
-                  className="git-act flex items-center gap-1 bg-[var(--brand-accent)] px-2.5 py-1 text-sm text-[var(--brand-accent-ink)] hover:opacity-90 disabled:opacity-50"
+                  className="git-act git-act-push flex items-center gap-1"
                   title={`Publish "${currentBranch}" to ${remoteName}`}
                 >
                   <Upload className={`h-3 w-3 ${isPublishing ? 'animate-pulse' : ''}`} />
@@ -203,7 +203,7 @@ export default function GitPanelHeader({
                   <button
                     onClick={() => void onFetch()}
                     disabled={anyPending}
-                    className="git-act flex items-center gap-1 bg-[var(--ink)] px-2.5 py-1 text-sm text-[var(--paper)] hover:opacity-90 disabled:opacity-50"
+                    className="git-act git-act-default flex items-center gap-1"
                     title={`Fetch from ${remoteName}`}
                   >
                     <RefreshCw className={`h-3 w-3 ${isFetching ? 'animate-spin' : ''}`} />
@@ -214,7 +214,7 @@ export default function GitPanelHeader({
                     <button
                       onClick={requestPullConfirmation}
                       disabled={anyPending}
-                      className="git-act flex items-center gap-1 bg-[var(--ok)] px-2.5 py-1 text-sm text-[var(--paper)] hover:opacity-90 disabled:opacity-50"
+                      className="git-act git-act-pull flex items-center gap-1"
                       title={`Pull ${behindCount} from ${remoteName}`}
                     >
                       <Download className={`h-3 w-3 ${isPulling ? 'animate-pulse' : ''}`} />
@@ -226,7 +226,7 @@ export default function GitPanelHeader({
                     <button
                       onClick={requestPushConfirmation}
                       disabled={anyPending}
-                      className="git-act flex items-center gap-1 bg-[var(--warn)] px-2.5 py-1 text-sm text-[var(--paper)] hover:opacity-90 disabled:opacity-50"
+                      className="git-act git-act-push flex items-center gap-1"
                       title={`Push ${aheadCount} to ${remoteName}`}
                     >
                       <Upload className={`h-3 w-3 ${isPushing ? 'animate-pulse' : ''}`} />

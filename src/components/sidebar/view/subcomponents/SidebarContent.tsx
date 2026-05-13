@@ -386,7 +386,7 @@ export default function SidebarContent({
         )}
 
         <button className="foot-row" onClick={onShowSettings} style={{ cursor: 'pointer' }}>
-          <Settings size={12} /> <span>{t('actions.settings')}</span>
+          <Settings size={14} /> <span>{t('actions.settings')}</span>
         </button>
         {!IS_PLATFORM && (
           <a

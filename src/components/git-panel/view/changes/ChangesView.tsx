@@ -193,7 +193,7 @@ export default function ChangesView({
         ) : (
           <div className={isMobile ? 'pb-4' : ''}>
             {/* STAGED section */}
-            <div className="git-eyebrow-row border-b border-[var(--line)] bg-[var(--paper-2)] px-3 py-1.5">
+            <div className="git-eyebrow-row mt-2 px-3 py-1">
               <span className="git-eyebrow">
                 Staged ({selectedFiles.size})
               </span>
@@ -226,7 +226,7 @@ export default function ChangesView({
             )}
 
             {/* CHANGES section */}
-            <div className="git-eyebrow-row border-b border-[var(--line)] bg-[var(--paper-2)] px-3 py-1.5">
+            <div className="git-eyebrow-row mt-2 px-3 py-1">
               <span className="git-eyebrow">
                 Changes ({unstagedFiles.size})
               </span>

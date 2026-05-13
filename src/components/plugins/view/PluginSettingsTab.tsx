@@ -74,7 +74,7 @@ function PluginCard({
 
   return (
     <div
-      className="relative flex overflow-hidden rounded-lg border border-border bg-card transition-opacity duration-200"
+      className="card relative flex overflow-hidden rounded-lg border border-border bg-card transition-opacity duration-200"
       style={{
         opacity: plugin.enabled ? 1 : 0.65,
         animationDelay: `${index * 40}ms`,

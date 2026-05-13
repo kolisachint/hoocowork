@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-type ButtonKind = 'solid' | 'accent' | 'outline' | 'ghost';
-type ButtonSize = 'sm' | 'md';
+type ButtonKind = 'solid' | 'accent' | 'outline' | 'ghost' | 'danger';
+type ButtonSize = 'sm' | 'md' | 'icon';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   kind?: ButtonKind;
