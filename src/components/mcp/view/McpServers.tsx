@@ -128,10 +128,10 @@ export default function McpServers({ selectedProvider, currentProjects }: McpSer
     + 'Only stdio and HTTP transports are supported because the same config must work across all providers.';
 
   return (
-    <div className="space-y-4">
-      <div className="mcp-head flex items-center gap-3">
+    <div className="settings-section space-y-4">
+      <div className="mcp-head settings-section-head flex items-center gap-3">
         <Server className="h-5 w-5 text-[var(--brand-accent)]" />
-        <h3 className="mcp-title">{t('mcpServers.title')}</h3>
+        <h3 className="mcp-title settings-section-title">{t('mcpServers.title')}</h3>
       </div>
       <p className="text-sm text-muted-foreground">{description}</p>
 

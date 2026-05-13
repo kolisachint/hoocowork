@@ -102,7 +102,7 @@ function Settings({ isOpen, onClose, projects = [], initialTab = 'agents' }: Set
         </div>
 
         {/* Body: sidebar + content */}
-        <div className="flex min-h-0 flex-1 flex-col md:flex-row">
+        <div className="settings flex min-h-0 flex-1 flex-col md:flex-row">
           <SettingsSidebar activeTab={activeTab} onChange={setActiveTab} />
 
           {/* Content */}
