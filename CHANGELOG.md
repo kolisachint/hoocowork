@@ -1,3 +1,8 @@
+## [2.0.7](https://github.com/kolisachint/hoocowork/compare/v2.0.6...v2.0.7) (2026-05-13)
+
+### Bug Fixes
+
+* **ci:** checkout ref main in upload-binaries to get post-bump version ([3a2728d](https://github.com/kolisachint/hoocowork/commit/3a2728d8f04244680dd2f3cfad87369316910d4a))
 ## [2.0.6](https://github.com/kolisachint/hoocowork/compare/v2.0.5...v2.0.6) (2026-05-13)
 
 ### Bug Fixes
