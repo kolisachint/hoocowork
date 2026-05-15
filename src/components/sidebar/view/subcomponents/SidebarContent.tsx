@@ -1,7 +1,7 @@
 import { type ReactNode, useEffect } from 'react';
 import {
   ArrowUpCircle, Folder, MessageSquare, PanelLeftClose,
-  Plus, RefreshCw, Search, Settings, X,
+  Plus, RefreshCw, Search, X,
 } from 'lucide-react';
 import type { TFunction } from 'i18next';
 
@@ -385,9 +385,7 @@ export default function SidebarContent({
           </button>
         )}
 
-        <button className="foot-row" onClick={onShowSettings} style={{ cursor: 'pointer' }}>
-          <Settings size={14} /> <span>{t('actions.settings')}</span>
-        </button>
+
         {!IS_PLATFORM && (
           <a
             href={GITHUB_REPO_URL}

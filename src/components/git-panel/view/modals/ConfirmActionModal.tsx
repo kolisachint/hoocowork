@@ -63,7 +63,7 @@ export default function ConfirmActionModal({ action, onCancel, onConfirm }: Conf
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={onCancel} />
       <div
-        className="relative w-full max-w-md overflow-hidden rounded-xl border border-border bg-card shadow-2xl"
+        className="relative w-full max-w-md overflow-hidden rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] shadow-[var(--shadow-2)]"
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
@@ -73,23 +73,23 @@ export default function ConfirmActionModal({ action, onCancel, onConfirm }: Conf
             <div className={`mr-3 rounded-full p-2 ${CONFIRMATION_ICON_CONTAINER_CLASSES[action.type]}`}>
               {renderConfirmActionIcon(action.type)}
             </div>
-            <h3 id={titleId} className="text-lg font-semibold text-foreground">
+            <h3 id={titleId} className="text-lg font-semibold text-[var(--ink)]">
               {CONFIRMATION_TITLES[action.type]}
             </h3>
           </div>
 
-          <p className="mb-6 text-sm text-muted-foreground">{action.message}</p>
+          <p className="mb-6 text-[var(--fs-base)] text-[var(--ink-3)]">{action.message}</p>
 
-          <div className="flex justify-end space-x-3">
+          <div className="flex justify-end gap-3">
             <button
               onClick={onCancel}
-              className="rounded-lg px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              className="rounded-[var(--radius-1)] px-4 py-2 text-[var(--fs-sm)] text-[var(--ink-3)] transition-colors hover:bg-[var(--paper-2)] hover:text-[var(--ink)]"
             >
               Cancel
             </button>
             <button
               onClick={onConfirm}
-              className={`flex items-center space-x-2 rounded-lg px-4 py-2 text-sm text-white transition-colors ${CONFIRMATION_BUTTON_CLASSES[action.type]}`}
+              className={`flex items-center gap-2 rounded-[var(--radius-1)] px-4 py-2 text-[var(--fs-sm)] text-white transition-colors ${CONFIRMATION_BUTTON_CLASSES[action.type]}`}
             >
               {renderConfirmActionIcon(action.type)}
               <span>{CONFIRMATION_ACTION_LABELS[action.type]}</span>

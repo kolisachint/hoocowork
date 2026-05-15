@@ -1,4 +1,4 @@
-import { MessageSquare, Terminal, Folder, GitBranch, ClipboardCheck, type LucideIcon } from 'lucide-react';
+import { MessageSquare, Terminal, Folder, GitBranch, ClipboardCheck, Command, Settings as SettingsIcon, type LucideIcon } from 'lucide-react';
 import type { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -31,7 +31,8 @@ type PluginTab = {
 type TabDefinition = BuiltInTab | PluginTab;
 
 const BASE_TABS: BuiltInTab[] = [
-  { kind: 'builtin', id: 'chat',  labelKey: 'tabs.chat',  icon: MessageSquare },
+  { kind: 'builtin', id: 'cli',   labelKey: 'tabs.cli',   icon: Command },
+  { kind: 'builtin', id: 'chat', labelKey: 'tabs.chat',  icon: MessageSquare },
   { kind: 'builtin', id: 'shell', labelKey: 'tabs.shell', icon: Terminal },
   { kind: 'builtin', id: 'files', labelKey: 'tabs.files', icon: Folder },
   { kind: 'builtin', id: 'git',   labelKey: 'tabs.git',   icon: GitBranch },
@@ -42,6 +43,13 @@ const TASKS_TAB: BuiltInTab = {
   id: 'tasks',
   labelKey: 'tabs.tasks',
   icon: ClipboardCheck,
+};
+
+const SETTINGS_TAB: BuiltInTab = {
+  kind: 'builtin',
+  id: 'settings',
+  labelKey: 'tabs.settings',
+  icon: SettingsIcon,
 };
 
 export default function MainContentTabSwitcher({
@@ -64,7 +72,7 @@ export default function MainContentTabSwitcher({
       iconFile: p.icon,
     }));
 
-  const tabs: TabDefinition[] = [...builtInTabs, ...pluginTabs];
+  const tabs: TabDefinition[] = [...builtInTabs, ...pluginTabs, SETTINGS_TAB];
 
   return (
     <PillBar>

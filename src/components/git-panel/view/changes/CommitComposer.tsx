@@ -1,4 +1,4 @@
-import { Check, ChevronDown, GitCommit, RefreshCw, Sparkles } from 'lucide-react';
+import { ChevronDown, GitCommit, RefreshCw, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 
 import type { ConfirmationRequest } from '../../types/types';
@@ -10,6 +10,7 @@ type CommitComposerProps = {
   isMobile: boolean;
   projectPath: string;
   selectedFileCount: number;
+  currentBranch: string;
   isHidden: boolean;
   onCommit: (message: string) => Promise<boolean>;
   onGenerateMessage: () => Promise<string | null>;
@@ -20,6 +21,7 @@ export default function CommitComposer({
   isMobile,
   projectPath,
   selectedFileCount,
+  currentBranch,
   isHidden,
   onCommit,
   onGenerateMessage,
@@ -96,26 +98,25 @@ export default function CommitComposer({
       }`}
     >
       {isMobile && isCollapsed ? (
-        <div className="border-b border-border/60 px-4 py-2">
+        <div className="border-t border-[var(--line)] px-4 py-2">
           <button
             onClick={() => setIsCollapsed(false)}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm text-primary-foreground transition-colors hover:bg-primary/90"
+            className="flex w-full items-center justify-center gap-2 rounded-[var(--radius-1)] bg-[var(--ink)] px-3 py-2 text-sm text-[var(--paper)] transition-colors hover:opacity-90"
           >
             <GitCommit className="h-4 w-4" />
-            <span>Commit {selectedFileCount} file{selectedFileCount !== 1 ? 's' : ''}</span>
+            <span>
+              Commit {selectedFileCount} file{selectedFileCount !== 1 ? 's' : ''}
+            </span>
             <ChevronDown className="h-3 w-3" />
           </button>
         </div>
       ) : (
-        <div className="git-commit border-b border-[var(--line)] px-4 py-3">
+        <div className="git-commit px-4 pb-3">
           {isMobile && (
-            <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-[var(--ink)]">Commit Changes</span>
-              <button
-                onClick={() => setIsCollapsed(true)}
-                className="git-act p-1"
-              >
-                <ChevronDown className="h-4 w-4 rotate-180" />
+              <button onClick={() => setIsCollapsed(true)} className="git-act-icon">
+                <ChevronDown className="h-3.5 w-3.5 rotate-180" />
               </button>
             </div>
           )}
@@ -124,9 +125,9 @@ export default function CommitComposer({
             <textarea
               value={commitMessage}
               onChange={(event) => setCommitMessage(event.target.value)}
-              placeholder="Message (Ctrl+Enter to commit)"
-              className="w-full resize-none rounded-[var(--radius-1)] border border-[var(--line)] bg-[var(--paper)] px-3 py-2 pr-20 text-sm text-[var(--ink)] placeholder:text-[var(--ink-4)] focus:border-[var(--ink-3)] focus:outline-none"
-              rows={3}
+              placeholder="commit message…"
+              className="composer-input w-full pr-9"
+              rows={2}
               onKeyDown={(event) => {
                 if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
                   event.preventDefault();
@@ -134,33 +135,31 @@ export default function CommitComposer({
                 }
               }}
             />
-            <div className="absolute right-2 top-2 flex gap-1">
-              <button
-                onClick={() => void handleGenerateMessage()}
-                disabled={selectedFileCount === 0 || isGeneratingMessage}
-                className="p-1.5 text-[var(--ink-3)] transition-colors hover:text-[var(--ink)] disabled:cursor-not-allowed disabled:opacity-50"
-                title="Generate commit message"
-              >
-                {isGeneratingMessage ? (
-                  <RefreshCw className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Sparkles className="h-4 w-4" />
-                )}
-              </button>
-            </div>
+            <button
+              onClick={() => void handleGenerateMessage()}
+              disabled={selectedFileCount === 0 || isGeneratingMessage}
+              className="absolute right-2 top-2 p-1 text-[var(--ink-3)] transition-colors hover:text-[var(--ink)] disabled:cursor-not-allowed disabled:opacity-50"
+              title="Generate commit message"
+              aria-label="Generate commit message"
+            >
+              {isGeneratingMessage ? (
+                <RefreshCw className="h-4 w-4 animate-spin" />
+              ) : (
+                <Sparkles className="h-4 w-4" />
+              )}
+            </button>
           </div>
 
-          <div className="git-commit-foot mt-2">
-            <span className="text-sm text-[var(--ink-3)]">
-              {selectedFileCount} file{selectedFileCount !== 1 ? 's' : ''} selected
+          <div className="git-commit-foot">
+            <span className="composer-hint">
+              {selectedFileCount} staged · {currentBranch}
             </span>
             <button
               onClick={requestCommitConfirmation}
               disabled={!commitMessage.trim() || selectedFileCount === 0 || isCommitting}
-              className="btn-accent flex items-center space-x-1 rounded-[var(--radius-1)] bg-[var(--ink)] px-3 py-1.5 text-sm text-[var(--paper)] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="btn btn-accent text-sm disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <Check className="h-3 w-3" />
-              <span>{isCommitting ? 'Committing...' : 'Commit'}</span>
+              {isCommitting ? 'Committing…' : 'Commit'}
             </button>
           </div>
         </div>

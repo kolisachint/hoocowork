@@ -65,7 +65,7 @@ export const PlanDisplay: React.FC<PlanDisplayProps> = ({
         <CardHeader className="flex flex-row items-start justify-between space-y-0 px-4 pb-0 pt-4">
           <div className="flex items-center gap-2">
             <FileText className="h-4 w-4 shrink-0 text-muted-foreground" />
-            <CardTitle className="text-sm font-semibold">
+            <CardTitle className="text-[var(--fs-md)] font-semibold">
               {isStreaming ? <Shimmer>{title}</Shimmer> : title}
             </CardTitle>
           </div>
@@ -125,7 +125,7 @@ export const PlanDisplay: React.FC<PlanDisplayProps> = ({
             </Button>
             <Button size="sm" onClick={handleBuild}>
               Build{' '}
-              <kbd className="ml-1 rounded bg-primary-foreground/20 px-1 py-0.5 font-mono text-[10px]">
+              <kbd className="ml-1 rounded bg-primary-foreground/20 px-1 py-0.5 font-mono text-[var(--fs-xs)]">
                 ⌘↩
               </kbd>
             </Button>

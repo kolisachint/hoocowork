@@ -68,11 +68,9 @@ export default function QuickSettingsPanelView() {
         onTouchStart={startDrag}
       />
 
-      <div
-        className={`qs-panel ${isOpen ? 'open' : ''} fixed right-0 top-0 z-40 h-full w-64 transform border-l border-border bg-background shadow-xl transition-transform duration-150 ease-out ${isOpen ? 'translate-x-0' : 'translate-x-full'} ${isMobile ? 'h-screen' : ''}`}
-      >
-        <div className="qs-body flex h-full flex-col">
-          <QuickSettingsPanelHeader />
+      <div className={`qs-panel ${isOpen ? 'open' : ''}`}>
+        <QuickSettingsPanelHeader />
+        <div className="qs-body">
           <QuickSettingsContent
             isDarkMode={isDarkMode}
             preferences={quickSettingsPreferences}
@@ -83,7 +81,7 @@ export default function QuickSettingsPanelView() {
 
       {isOpen && (
         <div
-          className="qs-overlay open fixed inset-0 z-30 bg-background/80 backdrop-blur-sm transition-opacity duration-150 ease-out"
+          className="qs-overlay open"
           onClick={() => setIsOpen(false)}
         />
       )}

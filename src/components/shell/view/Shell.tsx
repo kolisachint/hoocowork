@@ -249,7 +249,7 @@ export default function Shell({
   const overlayDescription = overlayMode === 'connecting' ? connectingDescription : readyDescription;
 
   return (
-    <div className="terminal flex h-full w-full flex-col bg-[#0E0E0C]">
+    <div className="terminal h-full w-full">
       <ShellHeader
         isConnected={isConnected}
         isInitialized={isInitialized}
@@ -289,7 +289,7 @@ export default function Shell({
 
         {cliPromptOptions && isConnected && (
           <div
-            className="bg-[var(--paper-2)]/95 absolute inset-x-0 bottom-0 z-10 border-t border-[var(--line)] px-3 py-2"
+            className="absolute inset-x-0 bottom-0 z-10 border-t border-[#2A2A26] bg-[#1A1A17]/95 px-3 py-2"
             onMouseDown={(e) => e.preventDefault()}
           >
             <div className="flex flex-wrap items-center gap-2">
@@ -301,7 +301,7 @@ export default function Shell({
                     sendInput(opt.number);
                     setCliPromptOptions(null);
                   }}
-                  className="max-w-36 truncate rounded-[var(--radius-1)] bg-[var(--brand-accent)] px-3 py-1.5 text-xs font-medium text-[var(--brand-accent-ink)] transition-colors hover:opacity-90"
+                  className="max-w-36 truncate rounded bg-[#D6926B] px-3 py-1.5 text-xs font-medium text-[#0E0E0C] transition-colors hover:opacity-90"
                   title={`${opt.number}. ${opt.label}`}
                 >
                   {opt.number}. {opt.label}
@@ -313,7 +313,7 @@ export default function Shell({
                   sendInput('\x1b');
                   setCliPromptOptions(null);
                 }}
-                className="rounded-[var(--radius-1)] bg-[var(--paper-3)] px-3 py-1.5 text-xs font-medium text-[var(--ink-2)] transition-colors hover:bg-[var(--line)]"
+                className="rounded bg-[#2A2A26] px-3 py-1.5 text-xs font-medium text-[#8A8A82] transition-colors hover:bg-[#3A3A36]"
               >
                 Esc
               </button>

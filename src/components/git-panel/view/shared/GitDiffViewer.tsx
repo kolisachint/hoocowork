@@ -35,7 +35,7 @@ export default function GitDiffViewer({ diff, isMobile, wrapText }: GitDiffViewe
 
   if (!diff) {
     return (
-      <div className="p-4 text-center text-sm text-muted-foreground">
+      <div className="p-4 text-center text-sm text-[var(--ink-3)]">
         No diff available
       </div>
     );
@@ -64,7 +64,7 @@ export default function GitDiffViewer({ diff, isMobile, wrapText }: GitDiffViewe
   return (
     <div className="diff-viewer">
       {isPreviewTruncated && (
-        <div className="mb-2 rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground">
+        <div className="mb-2 rounded-[var(--radius-1)] border border-[var(--line)] bg-[var(--paper)] px-3 py-2 text-xs text-[var(--ink-3)]">
           Large diff preview: rendering is limited to keep the tab responsive.
         </div>
       )}

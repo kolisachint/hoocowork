@@ -22,7 +22,11 @@
     "shell": "Shell",
     "files": "Files",
     "git": "Git",
-    "tasks": "Tasks"
+    "tasks": "Tasks",
+    "cli": "CLI",
+    "settings": "Settings",
+    "plugins": "Plugins",
+    "mcp": "MCP"
   },
   "status": {
     "loading": "Loading...",

@@ -54,12 +54,23 @@ export const useEditorSidebar = ({
         return;
       }
 
+      // Before switching out of flex-1 mode, snapshot the editor's actual
+      // rendered width — otherwise the panel snaps to the stale `editorWidth`
+      // state value (e.g. the 600px default) the moment the user clicks the
+      // handle, which feels janky and breaks the resize gesture.
+      if (!hasManualWidth) {
+        const editorEl = resizeHandleRef.current?.nextElementSibling as HTMLElement | null;
+        if (editorEl) {
+          setEditorWidth(editorEl.getBoundingClientRect().width);
+        }
+      }
+
       // After first drag interaction, the editor width is user-controlled.
       setHasManualWidth(true);
       setIsResizing(true);
       event.preventDefault();
     },
-    [isMobile],
+    [isMobile, hasManualWidth],
   );
 
   useEffect(() => {

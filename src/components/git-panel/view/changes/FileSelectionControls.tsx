@@ -17,24 +17,24 @@ export default function FileSelectionControls({
 }: FileSelectionControlsProps) {
   return (
     <div
-      className={`flex items-center justify-between border-b border-border/60 transition-all duration-300 ease-in-out ${
+      className={`flex items-center justify-between border-b border-[var(--line)] transition-all duration-300 ease-in-out ${
         isMobile ? 'px-3 py-1.5' : 'px-4 py-2'
       } ${isHidden ? 'max-h-0 -translate-y-2 overflow-hidden opacity-0' : 'max-h-16 translate-y-0 opacity-100'}`}
     >
-      <span className="text-sm text-muted-foreground">
+      <span className="text-sm text-[var(--ink-3)]">
         {selectedCount} of {totalCount} {isMobile ? '' : 'files'} selected
       </span>
       <span className={`flex ${isMobile ? 'gap-1' : 'gap-2'}`}>
         <button
           onClick={onSelectAll}
-          className="text-sm text-primary transition-colors hover:text-primary/80"
+          className="text-sm text-[var(--brand-accent)] transition-colors hover:opacity-80"
         >
           {isMobile ? 'All' : 'Select All'}
         </button>
-        <span className="text-border">|</span>
+        <span className="text-[var(--line)]">|</span>
         <button
           onClick={onDeselectAll}
-          className="text-sm text-primary transition-colors hover:text-primary/80"
+          className="text-sm text-[var(--brand-accent)] transition-colors hover:opacity-80"
         >
           {isMobile ? 'None' : 'Deselect All'}
         </button>

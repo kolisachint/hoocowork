@@ -72,26 +72,16 @@
 
 @layer base {
   :root {
-    /* Tailwind tokens remapped to paper-and-ink palette (rust accent) */
-    --background: 60 23% 97%;            /* paper #FAFAF7 */
-    --foreground: 60 3% 7%;               /* ink #111110 */
-    --card: 60 23% 97%;
-    --card-foreground: 60 3% 7%;
-    --popover: 60 23% 97%;
-    --popover-foreground: 60 3% 7%;
-    --primary: 17 54% 49%;                /* accent rust #C2603A */
-    --primary-foreground: 60 23% 97%;     /* paper on accent */
-    --secondary: 60 24% 94%;              /* paper-2 #F2F2EC */
-    --secondary-foreground: 56 9% 20%;    /* ink-2 #36362F */
-    --muted: 60 24% 94%;
-    --muted-foreground: 60 4% 41%;        /* ink-3 #6B6B66 */
-    --accent: 60 18% 91%;                 /* paper-3 #ECECE6 (Tailwind hover surface) */
-    --accent-foreground: 56 9% 20%;
-    --destructive: 346 44% 50%;           /* err #B5485A */
-    --destructive-foreground: 60 23% 97%;
-    --border: 60 14% 86%;                 /* line #DEDED7 */
-    --input: 60 14% 86%;
-    --ring: 17 54% 49%;                   /* rust focus ring */
+    /* Paper-ink HSL tokens for Tailwind (used via hsl(var(--X-hsl) / <alpha-value>)) */
+    --paper-hsl:    60 23% 97%;
+    --ink-hsl:      60 3% 7%;
+    --line-hsl:     60 14% 86%;
+    --paper-2-hsl:  60 24% 94%;
+    --ink-2-hsl:    56 9% 20%;
+    --ink-3-hsl:    60 4% 41%;
+    --paper-3-hsl:  60 18% 91%;
+    --accent-hsl:   17 54% 49%;
+    --err-hsl:      346 44% 50%;
     --radius: 0.25rem;                    /* 4px — minimal, hairline-friendly */
 
     /* Native design-system tokens (use directly, e.g. var(--paper)) */
@@ -108,6 +98,10 @@
     --brand-accent-2:     #A24F2D;
     --brand-accent-soft:  #F2DCD0;
     --brand-accent-ink:   #FAFAF7;
+    --accent:             #C2603A;
+    --accent-2:           #A24F2D;
+    --accent-soft:        #F2DCD0;
+    --accent-ink:         #FAFAF7;
     --ok:           #3F7E5F;  --ok-soft:   #DDEBE2;
     --warn:         #B58329;  --warn-soft: #EFE4CE;
     --err:          #B5485A;  --err-soft:  #EFD5DA;
@@ -168,17 +162,7 @@
     --lh-normal: 1.55;
     --lh-relax:  1.75;
 
-    /* Nav design tokens — flattened toward paper-ink (subtle, no heavy glass) */
-    --nav-glass-bg: 60 23% 97% / 0.78;
-    --nav-glass-blur: 12px;
-    --nav-glass-saturate: 1.2;
-    --nav-tab-glow: 17 54% 49% / 0.14;
-    --nav-tab-ring: 17 54% 49% / 0.10;
-    --nav-float-shadow: 60 3% 7% / 0.06;
-    --nav-float-ring: 60 14% 86% / 0.6;
-    --nav-divider-color: 60 14% 86% / 0.7;
-    --nav-input-bg: 60 24% 94% / 0.6;
-    --nav-input-focus-ring: 17 54% 49% / 0.22;
+    /* Nav utilities use paper-ink HSL tokens directly (accent, line) */
 
     /* Safe area CSS variables */
     --safe-area-inset-top: env(safe-area-inset-top);
@@ -209,25 +193,16 @@
   }
 
   .dark {
-    --background: 60 7% 5%;               /* deep ink #0E0E0C */
-    --foreground: 60 18% 91%;             /* ink #ECECE6 */
-    --card: 60 7% 5%;
-    --card-foreground: 60 18% 91%;
-    --popover: 60 7% 5%;
-    --popover-foreground: 60 18% 91%;
-    --primary: 20 55% 63%;                /* warm rust #D6926B */
-    --primary-foreground: 60 7% 5%;
-    --secondary: 60 8% 9%;                /* paper-2 #1A1A17 */
-    --secondary-foreground: 60 7% 77%;    /* ink-2 #C9C9C1 */
-    --muted: 60 8% 9%;
-    --muted-foreground: 60 5% 52%;        /* ink-3 #8A8A82 */
-    --accent: 60 5% 13%;                  /* paper-3 #22221F */
-    --accent-foreground: 60 7% 77%;
-    --destructive: 350 53% 66%;           /* err #D9788A */
-    --destructive-foreground: 60 7% 5%;
-    --border: 60 6% 16%;                  /* line #2A2A26 */
-    --input: 60 6% 16%;
-    --ring: 20 55% 63%;
+    /* Paper-ink HSL tokens — dark overrides */
+    --paper-hsl:    60 7% 5%;
+    --ink-hsl:      60 18% 91%;
+    --line-hsl:     60 6% 16%;
+    --paper-2-hsl:  60 8% 9%;
+    --ink-2-hsl:    60 7% 77%;
+    --ink-3-hsl:    60 5% 52%;
+    --paper-3-hsl:  60 5% 13%;
+    --accent-hsl:   20 55% 63%;
+    --err-hsl:      350 53% 66%;
 
     /* Native dark tokens */
     --paper:        #0E0E0C;
@@ -243,6 +218,10 @@
     --brand-accent-2:     #E5A582;
     --brand-accent-soft:  #2A1F18;
     --brand-accent-ink:   #0E0E0C;
+    --accent:             #D6926B;
+    --accent-2:           #E5A582;
+    --accent-soft:        #2A1F18;
+    --accent-ink:         #0E0E0C;
     --ok:           #6FA98A;  --ok-soft:   #1A2521;
     --warn:         #D6A84F;  --warn-soft: #2A2417;
     --err:          #D9788A;  --err-soft:  #281A1E;
@@ -252,17 +231,7 @@
     --shadow-2:     0 1px 0 0 rgb(0 0 0 / 0.4), 0 6px 16px -8px rgb(0 0 0 / 0.6);
     --shadow-3:     0 1px 0 0 rgb(0 0 0 / 0.4), 0 12px 28px -12px rgb(0 0 0 / 0.7);
 
-    /* Nav design tokens — dark overrides (flattened) */
-    --nav-glass-bg: 60 7% 5% / 0.65;
-    --nav-glass-blur: 14px;
-    --nav-glass-saturate: 1.2;
-    --nav-tab-glow: 20 55% 63% / 0.20;
-    --nav-tab-ring: 20 55% 63% / 0.14;
-    --nav-float-shadow: 0 0% 0% / 0.35;
-    --nav-float-ring: 60 6% 16% / 0.6;
-    --nav-divider-color: 60 6% 16% / 0.7;
-    --nav-input-bg: 60 8% 9% / 0.6;
-    --nav-input-focus-ring: 20 55% 63% / 0.22;
+    /* Nav uses paper-ink HSL tokens directly — no separate dark overrides needed */
   }
 }
 
@@ -415,40 +384,33 @@
                 opacity 300ms ease-in-out;
   }
 
-  /* Nav glass surface — uses theme tokens */
-  .nav-glass {
-    background: hsl(var(--nav-glass-bg));
-    backdrop-filter: blur(var(--nav-glass-blur)) saturate(var(--nav-glass-saturate));
-    -webkit-backdrop-filter: blur(var(--nav-glass-blur)) saturate(var(--nav-glass-saturate));
-  }
-
-  /* Nav tab active pill glow — uses theme tokens */
+  /* Nav tab active pill glow — accent on paper-2 */
   .nav-tab-active {
-    box-shadow: 0 1px 8px hsl(var(--nav-tab-glow)),
-                0 0 0 1px hsl(var(--nav-tab-ring));
+    box-shadow: 0 1px 8px hsl(var(--accent-hsl) / 0.14),
+                0 0 0 1px hsl(var(--accent-hsl) / 0.10);
   }
 
-  /* Floating mobile nav bar — uses theme tokens */
+  /* Floating mobile nav bar — line + theme shadow */
   .mobile-nav-float {
-    box-shadow: 0 -1px 20px hsl(var(--nav-float-shadow)),
-                0 0 0 1px hsl(var(--nav-float-ring));
+    box-shadow: 0 -1px 20px rgb(17 17 16 / 0.06),
+                0 0 0 1px hsl(var(--line-hsl) / 0.6);
   }
 
-  /* Subtle sidebar divider — uses theme tokens */
+  /* Subtle sidebar divider — line gradient */
   .nav-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(var(--nav-divider-color)) 20%, hsl(var(--nav-divider-color)) 80%, transparent);
+    background: linear-gradient(90deg, transparent, hsl(var(--line-hsl) / 0.7) 20%, hsl(var(--line-hsl) / 0.7) 80%, transparent);
   }
 
-  /* Nav search input surface — uses theme tokens */
+  /* Nav search input surface — paper-2 + accent focus */
   .nav-search-input {
-    background: hsl(var(--nav-input-bg));
+    background: hsl(var(--paper-2-hsl) / 0.6);
     border: none;
   }
 
   .nav-search-input:focus-within {
-    background: hsl(var(--background));
-    box-shadow: 0 0 0 2px hsl(var(--nav-input-focus-ring));
+    background: hsl(var(--paper-hsl));
+    box-shadow: 0 0 0 2px hsl(var(--accent-hsl) / 0.22);
   }
   
   /* Modal and dropdown transitions */
@@ -471,7 +433,7 @@
   
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: hsl(var(--muted-foreground)) transparent;
+    scrollbar-color: hsl(var(--ink-3-hsl) / 0.5) transparent;
   }
   
   .scrollbar-thin::-webkit-scrollbar {
@@ -484,30 +446,30 @@
   }
   
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--muted-foreground));
+    background-color: hsl(var(--ink-3-hsl) / 0.5);
     border-radius: 3px;
   }
   
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background-color: hsl(var(--muted-foreground) / 0.8);
+    background-color: hsl(var(--ink-3-hsl) / 0.7);
   }
   
-  /* Dark mode scrollbar styles */
+  /* Dark mode scrollbar styles — paper-ink palette */
   .dark .scrollbar-thin {
-    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+    scrollbar-color: hsl(var(--ink-3-hsl) / 0.5) transparent;
   }
   
   .dark .scrollbar-thin::-webkit-scrollbar-track {
-    background: rgba(31, 41, 55, 0.3);
+    background: hsl(var(--paper-2-hsl) / 0.3);
   }
   
   .dark .scrollbar-thin::-webkit-scrollbar-thumb {
-    background-color: rgba(156, 163, 175, 0.5);
+    background-color: hsl(var(--ink-3-hsl) / 0.5);
     border-radius: 3px;
   }
   
   .dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(156, 163, 175, 0.7);
+    background-color: hsl(var(--ink-3-hsl) / 0.7);
   }
   
   /* Global scrollbar styles for main content areas */
@@ -517,194 +479,110 @@
   }
   
   .dark::-webkit-scrollbar-track {
-    background: rgba(31, 41, 55, 0.5);
+    background: hsl(var(--paper-2-hsl) / 0.5);
   }
   
   .dark::-webkit-scrollbar-thumb {
-    background-color: rgba(107, 114, 128, 0.5);
+    background-color: hsl(var(--ink-3-hsl) / 0.5);
     border-radius: 4px;
   }
   
   .dark::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(107, 114, 128, 0.7);
+    background-color: hsl(var(--ink-3-hsl) / 0.7);
   }
   
-  /* Firefox scrollbar styles */
+  /* Firefox scrollbar styles — paper-ink palette */
   .dark {
     scrollbar-width: thin;
-    scrollbar-color: rgba(107, 114, 128, 0.5) rgba(31, 41, 55, 0.5);
+    scrollbar-color: hsl(var(--ink-3-hsl) / 0.5) hsl(var(--paper-2-hsl) / 0.5);
   }
   
-  /* Ensure checkbox styling is preserved */
+  /* Ensure checkbox styling is preserved — accent color via kit-overrides */
   input[type="checkbox"] {
-    @apply accent-blue-600;
     opacity: 1;
   }
   
   input[type="checkbox"]:focus {
     opacity: 1;
-    outline: 2px solid hsl(var(--ring));
+    outline: 2px solid hsl(var(--accent-hsl));
     outline-offset: 2px;
   }
   
-  /* Fix checkbox appearance in dark mode */
-  .dark input[type="checkbox"] {
-    background-color: rgb(31 41 55); /* gray-800 */
-    border-color: rgb(75 85 99); /* gray-600 */
-    color: rgb(37 99 235); /* blue-600 */
-    color-scheme: dark;
-  }
-  
-  .dark input[type="checkbox"]:checked {
-    background-color: rgb(37 99 235); /* blue-600 */
-    border-color: rgb(37 99 235); /* blue-600 */
-  }
-  
-  .dark input[type="checkbox"]:focus {
-    --tw-ring-color: rgb(59 130 246); /* blue-500 */
-    --tw-ring-offset-color: rgb(31 41 55); /* gray-800 */
-  }
-  
-  /* Fix radio button appearance in dark mode */
+  /* Checkbox/radio dark mode — paper-ink palette */
+  .dark input[type="checkbox"],
   .dark input[type="radio"] {
-    background-color: rgb(31 41 55); /* gray-800 */
-    border-color: rgb(75 85 99); /* gray-600 */
-    color: rgb(37 99 235); /* blue-600 */
+    background-color: hsl(var(--paper-2-hsl));
+    border-color: hsl(var(--line-hsl));
+    color: hsl(var(--accent-hsl));
     color-scheme: dark;
   }
   
+  .dark input[type="checkbox"]:checked,
   .dark input[type="radio"]:checked {
-    background-color: rgb(37 99 235); /* blue-600 */
-    border-color: rgb(37 99 235); /* blue-600 */
+    background-color: hsl(var(--accent-hsl));
+    border-color: hsl(var(--accent-hsl));
   }
   
+  .dark input[type="checkbox"]:focus,
   .dark input[type="radio"]:focus {
-    --tw-ring-color: rgb(59 130 246); /* blue-500 */
-    --tw-ring-offset-color: rgb(31 41 55); /* gray-800 */
+    --tw-ring-color: hsl(var(--accent-hsl));
+    --tw-ring-offset-color: hsl(var(--paper-2-hsl));
   }
   
-  /* Ensure textarea text is always visible in dark mode */
+  /* Ensure textarea text is always visible */
   textarea {
     color-scheme: light dark;
   }
   
-  .dark textarea {
-    color: rgb(243 244 246) !important; /* gray-100 */
-    -webkit-text-fill-color: rgb(243 244 246) !important;
-    caret-color: rgb(243 244 246) !important;
-  }
-  
-  /* Fix for focus state in dark mode */
+  .dark textarea,
   .dark textarea:focus {
-    color: rgb(243 244 246) !important;
-    -webkit-text-fill-color: rgb(243 244 246) !important;
+    color: var(--ink) !important;
+    -webkit-text-fill-color: var(--ink) !important;
+    caret-color: var(--ink) !important;
   }
   
   /* Fix for iOS/Safari dark mode textarea issues */
   @supports (-webkit-touch-callout: none) {
-    .dark textarea {
-      background-color: transparent !important;
-      color: rgb(243 244 246) !important;
-      -webkit-text-fill-color: rgb(243 244 246) !important;
-    }
-    
+    .dark textarea,
     .dark textarea:focus {
       background-color: transparent !important;
-      color: rgb(243 244 246) !important;
-      -webkit-text-fill-color: rgb(243 244 246) !important;
+      color: var(--ink) !important;
+      -webkit-text-fill-color: var(--ink) !important;
     }
   }
   
   /* Ensure parent container doesn't override textarea styles */
-  .dark .bg-gray-800 textarea {
-    color: rgb(243 244 246) !important;
-    -webkit-text-fill-color: rgb(243 244 246) !important;
+  .dark textarea {
+    color: var(--ink) !important;
+    -webkit-text-fill-color: var(--ink) !important;
   }
   
-  /* Fix focus-within container issues in dark mode */
+  /* Focus-within container — paper-2 */
   .dark .focus-within\:ring-2:focus-within {
-    background-color: rgb(31 41 55) !important; /* gray-800 */
+    background-color: hsl(var(--paper-2-hsl)) !important;
   }
   
-  /* Ensure textarea remains transparent with visible text */
-  .dark textarea.bg-transparent {
-    background-color: transparent !important;
-    color: rgb(243 244 246) !important;
-    -webkit-text-fill-color: rgb(243 244 246) !important;
+  /* Placeholder text — ink-3 */
+  .dark textarea::placeholder,
+  .dark textarea::-webkit-input-placeholder,
+  .dark textarea::-moz-placeholder,
+  .dark textarea:-ms-input-placeholder,
+  .dark .chat-input-placeholder::placeholder,
+  .dark .chat-input-placeholder::-webkit-input-placeholder,
+  .dark .bg-gray-800 textarea::placeholder {
+    color: var(--ink-3) !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: var(--ink-3) !important;
   }
   
-  /* Fix placeholder text color to be properly gray */
-  textarea::placeholder {
-    color: rgb(156 163 175) !important; /* gray-400 */
-    opacity: 1 !important;
-  }
-  
-  .dark textarea::placeholder {
-    color: rgb(75 85 99) !important; /* gray-600 - darker gray */
-    opacity: 1 !important;
-  }
-  
-  /* More specific selector for chat input textarea */
-  .dark .bg-gray-800 textarea::placeholder,
-  .dark textarea.bg-transparent::placeholder {
-    color: rgb(75 85 99) !important; /* gray-600 - darker gray */
-    opacity: 1 !important;
-    -webkit-text-fill-color: rgb(75 85 99) !important;
-  }
-  
-  /* Custom class for chat input placeholder */
-  .chat-input-placeholder::placeholder {
-    color: rgb(156 163 175) !important;
-    opacity: 1 !important;
-  }
-
-  .dark .chat-input-placeholder::placeholder {
-    color: rgb(75 85 99) !important;
-    opacity: 1 !important;
-    -webkit-text-fill-color: rgb(75 85 99) !important;
-  }
-
+  /* Light mode placeholders — ink-4 */
+  textarea::placeholder,
+  textarea::-webkit-input-placeholder,
+  textarea::-moz-placeholder,
+  textarea:-ms-input-placeholder,
+  .chat-input-placeholder::placeholder,
   .chat-input-placeholder::-webkit-input-placeholder {
-    color: rgb(156 163 175) !important;
-    opacity: 1 !important;
-  }
-
-  .dark .chat-input-placeholder::-webkit-input-placeholder {
-    color: rgb(75 85 99) !important;
-    opacity: 1 !important;
-    -webkit-text-fill-color: rgb(75 85 99) !important;
-  }
-  
-  /* WebKit specific placeholder styles */
-  textarea::-webkit-input-placeholder {
-    color: rgb(156 163 175) !important;
-    opacity: 1 !important;
-  }
-  
-  .dark textarea::-webkit-input-placeholder {
-    color: rgb(75 85 99) !important; /* gray-600 - darker gray */
-    opacity: 1 !important;
-  }
-  
-  /* Mozilla specific placeholder styles */
-  textarea::-moz-placeholder {
-    color: rgb(156 163 175) !important;
-    opacity: 1 !important;
-  }
-  
-  .dark textarea::-moz-placeholder {
-    color: rgb(75 85 99) !important; /* gray-600 - darker gray */
-    opacity: 1 !important;
-  }
-  
-  /* IE/Edge specific placeholder styles */
-  textarea:-ms-input-placeholder {
-    color: rgb(156 163 175) !important;
-    opacity: 1 !important;
-  }
-  
-  .dark textarea:-ms-input-placeholder {
-    color: rgb(75 85 99) !important; /* gray-600 - darker gray */
+    color: var(--ink-4) !important;
     opacity: 1 !important;
   }
 }
@@ -1003,14 +881,14 @@
     box-shadow: 0 -5px 15px -3px rgba(0, 0, 0, 0.3), 0 -4px 6px -2px rgba(0, 0, 0, 0.2);
   }
   
-  /* Fix focus ring offset color in dark mode */
+  /* Fix focus ring offset color in dark mode — paper-2 */
   .dark [class*="ring-offset"] {
-    --tw-ring-offset-color: rgb(31 41 55); /* gray-800 */
+    --tw-ring-offset-color: hsl(var(--paper-2-hsl));
   }
   
   /* Ensure buttons don't show white backgrounds in dark mode */
   .dark button:focus {
-    --tw-ring-offset-color: rgb(31 41 55); /* gray-800 */
+    --tw-ring-offset-color: hsl(var(--paper-2-hsl));
   }
   
   /* Fix mobile select dropdown styling */
@@ -1048,13 +926,13 @@
   select option {
     font-size: 16px !important;
     padding: 8px !important;
-    background-color: var(--background) !important;
-    color: var(--foreground) !important;
+    background-color: var(--paper) !important;
+    color: var(--ink) !important;
   }
   
   .dark select option {
-    background-color: rgb(31 41 55) !important;
-    color: rgb(243 244 246) !important;
+    background-color: hsl(var(--paper-2-hsl)) !important;
+    color: var(--ink) !important;
   }
 
   /* Tool details chevron animation */
@@ -1086,10 +964,10 @@
 
   @keyframes search-flash {
     0%, 50% {
-      outline: 3px solid hsl(var(--primary));
+      outline: 3px solid hsl(var(--accent-hsl));
       outline-offset: 4px;
       border-radius: 8px;
-      background-color: hsl(var(--primary) / 0.06);
+      background-color: hsl(var(--accent-hsl) / 0.06);
     }
     100% {
       outline: 3px solid transparent;

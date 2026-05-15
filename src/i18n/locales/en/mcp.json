@@ -1,0 +1,43 @@
+{
+  "header": {
+    "eyebrow": "Model context protocol",
+    "title": "Servers",
+    "subtitle": "{{count}} servers · {{healthy}} healthy",
+    "addServer": "Add server"
+  },
+  "loading": "Loading MCP servers...",
+  "empty": {
+    "title": "No MCP servers configured",
+    "hint": "Add your first MCP server to extend capabilities",
+    "addButton": "Add Server"
+  },
+  "detail": {
+    "command": "command",
+    "args": "args",
+    "cwd": "cwd",
+    "scope": "scope",
+    "project": "project",
+    "env": "env",
+    "notConfigured": "Not configured"
+  },
+  "actions": {
+    "edit": "Edit",
+    "restart": "Restart",
+    "logs": "Logs",
+    "remove": "Remove"
+  },
+  "modal": {
+    "addTitle": "Add MCP Server",
+    "editTitle": "Edit MCP Server",
+    "save": "Save",
+    "add": "Add",
+    "addGlobalTitle": "Add Global MCP Server",
+    "addGlobal": "Add Global",
+    "globalDescription": "Adds this MCP server to every provider: Claude, Cursor, Codex, and Gemini. Only stdio and http transports are supported because the same config must work across all providers."
+  },
+  "status": {
+    "running": "running",
+    "error": "error",
+    "stopped": "stopped"
+  }
+}

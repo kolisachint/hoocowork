@@ -112,7 +112,7 @@ export default function SidebarModals({
                     <h3 className="mb-2 text-lg font-semibold">
                       {t('deleteConfirmation.deleteProject')}
                     </h3>
-                    <p className="mb-1 text-sm" style={{ color: 'var(--ink-3)' }}>
+                    <p className="mb-1 text-[var(--fs-base)]" style={{ color: 'var(--ink-3)' }}>
                       {t('deleteConfirmation.confirmDelete')}{' '}
                       <span className="font-medium">
                         {deleteConfirmation.project.displayName || deleteConfirmation.project.projectId}
@@ -120,7 +120,7 @@ export default function SidebarModals({
                       ?
                     </p>
                     {deleteConfirmation.sessionCount > 0 && (
-                      <p className="mt-2 text-sm" style={{ color: 'var(--ink-3)' }}>
+                      <p className="mt-2 text-[var(--fs-base)]" style={{ color: 'var(--ink-3)' }}>
                         {t('deleteConfirmation.sessionCount', { count: deleteConfirmation.sessionCount })}
                       </p>
                     )}
@@ -166,14 +166,14 @@ export default function SidebarModals({
                     <h3 className="mb-2 text-lg font-semibold">
                       {t('deleteConfirmation.deleteSession')}
                     </h3>
-                    <p className="mb-1 text-sm" style={{ color: 'var(--ink-3)' }}>
+                    <p className="mb-1 text-[var(--fs-base)]" style={{ color: 'var(--ink-3)' }}>
                       {t('deleteConfirmation.confirmDelete')}{' '}
                       <span className="font-medium">
                         {sessionDeleteConfirmation.sessionTitle || t('sessions.unnamed')}
                       </span>
                       ?
                     </p>
-                    <p className="mt-3 text-xs" style={{ color: 'var(--ink-3)' }}>
+                    <p className="mt-3 text-[var(--fs-sm)]" style={{ color: 'var(--ink-3)' }}>
                       {t('deleteConfirmation.cannotUndo')}
                     </p>
                   </div>

@@ -49,7 +49,7 @@ export const CONFIRMATION_ACTION_LABELS: Record<ConfirmActionType, string> = {
 export const CONFIRMATION_BUTTON_CLASSES: Record<ConfirmActionType, string> = {
   discard: 'bg-[var(--err)] hover:bg-[var(--err)] hover:opacity-90 text-[var(--paper)]',
   delete: 'bg-[var(--err)] hover:bg-[var(--err)] hover:opacity-90 text-[var(--paper)]',
-  commit: 'bg-primary hover:bg-primary/90',
+  commit: 'bg-[var(--ink)] hover:opacity-90 text-[var(--paper)]',
   pull: 'bg-[var(--ok)] hover:bg-[var(--ok)] hover:opacity-90 text-[var(--paper)]',
   push: 'bg-[var(--warn)] hover:bg-[var(--warn)] hover:opacity-90 text-[var(--paper)]',
   publish: 'bg-[var(--brand-accent)] hover:bg-[var(--brand-accent-2)] text-[var(--brand-accent-ink)]',

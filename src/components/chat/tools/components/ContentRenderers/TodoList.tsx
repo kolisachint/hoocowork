@@ -35,7 +35,7 @@ const TodoList = memo(
     return (
       <div>
         {isResult && (
-          <div className="mb-1.5 text-xs font-medium text-muted-foreground">
+          <div className="mb-1.5 text-[var(--fs-sm)] font-medium text-muted-foreground">
             Todo List ({normalized.length} {normalized.length === 1 ? 'item' : 'items'})
           </div>
         )}

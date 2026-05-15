@@ -5,6 +5,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+.npm
+.pnpm-store/
 
 # Build outputs
 dist/
@@ -12,10 +14,12 @@ dist-server/
 dist-ssr/
 build/
 out/
+*.tsbuildinfo
 
 # Environment variables
 .env
 .env.local
+.env.*.local
 .env.development.local
 .env.test.local
 .env.production.local
@@ -23,6 +27,8 @@ out/
 
 # IDE and editor files
 .vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
 .idea/
 *.sw?
 *.suo
@@ -30,6 +36,7 @@ out/
 *.njsproj
 *.sln
 *~
+*.sublime-*
 
 # OS generated files
 .DS_Store
@@ -39,10 +46,12 @@ out/
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
 
 # Logs
 *.log
 logs/
+log/
 
 # Runtime data
 pids
@@ -60,9 +69,6 @@ coverage/
 # Dependency directories
 jspm_packages/
 
-# Optional npm cache directory
-.npm
-
 # Optional eslint cache
 .eslintcache
 
@@ -75,7 +81,7 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
-# parcel-bundler cache (https://parceljs.org/)
+# parcel-bundler cache
 .cache
 .parcel-cache
 
@@ -93,6 +99,7 @@ jspm_packages/
 tmp/
 temp/
 .tmp/
+*.tmp
 
 # Vite
 .vite/
@@ -100,7 +107,7 @@ temp/
 # Local Netlify folder
 .netlify
 
-# AI specific
+# AI specific - user config (not project config)
 .claude/
 .cursor/
 .roo/
@@ -108,16 +115,26 @@ temp/
 .cline/
 .windsurf/
 .serena/
-CLAUDE.md
-.mcp.json
 .gemini/
+.windsurf/
+
+# Allow project-level AI configuration
+!.claude/.gitkeep
 
 # Database files
 *.db
 *.sqlite
 *.sqlite3
+*.db-journal
+*.sqlite-wal
+*.sqlite-shm
 
-# Translations
+# Generated files (tracked as .ts, ignore .js)
+server/generated/*.js
+server/generated/*.js.map
+!server/generated/.gitkeep
+
+# Translations - allow specific task files
 !src/i18n/locales/en/tasks.json
 !src/i18n/locales/ja/tasks.json
 !src/i18n/locales/ru/tasks.json
@@ -130,11 +147,42 @@ CLAUDE.md
 test-ws.mjs
 
 # Compiled platform binaries
+hoocowork
+codeui
 hoocowork-darwin-*
 hoocowork-linux-*
 hoocowork-win-*
 hoocowork-windows-*
 hoocowork-*.exe
+*.exe
 
-# Generated JS output (only .ts version is tracked)
-server/generated/*.js
+# Test artifacts
+test-results/
+playwright-report/
+e2e-results/
+
+# Husky
+.husky/_
+
+# Sentry
+.sentryclirc
+
+# Turbo
+.turbo
+
+# Vercel
+.vercel
+
+# Cloudflare
+.wrangler
+
+# Local development overrides
+compose.override.yml
+docker-compose.override.yml
+
+# Misc
+CLAUDE.md
+.mcp.json
+*.pem
+*.key
+*.crt

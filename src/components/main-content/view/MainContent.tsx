@@ -5,6 +5,9 @@ import FileTree from '../../file-tree/view/FileTree';
 import StandaloneShell from '../../standalone-shell/view/StandaloneShell';
 import GitPanel from '../../git-panel/view/GitPanel';
 import PluginTabContent from '../../plugins/view/PluginTabContent';
+import CliSelection from '../../cli-selection/CliSelection';
+import Settings from '../../settings/view/Settings';
+import { normalizeProjectForSettings } from '../../sidebar/utils/utils';
 import type { MainContentProps } from '../types/types';
 import { useTaskMaster } from '../../../contexts/TaskMasterContext';
 import { usePaletteOpsRegister } from '../../../contexts/PaletteOpsContext';
@@ -33,6 +36,7 @@ type TasksSettingsContextValue = {
 function MainContent({
   selectedProject,
   selectedSession,
+  projects,
   activeTab,
   setActiveTab,
   ws,
@@ -52,6 +56,8 @@ function MainContent({
   onShowSettings,
   externalMessageUpdate,
   newSessionTrigger,
+  onStartNewChat,
+  onRefreshProjects,
 }: MainContentProps) {
   const { preferences } = useUiPreferences();
   const { autoExpandTools, showRawParameters, showThinking, autoScrollToBottom, sendByCtrlEnter } = preferences;
@@ -65,7 +71,6 @@ function MainContent({
     editingFile,
     editorWidth,
     editorExpanded,
-    hasManualWidth,
     resizeHandleRef,
     handleFileOpen,
     handleCloseEditor,
@@ -121,7 +126,7 @@ function MainContent({
       />
 
       <div className="flex min-h-0 flex-1 overflow-hidden">
-        <div className={`flex min-h-0 min-w-[200px] flex-col overflow-hidden ${editorExpanded ? 'hidden' : ''} ${activeTab === 'files' && editingFile ? 'flex-shrink-0' : 'flex-1'}`}>
+        <div className={`flex min-h-0 min-w-[200px] flex-1 flex-col overflow-hidden ${editorExpanded ? 'hidden' : ''}`}>
           <div className={`h-full flex flex-col min-h-0 overflow-hidden ${activeTab === 'chat' ? 'block' : 'hidden'}`}>
             <ErrorBoundary showDetails>
               <ChatInterface
@@ -148,13 +153,19 @@ function MainContent({
                 externalMessageUpdate={externalMessageUpdate}
                 newSessionTrigger={newSessionTrigger}
                 onShowAllTasks={tasksEnabled ? () => setActiveTab('tasks') : null}
+                onRefreshProjects={onRefreshProjects}
               />
             </ErrorBoundary>
           </div>
 
           {activeTab === 'files' && (
             <div className="files">
-              <FileTree selectedProject={selectedProject} onFileOpen={handleFileOpen} isEditorOpen={!!editingFile} />
+              <FileTree
+                selectedProject={selectedProject}
+                onFileOpen={handleFileOpen}
+                isEditorOpen={!!editingFile}
+                editingFilePath={editingFile?.path ?? null}
+              />
             </div>
           )}
 
@@ -177,7 +188,79 @@ function MainContent({
             </div>
           )}
 
+          {activeTab === 'cli' && (
+            <div className="h-full overflow-y-auto">
+              <CliSelection
+                onPick={(provider) => {
+                  try {
+                    localStorage.setItem('selected-provider', provider);
+                    // Also set the default model so the chat UI is ready immediately,
+                    // but only when no per-provider preference is already stored.
+                    const setIfMissing = (key: string, value: string) => {
+                      if (!localStorage.getItem(key)) localStorage.setItem(key, value);
+                    };
+                    switch (provider) {
+                      case 'claude':
+                        break;
+                      case 'cursor':
+                        setIfMissing('cursor-model', 'gpt-5.3-codex');
+                        break;
+                      case 'codex':
+                        setIfMissing('codex-model', 'gpt-5.4');
+                        break;
+                      case 'gemini':
+                        setIfMissing('gemini-model', 'gemini-3.1-pro-preview');
+                        break;
+                      case 'hoocode':
+                        setIfMissing('hoocode-model', 'auto');
+                        break;
+                      case 'opencode':
+                        setIfMissing('opencode-model', 'auto');
+                        break;
+                      default:
+                        break;
+                    }
+                  } catch {
+                    // Silently ignore — localStorage may be unavailable
+                  }
+
+                  // Notify ChatInterface's provider state to pick up the new selection.
+                  // The native `storage` event doesn't fire in the same window, so
+                  // we emit a CustomEvent that `useChatProviderState` listens for.
+                  try {
+                    window.dispatchEvent(
+                      new CustomEvent('provider-changed', { detail: { provider } }),
+                    );
+                  } catch {
+                    // CustomEvent constructor unavailable (very old runtimes)
+                  }
+
+                  // If the user is still viewing a session bound to a different
+                  // provider, start a fresh chat so the session-based provider
+                  // sync doesn't clobber the new pick.
+                  if (selectedSession?.__provider && selectedSession.__provider !== provider) {
+                    onStartNewChat?.();
+                  }
+
+                  setActiveTab('chat');
+                }}
+                onSkip={() => setActiveTab('chat')}
+              />
+            </div>
+          )}
+
           {shouldShowTasksTab && <TaskMasterPanel isVisible={activeTab === 'tasks'} />}
+
+          {activeTab === 'settings' && (
+            <div className="h-full min-h-0 overflow-hidden">
+              <Settings
+                isOpen
+                onClose={() => setActiveTab('chat')}
+                projects={(projects || (selectedProject ? [selectedProject] : [])).map(normalizeProjectForSettings)}
+                variant="inline"
+              />
+            </div>
+          )}
 
           <div className={`h-full overflow-hidden ${activeTab === 'preview' ? 'block' : 'hidden'}`} />
 
@@ -197,13 +280,11 @@ function MainContent({
           isMobile={isMobile}
           editorExpanded={editorExpanded}
           editorWidth={editorWidth}
-          hasManualWidth={hasManualWidth}
           resizeHandleRef={resizeHandleRef}
           onResizeStart={handleResizeStart}
           onCloseEditor={handleCloseEditor}
           onToggleEditorExpand={handleToggleEditorExpand}
           projectPath={selectedProject.path}
-          fillSpace={activeTab === 'files'}
         />
       </div>
     </div>

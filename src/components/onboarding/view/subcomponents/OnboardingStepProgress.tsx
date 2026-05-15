@@ -24,10 +24,10 @@ export default function OnboardingStepProgress({ currentStep }: OnboardingStepPr
                 <div
                   className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition-colors duration-200 ${
                     isCompleted
-                      ? 'border-[var(--ok)] bg-[var(--ok)] text-[var(--paper)]'
+                      ? 'border-[var(--accent)] bg-[var(--accent)] text-[var(--accent-ink)]'
                       : isActive
                         ? 'border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]'
-                        : 'border-[var(--line)] bg-[var(--paper)] text-[var(--ink-3)]'
+                        : 'border-[var(--line)] bg-[var(--paper-2)] text-[var(--ink-3)]'
                   }`}
                 >
                   {isCompleted ? <Check className="h-6 w-6" /> : <Icon className="h-6 w-6" />}
@@ -42,7 +42,7 @@ export default function OnboardingStepProgress({ currentStep }: OnboardingStepPr
               </div>
 
               {index < onboardingSteps.length - 1 && (
-                <div className={`mx-2 h-0.5 flex-1 transition-colors duration-200 ${isCompleted ? 'bg-[var(--ok)]' : 'bg-[var(--line)]'}`} />
+                <div className={`mx-2 h-0.5 flex-1 transition-colors duration-200 ${isCompleted ? 'bg-[var(--accent)]' : 'bg-[var(--line)]'}`} />
               )}
             </div>
           );

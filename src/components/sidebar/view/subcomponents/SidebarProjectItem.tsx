@@ -137,20 +137,23 @@ export default function SidebarProjectItem({
           )}
 
           {!isEditing && (
-            <span className="project-branch">{sessionCountDisplay}</span>
+            <span className="project-branch group-hover/project:hidden">{sessionCountDisplay}</span>
           )}
 
           {tasksEnabled && !isEditing && (
-            <TaskIndicator status={taskStatus} size="xs" className="flex-shrink-0" />
+            <TaskIndicator status={taskStatus} size="xs" className="flex-shrink-0 group-hover/project:hidden" />
           )}
 
           {isStarred && !isEditing && (
-            <Star size={10} className="flex-shrink-0" style={{ color: 'var(--warn)', fill: 'var(--warn)' }} />
+            <Star size={10} className="flex-shrink-0 group-hover/project:hidden" style={{ color: 'var(--warn)', fill: 'var(--warn)' }} />
           )}
         </button>
 
         {/* Hover actions */}
-        <div className="absolute right-1 top-1/2 z-10 hidden -translate-y-1/2 items-center gap-0.5 group-hover/project:flex">
+        <div className={cn(
+          "absolute right-1 top-1/2 z-10 hidden -translate-y-1/2 items-center gap-0.5 group-hover/project:flex",
+          isEditing && "flex rounded-md bg-[var(--paper)] px-1 shadow-sm"
+        )}>
           {isEditing ? (
             <>
               <button

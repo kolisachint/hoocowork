@@ -65,7 +65,7 @@ const CodeBlock = ({ node, inline, className, children, ...props }: CodeBlockPro
             }
           })
         }
-        className="absolute right-2 top-2 z-10 rounded-md border border-border bg-muted/80 px-2 py-1 text-xs text-white opacity-0 transition-opacity hover:bg-muted/80 focus:opacity-100 active:opacity-100 group-hover:opacity-100"
+        className="absolute right-2 top-2 z-10 rounded-md border border-border bg-muted/80 px-2 py-1 text-[var(--fs-sm)] text-white opacity-0 transition-opacity hover:bg-muted/80 focus:opacity-100 active:opacity-100 group-hover:opacity-100"
         title={copied ? t('codeBlock.copied') : t('codeBlock.copyCode')}
         aria-label={copied ? t('codeBlock.copied') : t('codeBlock.copyCode')}
       >
@@ -141,10 +141,10 @@ const markdownComponents = {
   ),
   thead: ({ children }: { children?: React.ReactNode }) => <thead className="bg-muted/50">{children}</thead>,
   th: ({ children }: { children?: React.ReactNode }) => (
-    <th className="border border-border px-3 py-2 text-left text-sm font-semibold dark:border-border">{children}</th>
+    <th className="border border-border px-3 py-2 text-left text-[var(--fs-md)] font-semibold dark:border-border">{children}</th>
   ),
   td: ({ children }: { children?: React.ReactNode }) => (
-    <td className="border border-border px-3 py-2 align-top text-sm dark:border-border">{children}</td>
+    <td className="border border-border px-3 py-2 align-top text-[var(--fs-md)] dark:border-border">{children}</td>
   ),
 };
 

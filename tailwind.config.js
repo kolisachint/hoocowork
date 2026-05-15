@@ -15,38 +15,38 @@ export default {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        border: "hsl(var(--line-hsl) / <alpha-value>)",
+        input: "hsl(var(--line-hsl) / <alpha-value>)",
+        ring: "hsl(var(--accent-hsl) / <alpha-value>)",
+        background: "hsl(var(--paper-hsl) / <alpha-value>)",
+        foreground: "hsl(var(--ink-hsl) / <alpha-value>)",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "hsl(var(--accent-hsl) / <alpha-value>)",
+          foreground: "hsl(var(--paper-hsl) / <alpha-value>)",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "hsl(var(--paper-2-hsl) / <alpha-value>)",
+          foreground: "hsl(var(--ink-2-hsl) / <alpha-value>)",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "hsl(var(--err-hsl) / <alpha-value>)",
+          foreground: "hsl(var(--paper-hsl) / <alpha-value>)",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "hsl(var(--paper-2-hsl) / <alpha-value>)",
+          foreground: "hsl(var(--ink-3-hsl) / <alpha-value>)",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "hsl(var(--paper-3-hsl) / <alpha-value>)",
+          foreground: "hsl(var(--ink-2-hsl) / <alpha-value>)",
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: "hsl(var(--paper-hsl) / <alpha-value>)",
+          foreground: "hsl(var(--ink-hsl) / <alpha-value>)",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "hsl(var(--paper-hsl) / <alpha-value>)",
+          foreground: "hsl(var(--ink-hsl) / <alpha-value>)",
         },
       },
       borderRadius: {

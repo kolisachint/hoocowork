@@ -1,10 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
-  <!-- Paper background -->
-  <rect x="0" y="0" width="64" height="64" fill="#FAFAF7"/>
-  <!-- Hairline square border -->
-  <rect x="0.5" y="0.5" width="63" height="63" rx="3" stroke="#111110" stroke-width="1"/>
-  <!-- Prompt glyph > -->
-  <path d="M18 22L26 32L18 42" stroke="#111110" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
-  <!-- Cursor bar -->
-  <rect x="32" y="40" width="14" height="2.5" fill="#111110"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect x="1" y="1" width="30" height="30" rx="6" fill="#111110"/>
+  <rect x="1" y="1" width="30" height="30" rx="6" stroke="#2a2a29" stroke-width="0.5"/>
+  <path d="M10 12L7 16L10 20" stroke="#f5f5f5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M22 12L25 16L22 20" stroke="#f5f5f5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M14 22L18 10" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="16" cy="7" r="1.5" fill="#6366f1"/>
+  <circle cx="16" cy="25" r="1.5" fill="#6366f1"/>
 </svg>

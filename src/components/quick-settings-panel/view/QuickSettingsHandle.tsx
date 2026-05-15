@@ -30,14 +30,6 @@ export default function QuickSettingsHandle({
 }: QuickSettingsHandleProps) {
   const { t } = useTranslation('settings');
 
-  const placementClass = isOpen ? 'right-64' : 'right-0';
-  const borderClass = isDragging
-    ? 'border-[var(--brand-accent)] dark:border-[var(--brand-accent)]'
-    : 'border-border';
-  const transitionClass = isDragging
-    ? ''
-    : 'transition-all duration-150 ease-out';
-  const cursorClass = isDragging ? 'cursor-grabbing' : 'cursor-pointer';
   const ariaLabel = isDragging
     ? t('quickSettings.dragHandle.dragging')
     : isOpen
@@ -53,22 +45,24 @@ export default function QuickSettingsHandle({
       onClick={onClick}
       onMouseDown={onMouseDown}
       onTouchStart={onTouchStart}
-      className={`fixed ${placementClass} z-40 ${transitionClass} border bg-background ${borderClass} rounded-l-md p-2 shadow-lg transition-colors hover:bg-muted ${cursorClass} touch-none`}
+      className="qs-handle"
       style={{
         ...style,
         touchAction: 'none',
         WebkitTouchCallout: 'none',
         WebkitUserSelect: 'none',
+        cursor: isDragging ? 'grabbing' : 'pointer',
+        borderColor: isDragging ? 'var(--accent)' : 'var(--line)',
       }}
       aria-label={ariaLabel}
       title={title}
     >
       {isDragging ? (
-        <GripVertical className="h-5 w-5 text-[var(--brand-accent)]" />
+        <GripVertical style={{ width: 20, height: 20, color: 'var(--accent)' }} />
       ) : isOpen ? (
-        <ChevronRight className="h-5 w-5 text-muted-foreground" />
+        <ChevronRight style={{ width: 20, height: 20, color: 'var(--ink-3)' }} />
       ) : (
-        <ChevronLeft className="h-5 w-5 text-muted-foreground" />
+        <ChevronLeft style={{ width: 20, height: 20, color: 'var(--ink-3)' }} />
       )}
     </button>
   );

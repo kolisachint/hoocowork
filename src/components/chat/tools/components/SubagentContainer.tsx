@@ -68,14 +68,14 @@ export const SubagentContainer: React.FC<SubagentContainerProps> = ({
       >
         {/* Prompt/request to the subagent */}
         {prompt && (
-          <div className="mb-2 line-clamp-4 whitespace-pre-wrap break-words text-xs text-muted-foreground">
+          <div className="mb-2 line-clamp-4 whitespace-pre-wrap break-words text-[var(--fs-sm)] text-muted-foreground">
             {prompt}
           </div>
         )}
 
         {/* Current tool indicator (while running) */}
         {currentTool && !isComplete && (
-          <div className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
+          <div className="mt-1 flex items-center gap-1.5 text-[var(--fs-sm)] text-muted-foreground">
             <span className="h-1.5 w-1.5 flex-shrink-0 animate-pulse rounded-full bg-[var(--brand-accent)] dark:bg-[var(--brand-accent)]" />
             <span className="text-muted-foreground/60">Currently:</span>
             <span className="font-medium text-foreground">{currentTool.toolName}</span>
@@ -92,7 +92,7 @@ export const SubagentContainer: React.FC<SubagentContainerProps> = ({
 
         {/* Completion status */}
         {isComplete && (
-          <div className="mt-1 flex items-center gap-1.5 text-xs text-[var(--ok)]">
+          <div className="mt-1 flex items-center gap-1.5 text-[var(--fs-sm)] text-[var(--ok)]">
             <svg className="h-3 w-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
@@ -137,7 +137,7 @@ export const SubagentContainer: React.FC<SubagentContainerProps> = ({
 
         {/* Final result */}
         {isComplete && toolResult && (
-          <div className="mt-2 text-xs text-muted-foreground">
+          <div className="mt-2 text-[var(--fs-sm)] text-muted-foreground">
             {(() => {
               let content = toolResult.content;
 

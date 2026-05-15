@@ -95,14 +95,17 @@ export default function SidebarSessionItem({
         <span className="tree-glyph">{isLast ? '└─' : '├─'}</span>
         <SessionProviderLogo provider={session.__provider} className="h-3 w-3 flex-shrink-0" />
         <span className="session-title">{sessionView.sessionName}</span>
-        <span className="session-meta">
+        <span className={cn('session-meta', 'group-hover/session:hidden', isEditing && 'opacity-0')}>
           <span className={cn('status-dot', dotTone === 'busy' ? 'dot-busy' : 'dot-off')} />
           {compactAge}
         </span>
       </button>
 
       {/* Hover actions (desktop) */}
-      <div className="absolute right-1 top-1/2 z-10 hidden -translate-y-1/2 items-center gap-0.5 group-hover/session:flex">
+      <div className={cn(
+        "absolute right-1 top-1/2 z-10 hidden -translate-y-1/2 items-center gap-0.5 group-hover/session:flex",
+        isEditing && "flex rounded-md bg-[var(--paper)] px-1 shadow-sm"
+      )}>
         {isEditing ? (
           <>
             <input

@@ -32,7 +32,7 @@ export default function AgentConnectionCard({
       : status.error || 'Not connected';
 
   return (
-    <div className={`rounded-lg border p-4 transition-colors ${containerClassName}`}>
+    <div className={`rounded-[var(--radius-2)] border p-4 transition-colors ${containerClassName}`}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className={`flex h-10 w-10 items-center justify-center rounded-full ${iconContainerClassName}`}>
@@ -51,7 +51,7 @@ export default function AgentConnectionCard({
         {!status.authenticated && !status.loading && (
           <button
             onClick={onLogin}
-            className={`btn btn-sm ${loginButtonClassName} rounded-lg px-4 py-2 font-medium transition-colors`}
+            className={`btn btn-sm ${loginButtonClassName} rounded-[var(--radius-2)] px-4 py-2 font-medium transition-colors`}
           >
             Login
           </button>

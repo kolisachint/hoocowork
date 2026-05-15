@@ -75,12 +75,12 @@ export default function PermissionRequestsBanner({
                 <div>
                   <span className="font-medium text-foreground">Permission required</span>
                   <span className="ml-2 text-muted-foreground">
-                    Tool: <code className="rounded bg-muted px-1.5 py-0.5 text-xs">{request.toolName}</code>
+                    Tool: <code className="rounded bg-muted px-1.5 py-0.5 text-[var(--fs-sm)]">{request.toolName}</code>
                   </span>
                 </div>
                 {permissionEntry && (
-                  <div className="mt-1 text-xs text-muted-foreground">
-                    Allow rule: <code className="rounded bg-muted px-1 py-0.5 text-xs">{permissionEntry}</code>
+                  <div className="mt-1 text-[var(--fs-sm)] text-muted-foreground">
+                    Allow rule: <code className="rounded bg-muted px-1 py-0.5 text-[var(--fs-sm)]">{permissionEntry}</code>
                   </div>
                 )}
               </ConfirmationRequest>
@@ -88,10 +88,10 @@ export default function PermissionRequestsBanner({
 
             {rawInput && (
               <details className="mt-2">
-                <summary className="cursor-pointer text-xs text-muted-foreground hover:text-foreground">
+                <summary className="cursor-pointer text-[var(--fs-sm)] text-muted-foreground hover:text-foreground">
                   View tool input
                 </summary>
-                <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded-md border bg-muted/50 p-2 text-xs text-muted-foreground">
+                <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded-md border bg-muted/50 p-2 text-[var(--fs-sm)] text-muted-foreground">
                   {rawInput}
                 </pre>
               </details>

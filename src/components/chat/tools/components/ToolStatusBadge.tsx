@@ -31,7 +31,7 @@ export function ToolStatusBadge({ status, className }: ToolStatusBadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded px-1.5 py-px text-[10px] font-medium',
+        'inline-flex items-center rounded px-1.5 py-px text-[var(--fs-xs)] font-medium',
         config.className,
         className,
       )}

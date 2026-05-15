@@ -1,8 +1,6 @@
 import { memo } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
-import { CHECKBOX_CLASS, TOGGLE_ROW_CLASS } from '../constants';
-
 type QuickSettingsToggleRowProps = {
   label: string;
   icon: LucideIcon;
@@ -17,16 +15,16 @@ function QuickSettingsToggleRow({
   onCheckedChange,
 }: QuickSettingsToggleRowProps) {
   return (
-    <label className={TOGGLE_ROW_CLASS}>
-      <span className="flex items-center gap-2 text-sm text-foreground">
-        <Icon className="h-4 w-4 text-muted-foreground" />
+    <label className="qs-row">
+      <span className="qs-row-label">
+        <Icon style={{ width: 16, height: 16, color: 'var(--ink-3)' }} />
         {label}
       </span>
       <input
         type="checkbox"
         checked={checked}
         onChange={(event) => onCheckedChange(event.target.checked)}
-        className={CHECKBOX_CLASS}
+        className="checkbox"
       />
     </label>
   );

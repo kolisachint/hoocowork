@@ -22,7 +22,9 @@
     "shell": "Terminal",
     "files": "Dateien",
     "git": "Quellcodeverwaltung",
-    "tasks": "Aufgaben"
+    "tasks": "Aufgaben",
+    "cli": "CLI",
+    "settings": "Einstellungen"
   },
   "status": {
     "loading": "Lädt...",

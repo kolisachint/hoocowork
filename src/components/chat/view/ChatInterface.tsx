@@ -56,6 +56,7 @@ function ChatInterface({
   externalMessageUpdate,
   newSessionTrigger,
   onShowAllTasks,
+  onRefreshProjects,
 }: ChatInterfaceProps) {
   const { tasksEnabled, isTaskMasterInstalled } = useTasksSettings();
   const { t } = useTranslation('chat');
@@ -357,13 +358,15 @@ function ChatInterface({
           : provider === 'gemini'
             ? t('messageTypes.gemini')
             : provider === 'hoocode'
-              ? t('messageTypes.hoocode', { defaultValue: 'Hoocode' })
-              : t('messageTypes.claude');
+              ? t('messageTypes.hoocode', { defaultValue: 'HooCode' })
+              : provider === 'opencode'
+                ? t('messageTypes.opencode', { defaultValue: 'OpenCode' })
+                : t('messageTypes.claude');
 
     return (
       <div className="flex h-full items-center justify-center">
         <div className="text-center text-muted-foreground">
-          <p className="text-sm">
+          <p className="text-[var(--fs-md)]">
             {t('projectSelection.startChatWithProvider', {
               provider: selectedProviderLabel,
               defaultValue: 'Select a project to start chatting with {{provider}}',
@@ -395,26 +398,7 @@ function ChatInterface({
           isLoadingSessionMessages={isLoadingSessionMessages}
           chatMessages={chatMessages}
           selectedSession={selectedSession}
-          currentSessionId={currentSessionId}
           provider={provider}
-          setProvider={(nextProvider) => setProvider(nextProvider as Provider)}
-          textareaRef={textareaRef}
-          claudeModel={claudeModel}
-          setClaudeModel={setClaudeModel}
-          cursorModel={cursorModel}
-          setCursorModel={setCursorModel}
-          codexModel={codexModel}
-          setCodexModel={setCodexModel}
-          geminiModel={geminiModel}
-          setGeminiModel={setGeminiModel}
-          hoocodeModel={hoocodeModel}
-          setHoocodeModel={setHoocodeModel}
-          openCodeModel={openCodeModel}
-          setOpenCodeModel={setOpenCodeModel}
-          tasksEnabled={tasksEnabled}
-          isTaskMasterInstalled={isTaskMasterInstalled}
-          onShowAllTasks={onShowAllTasks}
-          setInput={setInput}
           isLoadingMoreMessages={isLoadingMoreMessages}
           hasMoreMessages={hasMoreMessages}
           totalMessages={totalMessages}
@@ -514,8 +498,10 @@ function ChatInterface({
                   : provider === 'gemini'
                     ? t('messageTypes.gemini')
                     : provider === 'hoocode'
-                      ? t('messageTypes.hoocode', { defaultValue: 'Hoocode' })
-                      : t('messageTypes.claude'),
+                      ? t('messageTypes.hoocode', { defaultValue: 'HooCode' })
+                      : provider === 'opencode'
+                        ? t('messageTypes.opencode', { defaultValue: 'OpenCode' })
+                        : t('messageTypes.claude'),
           })}
           isTextareaExpanded={isTextareaExpanded}
           sendByCtrlEnter={sendByCtrlEnter}

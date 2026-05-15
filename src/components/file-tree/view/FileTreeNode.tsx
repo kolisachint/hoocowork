@@ -31,34 +31,51 @@ type FileTreeNodeProps = {
   handleCancelRename?: () => void;
   renameInputRef?: RefObject<HTMLInputElement>;
   operationLoading?: boolean;
+  // Path of the file currently open in the editor (for active row highlighting)
+  editingFilePath?: string | null;
+  // True when this item is the last child of its parent (drives └─ vs ├─ glyph)
+  isLast?: boolean;
 };
 
 type TreeItemIconProps = {
   item: FileTreeNodeType;
   isOpen: boolean;
   renderFileIcon: (filename: string) => ReactNode;
+  isLast?: boolean;
+  showGlyph?: boolean;
 };
 
-function TreeItemIcon({ item, isOpen, renderFileIcon }: TreeItemIconProps) {
+function TreeItemIcon({ item, isOpen, renderFileIcon, isLast, showGlyph }: TreeItemIconProps) {
   if (item.type === 'directory') {
     return (
-      <span className="flex flex-shrink-0 items-center gap-0.5">
+      <span className="tree-icon flex flex-shrink-0 items-center gap-0.5">
         <ChevronRight
           className={cn(
-            'w-3.5 h-3.5 text-muted-foreground/70 transition-transform duration-150',
+            'w-3.5 h-3.5 transition-transform duration-150',
             isOpen && 'rotate-90',
           )}
         />
         {isOpen ? (
-          <FolderOpen className="h-4 w-4 flex-shrink-0 text-[var(--brand-accent)]" />
+          <FolderOpen className="h-4 w-4 flex-shrink-0 text-[var(--accent)]" />
         ) : (
-          <Folder className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
+          <Folder className="h-4 w-4 flex-shrink-0" />
         )}
       </span>
     );
   }
 
-  return <span className="ml-[18px] flex flex-shrink-0 items-center">{renderFileIcon(item.name)}</span>;
+  if (showGlyph) {
+    return (
+      <span className="flex flex-shrink-0 items-center gap-1">
+        <span className="font-mono text-[var(--fs-xs)] leading-none text-[var(--ink-4)] select-none">
+          {isLast ? '└─' : '├─'}
+        </span>
+        <span className="tree-icon flex flex-shrink-0 items-center">{renderFileIcon(item.name)}</span>
+      </span>
+    );
+  }
+
+  return <span className="tree-icon ml-[18px] flex flex-shrink-0 items-center">{renderFileIcon(item.name)}</span>;
 }
 
 export default function FileTreeNode({
@@ -84,38 +101,41 @@ export default function FileTreeNode({
   handleCancelRename,
   renameInputRef,
   operationLoading,
+  editingFilePath,
+  isLast,
 }: FileTreeNodeProps) {
   const isDirectory = item.type === 'directory';
   const isOpen = isDirectory && expandedDirs.has(item.path);
   const hasChildren = Boolean(isDirectory && item.children && item.children.length > 0);
   const isRenaming = renamingItem?.path === item.path;
+  const isActiveFile = !isDirectory && editingFilePath != null && editingFilePath === item.path;
+  const showGlyph = viewMode === 'simple';
 
   const nameClassName = cn(
     'text-[13px] leading-tight truncate',
-    isDirectory ? 'font-medium text-foreground' : 'text-foreground/90',
+    isDirectory ? 'font-medium text-[var(--ink)]' : 'text-[var(--ink-2)]',
+    isActiveFile && 'text-[var(--ink)]',
   );
 
   // View mode only changes the row layout; selection, expansion, and recursion stay shared.
   const rowClassName = cn(
-    'tree-row',
-    viewMode === 'detailed'
-      ? 'group grid grid-cols-12 gap-2 py-[3px] pr-2 hover:bg-accent/60 cursor-pointer items-center rounded-sm transition-colors duration-100'
-      : viewMode === 'compact'
-      ? 'group flex items-center justify-between py-[3px] pr-2 hover:bg-accent/60 cursor-pointer rounded-sm transition-colors duration-100'
-      : 'group flex items-center gap-1.5 py-[3px] pr-2 cursor-pointer rounded-sm hover:bg-accent/60 transition-colors duration-100',
-    isDirectory && isOpen && 'border-l-2 border-primary/30',
-    (isDirectory && !isOpen) || !isDirectory ? 'border-l-2 border-transparent' : '',
+    'flex items-center gap-1.5 px-[6px] py-[3px] rounded-[var(--radius-1)] text-[var(--fs-sm)] text-[var(--ink-2)] cursor-pointer w-full text-left hover:bg-[var(--paper-2)] hover:text-[var(--ink)]',
+    viewMode === 'detailed' && 'grid grid-cols-12 gap-2',
+    viewMode === 'compact' && 'justify-between',
+    isDirectory && isOpen && 'border-l-2 border-[var(--accent)]/30',
+    (!isDirectory || !isOpen) && 'border-l-2 border-transparent',
+    isActiveFile && 'bg-[var(--accent-soft)] text-[var(--ink)]',
   );
 
   // Render rename input if this item is being renamed
   if (isRenaming && setRenameValue && handleConfirmRename && handleCancelRename) {
     return (
       <div
-        className={cn(rowClassName, 'bg-accent/30')}
+        className={cn(rowClassName, 'bg-[var(--accent-soft)]')}
         style={{ paddingLeft: `${level * 16 + 4}px` }}
         onClick={(e) => e.stopPropagation()}
       >
-        <TreeItemIcon item={item} isOpen={isOpen} renderFileIcon={renderFileIcon} />
+        <TreeItemIcon item={item} isOpen={isOpen} renderFileIcon={renderFileIcon} isLast={isLast} showGlyph={showGlyph} />
         <Input
           ref={renameInputRef}
           type="text"
@@ -147,22 +167,22 @@ export default function FileTreeNode({
       {viewMode === 'detailed' ? (
         <>
           <div className="col-span-5 flex min-w-0 items-center gap-1.5">
-            <TreeItemIcon item={item} isOpen={isOpen} renderFileIcon={renderFileIcon} />
+            <TreeItemIcon item={item} isOpen={isOpen} renderFileIcon={renderFileIcon} isLast={isLast} showGlyph={showGlyph} />
             <span className={nameClassName}>{item.name}</span>
           </div>
-          <div className="col-span-2 text-sm tabular-nums text-muted-foreground">
+          <div className="col-span-2 text-sm tabular-nums text-[var(--ink-3)]">
             {item.type === 'file' ? formatFileSize(item.size) : ''}
           </div>
-          <div className="col-span-3 text-sm text-muted-foreground">{formatRelativeTime(item.modified)}</div>
-          <div className="col-span-2 font-mono text-sm text-muted-foreground">{item.permissionsRwx || ''}</div>
+          <div className="col-span-3 text-sm text-[var(--ink-3)]">{formatRelativeTime(item.modified)}</div>
+          <div className="col-span-2 font-mono text-sm text-[var(--ink-3)]">{item.permissionsRwx || ''}</div>
         </>
       ) : viewMode === 'compact' ? (
         <>
           <div className="flex min-w-0 items-center gap-1.5">
-            <TreeItemIcon item={item} isOpen={isOpen} renderFileIcon={renderFileIcon} />
+            <TreeItemIcon item={item} isOpen={isOpen} renderFileIcon={renderFileIcon} isLast={isLast} showGlyph={showGlyph} />
             <span className={nameClassName}>{item.name}</span>
           </div>
-          <div className="ml-2 flex flex-shrink-0 items-center gap-3 text-sm text-muted-foreground">
+          <div className="ml-2 flex flex-shrink-0 items-center gap-3 text-sm text-[var(--ink-3)]">
             {item.type === 'file' && (
               <>
                 <span className="tabular-nums">{formatFileSize(item.size)}</span>
@@ -173,7 +193,7 @@ export default function FileTreeNode({
         </>
       ) : (
         <>
-          <TreeItemIcon item={item} isOpen={isOpen} renderFileIcon={renderFileIcon} />
+          <TreeItemIcon item={item} isOpen={isOpen} renderFileIcon={renderFileIcon} isLast={isLast} showGlyph={showGlyph} />
           <span className={nameClassName}>{item.name}</span>
         </>
       )}
@@ -205,11 +225,11 @@ export default function FileTreeNode({
       {isDirectory && isOpen && hasChildren && (
         <div className="relative">
           <span
-            className="absolute bottom-0 top-0 border-l border-border/40"
+            className="absolute bottom-0 top-0 border-l border-[var(--line)]"
             style={{ left: `${level * 16 + 14}px` }}
             aria-hidden="true"
           />
-          {item.children?.map((child) => (
+          {item.children?.map((child, index, arr) => (
             <FileTreeNode
               key={child.path}
               item={child}
@@ -234,6 +254,8 @@ export default function FileTreeNode({
               handleCancelRename={handleCancelRename}
               renameInputRef={renameInputRef}
               operationLoading={operationLoading}
+              editingFilePath={editingFilePath}
+              isLast={index === arr.length - 1}
             />
           ))}
         </div>

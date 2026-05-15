@@ -154,7 +154,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         <div className="w-full max-w-2xl">
           <OnboardingStepProgress currentStep={currentStep} />
 
-          <div className="rounded-lg border border-[var(--line)] bg-[var(--paper)] p-8 shadow-lg">
+          <div className="rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] p-8 shadow-lg">
             {currentStep === 0 ? (
               <GitConfigurationStep
                 gitName={gitName}
@@ -209,7 +209,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   <button
                     onClick={handleFinish}
                     disabled={isSubmitting}
-                    className="btn px-6 py-3 bg-[var(--ok)] text-[var(--paper)] border-[var(--ok)] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="btn btn-accent px-6 py-3 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>

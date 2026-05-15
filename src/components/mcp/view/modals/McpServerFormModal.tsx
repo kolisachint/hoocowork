@@ -1,7 +1,7 @@
 import { FolderOpen, Globe, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, Input } from '../../../../shared/view/ui';
+import { cn } from '../../../../lib/utils';
 import {
   MCP_PROVIDER_NAMES,
   MCP_SUPPORTED_SCOPES,
@@ -120,43 +120,35 @@ export default function McpServerFormModal({
   const showCodexOnlyFields = provider === 'codex' && !isGlobalMode;
 
   return (
-    <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 p-4">
-      <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg border border-border bg-background">
-        <div className="flex items-center justify-between border-b border-border p-4">
-          <h3 className="text-lg font-medium text-foreground">{modalTitle}</h3>
-          <Button variant="ghost" size="sm" onClick={onClose}>
+    <div className="fixed inset-0 z-[110] flex items-center justify-center bg-[var(--paper)]/80 p-4 backdrop-blur-sm">
+      <div className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] shadow-[var(--shadow-2)]">
+        <div className="flex flex-shrink-0 items-center justify-between border-b border-[var(--line)] p-[var(--s-4)]">
+          <h3 className="text-[var(--fs-lg)] font-semibold text-[var(--ink)]">{modalTitle}</h3>
+          <button type="button" className="btn btn-icon btn-ghost" onClick={onClose} aria-label="Close">
             <X className="h-4 w-4" />
-          </Button>
+          </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 p-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-[var(--s-4)] overflow-y-auto p-[var(--s-4)]">
           {description && (
-            <div className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm text-muted-foreground">
+            <div className="rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper-2)] px-[var(--s-3)] py-[var(--s-2)] text-[var(--fs-sm)] text-[var(--ink-3)]">
               {description}
             </div>
           )}
 
           {!isEditing && (
-            <div className="mb-4 flex gap-2">
+            <div className="flex gap-2">
               <button
                 type="button"
                 onClick={() => updateForm('importMode', 'form')}
-                className={`rounded-lg px-4 py-2 font-medium transition-colors ${
-                  formData.importMode === 'form'
-                    ? 'bg-[var(--brand-accent)] text-white'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                }`}
+                className={`btn btn-sm ${formData.importMode === 'form' ? 'btn-solid' : 'btn-outline'}`}
               >
                 {t('mcpForm.importMode.form')}
               </button>
               <button
                 type="button"
                 onClick={() => updateForm('importMode', 'json')}
-                className={`rounded-lg px-4 py-2 font-medium transition-colors ${
-                  formData.importMode === 'json'
-                    ? 'bg-[var(--brand-accent)] text-white'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                }`}
+                className={`btn btn-sm ${formData.importMode === 'json' ? 'btn-solid' : 'btn-outline'}`}
               >
                 {t('mcpForm.importMode.json')}
               </button>
@@ -164,58 +156,46 @@ export default function McpServerFormModal({
           )}
 
           {isEditing && (
-            <div className="rounded-lg border border-border bg-muted/50 p-3">
-              <label className="mb-2 block text-sm font-medium text-foreground">
-                {t('mcpForm.scope.label')}
-              </label>
-              <div className="flex items-center gap-2">
+            <div className="field rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper-2)] p-[var(--s-3)]">
+              <span className="field-label">{t('mcpForm.scope.label')}</span>
+              <div className="flex items-center gap-2 text-[var(--fs-sm)] text-[var(--ink)]">
                 {formData.scope === 'user' ? <Globe className="h-4 w-4" /> : <FolderOpen className="h-4 w-4" />}
-                <span className="text-sm">{getScopeLabel(formData.scope, mode)}</span>
+                <span>{getScopeLabel(formData.scope, mode)}</span>
                 {formData.workspacePath && (
-                  <span className="truncate text-xs text-muted-foreground">- {formData.workspacePath}</span>
+                  <span className="truncate text-[var(--fs-xs)] text-[var(--ink-3)]">— {formData.workspacePath}</span>
                 )}
               </div>
-              <p className="mt-2 text-xs text-muted-foreground">{t('mcpForm.scope.cannotChange')}</p>
+              <p className="field-hint">{t('mcpForm.scope.cannotChange')}</p>
             </div>
           )}
 
           {!isEditing && (
-            <div className="space-y-4">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-foreground">
-                  {t('mcpForm.scope.label')} *
-                </label>
+            <div className="flex flex-col gap-[var(--s-4)]">
+              <div className="field">
+                <span className="field-label">{t('mcpForm.scope.label')} *</span>
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {availableScopes.map((scope) => (
                     <button
                       key={scope}
                       type="button"
                       onClick={() => updateScope(scope)}
-                      className={`rounded-lg px-4 py-2 font-medium transition-colors ${
-                        formData.scope === scope
-                          ? 'bg-[var(--brand-accent)] text-white'
-                          : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                      }`}
+                      className={`btn btn-sm justify-center ${formData.scope === scope ? 'btn-solid' : 'btn-outline'}`}
                     >
-                      <div className="flex items-center justify-center gap-2">
-                        {scope === 'user' ? <Globe className="h-4 w-4" /> : <FolderOpen className="h-4 w-4" />}
-                        <span>{getScopeLabel(scope, mode)}</span>
-                      </div>
+                      {scope === 'user' ? <Globe className="h-4 w-4" /> : <FolderOpen className="h-4 w-4" />}
+                      <span>{getScopeLabel(scope, mode)}</span>
                     </button>
                   ))}
                 </div>
-                <p className="mt-2 text-xs text-muted-foreground">{getScopeDescription(formData.scope, mode)}</p>
+                <p className="field-hint">{getScopeDescription(formData.scope, mode)}</p>
               </div>
 
               {showProjectSelector && (
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-foreground">
-                    {t('mcpForm.fields.selectProject')} *
-                  </label>
+                <div className="field">
+                  <span className="field-label">{t('mcpForm.fields.selectProject')} *</span>
                   <select
                     value={formData.workspacePath}
                     onChange={(event) => updateForm('workspacePath', event.target.value)}
-                    className="w-full rounded-lg border border-border bg-muted/50 px-3 py-2 text-foreground focus:border-[var(--brand-accent)] focus:ring-[var(--brand-accent)]"
+                    className="select"
                     required
                   >
                     <option value="">{t('mcpForm.fields.selectProject')}</option>
@@ -226,7 +206,7 @@ export default function McpServerFormModal({
                     ))}
                   </select>
                   {formData.workspacePath && (
-                    <p className="mt-1 truncate text-xs text-muted-foreground">
+                    <p className="field-hint truncate">
                       {t('mcpForm.projectPath', { path: formData.workspacePath })}
                     </p>
                   )}
@@ -235,12 +215,11 @@ export default function McpServerFormModal({
             </div>
           )}
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className={formData.importMode === 'json' ? 'md:col-span-2' : ''}>
-              <label className="mb-2 block text-sm font-medium text-foreground">
-                {t('mcpForm.fields.serverName')} *
-              </label>
-              <Input
+          <div className="grid grid-cols-1 gap-[var(--s-3)] md:grid-cols-2">
+            <div className={cn('field', formData.importMode === 'json' && 'md:col-span-2')}>
+              <span className="field-label">{t('mcpForm.fields.serverName')} *</span>
+              <input
+                className="input"
                 value={formData.name}
                 onChange={(event) => updateForm('name', event.target.value)}
                 placeholder={t('mcpForm.placeholders.serverName')}
@@ -249,14 +228,12 @@ export default function McpServerFormModal({
             </div>
 
             {formData.importMode === 'form' && (
-              <div>
-                <label className="mb-2 block text-sm font-medium text-foreground">
-                  {t('mcpForm.fields.transportType')} *
-                </label>
+              <div className="field">
+                <span className="field-label">{t('mcpForm.fields.transportType')} *</span>
                 <select
                   value={formData.transport}
                   onChange={(event) => updateTransport(event.target.value as McpFormState['transport'])}
-                  className="w-full rounded-lg border border-border bg-muted/50 px-3 py-2 text-foreground focus:border-[var(--brand-accent)] focus:ring-[var(--brand-accent)]"
+                  className="select"
                 >
                   {availableTransports.map((transport) => (
                     <option key={transport} value={transport}>
@@ -269,22 +246,20 @@ export default function McpServerFormModal({
           </div>
 
           {formData.importMode === 'json' && (
-            <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
-                {t('mcpForm.fields.jsonConfig')} *
-              </label>
+            <div className="field">
+              <span className="field-label">{t('mcpForm.fields.jsonConfig')} *</span>
               <textarea
                 value={formData.jsonInput}
                 onChange={(event) => updateJsonInput(event.target.value)}
-                className={`input ${jsonValidationError ? 'border-[var(--err)]' : ''}`}
+                className={cn('textarea', jsonValidationError && 'border-[var(--err)]')}
                 rows={8}
                 placeholder={'{\n  "type": "stdio",\n  "command": "npx",\n  "args": ["@upstash/context7-mcp"]\n}'}
                 required
               />
               {jsonValidationError && (
-                <p className="mt-1 text-xs text-[var(--err)]">{jsonValidationError}</p>
+                <p className="text-[var(--fs-xs)] text-[var(--err)]">{jsonValidationError}</p>
               )}
-              <p className="mt-2 text-xs text-muted-foreground">
+              <p className="field-hint">
                 {t('mcpForm.validation.jsonHelp')}
                 <br />
                 - stdio: {`{"type":"stdio","command":"npx","args":["@upstash/context7-mcp"]}`}
@@ -295,12 +270,11 @@ export default function McpServerFormModal({
           )}
 
           {formData.importMode === 'form' && formData.transport === 'stdio' && (
-            <div className="space-y-4">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-foreground">
-                  {t('mcpForm.fields.command')} *
-                </label>
-                <Input
+            <div className="flex flex-col gap-[var(--s-4)]">
+              <div className="field">
+                <span className="field-label">{t('mcpForm.fields.command')} *</span>
+                <input
+                  className="input"
                   value={formData.command}
                   onChange={(event) => updateForm('command', event.target.value)}
                   placeholder="npx @my-org/mcp-server"
@@ -308,25 +282,22 @@ export default function McpServerFormModal({
                 />
               </div>
 
-              <div>
-                <label className="mb-2 block text-sm font-medium text-foreground">
-                  {t('mcpForm.fields.arguments')}
-                </label>
+              <div className="field">
+                <span className="field-label">{t('mcpForm.fields.arguments')}</span>
                 <textarea
                   value={multilineText.args}
                   onChange={(event) => updateMultilineText('args', event.target.value)}
-                  className="input"
+                  className="textarea"
                   rows={3}
                   placeholder="--port&#10;3000"
                 />
               </div>
 
               {supportsWorkingDirectory && (
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-foreground">
-                    Working Directory
-                  </label>
-                  <Input
+                <div className="field">
+                  <span className="field-label">Working Directory</span>
+                  <input
+                    className="input"
                     value={formData.cwd}
                     onChange={(event) => updateForm('cwd', event.target.value)}
                     placeholder="."
@@ -337,11 +308,10 @@ export default function McpServerFormModal({
           )}
 
           {formData.importMode === 'form' && formData.transport !== 'stdio' && (
-            <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
-                {t('mcpForm.fields.url')} *
-              </label>
-              <Input
+            <div className="field">
+              <span className="field-label">{t('mcpForm.fields.url')} *</span>
+              <input
+                className="input"
                 value={formData.url}
                 onChange={(event) => updateForm('url', event.target.value)}
                 placeholder="https://api.example.com/mcp"
@@ -352,14 +322,12 @@ export default function McpServerFormModal({
           )}
 
           {formData.importMode === 'form' && (
-            <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
-                {t('mcpForm.fields.envVars')}
-              </label>
+            <div className="field">
+              <span className="field-label">{t('mcpForm.fields.envVars')}</span>
               <textarea
                 value={multilineText.env}
                 onChange={(event) => updateMultilineText('env', event.target.value)}
-                className="input"
+                className="textarea"
                 rows={3}
                 placeholder="API_KEY=your-key&#10;DEBUG=true"
               />
@@ -367,14 +335,12 @@ export default function McpServerFormModal({
           )}
 
           {formData.importMode === 'form' && supportsHttpHeaders && (
-            <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
-                {t('mcpForm.fields.headers')}
-              </label>
+            <div className="field">
+              <span className="field-label">{t('mcpForm.fields.headers')}</span>
               <textarea
                 value={multilineText.headers}
                 onChange={(event) => updateMultilineText('headers', event.target.value)}
-                className="input"
+                className="textarea"
                 rows={3}
                 placeholder="Authorization=Bearer token&#10;X-API-Key=your-key"
               />
@@ -382,14 +348,12 @@ export default function McpServerFormModal({
           )}
 
           {showCodexOnlyFields && formData.importMode === 'form' && formData.transport === 'stdio' && (
-            <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
-                Environment Variable Names
-              </label>
+            <div className="field">
+              <span className="field-label">Environment Variable Names</span>
               <textarea
                 value={multilineText.envVars}
                 onChange={(event) => updateMultilineText('envVars', event.target.value)}
-                className="input"
+                className="textarea"
                 rows={3}
                 placeholder="GITHUB_TOKEN&#10;API_KEY"
               />
@@ -397,11 +361,10 @@ export default function McpServerFormModal({
           )}
 
           {showCodexOnlyFields && formData.importMode === 'form' && formData.transport === 'http' && (
-            <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
-                Bearer Token Environment Variable
-              </label>
-              <Input
+            <div className="field">
+              <span className="field-label">Bearer Token Environment Variable</span>
+              <input
+                className="input"
                 value={formData.bearerTokenEnvVar}
                 onChange={(event) => updateForm('bearerTokenEnvVar', event.target.value)}
                 placeholder="MCP_TOKEN"
@@ -409,21 +372,21 @@ export default function McpServerFormModal({
             </div>
           )}
 
-          <div className="flex justify-end gap-2 pt-4">
-            <Button type="button" variant="outline" onClick={onClose}>
+          <div className="flex justify-end gap-2 pt-[var(--s-3)]">
+            <button type="button" className="btn btn-outline" onClick={onClose}>
               {t('mcpForm.actions.cancel')}
-            </Button>
-            <Button
+            </button>
+            <button
               type="submit"
+              className="btn btn-accent"
               disabled={isSubmitting || !canSubmit}
-              className="hover:bg-[var(--brand-accent)]/90 bg-[var(--brand-accent)] text-white disabled:opacity-50"
             >
               {isSubmitting
                 ? t('mcpForm.actions.saving')
                 : isEditing
                 ? t('mcpForm.actions.updateServer')
                 : addButtonLabel}
-            </Button>
+            </button>
           </div>
         </form>
       </div>

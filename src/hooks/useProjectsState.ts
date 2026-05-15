@@ -221,7 +221,7 @@ const isUpdateAdditive = (
   );
 };
 
-const VALID_TABS: Set<string> = new Set(['chat', 'files', 'shell', 'git', 'tasks', 'preview']);
+const VALID_TABS: Set<string> = new Set(['chat', 'files', 'shell', 'git', 'tasks', 'preview', 'cli']);
 
 const isValidTab = (tab: string): tab is AppTab => {
   return VALID_TABS.has(tab) || tab.startsWith('plugin:');
@@ -237,6 +237,24 @@ const readPersistedTab = (): AppTab => {
     // localStorage unavailable
   }
   return 'chat';
+};
+
+const LAST_SELECTED_PROJECT_KEY = 'lastSelectedProjectId';
+
+const readLastSelectedProjectId = (): string | null => {
+  try {
+    return localStorage.getItem(LAST_SELECTED_PROJECT_KEY);
+  } catch {
+    return null;
+  }
+};
+
+const saveLastSelectedProjectId = (projectId: string): void => {
+  try {
+    localStorage.setItem(LAST_SELECTED_PROJECT_KEY, projectId);
+  } catch {
+    // Silently ignore storage errors
+  }
 };
 
 export function useProjectsState({
@@ -384,10 +402,28 @@ export function useProjectsState({
     void hydrateProjectTaskMaster(selectedProject.projectId);
   }, [hydrateProjectTaskMaster, selectedProject?.projectId]);
 
-  // Auto-select the project when there is only one, so the user lands on the new session page
+  // Auto-select the last used project on initial load, or the only project if there's just one.
+  // Land on the CLI tab so the user doesn't have to pick a project + tab every cold start.
   useEffect(() => {
-    if (!isLoadingProjects && projects.length === 1 && !selectedProject && !sessionId) {
+    if (isLoadingProjects || selectedProject || sessionId) {
+      return;
+    }
+
+    if (projects.length === 1) {
       setSelectedProject(projects[0]);
+      setActiveTab('cli');
+      return;
+    }
+
+    if (projects.length > 1) {
+      const lastProjectId = readLastSelectedProjectId();
+      if (lastProjectId) {
+        const lastProject = projects.find((p) => p.projectId === lastProjectId);
+        if (lastProject) {
+          setSelectedProject(lastProject);
+          setActiveTab('cli');
+        }
+      }
     }
   }, [isLoadingProjects, projects, selectedProject, sessionId]);
 
@@ -621,22 +657,21 @@ export function useProjectsState({
     (project: Project) => {
       setSelectedProject(project);
       setSelectedSession(null);
+      setActiveTab('cli');
       navigate('/');
+      saveLastSelectedProjectId(project.projectId);
 
       if (isMobile) {
         setSidebarOpen(false);
       }
     },
-    [isMobile, navigate],
+    [isMobile, navigate, setActiveTab],
   );
 
   const handleSessionSelect = useCallback(
     (session: ProjectSession) => {
       setSelectedSession(session);
-
-      if (activeTab === 'tasks' || activeTab === 'preview') {
-        setActiveTab('chat');
-      }
+      setActiveTab('chat');
 
       const provider = localStorage.getItem('selected-provider') || 'claude';
       if (provider === 'cursor') {
@@ -658,14 +693,14 @@ export function useProjectsState({
 
       navigate(`/session/${session.id}`);
     },
-    [activeTab, isMobile, navigate, selectedProject?.projectId],
+    [isMobile, navigate, selectedProject?.projectId],
   );
 
   const handleNewSession = useCallback(
-    (project: Project) => {
+    (project: Project, targetTab: AppTab = 'cli') => {
       setSelectedProject(project);
       setSelectedSession(null);
-      setActiveTab('chat');
+      setActiveTab(targetTab);
       setNewSessionTrigger((previous) => previous + 1);
       navigate('/');
 
@@ -673,7 +708,7 @@ export function useProjectsState({
         setSidebarOpen(false);
       }
     },
-    [isMobile, navigate],
+    [isMobile, navigate, setActiveTab],
   );
 
   const handleSessionDelete = useCallback(
@@ -852,7 +887,7 @@ export function useProjectsState({
       isLoading: isLoadingProjects,
       loadingProgress,
       onRefresh: handleSidebarRefresh,
-      onShowSettings: () => setShowSettings(true),
+      onShowSettings: () => setActiveTab('settings'),
       showSettings,
       settingsInitialTab,
       onCloseSettings: () => setShowSettings(false),

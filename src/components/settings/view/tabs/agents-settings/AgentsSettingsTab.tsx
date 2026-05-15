@@ -20,9 +20,10 @@ export default function AgentsSettingsTab({
   geminiPermissionMode,
   onGeminiPermissionModeChange,
   projects,
-}: AgentsSettingsTabProps) {
+  onOpenMcpSettings,
+}: AgentsSettingsTabProps & { onOpenMcpSettings: () => void }) {
   const [selectedAgent, setSelectedAgent] = useState<AgentProvider>('claude');
-  const [selectedCategory, setSelectedCategory] = useState<AgentCategory>('account');
+  const [selectedCategory, setSelectedCategory] = useState<AgentCategory>('permissions');
   const { isWindowsServer } = useServerPlatform();
 
   const visibleAgents = useMemo<AgentProvider[]>(() => {
@@ -40,10 +41,13 @@ export default function AgentsSettingsTab({
     }
   }, [isWindowsServer, selectedAgent]);
 
-  // Hoocode only supports the Account category — snap back to it when switching to
-  // Hoocode while a different (unsupported) category was selected.
   useEffect(() => {
     if (selectedAgent === 'hoocode' && selectedCategory !== 'account') {
+      setSelectedCategory('account');
+      return;
+    }
+
+    if (selectedAgent === 'opencode' && selectedCategory === 'permissions') {
       setSelectedCategory('account');
     }
   }, [selectedAgent, selectedCategory]);
@@ -84,7 +88,10 @@ export default function AgentsSettingsTab({
   ]);
 
   return (
-    <div className="-mx-4 -mb-4 -mt-2 flex min-h-[300px] flex-col overflow-hidden md:-mx-6 md:-mb-6 md:-mt-2 md:min-h-[500px]">
+    <>
+      <div className="settings-h1">Agents</div>
+      <div className="settings-sub">Per-agent account, permissions, tools, models.</div>
+
       <AgentSelectorSection
         agents={visibleAgents}
         selectedAgent={selectedAgent}
@@ -92,28 +99,27 @@ export default function AgentsSettingsTab({
         agentContextById={agentContextById}
       />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <AgentCategoryTabsSection
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-          selectedAgent={selectedAgent}
-        />
+      <AgentCategoryTabsSection
+        selectedCategory={selectedCategory}
+        onSelectCategory={setSelectedCategory}
+        selectedAgent={selectedAgent}
+      />
 
-        <AgentCategoryContentSection
-          selectedAgent={selectedAgent}
-          selectedCategory={selectedCategory}
-          agentContextById={agentContextById}
-          claudePermissions={claudePermissions}
-          onClaudePermissionsChange={onClaudePermissionsChange}
-          cursorPermissions={cursorPermissions}
-          onCursorPermissionsChange={onCursorPermissionsChange}
-          codexPermissionMode={codexPermissionMode}
-          onCodexPermissionModeChange={onCodexPermissionModeChange}
-          geminiPermissionMode={geminiPermissionMode}
-          onGeminiPermissionModeChange={onGeminiPermissionModeChange}
-          projects={projects}
-        />
-      </div>
-    </div>
+      <AgentCategoryContentSection
+        selectedAgent={selectedAgent}
+        selectedCategory={selectedCategory}
+        agentContextById={agentContextById}
+        claudePermissions={claudePermissions}
+        onClaudePermissionsChange={onClaudePermissionsChange}
+        cursorPermissions={cursorPermissions}
+        onCursorPermissionsChange={onCursorPermissionsChange}
+        codexPermissionMode={codexPermissionMode}
+        onCodexPermissionModeChange={onCodexPermissionModeChange}
+        geminiPermissionMode={geminiPermissionMode}
+        onGeminiPermissionModeChange={onGeminiPermissionModeChange}
+        projects={projects}
+        onOpenMcpSettings={onOpenMcpSettings}
+      />
+    </>
   );
 }

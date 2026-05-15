@@ -5,7 +5,6 @@ import { DarkModeToggle } from '../../../shared/view/ui';
 import LanguageSelector from '../../../shared/view/ui/LanguageSelector';
 import {
   INPUT_SETTING_TOGGLES,
-  SETTING_ROW_CLASS,
   TOOL_DISPLAY_TOGGLES,
   VIEW_OPTION_TOGGLES,
 } from '../constants';
@@ -44,36 +43,48 @@ export default function QuickSettingsContent({
   );
 
   return (
-    <div className="flex-1 space-y-6 overflow-y-auto overflow-x-hidden bg-background p-4">
-      <QuickSettingsSection title={t('quickSettings.sections.appearance')}>
-        <div className={SETTING_ROW_CLASS}>
-          <span className="flex items-center gap-2 text-sm text-foreground">
-            {isDarkMode ? (
-              <Moon className="h-4 w-4 text-muted-foreground" />
-            ) : (
-              <Sun className="h-4 w-4 text-muted-foreground" />
-            )}
-            {t('quickSettings.darkMode')}
-          </span>
-          <DarkModeToggle />
+    <div className="flex-1 overflow-y-auto overflow-x-hidden">
+      <div className="qs-section">
+        <h4 className="qs-section-title">{t('quickSettings.sections.appearance')}</h4>
+        <div className="qs-section-body">
+          <div className="qs-inline">
+            <span className="qs-row-label">
+              {isDarkMode ? (
+                <Moon className="qs-icon" style={{ width: 16, height: 16 }} />
+              ) : (
+                <Sun className="qs-icon" style={{ width: 16, height: 16 }} />
+              )}
+              {t('quickSettings.darkMode')}
+            </span>
+            <DarkModeToggle />
+          </div>
+          <LanguageSelector compact />
         </div>
-        <LanguageSelector compact />
-      </QuickSettingsSection>
+      </div>
 
-      <QuickSettingsSection title={t('quickSettings.sections.toolDisplay')}>
-        {renderToggleRows(TOOL_DISPLAY_TOGGLES)}
-      </QuickSettingsSection>
+      <div className="qs-section">
+        <h4 className="qs-section-title">{t('quickSettings.sections.toolDisplay')}</h4>
+        <div className="qs-section-body">
+          {renderToggleRows(TOOL_DISPLAY_TOGGLES)}
+        </div>
+      </div>
 
-      <QuickSettingsSection title={t('quickSettings.sections.viewOptions')}>
-        {renderToggleRows(VIEW_OPTION_TOGGLES)}
-      </QuickSettingsSection>
+      <div className="qs-section">
+        <h4 className="qs-section-title">{t('quickSettings.sections.viewOptions')}</h4>
+        <div className="qs-section-body">
+          {renderToggleRows(VIEW_OPTION_TOGGLES)}
+        </div>
+      </div>
 
-      <QuickSettingsSection title={t('quickSettings.sections.inputSettings')}>
-        {renderToggleRows(INPUT_SETTING_TOGGLES)}
-        <p className="ml-3 text-xs text-muted-foreground">
-          {t('quickSettings.sendByCtrlEnterDescription')}
-        </p>
-      </QuickSettingsSection>
+      <div className="qs-section">
+        <h4 className="qs-section-title">{t('quickSettings.sections.inputSettings')}</h4>
+        <div className="qs-section-body">
+          {renderToggleRows(INPUT_SETTING_TOGGLES)}
+          <p className="qs-hint">
+            {t('quickSettings.sendByCtrlEnterDescription')}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,10 +1,55 @@
-import { Check } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useGitSettings } from '../../../hooks/useGitSettings';
-import { Button, Input } from '../../../../../shared/view/ui';
-import SettingsCard from '../../SettingsCard';
-import SettingsSection from '../../SettingsSection';
+
+// Simple Toggle component matching the design
+function Toggle({ checked, onChange }: { checked: boolean; onChange: (value: boolean) => void }) {
+  return (
+    <label className="toggle">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange?.(e.target.checked)}
+      />
+      <span className="toggle-track"><span className="toggle-thumb" /></span>
+    </label>
+  );
+}
+
+// Settings section component matching the design pattern
+function SettingsSection({ title, desc, children }: { title: string; desc?: string; children: React.ReactNode }) {
+  return (
+    <div className="settings-section">
+      <div className="settings-section-head">
+        <div className="settings-section-title">{title}</div>
+        {desc && <div className="settings-section-desc">{desc}</div>}
+      </div>
+      <div className="settings-section-body">{children}</div>
+    </div>
+  );
+}
+
+// Settings row component matching the design pattern
+function SettingsRow({
+  label,
+  hint,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="settings-row">
+      <div className="settings-row-text">
+        <div className="settings-row-label">{label}</div>
+        {hint && <div className="settings-row-hint">{hint}</div>}
+      </div>
+      <div className="settings-row-ctrl">{children}</div>
+    </div>
+  );
+}
 
 export default function GitSettingsTab() {
   const { t } = useTranslation('settings');
@@ -19,64 +64,85 @@ export default function GitSettingsTab() {
     saveGitConfig,
   } = useGitSettings();
 
+  // Behavior settings (local state with localStorage persistence)
+  const [autoFetch, setAutoFetch] = useState(() => {
+    return localStorage.getItem('gitAutoFetch') !== 'false'; // default true
+  });
+  const [confirmBeforePush, setConfirmBeforePush] = useState(() => {
+    return localStorage.getItem('gitConfirmBeforePush') !== 'false'; // default true
+  });
+  const [signCommits, setSignCommits] = useState(() => {
+    return localStorage.getItem('gitSignCommits') === 'true'; // default false
+  });
+
+  // Persist behavior settings
+  useEffect(() => {
+    localStorage.setItem('gitAutoFetch', String(autoFetch));
+  }, [autoFetch]);
+
+  useEffect(() => {
+    localStorage.setItem('gitConfirmBeforePush', String(confirmBeforePush));
+  }, [confirmBeforePush]);
+
+  useEffect(() => {
+    localStorage.setItem('gitSignCommits', String(signCommits));
+  }, [signCommits]);
+
+  const handleSave = () => {
+    void saveGitConfig();
+  };
+
   return (
-    <div className="space-y-8">
-      <SettingsSection
-        title={t('git.title')}
-        description={t('git.description')}
-      >
-        <SettingsCard className="p-4">
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="settings-git-name" className="mb-2 block text-sm font-medium">
-                {t('git.name.label')}
-              </label>
-              <Input
-                id="settings-git-name"
-                type="text"
-                value={gitName}
-                onChange={(event) => setGitName(event.target.value)}
-                placeholder="John Doe"
-                disabled={isLoading}
-                className="w-full"
-              />
-              <p className="mt-1 text-xs" style={{ color: 'var(--ink-3)' }}>{t('git.name.help')}</p>
-            </div>
+    <>
+      <div className="settings-h1">{t('mainTabs.git')}</div>
+      <div className="settings-sub">Identity used for commits made from HooCowork.</div>
 
-            <div>
-              <label htmlFor="settings-git-email" className="mb-2 block text-sm font-medium">
-                {t('git.email.label')}
-              </label>
-              <Input
-                id="settings-git-email"
-                type="email"
-                value={gitEmail}
-                onChange={(event) => setGitEmail(event.target.value)}
-                placeholder="john@example.com"
-                disabled={isLoading}
-                className="w-full"
-              />
-              <p className="mt-1 text-xs" style={{ color: 'var(--ink-3)' }}>{t('git.email.help')}</p>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button
-                onClick={saveGitConfig}
-                disabled={isSaving || !gitName.trim() || !gitEmail.trim()}
-              >
-                {isSaving ? t('git.actions.saving') : t('git.actions.save')}
-              </Button>
-
-              {saveStatus === 'success' && (
-                <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--ok)' }}>
-                  <Check className="h-4 w-4" />
-                  {t('git.status.success')}
-                </div>
-              )}
-            </div>
-          </div>
-        </SettingsCard>
+      {/* Identity Section */}
+      <SettingsSection title="Identity">
+        <SettingsRow label="Name">
+          <input
+            className="input"
+            type="text"
+            value={gitName}
+            onChange={(e) => setGitName(e.target.value)}
+            placeholder="kolisachint"
+            disabled={isLoading}
+          />
+        </SettingsRow>
+        <SettingsRow label="Email">
+          <input
+            className="input"
+            type="email"
+            value={gitEmail}
+            onChange={(e) => setGitEmail(e.target.value)}
+            placeholder="me@kolisachint.com"
+            disabled={isLoading}
+          />
+        </SettingsRow>
+        <SettingsRow label="Save identity" hint={saveStatus === 'success' ? 'Saved' : saveStatus === 'error' ? 'Unable to save' : undefined}>
+          <button
+            type="button"
+            className="btn btn-outline btn-sm"
+            onClick={handleSave}
+            disabled={isLoading || isSaving}
+          >
+            {isSaving ? 'Saving…' : 'Save'}
+          </button>
+        </SettingsRow>
       </SettingsSection>
-    </div>
+
+      {/* Behavior Section */}
+      <SettingsSection title="Behavior">
+        <SettingsRow label="Auto-fetch every 5 min" hint="Polls remote for new commits">
+          <Toggle checked={autoFetch} onChange={setAutoFetch} />
+        </SettingsRow>
+        <SettingsRow label="Confirm before push">
+          <Toggle checked={confirmBeforePush} onChange={setConfirmBeforePush} />
+        </SettingsRow>
+        <SettingsRow label="Sign commits (GPG)">
+          <Toggle checked={signCommits} onChange={setSignCommits} />
+        </SettingsRow>
+      </SettingsSection>
+    </>
   );
 }

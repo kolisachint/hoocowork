@@ -18,7 +18,9 @@
     "claude": "Claude",
     "cursor": "Cursor",
     "codex": "Codex",
-    "gemini": "Gemini"
+    "gemini": "Gemini",
+    "hoocode": "HooCode",
+    "opencode": "OpenCode"
   },
   "tools": {
     "settings": "Tool Settings",
@@ -211,6 +213,10 @@
       "loadingAll": "Loading all messages...",
       "allLoaded": "All messages loaded",
       "perfWarning": "All messages loaded — scrolling may be slower. Click \"Scroll to bottom\" to restore performance."
+    },
+    "empty": {
+      "title": "No messages yet",
+      "subtitle": "Start a conversation to get help"
     }
   },
   "shell": {

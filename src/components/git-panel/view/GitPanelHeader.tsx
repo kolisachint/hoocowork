@@ -117,108 +117,108 @@ export default function GitPanelHeader({
 
   return (
     <>
-      {/* Branch row + action buttons */}
-      <div className={`git-branch-row flex items-center justify-between ${isMobile ? 'px-3 py-2' : 'px-4 py-3'}`}>
-        {/* Branch selector */}
-        <div className="relative" ref={dropdownRef}>
+      <div className={`git-header ${isMobile ? 'px-3 py-2' : 'px-4 py-3'}`}>
+        {/* Branch picker */}
+        <div className="git-branch-wrap" ref={dropdownRef}>
           <button
+            type="button"
             onClick={() => setShowBranchDropdown((prev) => !prev)}
-            className={`git-branch ${isMobile ? 'space-x-1 px-2 py-1' : ''}`}
+            className="git-branch"
+            title={`Branch: ${currentBranch}`}
           >
-            <GitBranch className={`text-[var(--ink-3)] ${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
-            <span className="flex items-center gap-1">
-              <span className={`font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>{currentBranch}</span>
-              {remoteStatus?.hasRemote && (
-                <span className="flex items-center gap-0.5 text-xs">
-                  {aheadCount > 0 && (
-                    <span className="text-[var(--ok)]" title={`${aheadCount} ahead`}>
-                      ↑{aheadCount}
-                    </span>
-                  )}
-                  {behindCount > 0 && (
-                    <span className="text-primary" title={`${behindCount} behind`}>
-                      ↓{behindCount}
-                    </span>
-                  )}
-                  {remoteStatus.isUpToDate && (
-                    <span className="text-muted-foreground" title="Up to date">✓</span>
-                  )}
-                </span>
-              )}
-            </span>
-            <ChevronDown className={`h-3 w-3 text-muted-foreground transition-transform ${showBranchDropdown ? 'rotate-180' : ''}`} />
+            <GitBranch className="h-3 w-3 text-[var(--ink-3)]" />
+            <span className="git-branch-name">{currentBranch}</span>
+            {remoteStatus?.hasRemote && (
+              <span className="git-rs">
+                {aheadCount > 0 && (
+                  <span className="git-ahead" title={`${aheadCount} ahead`}>↑{aheadCount}</span>
+                )}
+                {behindCount > 0 && (
+                  <span className="git-behind" title={`${behindCount} behind`}>↓{behindCount}</span>
+                )}
+                {remoteStatus.isUpToDate && aheadCount === 0 && behindCount === 0 && (
+                  <span className="text-[var(--ink-3)]" title="Up to date">✓</span>
+                )}
+              </span>
+            )}
+            <ChevronDown
+              className={`h-3 w-3 text-[var(--ink-3)] transition-transform ${
+                showBranchDropdown ? 'rotate-180' : ''
+              }`}
+            />
           </button>
 
           {showBranchDropdown && (
-            <div className="absolute left-0 top-full z-50 mt-1 w-64 overflow-hidden rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] shadow-[var(--shadow-2)]">
-              <div className="max-h-64 overflow-y-auto py-1">
+            <div className="git-branch-dd">
+              <div className="git-dd-eyebrow">Local</div>
+              <div className="max-h-64 overflow-y-auto">
                 {branches.map((branch) => (
                   <button
                     key={branch}
                     onClick={() => void handleSwitchBranch(branch)}
-                    className={`w-full px-4 py-2 text-left text-sm transition-colors hover:bg-[var(--paper-2)] ${
-                      branch === currentBranch ? 'bg-[var(--paper-2)] text-[var(--ink)]' : 'text-[var(--ink-3)]'
-                    }`}
+                    className={`git-dd-row ${branch === currentBranch ? 'current' : ''}`}
                   >
-                    <span className="flex items-center space-x-2">
-                      {branch === currentBranch && <Check className="h-3 w-3 text-primary" />}
-                      <span className={branch === currentBranch ? 'font-medium' : ''}>{branch}</span>
-                    </span>
+                    {branch === currentBranch ? (
+                      <Check className="h-3 w-3 shrink-0 text-[var(--brand-accent)]" />
+                    ) : (
+                      <span className="inline-block w-3 shrink-0" aria-hidden />
+                    )}
+                    <span className="truncate">{branch}</span>
                   </button>
                 ))}
               </div>
-              <div className="border-t border-[var(--line)] py-1">
-                <button
-                  onClick={() => {
-                    setShowNewBranchModal(true);
-                    setShowBranchDropdown(false);
-                  }}
-                  className="flex w-full items-center space-x-2 px-4 py-2 text-left text-sm transition-colors hover:bg-[var(--paper-2)]"
-                >
-                  <Plus className="h-3 w-3" />
-                  <span>Create new branch</span>
-                </button>
-              </div>
+              <div className="git-dd-sep" />
+              <button
+                className="git-dd-row git-dd-action"
+                onClick={() => {
+                  setShowNewBranchModal(true);
+                  setShowBranchDropdown(false);
+                }}
+              >
+                <Plus className="h-3 w-3 shrink-0" />
+                <span>Create new branch…</span>
+              </button>
             </div>
           )}
         </div>
 
         {/* Action buttons */}
-        <div className={`flex items-center ${isMobile ? 'gap-1' : 'gap-2'}`}>
+        <div className="git-actions">
           {remoteStatus?.hasRemote && (
             <>
               {!remoteStatus.hasUpstream ? (
                 <button
                   onClick={requestPublishConfirmation}
                   disabled={anyPending}
-                  className="git-act git-act-push flex items-center gap-1"
+                  className="git-act git-act-push"
                   title={`Publish "${currentBranch}" to ${remoteName}`}
                 >
                   <Upload className={`h-3 w-3 ${isPublishing ? 'animate-pulse' : ''}`} />
-                  {!isMobile && <span>{isPublishing ? 'Publishing…' : 'Publish'}</span>}
+                  {!isMobile && <span className="git-act-label">{isPublishing ? 'Publishing…' : 'Publish'}</span>}
                 </button>
               ) : (
                 <>
-                  {/* Fetch — always visible when remote exists */}
                   <button
                     onClick={() => void onFetch()}
                     disabled={anyPending}
-                    className="git-act git-act-default flex items-center gap-1"
+                    className="git-act git-act-default"
                     title={`Fetch from ${remoteName}`}
                   >
                     <RefreshCw className={`h-3 w-3 ${isFetching ? 'animate-spin' : ''}`} />
-                    {!isMobile && <span>{isFetching ? 'Fetching…' : 'Fetch'}</span>}
+                    {!isMobile && <span className="git-act-label">{isFetching ? 'Fetching…' : 'Fetch'}</span>}
                   </button>
 
                   {behindCount > 0 && (
                     <button
                       onClick={requestPullConfirmation}
                       disabled={anyPending}
-                      className="git-act git-act-pull flex items-center gap-1"
+                      className="git-act git-act-pull"
                       title={`Pull ${behindCount} from ${remoteName}`}
                     >
                       <Download className={`h-3 w-3 ${isPulling ? 'animate-pulse' : ''}`} />
-                      {!isMobile && <span>{isPulling ? 'Pulling…' : `Pull ${behindCount}`}</span>}
+                      {!isMobile && (
+                        <span className="git-act-label">{isPulling ? 'Pulling…' : `Pull ${behindCount}`}</span>
+                      )}
                     </button>
                   )}
 
@@ -226,11 +226,13 @@ export default function GitPanelHeader({
                     <button
                       onClick={requestPushConfirmation}
                       disabled={anyPending}
-                      className="git-act git-act-push flex items-center gap-1"
+                      className="git-act git-act-push"
                       title={`Push ${aheadCount} to ${remoteName}`}
                     >
                       <Upload className={`h-3 w-3 ${isPushing ? 'animate-pulse' : ''}`} />
-                      {!isMobile && <span>{isPushing ? 'Pushing…' : `Push ${aheadCount}`}</span>}
+                      {!isMobile && (
+                        <span className="git-act-label">{isPushing ? 'Pushing…' : `Push ${aheadCount}`}</span>
+                      )}
                     </button>
                   )}
                 </>
@@ -239,35 +241,34 @@ export default function GitPanelHeader({
           )}
 
           <button
-            onClick={requestRevertLocalCommitConfirmation}
-            disabled={isRevertingLocalCommit}
-            className={`git-act disabled:opacity-50 ${isMobile ? 'p-1' : 'p-1.5'}`}
-            title="Revert latest local commit"
+            onClick={onRefresh}
+            disabled={isLoading}
+            className="git-act-icon disabled:opacity-50"
+            title="Refresh git status"
+            aria-label="Refresh git status"
           >
-            <RotateCcw
-              className={`${isRevertingLocalCommit ? 'animate-pulse' : ''} ${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`}
-            />
+            <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? 'animate-spin' : ''}`} />
           </button>
 
           <button
-            onClick={onRefresh}
-            disabled={isLoading}
-            className={`git-act ${isMobile ? 'p-1' : 'p-1.5'}`}
-            title="Refresh git status"
+            onClick={requestRevertLocalCommitConfirmation}
+            disabled={isRevertingLocalCommit}
+            className="git-act-icon disabled:opacity-50"
+            title="Revert latest local commit"
+            aria-label="Revert latest local commit"
           >
-            <RefreshCw className={`${isLoading ? 'animate-spin' : ''} ${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
+            <RotateCcw className={`h-3.5 w-3.5 ${isRevertingLocalCommit ? 'animate-pulse' : ''}`} />
           </button>
         </div>
       </div>
 
-      {/* Inline error banner */}
       {operationError && (
-        <div className="flex items-start gap-2 border-b border-destructive/20 bg-destructive/10 px-4 py-2.5 text-sm text-destructive">
+        <div className="flex items-start gap-2 border-b border-[var(--err-soft)] bg-[var(--err-soft)] px-4 py-2.5 text-sm text-[var(--err)]">
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
           <span className="flex-1 leading-snug">{operationError}</span>
           <button
             onClick={onClearError}
-            className="shrink-0 rounded p-0.5 hover:bg-destructive/20"
+            className="shrink-0 rounded p-0.5 hover:bg-[var(--err-soft)]"
             aria-label="Dismiss error"
           >
             <X className="h-3.5 w-3.5" />

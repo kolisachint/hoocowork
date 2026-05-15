@@ -1,8 +1,6 @@
-import { Bell, Bot, GitBranch, Info, Key, ListChecks, Palette, Puzzle } from 'lucide-react';
+import { Bell, Bot, GitBranch, Info, Key, ListChecks, Palette, Puzzle, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-import { cn } from '../../../lib/utils';
-import { PillBar, Pill } from '../../../shared/view/ui';
 import type { SettingsMainTab } from '../types/types';
 
 type SettingsSidebarProps = {
@@ -22,6 +20,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'git', labelKey: 'mainTabs.git', icon: GitBranch },
   { id: 'api', labelKey: 'mainTabs.apiTokens', icon: Key },
   { id: 'tasks', labelKey: 'mainTabs.tasks', icon: ListChecks },
+  { id: 'mcp', labelKey: 'mainTabs.mcp', icon: Sparkles },
   { id: 'plugins', labelKey: 'mainTabs.plugins', icon: Puzzle },
   { id: 'notifications', labelKey: 'mainTabs.notifications', icon: Bell },
   { id: 'about', labelKey: 'mainTabs.about', icon: Info },
@@ -32,51 +31,43 @@ export default function SettingsSidebar({ activeTab, onChange }: SettingsSidebar
 
   return (
     <>
-      {/* Desktop sidebar */}
-      <aside className="hidden w-56 flex-shrink-0 border-r md:flex md:flex-col" style={{ borderColor: 'var(--line)', background: 'var(--paper-2)' }}>
-        <nav className="flex flex-col gap-1 p-3">
-          {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-
-            return (
-              <button
-                key={item.id}
-                onClick={() => onChange(item.id)}
-                className={cn(
-                  'flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors duration-150',
-                  isActive
-                    ? 'bg-[var(--paper-3)] text-[var(--ink)]'
-                    : 'text-[var(--ink-3)] hover:bg-[var(--paper-3)] hover:text-[var(--ink)] active:bg-[var(--paper-3)]',
-                )}
-              >
-                <Icon className="h-4 w-4 flex-shrink-0" />
-                {t(item.labelKey)}
-              </button>
-            );
-          })}
-        </nav>
+      <aside className="settings-rail">
+        <div className="cli-eyebrow" style={{ padding: '0 var(--s-3) var(--s-3)' }}>
+          {t('title')}
+        </div>
+        {NAV_ITEMS.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              className={`settings-nav ${isActive ? 'active' : ''}`}
+              onClick={() => onChange(item.id)}
+            >
+              <Icon className="h-3.5 w-3.5 flex-shrink-0" />
+              <span>{t(item.labelKey)}</span>
+            </button>
+          );
+        })}
       </aside>
 
-      {/* Mobile horizontal nav — pill bar */}
-      <div className="flex-shrink-0 border-b px-3 py-2 md:hidden" style={{ borderColor: 'var(--line)' }}>
-        <PillBar className="scrollbar-hide w-full overflow-x-auto">
-          {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-
-            return (
-              <Pill
-                key={item.id}
-                isActive={activeTab === item.id}
-                onClick={() => onChange(item.id)}
-                className="flex-shrink-0"
-              >
-                <Icon className="h-3.5 w-3.5" />
-                {t(item.labelKey)}
-              </Pill>
-            );
-          })}
-        </PillBar>
+      <div className="settings-mobile-tabs">
+        {NAV_ITEMS.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              className={`settings-pill ${isActive ? 'active' : ''}`}
+              onClick={() => onChange(item.id)}
+            >
+              <Icon className="h-3 w-3 flex-shrink-0" />
+              <span>{t(item.labelKey)}</span>
+            </button>
+          );
+        })}
       </div>
     </>
   );

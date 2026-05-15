@@ -21,7 +21,7 @@ const ImageAttachment = ({ file, onRemove, uploadProgress, error }: ImageAttachm
       <img src={preview} alt={file.name} className="h-20 w-20 rounded object-cover" />
       {uploadProgress !== undefined && uploadProgress < 100 && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <div className="text-xs text-white">{uploadProgress}%</div>
+          <div className="text-[var(--fs-sm)] text-white">{uploadProgress}%</div>
         </div>
       )}
       {error && (

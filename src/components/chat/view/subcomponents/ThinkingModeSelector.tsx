@@ -167,7 +167,7 @@ function ThinkingModeSelector({ selectedMode, onModeChange, onClose, className =
         >
           <div className="border-b border-[var(--line)] p-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-[var(--ink)]">
+              <h3 className="text-[var(--fs-md)] font-semibold text-[var(--ink)]">
                 {t('thinkingMode.selector.title')}
               </h3>
               <button
@@ -178,7 +178,7 @@ function ThinkingModeSelector({ selectedMode, onModeChange, onClose, className =
                 <X className="h-4 w-4 text-[var(--ink-3)]" />
               </button>
             </div>
-            <p className="mt-1 text-xs text-[var(--ink-3)]">
+            <p className="mt-1 text-[var(--fs-sm)] text-[var(--ink-3)]">
               {t('thinkingMode.selector.description')}
             </p>
           </div>
@@ -205,21 +205,21 @@ function ThinkingModeSelector({ selectedMode, onModeChange, onClose, className =
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className={`text-sm font-medium ${isSelected ? 'text-[var(--ink)]' : 'text-[var(--ink-2)]'
+                        <span className={`text-[var(--fs-md)] font-medium ${isSelected ? 'text-[var(--ink)]' : 'text-[var(--ink-2)]'
                           }`}>
                           {mode.name}
                         </span>
                         {isSelected && (
-                          <span className="rounded bg-[var(--brand-accent-soft)] px-2 py-0.5 text-xs text-[var(--brand-accent)]">
+                          <span className="rounded bg-[var(--brand-accent-soft)] px-2 py-0.5 text-[var(--fs-sm)] text-[var(--brand-accent)]">
                             {t('thinkingMode.selector.active')}
                           </span>
                         )}
                       </div>
-                      <p className="mt-0.5 text-xs text-[var(--ink-3)]">
+                      <p className="mt-0.5 text-[var(--fs-sm)] text-[var(--ink-3)]">
                         {mode.description}
                       </p>
                       {mode.prefix && (
-                        <code className="mt-1 inline-block rounded bg-[var(--paper-3)] px-1.5 py-0.5 text-xs">
+                        <code className="mt-1 inline-block rounded bg-[var(--paper-3)] px-1.5 py-0.5 text-[var(--fs-sm)]">
                           {mode.prefix}
                         </code>
                       )}
@@ -231,7 +231,7 @@ function ThinkingModeSelector({ selectedMode, onModeChange, onClose, className =
           </div>
 
           <div className="border-t border-[var(--line)] bg-[var(--paper-2)] p-3">
-            <p className="text-xs text-[var(--ink-3)]">
+            <p className="text-[var(--fs-sm)] text-[var(--ink-3)]">
               <strong>Tip:</strong> {t('thinkingMode.selector.tip')}
             </p>
           </div>
