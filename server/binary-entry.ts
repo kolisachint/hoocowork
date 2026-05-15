@@ -8,7 +8,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import embeddedAssets from './generated/embedded-assets.js';
 import { applyEmbeddedConfig } from './generated/embedded-config.js';
 
-const hasBunfsPath = (p: string) => p.includes('/bunfs/') || p.includes('/$bunfs/');
+const hasBunfsPath = (p: string) => p.includes('/bunfs/') || p.includes('/$bunfs/') || p.includes('\\bunfs\\') || p.includes('\\$bunfs\\');
 // @ts-expect-error — Bun global is available only at runtime
 const isBinaryMode = typeof Bun !== 'undefined' && process.argv[1] && hasBunfsPath(process.argv[1]);
 
@@ -18,7 +18,12 @@ if (isBinaryMode) {
 
 if (isBinaryMode && process.argv[1]) {
   const arg1 = process.argv[1];
-  if (arg1.includes('/$bunfs/')) {
+  // Handle Windows backslash paths
+  if (arg1.includes('\\$bunfs\\')) {
+    process.env.APP_ROOT = arg1.split('\\$bunfs\\')[0] + '\\$bunfs\\root';
+  } else if (arg1.includes('\\bunfs\\')) {
+    process.env.APP_ROOT = arg1.split('\\bunfs\\')[0] + '\\bunfs\\root';
+  } else if (arg1.includes('/$bunfs/')) {
     process.env.APP_ROOT = '/$bunfs/root';
   } else if (arg1.includes('/bunfs/')) {
     process.env.APP_ROOT = arg1.split('/bunfs/')[0] + '/bunfs/root';
