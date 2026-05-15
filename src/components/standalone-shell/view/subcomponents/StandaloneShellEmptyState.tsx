@@ -5,9 +5,9 @@ type StandaloneShellEmptyStateProps = {
 export default function StandaloneShellEmptyState({ className }: StandaloneShellEmptyStateProps) {
   return (
     <div className={`flex h-full items-center justify-center ${className}`}>
-      <div className="text-center text-muted-foreground">
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-          <svg className="h-8 w-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="text-center">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#1A1A17]">
+          <svg className="h-8 w-8 text-[#5C5C56]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -16,8 +16,8 @@ export default function StandaloneShellEmptyState({ className }: StandaloneShell
             />
           </svg>
         </div>
-        <h3 className="mb-2 text-lg font-semibold">No Project Selected</h3>
-        <p>A project is required to open a shell</p>
+        <h3 className="mb-2 text-lg font-semibold text-[#ECECE6]">No Project Selected</h3>
+        <p className="text-[#8A8A82]">A project is required to open a shell</p>
       </div>
     </div>
   );

@@ -12,8 +12,8 @@ export default function QuickSettingsSection({
   className = '',
 }: QuickSettingsSectionProps) {
   return (
-    <div className={`space-y-2 ${className}`}>
-      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+    <div className={`qs-section ${className}`}>
+      <h4 className="qs-section-title">
         {title}
       </h4>
       {children}

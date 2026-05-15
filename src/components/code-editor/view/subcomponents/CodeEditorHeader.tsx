@@ -57,7 +57,7 @@ export default function CodeEditorHeader({
           <div className="flex min-w-0 items-center gap-2">
             <h3 className="truncate text-sm font-medium text-foreground">{file.name}</h3>
             {file.diffInfo && (
-              <span className="bg-[var(--brand-accent)]/10 shrink-0 whitespace-nowrap rounded px-1.5 py-0.5 text-[10px] text-[var(--brand-accent)]">
+              <span className="bg-[var(--brand-accent)]/10 shrink-0 whitespace-nowrap rounded px-1.5 py-0.5 text-[var(--fs-xs)] text-[var(--brand-accent)]">
                 {labels.showingChanges}
               </span>
             )}

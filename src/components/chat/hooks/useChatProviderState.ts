@@ -73,7 +73,54 @@ export function useChatProviderState({ selectedSession, hoocodeModes }: UseChatP
 
     setProvider(selectedSession.__provider);
     localStorage.setItem('selected-provider', selectedSession.__provider);
+
+    const modelKey = `${selectedSession.__provider}-model`;
+    const stored = localStorage.getItem(modelKey);
+    if (stored) {
+      if (selectedSession.__provider === 'claude') setClaudeModel(stored);
+      else if (selectedSession.__provider === 'cursor') setCursorModel(stored);
+      else if (selectedSession.__provider === 'codex') setCodexModel(stored);
+      else if (selectedSession.__provider === 'gemini') setGeminiModel(stored);
+      else if (selectedSession.__provider === 'hoocode') setHoocodeModel(stored);
+      else if (selectedSession.__provider === 'opencode') setOpenCodeModel(stored);
+    }
   }, [provider, selectedSession]);
+
+  // Sync React state when an external surface (CLI tab pick, etc.) writes
+  // `selected-provider` to localStorage. The same-window write doesn't fire a
+  // native `storage` event, so we rely on a custom `provider-changed` event.
+  useEffect(() => {
+    const syncProvider = (nextProvider: LLMProvider) => {
+      setProvider((current) => (current === nextProvider ? current : nextProvider));
+
+      const stored = localStorage.getItem(`${nextProvider}-model`);
+      if (!stored) return;
+      if (nextProvider === 'claude') setClaudeModel(stored);
+      else if (nextProvider === 'cursor') setCursorModel(stored);
+      else if (nextProvider === 'codex') setCodexModel(stored);
+      else if (nextProvider === 'gemini') setGeminiModel(stored);
+      else if (nextProvider === 'hoocode') setHoocodeModel(stored);
+      else if (nextProvider === 'opencode') setOpenCodeModel(stored);
+    };
+
+    const handleProviderChanged = (event: Event) => {
+      const detail = (event as CustomEvent<{ provider?: string }>).detail;
+      const nextProvider = detail?.provider as LLMProvider | undefined;
+      if (nextProvider) syncProvider(nextProvider);
+    };
+
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key !== 'selected-provider' || !event.newValue) return;
+      syncProvider(event.newValue as LLMProvider);
+    };
+
+    window.addEventListener('provider-changed', handleProviderChanged);
+    window.addEventListener('storage', handleStorage);
+    return () => {
+      window.removeEventListener('provider-changed', handleProviderChanged);
+      window.removeEventListener('storage', handleStorage);
+    };
+  }, []);
 
   useEffect(() => {
     if (lastProviderRef.current === provider) {

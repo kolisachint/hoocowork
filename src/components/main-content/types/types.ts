@@ -37,6 +37,7 @@ export type PrdFile = {
 export type MainContentProps = {
   selectedProject: Project | null;
   selectedSession: ProjectSession | null;
+  projects?: Project[];
   activeTab: AppTab;
   setActiveTab: Dispatch<SetStateAction<AppTab>>;
   ws: WebSocket | null;
@@ -56,6 +57,8 @@ export type MainContentProps = {
   onShowSettings: () => void;
   externalMessageUpdate: number;
   newSessionTrigger: number;
+  onStartNewChat?: () => void;
+  onRefreshProjects?: () => void;
 };
 
 export type MainContentHeaderProps = {

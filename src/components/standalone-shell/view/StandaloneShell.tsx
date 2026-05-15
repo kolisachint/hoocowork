@@ -57,7 +57,7 @@ export default function StandaloneShell({
   }
 
   return (
-    <div className={`terminal flex h-full w-full flex-col ${className}`}>
+    <div className={`terminal h-full w-full ${className}`}>
       {!minimal && showHeader && title && (
         <StandaloneShellHeader title={title} isCompleted={isCompleted} onClose={onClose} />
       )}

@@ -1,261 +1,281 @@
-<div align="center">
-  <img src="public/logo.svg" alt="HooCowork" width="64" height="64">
-  <h1>HooCowork (Claude Code UI)</h1>
-  <p><img src="https://github.com/kolisachint/hoocowork/actions/workflows/ci.yml/badge.svg" alt="CI"></p>
-  <p>A desktop and mobile UI for <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a>, <a href="https://docs.cursor.com/en/cli/overview">Cursor CLI</a>, <a href="https://developers.openai.com/codex">Codex</a>, and <a href="https://geminicli.com/">Gemini-CLI</a>.<br>Use it locally or remotely to view your active projects and sessions from everywhere.</p>
-</div>
+# HooCowork
 
-<p align="center">
-  <a href="https://hoocowork.app">HooCowork</a> · <a href="https://hoocowork.app/docs">Documentation</a> · <a href="https://discord.gg/buxwujPNRE">Discord</a> · <a href="https://github.com/kolisachint/hoocowork/issues">Bug Reports</a> · <a href="CONTRIBUTING.md">Contributing</a>
-</p>
+![HooCowork Logo](public/logo.svg)
 
-<p align="center">
-  <a href="https://hoocowork.app"><img src="https://img.shields.io/badge/☁️_HooCowork-Try_Now-0066FF?style=for-the-badge" alt="HooCowork"></a>
-  <a href="https://github.com/kolisachint/hoocowork"><img src="https://img.shields.io/badge/GitHub-View%20on%20GitHub-5865F2?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"></a>
-  <br><br>
-  <a href="https://trendshift.io/repositories/15586" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15586" alt="kolisachint%2Fhoocowork | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-</p>
+[![CI](https://github.com/kolisachint/hoocowork/actions/workflows/ci.yml/badge.svg)](https://github.com/kolisachint/hoocowork/actions)
+[![npm](https://img.shields.io/npm/v/@kolisachint/hoocowork)](https://www.npmjs.com/package/@kolisachint/hoocowork)
+[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue)](LICENSE)
 
-<div align="right"><i><b>English</b> · <a href="./README.ru.md">Русский</a> · <a href="./README.de.md">Deutsch</a> · <a href="./README.ko.md">한국어</a> · <a href="./README.zh-CN.md">中文</a> · <a href="./README.ja.md">日本語</a> · <a href="./README.tr.md">Türkçe</a></i></div>
+A desktop and mobile UI for [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor CLI](https://docs.cursor.com/en/cli/overview), [Codex](https://developers.openai.com/codex), and [Gemini-CLI](https://geminicli.com/). Use it locally or remotely to view your active projects and sessions from anywhere.
+
+**[Website](https://hoocowork.app)** • **[Documentation](https://hoocowork.app/docs)** • **[Discord](https://discord.gg/buxwujPNRE)** • **[Issues](https://github.com/kolisachint/hoocowork/issues)** • **[Contributing](CONTRIBUTING.md)**
 
 ---
 
-## Screenshots-
+**Translations:** [Русский](./README.ru.md) • [Deutsch](./README.de.md) • [한국어](./README.ko.md) • [中文](./README.zh-CN.md) • [日本語](./README.ja.md) • [Türkçe](./README.tr.md)
 
-<div align="center">
-  
-<table>
-<tr>
-<td align="center">
-<h3>Desktop View</h3>
-<img src="public/screenshots/desktop-main.png" alt="Desktop Interface" width="400">
-<br>
-<em>Main interface showing project overview and chat</em>
-</td>
-<td align="center">
-<h3>Mobile Experience</h3>
-<img src="public/screenshots/mobile-chat.png" alt="Mobile Interface" width="250">
-<br>
-<em>Responsive mobile design with touch navigation</em>
-</td>
-</tr>
-<tr>
-<td align="center" colspan="2">
-<h3>CLI Selection</h3>
-<img src="public/screenshots/cli-selection.png" alt="CLI Selection" width="400">
-<br>
-<em>Select between Claude Code, Gemini, Cursor CLI and Codex</em>
-</td>
-</tr>
-</table>
+---
 
+## Screenshots
 
+### Desktop View
+![Desktop Interface](public/screenshots/desktop-main.png)
+*Main interface showing project overview and chat*
 
-</div>
+### Mobile Experience
+![Mobile Interface](public/screenshots/mobile-chat.png)
+*Responsive mobile design with touch navigation*
+
+### CLI Selection
+![CLI Selection](public/screenshots/cli-selection.png)
+*Select between Claude Code, Gemini, Cursor CLI and Codex*
 
 ## Features
 
-- **Responsive Design** - Works seamlessly across desktop, tablet, and mobile so you can also use Agents from mobile 
-- **Interactive Chat Interface** - Built-in chat interface for seamless communication with the Agents
-- **Integrated Shell Terminal** - Direct access to the Agents CLI through built-in shell functionality
+- **Responsive Design** - Works seamlessly across desktop, tablet, and mobile
+- **Multi-Agent Support** - Claude Code, Cursor CLI, OpenAI Codex, and Gemini CLI
+- **Interactive Chat Interface** - Built-in chat with markdown rendering and code blocks
+- **Integrated Shell Terminal** - Direct access to the CLI through built-in terminal emulator
 - **File Explorer** - Interactive file tree with syntax highlighting and live editing
-- **Git Explorer** - View, stage and commit your changes. You can also switch branches 
-- **Session Management** - Resume conversations, manage multiple sessions, and track history
-- **Plugin System** - Extend HooCowork with custom plugins — add new tabs, backend services, and integrations. [Build your own →](https://github.com/kolisachint/hoocowork-plugin-starter)
-- **TaskMaster AI Integration** *(Optional)* - Advanced project management with AI-powered task planning, PRD parsing, and workflow automation
-- **Model Compatibility** - Works with Claude, GPT, and Gemini model families (see [`shared/modelConstants.js`](shared/modelConstants.js) for the full list of supported models)
-
+- **Git Explorer** - View, stage and commit changes; switch branches
+- **Session Management** - Resume conversations, manage multiple sessions, track history
+- **Plugin System** - Extend with custom plugins; add tabs, backend services, integrations
+- **MCP Configuration** - Visual management of Model Context Protocol servers
+- **Standalone Binaries** - No Node.js required; native executables for all platforms
+- **REST API** - Full API for external integrations
 
 ## Quick Start
 
-### HooCowork (Recommended)
+### Option 1: HooCowork Cloud (Recommended)
 
 The fastest way to get started — no local setup required. Get a fully managed, containerized development environment accessible from the web, mobile app, API, or your favorite IDE.
 
 **[Get started with HooCowork](https://hoocowork.app)**
 
+### Option 2: Self-Hosted (npm)
 
-### Self-Hosted (Open source)
+Try instantly with **npx** (requires **Node.js** v22+):
 
-#### npm
-
-Try HooCowork UI instantly with **npx** (requires **Node.js** v22+):
-
-```
+```bash
 npx @kolisachint/hoocowork
 ```
 
-Or install **globally** for regular use:
+Or install globally:
 
-```
+```bash
 npm install -g @kolisachint/hoocowork
 hoocowork
 ```
 
-Open `http://localhost:3001` — all your existing sessions are discovered automatically.
+Open `http://localhost:3001` — all existing sessions are discovered automatically.
 
-Visit the **[documentation →](https://hoocowork.app/docs)** for full configuration options, PM2, remote server setup and more.
+### Option 3: Standalone Binary
 
-#### Docker Sandboxes (Experimental)
+Download pre-built binaries from [GitHub Releases](https://github.com/kolisachint/hoocowork/releases) — no Node.js required:
 
-Run agents in isolated sandboxes with hypervisor-level isolation. Starts Claude Code by default. Requires the [`sbx` CLI](https://docs.docker.com/ai/sandboxes/get-started/).
+| Platform | Binary |
+|----------|--------|
+| Windows x64 | `hoocowork-win-x64.exe` |
+| macOS ARM64 | `hoocowork-darwin-arm64` |
+| macOS x64 | `hoocowork-darwin-x64` |
+| Linux x64 | `hoocowork-linux-x64` |
+| Linux ARM64 | `hoocowork-linux-arm64` |
 
+```bash
+# Example: macOS
+chmod +x hoocowork-darwin-arm64
+./hoocowork-darwin-arm64
 ```
+
+### Option 4: Docker Sandbox (Experimental)
+
+Run agents in isolated sandboxes with hypervisor-level isolation. Requires the [`sbx` CLI](https://docs.docker.com/ai/sandboxes/get-started/).
+
+```bash
 npx @kolisachint/hoocowork@latest sandbox ~/my-project
 ```
 
-Supports Claude Code, Codex, and Gemini CLI. See the [sandbox docs](docker/) for setup and advanced options.
-
-> CI/CD uses bun for faster builds. Install bun from https://bun.sh
-
-#### Development
-
-For local development:
-- `npm run dev` - Start frontend and backend in dev mode
-- `npm run build` or `bun run build` - Production build
-- `npm test` or `bun test` - Run tests
-
-Both `package-lock.json` and `bun.lock` are maintained in the repo.
+Supports Claude Code, Codex, and Gemini CLI. See [sandbox docs](docker/) for details.
 
 ---
 
-## Which option is right for you?
+## Comparison
 
-HooCowork is the open source UI layer. You can self-host it on your own machine or run it in a Docker sandbox for isolation.
+| Feature | Self-Hosted (npm) | Binary | Docker Sandbox |
+|---------|-------------------|--------|----------------|
+| **Best for** | Local development | Users without Node.js | Isolated environments |
+| **Setup** | `npx @kolisachint/hoocowork` | Download & run | `npx ... sandbox` |
+| **Isolation** | Host | Host | MicroVM |
+| **Mobile access** | Yes | Yes | Yes |
+| **Agents** | All 4 | All 4 | Claude, Codex, Gemini |
+| **File/Git UI** | Yes | Yes | Yes |
+| **MCP sync** | `~/.claude` | `~/.claude` | UI-managed |
+| **REST API** | Yes | Yes | Yes |
 
-| | Self-Hosted (npm) | Self-Hosted (Docker Sandbox) *(Experimental)* |
-|---|---|---|
-| **Best for** | Local agent sessions on your own machine | Isolated agents with web/mobile IDE |
-| **How you access it** | Browser via `[yourip]:port` | Browser via `localhost:port` |
-| **Setup** | `npx @kolisachint/hoocowork` | `npx @kolisachint/hoocowork@latest sandbox ~/project` |
-| **Isolation** | Runs on your host | Hypervisor-level sandbox (microVM) |
-| **Machine needs to stay on** | Yes | Yes |
-| **Mobile access** | Any browser on your network | Any browser on your network |
-| **Agents supported** | Claude Code, Cursor CLI, Codex, Gemini CLI | Claude Code, Codex, Gemini CLI |
-| **File explorer and Git** | Yes | Yes |
-| **MCP configuration** | Synced with `~/.claude` | Managed via UI |
-| **REST API** | Yes | Yes |
-| **Platform cost** | Free, open source | Free, open source |
-
-> All options use your own AI subscriptions (Claude, Cursor, etc.) — HooCowork provides the environment, not the AI.
+All options require your own AI subscription (Claude, Cursor, OpenAI, or Google).
 
 ---
 
 ## Security & Tools Configuration
 
-**🔒 Important Notice**: All Claude Code tools are **disabled by default**. This prevents potentially harmful operations from running automatically.
+**Important**: All Claude Code tools are **disabled by default** to prevent potentially harmful automatic operations.
 
-### Enabling Tools
-
-To use Claude Code's full functionality, you'll need to manually enable tools:
-
-1. **Open Tools Settings** - Click the gear icon in the sidebar
-2. **Enable Selectively** - Turn on only the tools you need
-3. **Apply Settings** - Your preferences are saved locally
-
-<div align="center">
+To enable tools:
+1. Click the gear icon in the sidebar
+2. Enable only the tools you need
+3. Settings are saved locally
 
 ![Tools Settings Modal](public/screenshots/tools-modal.png)
-*Tools Settings interface - enable only what you need*
-
-</div>
-
-**Recommended approach**: Start with basic tools enabled and add more as needed. You can always adjust these settings later.
 
 ---
 
 ## Plugins
 
-HooCowork has a plugin system that lets you add custom tabs with their own frontend UI and optional Node.js backend. Install plugins from git repos directly in **Settings > Plugins**, or build your own.
+HooCowork has a plugin system for adding custom tabs with frontend UI and optional Node.js backend.
 
 ### Available Plugins
 
 | Plugin | Description |
-|---|---|
-| **[Project Stats](https://github.com/kolisachint/hoocowork-plugin-starter)** | Shows file counts, lines of code, file-type breakdown, largest files, and recently modified files for your current project |
-| **[Web Terminal](https://github.com/kolisachint/hoocowork-plugin-terminal)** | Full xterm.js terminal with multi-tab support|
-| **[HooCowork Scheduler](https://github.com/grostim/hoocowork-cron)** | Create workspace-scoped scheduled prompts and execute them through a local CLI such as Codex, Claude Code, or Gemini CLI|
+|--------|-------------|
+| [Project Stats](https://github.com/kolisachint/hoocowork-plugin-starter) | File counts, lines of code, file-type breakdown |
+| [Web Terminal](https://github.com/kolisachint/hoocowork-plugin-terminal) | Full xterm.js terminal with multi-tab support |
+| [Scheduler](https://github.com/grostim/hoocowork-cron) | Workspace-scoped scheduled prompts |
+
 ### Build Your Own
 
-**[Plugin Starter Template →](https://github.com/kolisachint/hoocowork-plugin-starter)** — fork this repo to create your own plugin. It includes a working example with frontend rendering, live context updates, and RPC communication to a backend server.
-
-**[Plugin Documentation →](https://hoocowork.app/docs/plugin-overview)** — full guide to the plugin API, manifest format, security model, and more.
+- **[Plugin Starter](https://github.com/kolisachint/hoocowork-plugin-starter)** — fork to create custom plugins
+- **[Plugin Docs](https://hoocowork.app/docs/plugin-overview)** — full API reference
 
 ---
+
+## Development
+
+```bash
+# Clone the repository
+git clone https://github.com/kolisachint/hoocowork.git
+cd hoocowork
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm test
+```
+
+Both `npm` and `bun` are supported. The CI uses `bun` for faster builds.
+
+### Building Binaries
+
+```bash
+# Current platform
+bun run build:binary
+
+# Windows (from any platform)
+bun run build:binary:windows
+
+# All platforms
+bun run build:binary:all
+```
+
+---
+
+## Configuration
+
+Configuration priority (highest to lowest):
+1. CLI arguments (`--port`, `--database-path`)
+2. Environment variables
+3. `~/.hoocowork/.env` file
+4. Embedded defaults (binaries only)
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SERVER_PORT` | `3001` | Backend server port |
+| `HOST` | `0.0.0.0` | Bind address |
+| `DATABASE_PATH` | `~/.hoocowork/auth.db` | SQLite database |
+| `CLAUDE_CLI_PATH` | `claude` | Claude CLI command |
+| `CONTEXT_WINDOW` | `160000` | Context window size |
+
+---
+
 ## FAQ
 
-<details>
-<summary>How is this different from Claude Code Remote Control?</summary>
+**How is this different from Claude Code Remote Control?**
 
-Claude Code Remote Control lets you send messages to a session already running in your local terminal. Your machine has to stay on, your terminal has to stay open, and sessions time out after roughly 10 minutes without a network connection.
+Remote Control exposes a single active session for the mobile app. HooCowork auto-discovers all sessions from `~/.claude`, provides a full UI with file explorer and Git integration, and works with multiple agents (Claude, Cursor, Codex, Gemini).
 
-HooCowork extends Claude Code rather than sit alongside it — your MCP servers, permissions, settings, and sessions are the exact same ones Claude Code uses natively. Nothing is duplicated or managed separately.
+**Do I need to pay for an AI subscription separately?**
 
-Here's what that means in practice:
+Yes. HooCowork provides the environment, not the AI. You bring your own subscriptions.
 
-- **All your sessions, not just one** — HooCowork auto-discovers every session from your `~/.claude` folder. Remote Control only exposes the single active session to make it available in the Claude mobile app.
-- **Your settings are your settings** — MCP servers, tool permissions, and project config you change in HooCowork are written directly to your Claude Code config and take effect immediately, and vice versa.
-- **Works with more agents** — Claude Code, Cursor CLI, Codex, and Gemini CLI, not just Claude Code.
-- **Full UI, not just a chat window** — file explorer, Git integration, MCP management, and a shell terminal are all built in.
+**Can I use HooCowork on my phone?**
 
-</details>
+Yes. Run the server on your machine and open `[yourip]:port` in any browser on your network.
 
-<details>
-<summary>Do I need to pay for an AI subscription separately?</summary>
+**Will changes I make in the UI affect my local Claude Code setup?**
 
-Yes. HooCowork provides the environment, not the AI. You bring your own Claude, Cursor, Codex, or Gemini subscription.
+Yes. HooCowork reads from and writes to the same `~/.claude` config that Claude Code uses natively.
 
-</details>
+---
 
-<details>
-<summary>Can I use HooCowork on my phone?</summary>
+## Project Structure
 
-Yes. Run the server on your machine and open `[yourip]:port` in any browser on your network. A native app is also in the works.
-
-</details>
-
-<details>
-<summary>Will changes I make in the UI affect my local Claude Code setup?</summary>
-
-Yes, for self-hosted. HooCowork reads from and writes to the same `~/.claude` config that Claude Code uses natively.
-
-</details>
+```
+hoocowork/
+├── src/              # React frontend (Vite + Tailwind)
+├── server/           # Express backend
+├── shared/           # Shared code between client and server
+├── scripts/          # Build and utility scripts
+├── docker/           # Docker Sandbox templates
+├── public/           # Static assets
+└── docs/             # Documentation
+```
 
 ---
 
 ## Community & Support
 
-- **[Documentation](https://hoocowork.app/docs)** — installation, configuration, features, and troubleshooting
-- **[GitHub](https://github.com/kolisachint/hoocowork)** — source code and issue tracker
-- **[GitHub Issues](https://github.com/kolisachint/hoocowork/issues)** — bug reports and feature requests
-- **[Contributing Guide](CONTRIBUTING.md)** — how to contribute to the project
+- [Documentation](https://hoocowork.app/docs)
+- [GitHub Issues](https://github.com/kolisachint/hoocowork/issues)
+- [Discord](https://discord.gg/buxwujPNRE)
+- [Contributing Guide](CONTRIBUTING.md)
+- [Release Notes](RELEASING.md)
+
+---
 
 ## License
 
-GNU Affero General Public License v3.0 or later (AGPL-3.0-or-later) — see [LICENSE](LICENSE) for the full text, including additional terms under Section 7.
+GNU Affero General Public License v3.0 or later (AGPL-3.0-or-later)
 
-This project is open source and free to use, modify, and distribute under the AGPL-3.0-or-later license. If you modify this software and run it as a network service, you must make your modified source code available to users of that service.
+See [LICENSE](LICENSE) for full text, including additional terms under Section 7.
 
-HooCowork UI  - (https://hoocowork.app).
+---
 
 ## Acknowledgments
 
-### Built With
-- **[Claude Code](https://docs.anthropic.com/en/docs/claude-code)** - Anthropic's official CLI
-- **[Cursor CLI](https://docs.cursor.com/en/cli/overview)** - Cursor's official CLI
-- **[Codex](https://developers.openai.com/codex)** - OpenAI Codex
-- **[Gemini-CLI](https://geminicli.com/)** - Google Gemini CLI
-- **[React](https://react.dev/)** - User interface library
-- **[Vite](https://vitejs.dev/)** - Fast build tool and dev server
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[CodeMirror](https://codemirror.net/)** - Advanced code editor
-- **[TaskMaster AI](https://github.com/eyaltoledano/claude-task-master)** *(Optional)* - AI-powered project management and task planning
+### Core Technologies
+- [React](https://react.dev/) — UI library
+- [Vite](https://vitejs.dev/) — Build tool
+- [Tailwind CSS](https://tailwindcss.com/) — CSS framework
+- [Express](https://expressjs.com/) — Backend framework
+- [CodeMirror](https://codemirror.net/) — Code editor
+- [xterm.js](https://xtermjs.org/) — Terminal emulator
+- [Bun](https://bun.sh/) — JavaScript runtime and bundler
 
+### AI Agent Support
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — Anthropic
+- [Cursor CLI](https://docs.cursor.com/en/cli/overview) — Cursor
+- [Codex](https://developers.openai.com/codex) — OpenAI
+- [Gemini CLI](https://geminicli.com/) — Google
 
-### Sponsors
-- [Kolisachint](https://kolisachint.com)
+### Contributors
+See [GitHub Contributors](https://github.com/kolisachint/hoocowork/graphs/contributors) for a full list.
+
 ---
 
-<div align="center">
-  <strong>Made with care for the Claude Code, Cursor and Codex community.</strong>
-</div>
+Made with care for the AI coding agent community.

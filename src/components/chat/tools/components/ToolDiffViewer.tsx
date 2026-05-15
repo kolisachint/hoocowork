@@ -58,7 +58,7 @@ export const ToolDiffViewer: React.FC<ToolDiffViewerProps> = ({
             {filePath}
           </span>
         )}
-        <span className={`rounded px-1.5 py-px text-[10px] font-medium ${badgeClasses} ml-2 flex-shrink-0`}>
+        <span className={`rounded px-1.5 py-px text-[var(--fs-xs)] font-medium ${badgeClasses} ml-2 flex-shrink-0`}>
           {badge}
         </span>
       </div>

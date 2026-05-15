@@ -26,9 +26,11 @@ type FileTreeProps = {
   selectedProject: Project | null;
   onFileOpen?: (filePath: string) => void;
   isEditorOpen?: boolean;
+  // Path of the file currently open in the editor; used to highlight the active row.
+  editingFilePath?: string | null;
 };
 
-export default function FileTree({ selectedProject, onFileOpen, isEditorOpen }: FileTreeProps) {
+export default function FileTree({ selectedProject, onFileOpen, isEditorOpen, editingFilePath }: FileTreeProps) {
   const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState<FileTreeImageSelection | null>(null);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -87,8 +89,8 @@ export default function FileTree({ selectedProject, onFileOpen, isEditorOpen }: 
   }, [operations.renamingItem]);
 
   const renderFileIcon = useCallback((filename: string) => {
-    const { icon: Icon, color } = getFileIconData(filename);
-    return <Icon className={cn(ICON_SIZE_CLASS, color)} />;
+    const { icon: Icon } = getFileIconData(filename);
+    return <Icon className={cn(ICON_SIZE_CLASS, 'text-[var(--ink-3)]')} />;
   }, []);
 
   // Centralized click behavior keeps file actions identical across all presentation modes.
@@ -129,7 +131,7 @@ export default function FileTree({ selectedProject, onFileOpen, isEditorOpen }: 
     <div
       ref={upload.treeRef}
       className={cn(
-        'files-tree relative flex h-full flex-col bg-background',
+        'files-tree relative flex h-full flex-col',
         !isEditorOpen && 'files-tree-full-width',
         isEditorOpen && 'with-editor'
       )}
@@ -159,11 +161,12 @@ export default function FileTree({ selectedProject, onFileOpen, isEditorOpen }: 
         onCollapseAll={collapseAll}
         loading={loading}
         operationLoading={operations.operationLoading}
+        projectName={selectedProject?.displayName}
       />
 
       {viewMode === 'detailed' && filteredFiles.length > 0 && <FileTreeDetailedColumns />}
 
-      <ScrollArea className="flex-1 px-2 py-1">
+      <ScrollArea className="flex-1">
         {/* New item input */}
         {operations.isCreating && (
           <div
@@ -171,7 +174,7 @@ export default function FileTree({ selectedProject, onFileOpen, isEditorOpen }: 
             style={{ paddingLeft: `${(operations.newItemParent.split('/').length - 1) * 16 + 4}px` }}
           >
             {operations.newItemType === 'directory' ? (
-              <Folder className={cn(ICON_SIZE_CLASS, 'text-[var(--brand-accent)]')} />
+              <Folder className={cn(ICON_SIZE_CLASS, 'text-[var(--accent)]')} />
             ) : (
               <span className="ml-[18px]">{renderFileIcon(operations.newItemName)}</span>
             )}
@@ -221,6 +224,7 @@ export default function FileTree({ selectedProject, onFileOpen, isEditorOpen }: 
           handleCancelRename={operations.handleCancelRename}
           renameInputRef={renameInputRef}
           operationLoading={operations.operationLoading}
+          editingFilePath={editingFilePath}
         />
       </ScrollArea>
 

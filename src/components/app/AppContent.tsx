@@ -38,6 +38,7 @@ function AppContentInner() {
   } = useSessionProtection();
 
   const {
+    projects,
     selectedProject,
     selectedSession,
     activeTab,
@@ -48,8 +49,6 @@ function AppContentInner() {
     setActiveTab,
     setSidebarOpen,
     setIsInputFocused,
-    setShowSettings,
-    openSettings,
     refreshProjectsSilently,
     sidebarSharedProps,
     handleNewSession,
@@ -62,7 +61,7 @@ function AppContentInner() {
   });
 
   usePaletteOpsRegister({
-    openSettings,
+    openSettings: () => setActiveTab('settings'),
     refreshProjects: refreshProjectsSilently,
   });
 
@@ -175,6 +174,7 @@ function AppContentInner() {
         <MainContent
           selectedProject={selectedProject}
           selectedSession={selectedSession}
+          projects={projects}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           ws={ws}
@@ -193,16 +193,18 @@ function AppContentInner() {
           onNavigateToSession={(targetSessionId: string, options) =>
             navigate(`/session/${targetSessionId}`, { replace: Boolean(options?.replace) })
           }
-          onShowSettings={() => setShowSettings(true)}
+          onShowSettings={() => setActiveTab('settings')}
           externalMessageUpdate={externalMessageUpdate}
           newSessionTrigger={newSessionTrigger}
+          onStartNewChat={() => selectedProject && handleNewSession(selectedProject)}
+          onRefreshProjects={refreshProjectsSilently}
         />
       </div>
 
       <CommandPalette
         selectedProject={selectedProject}
         onStartNewChat={handleNewSession}
-        onOpenSettings={() => openSettings()}
+        onOpenSettings={() => setActiveTab('settings')}
         onShowTab={setActiveTab}
       />
     </div>

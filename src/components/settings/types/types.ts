@@ -3,9 +3,9 @@ import type { Dispatch, SetStateAction } from 'react';
 import type { LLMProvider } from '../../../types/app';
 import type { ProviderAuthStatus } from '../../provider-auth/types';
 
-export type SettingsMainTab = 'agents' | 'appearance' | 'git' | 'api' | 'tasks' | 'notifications' | 'plugins' | 'about';
+export type SettingsMainTab = 'agents' | 'appearance' | 'git' | 'api' | 'tasks' | 'notifications' | 'plugins' | 'mcp' | 'about';
 export type AgentProvider = LLMProvider;
-export type AgentCategory = 'account' | 'permissions' | 'mcp';
+export type AgentCategory = 'account' | 'permissions' | 'tools' | 'models';
 export type ProjectSortOrder = 'name' | 'date';
 export type SaveStatus = 'success' | 'error' | null;
 export type CodexPermissionMode = 'default' | 'acceptEdits' | 'bypassPermissions';
@@ -36,6 +36,11 @@ export type NotificationPreferencesState = {
     stop: boolean;
     error: boolean;
   };
+  quietHours?: {
+    enabled: boolean;
+    start: string;
+    end: string;
+  };
 };
 
 export type CursorPermissionsState = {
@@ -63,6 +68,11 @@ export type SettingsProps = {
   onClose: () => void;
   projects?: SettingsProject[];
   initialTab?: string;
+  /**
+   * 'modal' (default): rendered as a centered overlay with backdrop + close button.
+   * 'inline': rendered as a flat panel that fills its container (for tab embedding).
+   */
+  variant?: 'modal' | 'inline';
 };
 
 export type SetState<T> = Dispatch<SetStateAction<T>>;

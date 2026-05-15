@@ -165,7 +165,7 @@ const MessageCopyControl = ({
             <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
           </svg>
         )}
-        <span className="text-[10px] font-semibold uppercase tracking-wide">{selectedFormatTag}</span>
+        <span className="text-[var(--fs-xs)] font-semibold uppercase tracking-wide">{selectedFormatTag}</span>
       </button>
 
       {canSelectCopyFormat && (
@@ -201,7 +201,7 @@ const MessageCopyControl = ({
                       : 'text-muted-foreground hover:bg-muted/50 dark:text-muted-foreground dark:hover:bg-muted/60'
                       }`}
                   >
-                    <span className="block text-xs font-medium">{option.label}</span>
+                    <span className="block text-[var(--fs-sm)] font-medium">{option.label}</span>
                   </button>
                 );
               })}

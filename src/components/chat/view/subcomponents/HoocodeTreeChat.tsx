@@ -88,7 +88,7 @@ export default function HoocodeTreeChat({
                     onSetActivePath(newPath);
                   }
                 }}
-                className={`rounded px-2 py-0.5 text-xs ${
+                className={`rounded px-2 py-0.5 text-[var(--fs-sm)] ${
                   isActive
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-muted text-muted-foreground hover:bg-muted/80'

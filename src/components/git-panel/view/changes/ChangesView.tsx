@@ -6,11 +6,11 @@ import { getAllChangedFiles, hasChangedFiles } from '../../utils/gitPanelUtils';
 
 import CommitComposer from './CommitComposer';
 import FileChangeList from './FileChangeList';
-import FileStatusLegend from './FileStatusLegend';
 
 type ChangesViewProps = {
   isMobile: boolean;
   projectPath: string;
+  currentBranch: string;
   gitStatus: GitStatusResponse | null;
   gitDiff: GitDiffMap;
   isLoading: boolean;
@@ -30,6 +30,7 @@ type ChangesViewProps = {
 export default function ChangesView({
   isMobile,
   projectPath,
+  currentBranch,
   gitStatus,
   gitDiff,
   isLoading,
@@ -57,7 +58,6 @@ export default function ChangesView({
       return;
     }
 
-    // Remove any selected files that no longer exist in the status
     setSelectedFiles((prev) => {
       const allFiles = new Set(getAllChangedFiles(gitStatus));
       const next = new Set([...prev].filter((f) => allFiles.has(f)));
@@ -140,37 +140,25 @@ export default function ChangesView({
   );
 
   return (
-    <>
-      <CommitComposer
-        isMobile={isMobile}
-        projectPath={projectPath}
-        selectedFileCount={selectedFiles.size}
-        isHidden={hasExpandedFiles}
-        onCommit={commitSelectedFiles}
-        onGenerateMessage={generateMessageForSelection}
-        onRequestConfirmation={onRequestConfirmation}
-      />
-
-      {!gitStatus?.error && <FileStatusLegend isMobile={isMobile} />}
-
+    <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex-1 overflow-y-auto">
         {isLoading ? (
           <div className="flex h-32 items-center justify-center">
-            <RefreshCw className="h-5 w-5 animate-spin text-muted-foreground" />
+            <RefreshCw className="h-5 w-5 animate-spin text-[var(--ink-3)]" />
           </div>
         ) : gitStatus?.hasCommits === false ? (
           <div className="flex flex-col items-center justify-center p-8 text-center">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-muted/50">
-              <GitBranch className="h-7 w-7 text-muted-foreground/50" />
+            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-[var(--radius-2)] bg-[var(--paper-2)]">
+              <GitBranch className="h-7 w-7 text-[var(--ink-3)]" />
             </div>
-            <h3 className="mb-2 text-lg font-medium text-foreground">No commits yet</h3>
-            <p className="mb-6 max-w-md text-sm text-muted-foreground">
+            <h3 className="mb-2 text-lg font-medium text-[var(--ink)]">No commits yet</h3>
+            <p className="mb-6 max-w-md text-sm text-[var(--ink-3)]">
               This repository doesn&apos;t have any commits yet. Create your first commit to start tracking changes.
             </p>
             <button
               onClick={() => void onCreateInitialCommit()}
               disabled={isCreatingInitialCommit}
-              className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex items-center gap-2 rounded-[var(--radius-1)] bg-[var(--ink)] px-4 py-2 text-sm text-[var(--paper)] transition-colors hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isCreatingInitialCommit ? (
                 <>
@@ -186,7 +174,7 @@ export default function ChangesView({
             </button>
           </div>
         ) : !gitStatus || !hasChangedFiles(gitStatus) ? (
-          <div className="flex h-32 flex-col items-center justify-center text-muted-foreground">
+          <div className="flex h-32 flex-col items-center justify-center text-[var(--ink-3)]">
             <GitCommit className="mb-2 h-10 w-10 opacity-40" />
             <p className="text-sm">No changes detected</p>
           </div>
@@ -194,72 +182,95 @@ export default function ChangesView({
           <div className={isMobile ? 'pb-4' : ''}>
             {/* STAGED section */}
             <div className="git-eyebrow-row mt-2 px-3 py-1">
-              <span className="git-eyebrow">
-                Staged ({selectedFiles.size})
+              <span className="git-eyebrow">Staged</span>
+              <span className="flex items-center gap-2">
+                <span className="git-count">{selectedFiles.size}</span>
+                {selectedFiles.size > 0 && (
+                  <button
+                    onClick={() => setSelectedFiles(new Set())}
+                    className="git-act-mini-text"
+                    title="Unstage all"
+                  >
+                    unstage all
+                  </button>
+                )}
               </span>
-              {selectedFiles.size > 0 && (
-                <button
-                  onClick={() => setSelectedFiles(new Set())}
-                  className="text-xs text-[var(--brand-accent)] transition-colors hover:opacity-80"
-                >
-                  Unstage All
-                </button>
+            </div>
+            <div className="git-list px-2">
+              {selectedFiles.size === 0 ? (
+                <div className="git-empty">no staged files</div>
+              ) : (
+                <FileChangeList
+                  gitStatus={gitStatus}
+                  gitDiff={gitDiff}
+                  expandedFiles={expandedFiles}
+                  selectedFiles={selectedFiles}
+                  isMobile={isMobile}
+                  wrapText={wrapText}
+                  filePaths={selectedFiles}
+                  onToggleSelected={toggleFileSelected}
+                  onToggleExpanded={toggleFileExpanded}
+                  onOpenFile={(filePath) => {
+                    void onOpenFile(filePath);
+                  }}
+                  onToggleWrapText={() => onWrapTextChange(!wrapText)}
+                  onRequestFileAction={requestFileAction}
+                />
               )}
             </div>
-            {selectedFiles.size === 0 ? (
-              <div className="git-empty">No staged files</div>
-            ) : (
-              <FileChangeList
-                gitStatus={gitStatus}
-                gitDiff={gitDiff}
-                expandedFiles={expandedFiles}
-                selectedFiles={selectedFiles}
-                isMobile={isMobile}
-                wrapText={wrapText}
-                filePaths={selectedFiles}
-                onToggleSelected={toggleFileSelected}
-                onToggleExpanded={toggleFileExpanded}
-                onOpenFile={(filePath) => { void onOpenFile(filePath); }}
-                onToggleWrapText={() => onWrapTextChange(!wrapText)}
-                onRequestFileAction={requestFileAction}
-              />
-            )}
 
             {/* CHANGES section */}
-            <div className="git-eyebrow-row mt-2 px-3 py-1">
-              <span className="git-eyebrow">
-                Changes ({unstagedFiles.size})
+            <div className="git-eyebrow-row mt-3 px-3 py-1">
+              <span className="git-eyebrow">Changes</span>
+              <span className="flex items-center gap-2">
+                <span className="git-count">{unstagedFiles.size}</span>
+                {unstagedFiles.size > 0 && (
+                  <button
+                    onClick={() => setSelectedFiles(new Set(changedFiles))}
+                    className="git-act-mini-text"
+                    title="Stage all"
+                  >
+                    stage all
+                  </button>
+                )}
               </span>
-              {unstagedFiles.size > 0 && (
-                <button
-                  onClick={() => setSelectedFiles(new Set(changedFiles))}
-                  className="text-xs text-[var(--brand-accent)] transition-colors hover:opacity-80"
-                >
-                  Stage All
-                </button>
+            </div>
+            <div className="git-list px-2">
+              {unstagedFiles.size === 0 ? (
+                <div className="git-empty">all changes staged</div>
+              ) : (
+                <FileChangeList
+                  gitStatus={gitStatus}
+                  gitDiff={gitDiff}
+                  expandedFiles={expandedFiles}
+                  selectedFiles={selectedFiles}
+                  isMobile={isMobile}
+                  wrapText={wrapText}
+                  filePaths={unstagedFiles}
+                  onToggleSelected={toggleFileSelected}
+                  onToggleExpanded={toggleFileExpanded}
+                  onOpenFile={(filePath) => {
+                    void onOpenFile(filePath);
+                  }}
+                  onToggleWrapText={() => onWrapTextChange(!wrapText)}
+                  onRequestFileAction={requestFileAction}
+                />
               )}
             </div>
-            {unstagedFiles.size === 0 ? (
-              <div className="git-empty">All changes staged</div>
-            ) : (
-              <FileChangeList
-                gitStatus={gitStatus}
-                gitDiff={gitDiff}
-                expandedFiles={expandedFiles}
-                selectedFiles={selectedFiles}
-                isMobile={isMobile}
-                wrapText={wrapText}
-                filePaths={unstagedFiles}
-                onToggleSelected={toggleFileSelected}
-                onToggleExpanded={toggleFileExpanded}
-                onOpenFile={(filePath) => { void onOpenFile(filePath); }}
-                onToggleWrapText={() => onWrapTextChange(!wrapText)}
-                onRequestFileAction={requestFileAction}
-              />
-            )}
           </div>
         )}
       </div>
-    </>
+
+      <CommitComposer
+        isMobile={isMobile}
+        projectPath={projectPath}
+        selectedFileCount={selectedFiles.size}
+        currentBranch={currentBranch}
+        isHidden={hasExpandedFiles}
+        onCommit={commitSelectedFiles}
+        onGenerateMessage={generateMessageForSelection}
+        onRequestConfirmation={onRequestConfirmation}
+      />
+    </div>
   );
 }

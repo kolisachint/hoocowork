@@ -27,6 +27,7 @@ type FileTreeListProps = {
   handleCancelRename?: () => void;
   renameInputRef?: RefObject<HTMLInputElement>;
   operationLoading?: boolean;
+  editingFilePath?: string | null;
 };
 
 export default function FileTreeList({
@@ -51,10 +52,11 @@ export default function FileTreeList({
   handleCancelRename,
   renameInputRef,
   operationLoading,
+  editingFilePath,
 }: FileTreeListProps) {
   return (
     <div>
-      {items.map((item) => (
+      {items.map((item, index, arr) => (
         <FileTreeNode
           key={item.path}
           item={item}
@@ -79,6 +81,8 @@ export default function FileTreeList({
           handleCancelRename={handleCancelRename}
           renameInputRef={renameInputRef}
           operationLoading={operationLoading}
+          editingFilePath={editingFilePath}
+          isLast={index === arr.length - 1}
         />
       ))}
     </div>

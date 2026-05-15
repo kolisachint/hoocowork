@@ -22,7 +22,9 @@
     "shell": "Terminale",
     "files": "File",
     "git": "Controllo Versione",
-    "tasks": "Attività"
+    "tasks": "Attività",
+    "cli": "CLI",
+    "settings": "Impostazioni"
   },
   "status": {
     "loading": "Caricamento...",

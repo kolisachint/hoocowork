@@ -175,7 +175,7 @@ export default function CommandMenu({
       {orderedNamespaces.map((namespace) => (
         <div key={namespace} className="command-group">
           {orderedNamespaces.length > 1 && (
-            <div className="px-3 pb-1 pt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            <div className="px-3 pb-1 pt-2 text-[var(--fs-sm)] font-semibold uppercase tracking-wide text-muted-foreground">
               {namespaceLabels[namespace] || namespace}
             </div>
           )}
@@ -199,10 +199,10 @@ export default function CommandMenu({
               >
                 <div className="min-w-0 flex-1">
                   <div className={`flex items-center gap-2 ${command.description ? 'mb-1' : 'mb-0'}`}>
-                    <span className="shrink-0 text-xs text-muted-foreground dark:text-muted-foreground">{namespaceIcons[namespace] || namespaceIcons.other}</span>
-                    <span className="font-mono text-sm font-semibold text-foreground">{command.name}</span>
+                    <span className="shrink-0 text-[var(--fs-sm)] text-muted-foreground dark:text-muted-foreground">{namespaceIcons[namespace] || namespaceIcons.other}</span>
+                    <span className="font-mono text-[var(--fs-md)] font-semibold text-foreground">{command.name}</span>
                     {command.metadata?.type && (
-                      <span className="command-metadata-badge rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground dark:bg-muted dark:text-muted-foreground">
+                      <span className="command-metadata-badge rounded bg-muted px-1.5 py-0.5 text-[var(--fs-xs)] font-medium text-muted-foreground dark:bg-muted dark:text-muted-foreground">
                         {command.metadata.type}
                       </span>
                     )}
@@ -213,7 +213,7 @@ export default function CommandMenu({
                     </div>
                   )}
                 </div>
-                {isSelected && <span className="ml-2 text-xs font-semibold text-[var(--brand-accent)] dark:text-[var(--brand-accent)]">{'<-'}</span>}
+                {isSelected && <span className="ml-2 text-[var(--fs-sm)] font-semibold text-[var(--brand-accent)] dark:text-[var(--brand-accent)]">{'<-'}</span>}
               </div>
             );
           })}

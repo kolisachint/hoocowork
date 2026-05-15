@@ -208,7 +208,7 @@ export default function ChatComposer({
             <button
               type="button"
               onClick={onScrollToBottom}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-border/50 bg-card text-muted-foreground shadow-sm transition-all duration-200 hover:bg-accent hover:text-foreground"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--paper)] text-[var(--ink-3)] shadow-sm transition-all duration-200 hover:bg-[var(--paper-2)] hover:text-[var(--ink)]"
               title={t('input.scrollToBottom', { defaultValue: 'Scroll to bottom' })}
             >
               <ArrowDownIcon className="h-4 w-4" />
@@ -216,14 +216,14 @@ export default function ChatComposer({
           </div>
         )}
         {showFileDropdown && filteredFiles.length > 0 && (
-          <div className="absolute bottom-full left-0 right-0 z-50 mb-2 max-h-48 overflow-y-auto rounded-xl border border-border/50 bg-card/95 shadow-lg backdrop-blur-md">
+          <div className="absolute bottom-full left-0 right-0 z-50 mb-2 max-h-48 overflow-y-auto rounded-xl border border-[var(--line)] bg-[var(--paper)] shadow-lg">
             {filteredFiles.map((file, index) => (
               <div
                 key={file.path}
-                className={`cursor-pointer touch-manipulation border-b border-border/30 px-4 py-3 last:border-b-0 ${
+                className={`cursor-pointer touch-manipulation border-b border-[var(--line)]/30 px-4 py-3 last:border-b-0 ${
                   index === selectedFileIndex
-                    ? 'bg-primary/8 text-primary'
-                    : 'text-foreground hover:bg-accent/50'
+                    ? 'bg-[var(--accent-soft)] text-[var(--accent)]'
+                    : 'text-[var(--ink)] hover:bg-[var(--paper-2)]'
                 }`}
                 onMouseDown={(event) => {
                   event.preventDefault();
@@ -235,8 +235,8 @@ export default function ChatComposer({
                   onSelectFile(file);
                 }}
               >
-                <div className="text-sm font-medium">{file.name}</div>
-                <div className="font-mono text-xs text-muted-foreground">{file.path}</div>
+                <div className="text-[var(--fs-md)] font-medium">{file.name}</div>
+                <div className="font-mono text-[var(--fs-sm)] text-[var(--ink-3)]">{file.path}</div>
               </div>
             ))}
           </div>
@@ -261,7 +261,7 @@ export default function ChatComposer({
           {isDragActive && (
             <div className="absolute inset-0 z-50 flex items-center justify-center rounded-[var(--radius-2)] border border-dashed border-[var(--accent)] bg-[var(--accent-soft)]">
               <div className="rounded-[var(--radius-1)] border border-[var(--line)] bg-[var(--paper)] p-3">
-                <p className="text-sm font-medium text-[var(--ink)]">Drop images here</p>
+                <p className="text-[var(--fs-md)] font-medium text-[var(--ink)]">Drop images here</p>
               </div>
             </div>
           )}
@@ -326,7 +326,7 @@ export default function ChatComposer({
             >
               <span style={{ fontFamily: 'var(--font-mono)' }}>/</span>
               {slashCommandsCount > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[var(--accent)] text-[9px] font-bold text-[var(--accent-ink)]">
+                <span className="absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[var(--accent)] text-[var(--fs-xs)] font-bold text-[var(--accent-ink)]">
                   {slashCommandsCount}
                 </span>
               )}

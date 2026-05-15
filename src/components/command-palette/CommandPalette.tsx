@@ -165,12 +165,12 @@ export default function CommandPalette({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="cp-panel max-w-xl overflow-hidden p-0">
+      <DialogContent className="cp-panel">
         <DialogTitle>Command palette</DialogTitle>
         <Command label="Command palette" className="cp-results" onKeyDown={handleKeyDown}>
           {page && (
-            <div className="flex items-center gap-2 border-b px-3 py-2">
-              <span className="inline-flex items-center gap-1 rounded-md bg-accent px-2 py-0.5 text-xs font-medium text-accent-foreground">
+            <div className="flex items-center gap-2 border-b border-[var(--line)] px-3 py-2">
+              <span className="cp-page-badge">
                 {PAGE_LABELS[page]}
                 <button
                   type="button"
@@ -181,20 +181,22 @@ export default function CommandPalette({
                   <X className="h-3 w-3" />
                 </button>
               </span>
-              <span className="text-xs text-muted-foreground">Backspace to go back</span>
+              <span className="text-[var(--fs-sm)]" style={{ color: 'var(--ink-3)' }}>Backspace to go back</span>
             </div>
           )}
           <CommandInput
+            className="cp-input"
             placeholder={page ? `Search ${PAGE_LABELS[page].toLowerCase()}…` : 'Type to search anything…'}
             value={search}
             onValueChange={setSearch}
           />
           <CommandList>
-            <CommandEmpty>No results.</CommandEmpty>
+            <CommandEmpty className="py-6 text-center text-[var(--fs-base)]" style={{ color: 'var(--ink-3)' }}>No results.</CommandEmpty>
 
             {showActions && (
-              <CommandGroup heading="Actions">
+              <CommandGroup className="cp-group" heading="Actions">
                 <CommandItem
+                  className="cp-item"
                   value="Start new chat"
                   disabled={startNewChatDisabled}
                   onSelect={() => {
@@ -202,95 +204,101 @@ export default function CommandPalette({
                     run(() => onStartNewChat(selectedProject));
                   }}
                 >
-                  <MessageSquarePlus className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-                  <span className="flex-1">Start new chat</span>
+                  <MessageSquarePlus className="cp-item-glyph" aria-hidden />
+                  <span className="cp-item-text">Start new chat</span>
                   {startNewChatDisabled && (
-                    <span className="text-xs text-muted-foreground">Select a project first</span>
+                    <span className="cp-item-sub">Select a project first</span>
                   )}
                 </CommandItem>
-                <CommandItem value="Open settings" onSelect={() => run(() => onOpenSettings())}>
-                  <Settings className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-                  <span className="flex-1">Open settings</span>
+                <CommandItem className="cp-item" value="Open settings" onSelect={() => run(() => onOpenSettings())}>
+                  <Settings className="cp-item-glyph" aria-hidden />
+                  <span className="cp-item-text">Open settings</span>
                 </CommandItem>
-                <CommandItem value="Toggle theme dark light mode" onSelect={() => run(toggleDarkMode)}>
-                  <SunMoon className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-                  <span className="flex-1">Toggle theme</span>
+                <CommandItem className="cp-item" value="Toggle theme dark light mode" onSelect={() => run(toggleDarkMode)}>
+                  <SunMoon className="cp-item-glyph" aria-hidden />
+                  <span className="cp-item-text">Toggle theme</span>
                 </CommandItem>
               </CommandGroup>
             )}
 
             {showActions && (
-              <CommandGroup heading="Navigate">
+              <CommandGroup className="cp-group" heading="Navigate">
                 {NAV_TABS.map((tab) => (
                   <CommandItem
+                    className="cp-item"
                     key={tab.id as string}
                     value={`${tab.label} ${tab.keywords}`}
                     onSelect={() => run(() => onShowTab?.(tab.id))}
                   >
-                    <span className="flex-1">{tab.label}</span>
+                    <span className="cp-item-text">{tab.label}</span>
                   </CommandItem>
                 ))}
               </CommandGroup>
             )}
 
             {showActions && projectId && (
-              <CommandGroup heading="Git">
+              <CommandGroup className="cp-group" heading="Git">
                 <CommandItem
+                  className="cp-item"
                   value="Git Fetch remote"
                   onSelect={() => run(() => { void git.fetch(); onShowTab?.('git'); })}
                 >
-                  <RefreshCw className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-                  <span className="flex-1">Git: Fetch</span>
+                  <RefreshCw className="cp-item-glyph" aria-hidden />
+                  <span className="cp-item-text">Git: Fetch</span>
                 </CommandItem>
                 <CommandItem
+                  className="cp-item"
                   value="Git Pull merge upstream"
                   onSelect={() => run(() => { void git.pull(); onShowTab?.('git'); })}
                 >
-                  <ArrowDownToLine className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-                  <span className="flex-1">Git: Pull</span>
+                  <ArrowDownToLine className="cp-item-glyph" aria-hidden />
+                  <span className="cp-item-text">Git: Pull</span>
                 </CommandItem>
                 <CommandItem
+                  className="cp-item"
                   value="Git Push origin remote"
                   onSelect={() => run(() => { void git.push(); onShowTab?.('git'); })}
                 >
-                  <ArrowUpFromLine className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-                  <span className="flex-1">Git: Push</span>
+                  <ArrowUpFromLine className="cp-item-glyph" aria-hidden />
+                  <span className="cp-item-text">Git: Push</span>
                 </CommandItem>
               </CommandGroup>
             )}
 
             {showActions && (
-              <CommandGroup heading="Settings">
+              <CommandGroup className="cp-group" heading="Settings">
                 {SETTINGS_MAIN_TABS.map(({ id, label, keywords, icon: Icon }) => (
                   <CommandItem
+                    className="cp-item"
                     key={id}
                     value={`Settings ${label} ${keywords}`}
                     onSelect={() => run(() => onOpenSettings(id))}
                   >
-                    <Icon className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-                    <span className="flex-1">Settings: {label}</span>
+                    <Icon className="cp-item-glyph" aria-hidden />
+                    <span className="cp-item-text">Settings: {label}</span>
                   </CommandItem>
                 ))}
               </CommandGroup>
             )}
 
             {showSessions && projectId && sessionsShown.length > 0 && (
-              <CommandGroup heading="Sessions">
+              <CommandGroup className="cp-group" heading="Sessions">
                 {sessionsShown.map((s) => (
                   <CommandItem
+                    className="cp-item"
                     key={s.id}
                     value={`${s.label} ${s.snippet ?? ''} ${s.id}`.trim()}
                     onSelect={() => run(() => navigate(`/session/${s.id}`))}
                   >
-                    <MessageSquare className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+                    <MessageSquare className="cp-item-glyph" aria-hidden />
                     <div className="flex min-w-0 flex-1 flex-col">
-                      <span className="truncate">{s.label}</span>
+                      <span className="cp-item-text truncate">{s.label}</span>
                       {s.snippet && (
-                        <span className="truncate text-xs text-muted-foreground">{s.snippet}</span>
+                        <span className="cp-item-sub truncate">{s.snippet}</span>
                       )}
                     </div>
                     {s.provider && (
-                      <span className="text-xs text-muted-foreground">{s.provider}</span>
+                      <span className="cp-item-sub">{s.provider}</span>
                     )}
                   </CommandItem>
                 ))}
@@ -301,16 +309,17 @@ export default function CommandPalette({
             )}
 
             {showFiles && projectId && filesShown.length > 0 && (
-              <CommandGroup heading="Files">
+              <CommandGroup className="cp-group" heading="Files">
                 {filesShown.map((f) => (
                   <CommandItem
+                    className="cp-item"
                     key={f.path}
                     value={f.path}
                     onSelect={() => run(() => ops.openFile(f.path))}
                   >
-                    <FileText className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-                    <span className="flex-1 truncate">{f.name}</span>
-                    <span className="truncate text-xs text-muted-foreground">{f.path}</span>
+                    <FileText className="cp-item-glyph" aria-hidden />
+                    <span className="cp-item-text truncate">{f.name}</span>
+                    <span className="cp-item-path">{f.path}</span>
                   </CommandItem>
                 ))}
                 {!page && files.length > browseLimit && (
@@ -320,17 +329,18 @@ export default function CommandPalette({
             )}
 
             {showCommits && projectId && commitsShown.length > 0 && (
-              <CommandGroup heading="Commits">
+              <CommandGroup className="cp-group" heading="Commits">
                 {commitsShown.map((c) => (
                   <CommandItem
+                    className="cp-item"
                     key={c.hash}
                     value={`${c.message} ${c.author} ${c.shortHash}`}
                     onSelect={() => run(() => onShowTab?.('git'))}
                   >
-                    <GitCommit className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-                    <span className="font-mono text-xs text-muted-foreground">{c.shortHash}</span>
-                    <span className="flex-1 truncate">{c.message}</span>
-                    <span className="truncate text-xs text-muted-foreground">{c.author}</span>
+                    <GitCommit className="cp-item-glyph" aria-hidden />
+                    <span className="cp-item-mono">{c.shortHash}</span>
+                    <span className="cp-item-text truncate">{c.message}</span>
+                    <span className="cp-item-sub truncate">{c.author}</span>
                   </CommandItem>
                 ))}
                 {!page && commits.length > browseLimit && (
@@ -340,15 +350,16 @@ export default function CommandPalette({
             )}
 
             {showBranches && projectId && branchesShown.length > 0 && (
-              <CommandGroup heading="Branches">
+              <CommandGroup className="cp-group" heading="Branches">
                 {branchesShown.map((b) => (
                   <CommandItem
+                    className="cp-item"
                     key={`branch-${b.name}`}
                     value={b.name}
                     onSelect={() => run(() => { void git.checkout(b.name); onShowTab?.('git'); })}
                   >
-                    <GitMerge className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-                    <span className="flex-1 truncate">Switch to: {b.name}</span>
+                    <GitMerge className="cp-item-glyph" aria-hidden />
+                    <span className="cp-item-text truncate">Switch to: {b.name}</span>
                   </CommandItem>
                 ))}
                 {!page && branches.length > browseLimit && (
@@ -365,9 +376,9 @@ export default function CommandPalette({
 
 function BrowseAllItem({ label, onSelect }: { label: string; onSelect: () => void }) {
   return (
-    <CommandItem value={label} onSelect={onSelect}>
-      <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-      <span className="flex-1 text-muted-foreground">{label}</span>
+    <CommandItem className="cp-item" value={label} onSelect={onSelect}>
+      <ChevronRight className="cp-item-glyph" aria-hidden />
+      <span className="cp-item-text cp-browse">{label}</span>
     </CommandItem>
   );
 }

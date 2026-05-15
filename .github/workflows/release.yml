@@ -145,12 +145,20 @@ jobs:
           path: ./binaries
           merge-multiple: true
 
-      - name: Upload binaries to release
+      - name: Create zip files and upload to release
         run: |
           TAG=v$(node -p "require('./package.json').version")
+          mkdir -p ./zips
           for binary in ./binaries/*; do
+            filename=$(basename "$binary")
             echo "Uploading $binary to $TAG"
             gh release upload "$TAG" "$binary" --clobber
+            
+            # Create zip file
+            zipname="./zips/${filename}.zip"
+            echo "Creating zip: $zipname"
+            zip -j "$zipname" "$binary"
+            gh release upload "$TAG" "$zipname" --clobber
           done
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}

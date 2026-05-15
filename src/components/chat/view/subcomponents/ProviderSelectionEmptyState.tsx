@@ -264,11 +264,11 @@ export default function ProviderSelectionEmptyState({
                   />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1">
-                      <span className="text-xs font-semibold text-foreground">
+                      <span className="text-[var(--fs-sm)] font-semibold text-foreground">
                         {getProviderDisplayName(provider)}
                       </span>
-                      <span className="text-xs text-muted-foreground">·</span>
-                      <span className="truncate text-xs text-foreground">
+                      <span className="text-[var(--fs-sm)] text-muted-foreground">·</span>
+                      <span className="truncate text-[var(--fs-sm)] text-foreground">
                         {currentModelLabel}
                       </span>
                     </div>
@@ -353,7 +353,7 @@ export default function ProviderSelectionEmptyState({
             </DialogContent>
           </Dialog>
 
-          <p className="mt-4 text-center text-sm text-muted-foreground/70">
+          <p className="mt-4 text-center text-[var(--fs-md)] text-muted-foreground/70">
             {
               {
                 claude: t("providerSelection.readyPrompt.claude", {
@@ -380,13 +380,13 @@ export default function ProviderSelectionEmptyState({
             }
           </p>
 
-          <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-muted-foreground/60">
+          <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[var(--fs-sm)] text-muted-foreground/60">
             <Trans
               i18nKey="providerSelection.pressToSearch"
               values={{ shortcut: MOD_KEY === "⌘" ? "⌘K" : "Ctrl+K" }}
               components={{
                 kbd: (
-                  <kbd className="inline-flex items-center gap-0.5 rounded border border-border/60 bg-muted/40 px-1.5 py-0.5 font-mono text-[10px]" />
+                  <kbd className="inline-flex items-center gap-0.5 rounded border border-border/60 bg-muted/40 px-1.5 py-0.5 font-mono text-[var(--fs-xs)]" />
                 ),
               }}
             />
@@ -412,7 +412,7 @@ export default function ProviderSelectionEmptyState({
           <p className="mb-1.5 text-lg font-semibold text-foreground">
             {t("session.continue.title")}
           </p>
-          <p className="text-sm leading-relaxed text-muted-foreground">
+          <p className="text-[var(--fs-md)] leading-relaxed text-muted-foreground">
             {t("session.continue.description")}
           </p>
 

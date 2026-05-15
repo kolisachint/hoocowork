@@ -171,11 +171,11 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
             </div>
 
             <div className="flex min-w-0 flex-1 items-center gap-2">
-              <span className="text-[10px] font-medium uppercase tracking-wide text-[var(--ink-4)]">
+              <span className="text-[var(--fs-xs)] font-medium uppercase tracking-wide text-[var(--ink-4)]">
                 Claude needs your input
               </span>
               {q.header && (
-                <span className="border-[var(--brand-accent)]/30 inline-flex items-center rounded border bg-[var(--brand-accent-soft)] px-1.5 py-px text-[9px] font-semibold uppercase tracking-wider text-[var(--brand-accent)]">
+                <span className="border-[var(--brand-accent)]/30 inline-flex items-center rounded border bg-[var(--brand-accent-soft)] px-1.5 py-px text-[var(--fs-xs)] font-semibold uppercase tracking-wider text-[var(--brand-accent)]">
                   {q.header}
                 </span>
               )}
@@ -183,7 +183,7 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
 
             {/* Step counter */}
             {!isSingle && (
-              <span className="flex-shrink-0 text-[10px] tabular-nums text-[var(--ink-4)]">
+              <span className="flex-shrink-0 text-[var(--fs-xs)] tabular-nums text-[var(--ink-4)]">
                 {currentStep + 1}/{total}
               </span>
             )}
@@ -214,7 +214,7 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
             {q.question}
           </p>
           {multi && (
-            <span className="text-[10px] text-[var(--ink-4)]">Select all that apply</span>
+            <span className="text-[var(--fs-xs)] text-[var(--ink-4)]">Select all that apply</span>
           )}
         </div>
 
@@ -235,7 +235,7 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
                   }`}
                 >
                   {/* Keyboard hint */}
-                  <kbd className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded font-mono text-[10px] transition-all duration-150 ${
+                  <kbd className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded font-mono text-[var(--fs-xs)] transition-all duration-150 ${
                     isSelected
                       ? 'bg-[var(--brand-accent)] font-semibold text-[var(--brand-accent-ink)]'
                       : 'border border-[var(--line)] bg-[var(--paper-2)] text-[var(--ink-4)] group-hover:border-[var(--line-2)]'
@@ -282,7 +282,7 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
                   : 'border-dashed border-[var(--line)] hover:border-[var(--line-2)] hover:bg-[var(--paper-2)]'
               }`}
             >
-              <kbd className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded font-mono text-[10px] transition-all duration-150 ${
+              <kbd className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded font-mono text-[var(--fs-xs)] transition-all duration-150 ${
                 isOtherOn
                   ? 'bg-[var(--brand-accent)] font-semibold text-[var(--brand-accent-ink)]'
                   : 'border border-[var(--line)] bg-[var(--paper-2)] text-[var(--ink-4)] group-hover:border-[var(--line-2)]'
@@ -341,7 +341,7 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
             className="text-[11px] text-[var(--ink-4)] transition-colors hover:text-[var(--ink-2)]"
           >
             {isSingle ? 'Skip' : 'Skip all'}
-            <span className="ml-1 text-[9px] text-[var(--ink-4)]">Esc</span>
+            <span className="ml-1 text-[var(--fs-xs)] text-[var(--ink-4)]">Esc</span>
           </button>
 
           <div className="flex items-center gap-1.5">
@@ -366,7 +366,7 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
                 className="inline-flex items-center gap-1 rounded-[var(--radius-1)] bg-[var(--brand-accent)] px-3.5 py-1.5 text-[11px] font-semibold text-[var(--brand-accent-ink)] shadow-sm transition-all duration-200 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-30"
               >
                 Submit
-                <span className="ml-0.5 font-mono text-[9px] opacity-70">Enter</span>
+                <span className="ml-0.5 font-mono text-[var(--fs-xs)] opacity-70">Enter</span>
               </button>
             ) : (
               <button
@@ -375,7 +375,7 @@ export const AskUserQuestionPanel: React.FC<PermissionPanelProps> = ({
                 className="inline-flex items-center gap-1 rounded-[var(--radius-1)] bg-[var(--brand-accent)] px-3.5 py-1.5 text-[11px] font-semibold text-[var(--brand-accent-ink)] shadow-sm transition-all duration-200 hover:opacity-90"
               >
                 Next
-                <span className="ml-0.5 font-mono text-[9px] opacity-70">Enter</span>
+                <span className="ml-0.5 font-mono text-[var(--fs-xs)] opacity-70">Enter</span>
               </button>
             )}
           </div>

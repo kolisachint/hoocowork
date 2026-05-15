@@ -1,12 +1,20 @@
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background fills entire canvas - iOS will handle corner rounding -->
-  <rect width="512" height="512" fill="hsl(240 5.9% 10%)"/>
+<svg width="384" height="384" viewBox="0 0 384 384" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="48" y="48" width="288" height="288" rx="58" fill="#111110"/>
+  <rect x="48" y="48" width="288" height="288" rx="58" stroke="#2a2a29" stroke-width="6"/>
   
-  <!-- MessageSquare icon - scaled and centered -->
-  <path d="M128 144C128 126.327 142.327 112 160 112H352C369.673 112 384 126.327 384 144V272C384 289.673 369.673 304 352 304H224L128 400V144Z" 
-        stroke="white" 
-        stroke-width="32" 
-        stroke-linecap="round" 
-        stroke-linejoin="round" 
-        fill="none"/>
+  <!-- Left bracket -->
+  <path d="M129 156L103 192L129 228" 
+        stroke="#f5f5f5" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Right bracket -->
+  <path d="M255 156L281 192L255 228" 
+        stroke="#f5f5f5" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Center slash -->
+  <path d="M175 246L209 138" stroke="#6366f1" stroke-width="15" stroke-linecap="round"/>
+  
+  <!-- AI sparkle dots -->
+  <circle cx="192" cy="102" r="10" fill="#6366f1"/>
+  <circle cx="192" cy="282" r="10" fill="#6366f1"/>
 </svg>

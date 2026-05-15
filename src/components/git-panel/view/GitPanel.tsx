@@ -80,14 +80,14 @@ export default function GitPanel({ selectedProject, isMobile = false, onFileOpen
 
   if (!selectedProject) {
     return (
-      <div className="flex h-full items-center justify-center text-muted-foreground">
+      <div className="flex h-full items-center justify-center text-[var(--ink-3)]">
         <p>Select a project to view source control</p>
       </div>
     );
   }
 
   return (
-    <div className="git flex h-full flex-col">
+    <div className="git flex h-full min-h-0 flex-col">
       <GitPanelHeader
         isMobile={isMobile}
         currentBranch={currentBranch}
@@ -121,6 +121,7 @@ export default function GitPanel({ selectedProject, isMobile = false, onFileOpen
             activeView={activeView}
             isHidden={hasExpandedFiles}
             changeCount={changeCount}
+            branchCount={localBranches.length}
             onChange={setActiveView}
           />
 
@@ -129,6 +130,7 @@ export default function GitPanel({ selectedProject, isMobile = false, onFileOpen
               key={selectedProject.fullPath}
               isMobile={isMobile}
               projectPath={selectedProject.fullPath}
+              currentBranch={currentBranch}
               gitStatus={gitStatus}
               gitDiff={gitDiff}
               isLoading={isLoading}

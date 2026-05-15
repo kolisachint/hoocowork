@@ -3,7 +3,8 @@
   "tabs": {
     "account": "Account",
     "permissions": "Permissions",
-    "mcpServers": "MCP Servers",
+    "tools": "Tools",
+    "models": "Models",
     "appearance": "Appearance"
   },
   "account": {
@@ -92,10 +93,11 @@
     "agents": "Agents",
     "appearance": "Appearance",
     "git": "Git",
-    "apiTokens": "API & Tokens",
+    "apiTokens": "API tokens",
     "tasks": "Tasks",
     "notifications": "Notifications",
     "plugins": "Plugins",
+    "mcp": "MCP",
     "about": "About"
   },
   "notifications": {
@@ -311,6 +313,11 @@
       "authenticatedUser": "authenticated user"
     },
     "account": {
+      "authentication": "Authentication",
+      "workspace": "Workspace",
+      "workspaceHint": "{{path}} · sessions stored here",
+      "open": "Open in finder",
+      "oauthConnected": "Connected via OAuth · {{email}}",
       "claude": {
         "description": "Anthropic Claude AI assistant"
       },
@@ -340,8 +347,33 @@
     },
     "error": "Error: {{error}}"
   },
+  "tools": {
+    "title": "Tools",
+    "desc": "Manage MCP tools available to this agent.",
+    "loading": "Loading MCP servers...",
+    "empty": "No MCP servers configured for this agent.",
+    "toolSingular": "tool",
+    "toolPlural": "tools",
+    "manageInMcpSettings": "Manage in MCP settings"
+  },
+  "models": {
+    "title": "Models",
+    "defaultModel": "Default model",
+    "thinkingBudget": "Thinking budget",
+    "thinkingBudgetHint": "Higher = better reasoning, more tokens",
+    "notAvailableForAgent": "Model selection is not available for {{agent}}"
+  },
   "permissions": {
     "title": "Permission Settings",
+    "toolPermissions": {
+      "title": "Tool permissions",
+      "desc": "All tools are off by default. Enable only what you need."
+    },
+    "revokeAll": "Revoke all approvals · panic",
+    "advanced": {
+      "title": "Advanced",
+      "desc": "Fine-grained tool patterns and blocking"
+    },
     "skipPermissions": {
       "label": "Skip permission prompts (use with caution)",
       "claudeDescription": "Equivalent to --dangerously-skip-permissions flag",
@@ -490,6 +522,13 @@
     "disable": "Disable",
     "installAriaLabel": "Plugin git repository URL",
     "tab": "tab",
-    "runningStatus": "running"
+    "runningStatus": "running",
+    "eyebrow": "Plugins",
+    "installedTitle": "Installed",
+    "headerSubtitle": "{{enabled}} of {{total}} enabled · install from any Git URL",
+    "filterPlaceholder": "filter installed…",
+    "filterAriaLabel": "Filter installed plugins",
+    "official": "official",
+    "noMatches": "No plugins match your filter."
   }
 }

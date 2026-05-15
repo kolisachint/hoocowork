@@ -6,6 +6,7 @@ import os from 'os';
 
 import packageJson from '../package.json' with { type: 'json' };
 import embeddedAssets from './generated/embedded-assets.js';
+import { applyEmbeddedConfig } from './generated/embedded-config.js';
 
 const hasBunfsPath = (p: string) => p.includes('/bunfs/') || p.includes('/$bunfs/');
 // @ts-expect-error — Bun global is available only at runtime
@@ -49,6 +50,9 @@ function loadEnvFromHomedir() {
 }
 
 loadEnvFromHomedir();
+
+// Apply embedded config defaults (lowest priority)
+applyEmbeddedConfig();
 
 if (isBinaryMode) {
   const hoocoworkDir = path.join(os.homedir(), '.hoocowork');

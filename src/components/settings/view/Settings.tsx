@@ -12,12 +12,13 @@ import GitSettingsTab from '../view/tabs/git-settings/GitSettingsTab';
 import NotificationsSettingsTab from '../view/tabs/NotificationsSettingsTab';
 import TasksSettingsTab from '../view/tabs/tasks-settings/TasksSettingsTab';
 import PluginSettingsTab from '../../plugins/view/PluginSettingsTab';
+import McpSettingsTab from '../view/tabs/McpSettingsTab';
 import AboutTab from '../view/tabs/AboutTab';
 import { useSettingsController } from '../hooks/useSettingsController';
 import { useWebPush } from '../../../hooks/useWebPush';
 import type { SettingsProps } from '../types/types';
 
-function Settings({ isOpen, onClose, projects = [], initialTab = 'agents' }: SettingsProps) {
+function Settings({ isOpen, onClose, projects = [], initialTab = 'agents', variant = 'modal' }: SettingsProps) {
   const { t } = useTranslation('settings');
   const {
     activeTab,
@@ -58,7 +59,6 @@ function Settings({ isOpen, onClose, projects = [], initialTab = 'agents' }: Set
 
   const handleEnablePush = async () => {
     await pushSubscribe();
-    // Server sets webPush: true in preferences on subscribe; sync local state
     setNotificationPreferences({
       ...notificationPreferences,
       channels: { ...notificationPreferences.channels, webPush: true },
@@ -67,7 +67,6 @@ function Settings({ isOpen, onClose, projects = [], initialTab = 'agents' }: Set
 
   const handleDisablePush = async () => {
     await pushUnsubscribe();
-    // Server sets webPush: false in preferences on unsubscribe; sync local state
     setNotificationPreferences({
       ...notificationPreferences,
       channels: { ...notificationPreferences.channels, webPush: false },
@@ -80,67 +79,40 @@ function Settings({ isOpen, onClose, projects = [], initialTab = 'agents' }: Set
 
   const isAuthenticated = Boolean(loginProvider && providerAuthStatus[loginProvider].authenticated);
 
-  return (
-    <div className="modal-backdrop fixed inset-0 z-[9999] flex items-center justify-center bg-[var(--paper)]/80 backdrop-blur-sm md:p-4">
-      <div className="flex h-full w-full flex-col overflow-hidden border shadow-2xl md:h-[90vh] md:max-w-4xl md:rounded-xl" style={{ borderColor: 'var(--line)', background: 'var(--paper)' }}>
-        {/* Header */}
-        <div className="flex flex-shrink-0 items-center justify-between border-b px-4 py-3 md:px-5" style={{ borderColor: 'var(--line)' }}>
-          <h2 className="text-base font-semibold">{t('title')}</h2>
-          <div className="flex items-center gap-2">
-            {saveStatus === 'success' && (
-              <span className="animate-in fade-in text-xs" style={{ color: 'var(--ink-3)' }}>{t('saveStatus.success')}</span>
+  const body = (
+    <div className="settings min-h-0 flex-1">
+      <SettingsSidebar activeTab={activeTab} onChange={setActiveTab} />
+
+      <main className="settings-pane">
+        <SettingsErrorBoundary showDetails resetKeys={[activeTab]}>
+          <div key={activeTab} className="settings-content settings-content-enter pb-safe-area-inset-bottom">
+            {activeTab === 'appearance' && (
+              <AppearanceSettingsTab
+                projectSortOrder={projectSortOrder}
+                onProjectSortOrderChange={setProjectSortOrder}
+              />
             )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              className="h-10 w-10 touch-manipulation p-0" style={{ color: 'var(--ink-3)' }}
-            >
-              <X className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
 
-        {/* Body: sidebar + content */}
-        <div className="settings flex min-h-0 flex-1 flex-col md:flex-row">
-          <SettingsSidebar activeTab={activeTab} onChange={setActiveTab} />
+            {activeTab === 'git' && <GitSettingsTab />}
 
-          {/* Content */}
-          <main className="flex-1 overflow-y-auto">
-            <SettingsErrorBoundary showDetails resetKeys={[activeTab]}>
-            <div key={activeTab} className="settings-content-enter space-y-6 p-4 pb-safe-area-inset-bottom md:space-y-8 md:p-6">
-              {activeTab === 'appearance' && (
-                <AppearanceSettingsTab
-                  projectSortOrder={projectSortOrder}
-                  onProjectSortOrderChange={setProjectSortOrder}
-                  codeEditorSettings={codeEditorSettings}
-                  onCodeEditorThemeChange={(value) => updateCodeEditorSetting('theme', value)}
-                  onCodeEditorWordWrapChange={(value) => updateCodeEditorSetting('wordWrap', value)}
-                  onCodeEditorShowMinimapChange={(value) => updateCodeEditorSetting('showMinimap', value)}
-                  onCodeEditorLineNumbersChange={(value) => updateCodeEditorSetting('lineNumbers', value)}
-                  onCodeEditorFontSizeChange={(value) => updateCodeEditorSetting('fontSize', value)}
-                />
-              )}
+            {activeTab === 'agents' && (
+              <AgentsSettingsTab
+                providerAuthStatus={providerAuthStatus}
+                onProviderLogin={openLoginForProvider}
+                claudePermissions={claudePermissions}
+                onClaudePermissionsChange={setClaudePermissions}
+                cursorPermissions={cursorPermissions}
+                onCursorPermissionsChange={setCursorPermissions}
+                codexPermissionMode={codexPermissionMode}
+                onCodexPermissionModeChange={setCodexPermissionMode}
+                geminiPermissionMode={geminiPermissionMode}
+                onGeminiPermissionModeChange={setGeminiPermissionMode}
+                projects={projects}
+                onOpenMcpSettings={() => setActiveTab('mcp')}
+              />
+            )}
 
-              {activeTab === 'git' && <GitSettingsTab />}
-
-              {activeTab === 'agents' && (
-                <AgentsSettingsTab
-                  providerAuthStatus={providerAuthStatus}
-                  onProviderLogin={openLoginForProvider}
-                  claudePermissions={claudePermissions}
-                  onClaudePermissionsChange={setClaudePermissions}
-                  cursorPermissions={cursorPermissions}
-                  onCursorPermissionsChange={setCursorPermissions}
-                  codexPermissionMode={codexPermissionMode}
-                  onCodexPermissionModeChange={setCodexPermissionMode}
-                  geminiPermissionMode={geminiPermissionMode}
-                  onGeminiPermissionModeChange={setGeminiPermissionMode}
-                  projects={projects}
-                />
-              )}
-
-              {activeTab === 'tasks' && <TasksSettingsTab />}
+            {activeTab === 'tasks' && <TasksSettingsTab />}
 
             {activeTab === 'notifications' && (
               <NotificationsSettingsTab
@@ -154,26 +126,68 @@ function Settings({ isOpen, onClose, projects = [], initialTab = 'agents' }: Set
               />
             )}
 
-              {activeTab === 'api' && <CredentialsSettingsTab />}
+            {activeTab === 'api' && <CredentialsSettingsTab />}
 
-              {activeTab === 'plugins' && <PluginSettingsTab />}
+            {activeTab === 'mcp' && <McpSettingsTab projects={projects} />}
 
-              {activeTab === 'about' && <AboutTab />}
-            </div>
-            </SettingsErrorBoundary>
-          </main>
+            {activeTab === 'plugins' && <PluginSettingsTab />}
+
+            {activeTab === 'about' && <AboutTab />}
+          </div>
+        </SettingsErrorBoundary>
+      </main>
+    </div>
+  );
+
+  const loginModal = (
+    <ProviderLoginModal
+      key={loginProvider || 'claude'}
+      isOpen={showLoginModal}
+      onClose={() => setShowLoginModal(false)}
+      provider={loginProvider || 'claude'}
+      onComplete={handleLoginComplete}
+      isAuthenticated={isAuthenticated}
+    />
+  );
+
+  if (variant === 'inline') {
+    return (
+      <div className="relative flex h-full w-full flex-col">
+        {saveStatus === 'success' && (
+          <div className="absolute right-4 top-2 z-10 md:right-5">
+            <span className="animate-in fade-in rounded-md bg-[var(--ok)]/10 px-3 py-1.5 text-xs text-[var(--ok)]">{t('saveStatus.success')}</span>
+          </div>
+        )}
+        {body}
+        {loginModal}
+      </div>
+    );
+  }
+
+  return (
+    <div className="modal-backdrop fixed inset-0 z-[9999] flex items-center justify-center bg-background/80 backdrop-blur-sm md:p-4">
+      <div className="relative flex h-full w-full flex-col overflow-hidden border border-border bg-card shadow-2xl md:h-[90vh] md:max-w-4xl md:rounded-[var(--radius-2)]">
+        {saveStatus === 'success' && (
+          <div className="absolute right-14 top-3 z-10 md:right-16">
+            <span className="animate-in fade-in rounded-md bg-[var(--ok)]/10 px-3 py-1.5 text-xs text-[var(--ok)]">{t('saveStatus.success')}</span>
+          </div>
+        )}
+        <div className="flex flex-shrink-0 items-center justify-between border-b border-border px-4 py-3 md:px-5">
+          <h2 className="text-base font-semibold text-foreground">{t('title')}</h2>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onClose}
+            className="h-10 w-10 touch-manipulation p-0 text-muted-foreground"
+          >
+            <X className="h-5 w-5" />
+          </Button>
         </div>
+
+        {body}
       </div>
 
-      <ProviderLoginModal
-        key={loginProvider || 'claude'}
-        isOpen={showLoginModal}
-        onClose={() => setShowLoginModal(false)}
-        provider={loginProvider || 'claude'}
-        onComplete={handleLoginComplete}
-        isAuthenticated={isAuthenticated}
-      />
-
+      {loginModal}
     </div>
   );
 }

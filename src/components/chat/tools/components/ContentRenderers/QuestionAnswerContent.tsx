@@ -58,17 +58,17 @@ export const QuestionAnswerContent: React.FC<QuestionAnswerContentProps> = ({
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   {q.header && (
-                    <span className="border-[var(--brand-accent)]/30 inline-flex items-center rounded border bg-[var(--brand-accent-soft)] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-[var(--brand-accent)]">
+                    <span className="border-[var(--brand-accent)]/30 inline-flex items-center rounded border bg-[var(--brand-accent-soft)] px-1.5 py-0.5 text-[var(--fs-xs)] font-semibold uppercase tracking-wider text-[var(--brand-accent)]">
                       {q.header}
                     </span>
                   )}
                   {total > 1 && (
-                    <span className="text-[10px] tabular-nums text-[var(--ink-4)]">
+                    <span className="text-[var(--fs-xs)] tabular-nums text-[var(--ink-4)]">
                       {idx + 1}/{total}
                     </span>
                   )}
                 </div>
-                <div className="mt-0.5 text-xs leading-snug text-[var(--ink-3)]">
+                <div className="mt-0.5 text-[var(--fs-sm)] leading-snug text-[var(--ink-3)]">
                   {q.question}
                 </div>
 
@@ -83,7 +83,7 @@ export const QuestionAnswerContent: React.FC<QuestionAnswerContentProps> = ({
                         >
                           {lbl}
                           {isCustom && (
-                            <span className="text-[var(--brand-accent)]/70 text-[9px] font-normal">(custom)</span>
+                            <span className="text-[var(--brand-accent)]/70 text-[var(--fs-xs)] font-normal">(custom)</span>
                           )}
                         </span>
                       );
@@ -92,7 +92,7 @@ export const QuestionAnswerContent: React.FC<QuestionAnswerContentProps> = ({
                 )}
 
                 {!isExpanded && skipped && hasAnyAnswer && (
-                  <span className="mt-1 inline-block text-[10px] italic text-[var(--ink-4)]">
+                  <span className="mt-1 inline-block text-[var(--fs-xs)] italic text-[var(--ink-4)]">
                     Skipped
                   </span>
                 )}
@@ -161,7 +161,7 @@ export const QuestionAnswerContent: React.FC<QuestionAnswerContentProps> = ({
                       </div>
                       <div className="min-w-0 flex-1">
                         <span className="font-medium text-[var(--ink)]">{lbl}</span>
-                        <span className="ml-1 text-[10px] text-[var(--brand-accent)]">(custom)</span>
+                        <span className="ml-1 text-[var(--fs-xs)] text-[var(--brand-accent)]">(custom)</span>
                       </div>
                     </div>
                   ))}

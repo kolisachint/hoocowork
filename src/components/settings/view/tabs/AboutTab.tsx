@@ -1,14 +1,45 @@
-import { ExternalLink, MessageSquare, Star, Cloud, Users  } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-import { IS_PLATFORM } from '../../../../constants/config';
 import { useVersionCheck } from '../../../../hooks/useVersionCheck';
-import PremiumFeatureCard from '../PremiumFeatureCard';
 
 const GITHUB_REPO_URL = 'https://github.com/kolisachint/hoocowork';
 const DISCORD_URL = 'https://discord.gg/buxwujPNRE';
 const DOCS_URL = 'https://hoocowork.app/docs/plugin-overview';
 const HOOCOWORK_URL = 'https://hoocowork.app';
+
+// Settings section component matching the design pattern
+function SettingsSection({ title, desc, children }: { title: string; desc?: string; children: React.ReactNode }) {
+  return (
+    <div className="settings-section">
+      <div className="settings-section-head">
+        <div className="settings-section-title">{title}</div>
+        {desc && <div className="settings-section-desc">{desc}</div>}
+      </div>
+      <div className="settings-section-body">{children}</div>
+    </div>
+  );
+}
+
+// Settings row component matching the design pattern
+function SettingsRow({
+  label,
+  hint,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="settings-row">
+      <div className="settings-row-text">
+        <div className="settings-row-label">{label}</div>
+        {hint && <div className="settings-row-hint">{hint}</div>}
+      </div>
+      <div className="settings-row-ctrl">{children}</div>
+    </div>
+  );
+}
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -28,139 +59,107 @@ function DiscordIcon({ className }: { className?: string }) {
 
 export default function AboutTab() {
   const { t } = useTranslation('settings');
-  const { updateAvailable, latestVersion, currentVersion, releaseInfo } = useVersionCheck('kolisachint', 'hoocowork');
-  const releasesUrl = releaseInfo?.htmlUrl || `${GITHUB_REPO_URL}/releases`;
+  const { updateAvailable, latestVersion, currentVersion } = useVersionCheck('kolisachint', 'hoocowork');
 
   return (
-    <div className="space-y-6">
-      {/* Logo + name + version */}
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl shadow-sm" style={{ background: 'var(--accent)' }}>
-          <MessageSquare className="h-5 w-5" style={{ color: 'var(--paper)' }} />
-        </div>
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-base font-semibold">HooCowork</span>
+    <>
+      <div className="settings-h1">{t('mainTabs.about')}</div>
+      <div className="settings-sub">Version, license, and credits.</div>
+
+      {/* Version Section */}
+      <SettingsSection title="Version">
+        <SettingsRow label="HooCowork" hint={updateAvailable && latestVersion ? `Update available: v${latestVersion}` : `v${currentVersion}`}>
+          {updateAvailable && latestVersion ? (
             <a
-              href={releasesUrl}
+              href={`${GITHUB_REPO_URL}/releases`}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full px-2 py-0.5 text-[11px] font-medium transition-colors" style={{ background: 'var(--paper-3)', color: 'var(--ink-3)' }}
+              className="btn btn-outline btn-sm"
             >
-              v{currentVersion}
+              Update
             </a>
-            {updateAvailable && latestVersion && (
-              <a
-                href={releasesUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="badge badge-ok flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium transition-colors"
-              >
-                {t('apiKeys.version.updateAvailable', { version: latestVersion })}
-                <ExternalLink className="h-2.5 w-2.5" />
-              </a>
-            )}
+          ) : (
+            <span className="badge badge-ok">Up to date</span>
+          )}
+        </SettingsRow>
+      </SettingsSection>
+
+      {/* Links Section */}
+      <SettingsSection title="Links">
+        <div className="settings-row">
+          <div className="settings-row-text">
+            <a
+              href={GITHUB_REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm" style={{ color: 'var(--accent)' }}
+            >
+              <GitHubIcon className="h-4 w-4" />
+              GitHub
+            </a>
           </div>
-          <p className="mt-0.5 text-sm" style={{ color: 'var(--ink-3)' }}>
-            Open-source AI coding assistant interface
-          </p>
         </div>
-      </div>
+        <div className="settings-row">
+          <div className="settings-row-text">
+            <a
+              href={DISCORD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm" style={{ color: 'var(--accent)' }}
+            >
+              <DiscordIcon className="h-4 w-4" />
+              Discord
+            </a>
+          </div>
+        </div>
+        <div className="settings-row">
+          <div className="settings-row-text">
+            <a
+              href={DOCS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm" style={{ color: 'var(--accent)' }}
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Documentation
+            </a>
+          </div>
+        </div>
+        <div className="settings-row">
+          <div className="settings-row-text">
+            <a
+              href={HOOCOWORK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm" style={{ color: 'var(--accent)' }}
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+              </svg>
+              Website
+            </a>
+          </div>
+        </div>
+      </SettingsSection>
 
-      {/* Star on GitHub button */}
-      <a
-        href={GITHUB_REPO_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 rounded-lg border px-3.5 py-2 text-sm font-medium transition-colors" style={{ borderColor: 'var(--line)', background: 'var(--paper)', color: 'var(--ink-3)' }}
-      >
-        <GitHubIcon className="h-4 w-4" />
-        <Star className="h-3.5 w-3.5" />
-        <span>Star on GitHub</span>
-      </a>
-
-      {/* Links */}
-      <div className="flex flex-wrap gap-4 text-sm">
-        <a
-          href={GITHUB_REPO_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 transition-colors" style={{ color: 'var(--ink-3)' }}
-        >
-          <GitHubIcon className="h-4 w-4" />
-          GitHub
-        </a>
-        <a
-          href={DISCORD_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 transition-colors" style={{ color: 'var(--ink-3)' }}
-        >
-          <DiscordIcon className="h-4 w-4" />
-          Discord
-        </a>
-        <a
-          href={DOCS_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 transition-colors" style={{ color: 'var(--ink-3)' }}
-        >
-          <ExternalLink className="h-3.5 w-3.5" />
-          Docs
-        </a>
-        <a
-          href={HOOCOWORK_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 transition-colors" style={{ color: 'var(--ink-3)' }}
-        >
-          <ExternalLink className="h-3.5 w-3.5" />
-          hoocowork.app
-        </a>
-      </div>
-
-      {/* Hosted CTA (OSS mode only) */}
-      {!IS_PLATFORM && (
-        <div className="rounded-xl border p-4" style={{ borderColor: 'var(--accent)', background: 'var(--paper-2)' }}>
-          <h4 className="text-sm font-medium">Try HooCowork Hosted</h4>
-          <p className="mt-1 text-xs" style={{ color: 'var(--ink-3)' }}>
-            Team collaboration, shared MCP configs, settings sync across environments, and managed infrastructure.
-          </p>
+      {/* License Section */}
+      <SettingsSection title="License">
+        <div className="about-license">
+          AGPL-3.0-or-later. If you modify HooCowork and run it as a network service, you must make the modified source available to users of that service.{' '}
           <a
-            href={HOOCOWORK_URL}
+            href={`${GITHUB_REPO_URL}/blob/main/LICENSE`}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 inline-flex items-center gap-1 text-xs font-medium transition-colors hover:underline" style={{ color: 'var(--accent)' }}
+            className="underline"
+            style={{ color: 'var(--accent)' }}
           >
-            Learn more
-            <ExternalLink className="h-3 w-3" />
+            View license
           </a>
+          .
         </div>
-      )}
-
-      {/* Premium feature placeholders (OSS mode only) */}
-      {!IS_PLATFORM && (
-        <div className="space-y-4 pt-6" style={{ borderTopColor: 'var(--line)' }}>
-          <h3 className="text-sm font-medium">HooCowork Pro Features</h3>
-          <PremiumFeatureCard
-            icon={<Cloud className="h-5 w-5" />}
-            title="Sync Settings"
-            description="Keep your preferences, MCP configs, and theme in sync across all your environments."
-          />
-          <PremiumFeatureCard
-            icon={<Users className="h-5 w-5" />}
-            title="Team Management"
-            description="Multiple users, role-based access, and shared projects for your team."
-          />
-        </div>
-      )}
-
-      {/* License */}
-      <div className="pt-4" style={{ borderTopColor: 'var(--line)' }}>
-        <p className="text-xs" style={{ color: 'var(--ink-4)' }}>
-          Licensed under AGPL-3.0
-        </p>
-      </div>
-    </div>
+      </SettingsSection>
+    </>
   );
 }

@@ -57,24 +57,33 @@
   }
 
   /* ---- Chat: full-bleed; composer sticks ---- */
-  .chat-header { padding: 10px 14px; }
+  .chat-header { padding: 8px 12px; }
   .chat-header-actions { padding: 6px 12px; }
-  .chat-header-info { padding: 8px 12px; gap: 8px; }
+  .chat-header-info { padding: 6px 12px; gap: 6px; }
+  /* Hide non-essential metadata on mobile to save space */
   .chat-header .chat-meta-time,
-  .chat-header .chat-meta-count { display: none; }
+  .chat-header .chat-meta-count,
+  .chat-header .chat-meta-id,
+  .chat-header .chat-meta-tokens { display: none; }
+  /* Keep only provider and status badges visible, hide model and permission mode */
+  .chat-header .chat-meta .badge-info,
+  .chat-header .chat-meta .badge-default:not([title*="Provider"]):not([title*="status"]) { display: none; }
+  .chat-header .chat-name { max-width: 200px; font-size: var(--fs-sm); }
   .chat-tab span:not(.chat-tab-glyph) { display: none; }
   .chat-stream { padding: var(--s-3) var(--s-4); gap: var(--s-3); }
   .msg { grid-template-columns: 18px 1fr; gap: 6px; }
   .composer { padding: var(--s-2) var(--s-3) var(--s-3); }
   .composer-tools { flex-wrap: wrap; gap: 4px; }
   .composer-divider { display: none; }
+  /* Hide model selector and mode switcher on mobile - accessible via settings */
+  .composer-model, .composer-mode { display: none; }
   .composer-input { font-size: var(--fs-md); padding: 10px; }
   .composer-foot .composer-hint { display: none; }
   .tool-diff { font-size: var(--fs-xs); }
 
   /* ---- Files: stack tree + pane (tree first, scrollable) ---- */
   .files { flex-direction: column; }
-  .files-tree { width: 100%; flex: 0 0 auto; max-height: 38vh; border-right: none; border-bottom: 1px solid var(--line); }
+  .files-tree { width: 100%; flex: 1 1 50%; min-height: 0; border-right: none; border-bottom: 1px solid var(--line); }
   .files-pane { flex: 1; min-height: 0; }
   .code { font-size: var(--fs-sm); }
   .code-line { grid-template-columns: 36px 1fr; }
@@ -144,7 +153,7 @@
   .plugin-desc { font-size: var(--fs-xs); }
 
   /* ---- CLI selection: 1 column ---- */
-  .cli-select { padding: var(--s-5) var(--s-4); }
+  .cli-select { padding: var(--s-5) var(--s-4); height: 100%; overflow-y: auto; }
   .cli-grid { grid-template-columns: 1fr; }
   .cli-title { font-size: var(--fs-2xl); }
   .cli-foot { flex-direction: column-reverse; align-items: stretch; }

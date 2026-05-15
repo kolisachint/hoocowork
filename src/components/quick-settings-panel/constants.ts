@@ -16,12 +16,12 @@ export const HANDLE_POSITION_MAX = 90;
 export const DRAG_THRESHOLD_PX = 5;
 
 export const SETTING_ROW_CLASS =
-  'flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-transparent hover:border-border dark:hover:border-border';
+  'flex items-center justify-between p-3 rounded-[var(--radius-2)] bg-muted hover:bg-accent transition-colors border border-border';
 
 export const TOGGLE_ROW_CLASS = `${SETTING_ROW_CLASS} cursor-pointer`;
 
 export const CHECKBOX_CLASS =
-  'h-4 w-4 rounded border-border text-[var(--brand-accent)] dark:text-[var(--brand-accent)] focus:ring-[var(--brand-accent)] focus:ring-2 dark:focus:ring-[var(--brand-accent)] bg-muted checked:bg-[var(--brand-accent)] dark:checked:bg-[var(--brand-accent)]';
+  'h-4 w-4 rounded-[var(--radius-1)] border-border text-accent focus:ring-accent focus:ring-2 bg-muted checked:bg-accent';
 
 export const TOOL_DISPLAY_TOGGLES: PreferenceToggleItem[] = [
   {

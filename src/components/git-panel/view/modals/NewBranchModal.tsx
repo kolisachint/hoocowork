@@ -51,16 +51,16 @@ export default function NewBranchModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div
-        className="relative w-full max-w-md overflow-hidden rounded-xl border border-border bg-card shadow-2xl"
+        className="relative w-full max-w-md overflow-hidden rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] shadow-[var(--shadow-2)]"
         role="dialog"
         aria-modal="true"
         aria-labelledby="new-branch-title"
       >
         <div className="p-6">
-          <h3 className="mb-4 text-lg font-semibold text-foreground">Create New Branch</h3>
+          <h3 className="mb-4 text-lg font-semibold text-[var(--ink)]">Create New Branch</h3>
 
           <div className="mb-4">
-            <label htmlFor="git-new-branch-name" className="mb-2 block text-sm font-medium text-foreground/80">
+            <label htmlFor="git-new-branch-name" className="mb-2 block text-[var(--fs-sm)] font-medium text-[var(--ink-2)]">
               Branch Name
             </label>
             <input
@@ -83,26 +83,26 @@ export default function NewBranchModal({
                 }
               }}
               placeholder="feature/new-feature"
-              className="w-full rounded-xl border border-border bg-background px-3 py-2 text-foreground placeholder:text-muted-foreground focus:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className="w-full rounded-[var(--radius-1)] border border-[var(--line)] bg-[var(--paper)] px-3 py-2 text-[var(--ink)] placeholder:text-[var(--ink-4)] focus:border-[var(--ink-3)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-accent)]/20"
               autoFocus
             />
           </div>
 
-          <p className="mb-4 text-sm text-muted-foreground">
+          <p className="mb-4 text-[var(--fs-base)] text-[var(--ink-3)]">
             This will create a new branch from the current branch ({currentBranch})
           </p>
 
-          <div className="flex justify-end space-x-3">
+          <div className="flex justify-end gap-3">
             <button
               onClick={onClose}
-              className="rounded-lg px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              className="rounded-[var(--radius-1)] px-4 py-2 text-[var(--fs-sm)] text-[var(--ink-3)] transition-colors hover:bg-[var(--paper-2)] hover:text-[var(--ink)]"
             >
               Cancel
             </button>
             <button
               onClick={() => void handleCreateBranch()}
               disabled={!newBranchName.trim() || isCreatingBranch}
-              className="flex items-center space-x-2 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex items-center gap-2 rounded-[var(--radius-1)] bg-[var(--ink)] px-4 py-2 text-[var(--fs-sm)] text-[var(--paper)] transition-colors hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isCreatingBranch ? (
                 <>

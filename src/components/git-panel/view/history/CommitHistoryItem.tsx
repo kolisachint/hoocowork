@@ -1,4 +1,3 @@
-import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
 
 import type { GitCommitSummary } from '../../types/types';
@@ -36,104 +35,83 @@ export default function CommitHistoryItem({
   }, [diff]);
 
   return (
-    <div className="border-b border-[var(--line)] last:border-0">
+    <div>
       <button
         type="button"
         aria-expanded={isExpanded}
-        className="git-log-row flex w-full cursor-pointer items-start border-0 bg-transparent p-3 text-left transition-colors hover:bg-[var(--paper-2)]"
+        className="git-log-row w-full cursor-pointer border-0 bg-transparent text-left"
         onClick={onToggle}
       >
-        <span className="mr-2 mt-1 rounded p-0.5 hover:bg-[var(--paper-2)]">
-          {isExpanded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
-        </span>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-start justify-between gap-2">
-            <div className="min-w-0 flex-1">
-              <p className="git-log-subject truncate text-sm font-medium">{commit.message}</p>
-              <p className="git-log-meta mt-1">
-                {commit.author}
-                {' \u2022 '}
-                {commit.date}
-              </p>
-            </div>
-            <span className="git-sha flex-shrink-0 text-sm">
-              {commit.hash.substring(0, 7)}
-            </span>
+        <span className="git-sha">{commit.hash.substring(0, 7)}</span>
+        <div className="min-w-0">
+          <div className="git-log-subject truncate text-sm">{commit.message}</div>
+          <div className="git-log-meta">
+            {commit.author}
+            {' · '}
+            {commit.date}
           </div>
         </div>
       </button>
 
       {isExpanded && diff && (
-        <div className="bg-muted/50">
+        <div className="bg-[var(--paper-2)]">
           <div className="max-h-[32rem] overflow-y-auto p-3">
-            {/* Full hash */}
-            <p className="mb-2 select-all font-mono text-xs text-muted-foreground/70">
-              {commit.hash}
-            </p>
+            <p className="mb-2 select-all font-mono text-xs text-[var(--ink-3)]">{commit.hash}</p>
 
-            {/* Author + Date */}
-            <div className="mb-3 flex gap-4 text-xs text-muted-foreground">
+            <div className="mb-3 flex gap-4 text-xs text-[var(--ink-3)]">
               <span>
-                <span className="text-muted-foreground/60">Author </span>
+                <span className="text-[var(--ink-3)]">Author </span>
                 {commit.author}
               </span>
               <span>
-                <span className="text-muted-foreground/60">Date </span>
+                <span className="text-[var(--ink-3)]">Date </span>
                 {formatDate(commit.date)}
               </span>
             </div>
 
-            {/* Stats card */}
             {fileSummary && (
-              <div className="mb-3 flex gap-4 rounded-md bg-muted/80 px-4 py-2 text-center text-xs">
+              <div className="mb-3 flex gap-4 rounded-[var(--radius-1)] bg-[var(--paper-3)] px-4 py-2 text-center text-xs">
                 <div>
-                  <div className="text-muted-foreground/60">Files</div>
-                  <div className="font-semibold text-foreground">{fileSummary.totalFiles}</div>
+                  <div className="text-[var(--ink-3)]">Files</div>
+                  <div className="font-semibold text-[var(--ink)]">{fileSummary.totalFiles}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground/60">Added</div>
+                  <div className="text-[var(--ink-3)]">Added</div>
                   <div className="font-semibold text-[var(--ok)]">+{fileSummary.totalInsertions}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground/60">Removed</div>
+                  <div className="text-[var(--ink-3)]">Removed</div>
                   <div className="font-semibold text-[var(--err)]">-{fileSummary.totalDeletions}</div>
                 </div>
               </div>
             )}
 
-            {/* Changed files list */}
             {fileSummary && fileSummary.files.length > 0 && (
               <div className="mb-3">
-                <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
+                <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--ink-3)]">
                   Changed Files
                 </p>
-                <div className="rounded-md border border-border/60">
+                <div className="rounded-[var(--radius-1)] border border-[var(--line)]">
                   {fileSummary.files.map((file, idx) => (
                     <div
                       key={file.path}
                       className={`flex items-center gap-2 px-2.5 py-1.5 text-xs ${
-                        idx < fileSummary.files.length - 1 ? 'border-b border-border/40' : ''
+                        idx < fileSummary.files.length - 1 ? 'border-b border-[var(--line)]' : ''
                       }`}
                     >
                       <span
-                        className={`inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border text-[9px] font-bold ${getStatusBadgeClass(file.status)}`}
+                        className={`inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border text-[var(--fs-xs)] font-bold ${getStatusBadgeClass(file.status)}`}
                       >
                         {file.status}
                       </span>
                       <span className="min-w-0 flex-1 truncate">
-                        {file.directory && (
-                          <span className="text-muted-foreground/60">{file.directory}</span>
-                        )}
-                        <span className="font-medium text-foreground">{file.filename}</span>
+                        {file.directory && <span className="text-[var(--ink-3)]">{file.directory}</span>}
+                        <span className="font-medium text-[var(--ink)]">{file.filename}</span>
                       </span>
                       <span className="git-lines flex-shrink-0 font-mono">
-                        {file.insertions > 0 && (
-                          <span className="text-[var(--ok)]">+{file.insertions}</span>
-                        )}
+                        {file.insertions > 0 && <span className="text-[var(--ok)]">+{file.insertions}</span>}
                         {file.insertions > 0 && file.deletions > 0 && '/'}
-                        {file.deletions > 0 && (
-                          <span className="text-[var(--err)]">-{file.deletions}</span>
-                        )}
+                        {file.deletions > 0 && <span className="text-[var(--err)]">-{file.deletions}</span>}
                       </span>
                     </div>
                   ))}
@@ -141,7 +119,6 @@ export default function CommitHistoryItem({
               </div>
             )}
 
-            {/* Diff viewer */}
             <GitDiffViewer diff={diff} isMobile={isMobile} wrapText={wrapText} />
           </div>
         </div>

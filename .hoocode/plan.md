@@ -1,251 +1,233 @@
-# Chat Section Design Alignment Plan
+# Plan: NPM Publish + Binary Build + Standalone Initialization
 
 ## Goal
-Align the chat section user message component and composer with the Kolisachint Minimal Design System (handoff-4), ensuring a consistent paper-and-ink aesthetic with mono typography and the rust accent.
+Publish hoocowork to npm, build binaries for all platforms, and initialize them with server details for standalone operation.
 
-## Current State Analysis
+## Current State
+- Package: `@kolisachint/hoocowork` v2.1.1
+- Build system: Vite (client) + TypeScript (server)
+- Binary entry: `server/binary-entry.ts`
+- Assets embedding: `scripts/embed-assets.ts`
+- GitHub Actions workflow exists for automated release
 
-### MessageComponent.tsx (User Message)
-**Current implementation:**
-- Uses `msg msg-user group w-full` structure
-- Has copy controls and timestamp that appear on hover
-- Contains image attachment grid
-- Extra wrapper divs and conditional styling
-
-**Design spec from handoff-4:**
-```
-.msg { display: grid; grid-template-columns: 24px 1fr; gap: var(--s-2); }
-.msg-gutter { color: var(--ink-4); font-family: var(--font-mono); padding-top: 2px; }
-.msg-user .msg-gutter { color: var(--accent); }
-.msg-body { font-size: var(--fs-base); line-height: var(--lh-normal); color: var(--ink); }
-```
-
-### PromptInput.tsx (Shared UI)
-**Current implementation:**
-- Uses glassmorphism: `bg-card/80`, `backdrop-blur-sm`, `border-border/50`
-- Complex nested structure with Header, Body, Footer, Tools, Button, Submit
-- Tailwind-heavy styling with rounded-xl
-
-**Design spec:**
-- Flat paper surfaces (no blur)
-- Hairline borders (`--line`)
-- Tight radii (`--radius-2: 4px` max)
-
-### ChatComposer.tsx
-**Current implementation:**
-- Uses PromptInput components from shared/view/ui
-- Has additional permission banners, status indicators
-- Complex conditional rendering for various states
+---
 
 ## Files to Modify
 
-### 1. `/src/components/chat/view/subcomponents/MessageComponent.tsx`
-**Line range:** 80-130 (user message section)
-
+### 1. `package.json` (lines 1-50, scripts section)
 **Changes:**
-- Simplify user message structure to match kit pattern
-- Remove excessive wrapper divs and conditional hover states for copy controls
-- Ensure timestamp/copy controls follow minimal design (subtle, not distracting)
-- Keep image attachment grid but ensure it aligns with design spacing
+- Add `build:binary` script for local binary compilation
+- Add `publish:npm` script for npm publishing
+- Add `release:local` script to do everything locally
 
-**Before:**
-```tsx
-{message.type === 'user' ? (
-  <div className="msg msg-user group w-full">
-    <div className="msg-gutter">❯</div>
-    <div className="msg-body">
-      <div className="whitespace-pre-wrap break-words">{message.content}</div>
-      {/* ... images ... */}
-      {(shouldShowUserCopyControl || formattedTime) && (
-        <div className="mt-1 flex items-center gap-2 text-[var(--fs-xs)] text-[var(--ink-4)] opacity-0 transition-opacity group-hover:opacity-100">
-          {/* copy controls */}
-        </div>
-      )}
-    </div>
-  </div>
-) : ...}
-```
-
-**After (align with design):**
-```tsx
-{message.type === 'user' ? (
-  <div className="msg msg-user">
-    <div className="msg-gutter">❯</div>
-    <div className="msg-body">
-      <div className="whitespace-pre-wrap break-words">{message.content}</div>
-      {message.images && message.images.length > 0 && (
-        <div className="mt-2 grid grid-cols-2 gap-2">
-          {/* images */}
-        </div>
-      )}
-    </div>
-  </div>
-) : ...}
-```
-
-### 2. `/src/shared/view/ui/PromptInput.tsx`
-**Line range:** 35-50 (root form styling)
-
-**Changes:**
-- Remove glassmorphism (`backdrop-blur-sm`, `bg-card/80`)
-- Replace with flat paper surface (`bg-[var(--paper)]`)
-- Use hairline border (`border-[var(--line)]`)
-- Reduce border radius to match kit (`rounded-[var(--radius-2)]`)
-
-**Before:**
-```tsx
-className={cn(
-  'relative overflow-hidden rounded-xl border border-border/50 bg-card/80 shadow-sm backdrop-blur-sm transition-all duration-200 focus-within:border-primary/30 focus-within:shadow-md focus-within:ring-1 focus-within:ring-primary/15',
-  className
-)}
-```
-
-**After:**
-```tsx
-className={cn(
-  'relative overflow-hidden rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] transition-all duration-200 focus-within:border-[var(--ink)]',
-  className
-)}
-```
-
-### 3. `/src/shared/view/ui/PromptInput.tsx` - Textarea
-**Line range:** 75-85
-
-**Changes:**
-- Remove placeholder styling that's too faint
-- Ensure text uses `--ink` variable
-
-### 4. `/src/shared/view/ui/PromptInput.tsx` - Footer
-**Line range:** 95-105
-
-**Changes:**
-- Use `--line` for border instead of `border-border/30`
-
-### 5. `/src/components/chat/view/subcomponents/ChatComposer.tsx`
-**Line range:** 180-220 (PromptInput usage)
-
-**Changes:**
-- Review and simplify the composer structure if needed
-- Ensure permission banners use kit styling (badges from kit)
-- Remove any remaining Tailwind color classes that don't map to kit tokens
-
-### 6. `/src/styles/kit-overrides.css`
-**Add new rules:**
-
-```css
-/* Ensure PromptInput follows kit design */
-[data-slot="prompt-input"] {
-  background: var(--paper) !important;
-  border-color: var(--line) !important;
-  border-radius: var(--radius-2) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-[data-slot="prompt-input"]:focus-within {
-  border-color: var(--ink) !important;
-  box-shadow: none !important;
-}
-
-[data-slot="prompt-input-footer"] {
-  border-color: var(--line) !important;
+```json
+{
+  "scripts": {
+    "build:binary": "bun run build && bun run scripts/embed-assets.ts && bun build --compile server/binary-entry.ts --outfile=hoocowork",
+    "build:binary:all": "bun scripts/build-binaries-local.ts",
+    "publish:npm": "npm run build && npm publish --access public",
+    "release:local": "npm run build && npm run build:binary:all && echo 'Release complete. Binaries in ./binaries/'"
+  }
 }
 ```
 
-### 7. `/src/components/chat/view/subcomponents/MessageComponent.tsx` - Tool Messages
-**Line range:** 150-300
-
+### 2. `server/binary-entry.ts` (lines 1-60)
 **Changes:**
-- Review tool message rendering for consistency with `msg-tool` class in kit
-- Ensure tool headers use `tool-head`, `tool-glyph`, `tool-name`, `tool-summary` pattern
-- Badge component should use kit badge classes
+- Add initialization of default server config on first run
+- Ensure `~/.hoocowork/.env` is created with sensible defaults
+
+Add after line 47 (after DATABASE_PATH setup):
+```typescript
+// Initialize default server configuration for standalone binaries
+function initServerConfig() {
+  const hoocoworkDir = path.join(os.homedir(), '.hoocowork');
+  const envPath = path.join(hoocoworkDir, '.env');
+  
+  if (!fs.existsSync(envPath)) {
+    const defaultConfig = `# HooCowork Standalone Configuration
+# Generated on first run
+SERVER_PORT=3001
+HOST=0.0.0.0
+CONTEXT_WINDOW=160000
+VITE_CONTEXT_WINDOW=160000
+DATABASE_PATH=${path.join(hoocoworkDir, 'auth.db')}
+`;
+    fs.writeFileSync(envPath, defaultConfig, 'utf8');
+    console.log(`[init] Created default config: ${envPath}`);
+  }
+}
+initServerConfig();
+```
+
+---
 
 ## New Files
 
-None required - changes are modifications to existing files.
+### 1. `scripts/build-binaries-local.ts`
+**Purpose:** Local binary build script for all platforms (mirrors CI but runs locally)
 
-## Design Tokens Reference (from colors_and_type.css)
+```typescript
+#!/usr/bin/env bun
+/**
+ * Build hoocowork binaries for all platforms locally
+ * Mirrors .github/workflows/release.yml binary build
+ */
 
-### Colors:
-- `--paper`: #FAFAF7 (bone - primary surface)
-- `--paper-2`: #F2F2EC (chalk - recessed)
-- `--paper-3`: #ECECE6 (code blocks)
-- `--ink`: #111110 (primary text)
-- `--ink-2`: #36362F (secondary text)
-- `--ink-3`: #6B6B66 (muted text)
-- `--ink-4`: #9A9A93 (placeholder)
-- `--line`: #DEDED7 (hairline borders)
-- `--accent`: #C2603A (rust - CTA)
+import { $ } from 'bun';
+import fs from 'fs';
+import path from 'path';
 
-### Typography:
-- `--fs-base`: 13px (body)
-- `--fs-xs`: 11px (micro labels)
-- `--fs-sm`: 12px (secondary)
-- `--font-mono`: 'JetBrains Mono', ui-monospace, ...
+const PLATFORMS = [
+  { name: 'darwin-arm64', target: 'bun-darwin-arm64' },
+  { name: 'darwin-x64', target: 'bun-darwin-x64' },
+  { name: 'linux-x64', target: 'bun-linux-x64' },
+  { name: 'linux-arm64', target: 'bun-linux-arm64' },
+  { name: 'win-x64', target: 'bun-windows-x64', ext: '.exe', windowsHide: true },
+];
 
-### Spacing:
-- `--s-2`: 8px
-- `--s-3`: 12px
-- `--s-4`: 16px
-- `--s-5`: 24px
+async function build() {
+  console.log('==> Building client and server...');
+  await $`bun run build`;
 
-### Geometry:
-- `--radius-1`: 2px (default)
-- `--radius-2`: 4px (buttons, cards)
-- `--radius-3`: 6px (max)
+  console.log('==> Embedding assets...');
+  await $`bun run scripts/embed-assets.ts`;
 
-## Tests
+  console.log('==> Building binaries...');
+  fs.mkdirSync('binaries', { recursive: true });
 
-### Visual Regression Tests:
-1. User message renders with `❯` gutter in accent color
-2. Assistant message renders with `·` gutter in ink-4 color
-3. Tool messages have proper card styling with hairline border
-4. Composer has flat paper surface (no blur)
-5. Focus states use ink color, not primary blue
-6. No glassmorphism/backdrop-blur in chat components
+  for (const platform of PLATFORMS) {
+    const outputName = `hoocowork-${platform.name}${platform.ext || ''}`;
+    const outputPath = path.join('binaries', outputName);
+    
+    console.log(`Building ${outputName}...`);
+    
+    let args = [
+      'build', '--compile',
+      '--target', platform.target,
+      'server/binary-entry.ts',
+      '--outfile', outputPath
+    ];
+    
+    if (platform.windowsHide) {
+      args.push('--windows-hide-console');
+    }
+    
+    await $`bun ${args}`;
+    
+    // Make executable on Unix
+    if (!platform.ext) {
+      fs.chmodSync(outputPath, 0o755);
+    }
+    
+    console.log(`  ✓ ${outputPath}`);
+  }
 
-### Functional Tests:
-1. Message copy control still works (even if styled differently)
-2. Image attachments display correctly
-3. Permission banners render properly
-4. Composer submit works with new styling
-5. All existing keyboard shortcuts preserved
+  console.log('\n==> Build complete!');
+  console.log('Binaries in ./binaries/');
+  for (const file of fs.readdirSync('binaries')) {
+    const stats = fs.statSync(path.join('binaries', file));
+    console.log(`  ${file} (${(stats.size / 1024 / 1024).toFixed(1)} MB)`);
+  }
+}
+
+build().catch(err => {
+  console.error('Build failed:', err);
+  process.exit(1);
+});
+```
+
+### 2. `scripts/publish-npm.sh`
+**Purpose:** NPM publish script with checks
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+echo "==> Checking npm authentication..."
+npm whoami || (echo "Not logged in. Run: npm login" && exit 1)
+
+echo "==> Building project..."
+bun run build
+
+echo "==> Running tests..."
+bun test
+
+echo "==> Publishing to npm..."
+npm publish --access public
+
+echo "==> Published successfully!"
+```
+
+---
 
 ## Verification Commands
 
+### NPM Publish Verification:
 ```bash
-# Build the project
-npm run build
+# Check package
+cd ~/github/hoocowork
+npm pack --dry-run
 
-# Run linting
-npm run lint
+# Check current version on npm
+npm view @kolisachint/hoocowork version
 
-# Type check
-npx tsc --noEmit
+# Login if needed
+npm login
 
-# Visual verification - start dev server and check:
-# 1. User message gutter color is rust accent
-# 2. Composer has no blur/glass effect
-# 3. Borders are hairline (1px, subtle)
-# 4. Typography is JetBrains Mono
-npm run dev
+# Publish
+npm run publish:npm
 ```
 
-## Implementation Notes
+### Binary Build Verification:
+```bash
+# Build single local binary
+bun run build:binary
 
-1. **kit.css already has the target styles** - The CSS rules for `msg`, `msg-user`, `msg-gutter`, `msg-body`, `composer`, etc. are already defined in `/src/styles/kit.css`. The React components need to align their markup structure and remove conflicting Tailwind classes.
+# Build all platform binaries
+bun run build:binary:all
 
-2. **PromptInput is shared** - Changes to PromptInput.tsx will affect other parts of the app. Ensure the changes are broadly compatible or add kit-specific overrides.
+# Test the binary
+./hoocowork status
+./hoocowork --port 8080
+```
 
-3. **Copy controls** - The design emphasizes minimalism. The copy control can be simplified or moved to a context menu instead of hover-reveal.
+### Standalone Initialization Verification:
+```bash
+# Remove existing config to test fresh init
+rm -rf ~/.hoocowork
 
-4. **Permission banners** - These should use kit Badge component variants (`badge-warn`, `badge-ok`, etc.) for consistency.
+# Run binary - should create config
+./hoocowork status
 
-5. **Backward compatibility** - The `kit-overrides.css` file exists specifically to enforce kit styling without breaking existing component structures.
+# Verify config was created
+cat ~/.hoocowork/.env
+```
 
-## Rollback Plan
+---
 
-If issues arise:
-1. Revert changes to `PromptInput.tsx` (shared component)
-2. Keep `kit-overrides.css` additions as they are additive only
-3. Restore original MessageComponent.tsx structure
+## Steps to Execute
+
+1. **NPM Publish:**
+   - Ensure logged in: `npm whoami`
+   - Build and test: `bun run build && bun test`
+   - Publish: `npm run publish:npm`
+
+2. **Binary Build (Local):**
+   - Single platform: `bun run build:binary`
+   - All platforms: `bun run build:binary:all`
+
+3. **Binary Standalone Initialization:**
+   - First run creates `~/.hoocowork/.env` with defaults
+   - Server starts with embedded assets (no dist/ needed)
+   - Database created at `~/.hoocowork/auth.db`
+
+---
+
+## Notes
+
+- Binary mode detection: checks for `/bunfs/` or `/$bunfs/` in argv[1]
+- Embedded assets: Generated by `scripts/embed-assets.ts`, loaded via `globalThis.__EMBEDDED_ASSETS__`
+- Config precedence: CLI args > ~/.hoocowork/.env > defaults
+- The existing binary at `hoocowork-darwin-arm64` should be rebuilt after these changes

@@ -100,7 +100,7 @@ export const OneLineDisplay: React.FC<OneLineDisplayProps> = ({
           </div>
           <div className="flex min-w-0 flex-1 items-start gap-2">
             <div className="min-w-0 flex-1 rounded bg-[var(--paper)] px-2.5 py-1 dark:bg-[var(--paper)]">
-              <code className={`font-mono text-xs text-[var(--ok)] ${wrapText ? 'whitespace-pre-wrap break-all' : 'block truncate'}`}>
+              <code className={`font-mono text-[var(--fs-sm)] text-[var(--ok)] ${wrapText ? 'whitespace-pre-wrap break-all' : 'block truncate'}`}>
                 <span className="select-none text-[var(--ok)] dark:text-[var(--ok)]">$ </span>{value}
               </code>
             </div>
@@ -124,11 +124,11 @@ export const OneLineDisplay: React.FC<OneLineDisplayProps> = ({
     const displayName = value.split('/').pop() || value;
     return (
       <div className={`group flex items-center gap-1.5 border-l-2 ${colorScheme.border} my-0.5 py-0.5 pl-3`}>
-        <span className="flex-shrink-0 text-xs text-muted-foreground">{label || toolName}</span>
-        <span className="text-[10px] text-muted-foreground/40">/</span>
+        <span className="flex-shrink-0 text-[var(--fs-sm)] text-muted-foreground">{label || toolName}</span>
+        <span className="text-[var(--fs-xs)] text-muted-foreground/40">/</span>
         <button
           onClick={handleAction}
-          className="truncate font-mono text-xs text-primary transition-colors hover:text-primary/80 hover:underline"
+          className="truncate font-mono text-[var(--fs-sm)] text-primary transition-colors hover:text-primary/80 hover:underline"
           title={value}
         >
           {displayName}
@@ -142,9 +142,9 @@ export const OneLineDisplay: React.FC<OneLineDisplayProps> = ({
   if (action === 'jump-to-results') {
     return (
       <div className={`group flex items-center gap-1.5 border-l-2 ${colorScheme.border} my-0.5 py-0.5 pl-3`}>
-        <span className="flex-shrink-0 text-xs text-muted-foreground">{label || toolName}</span>
-        <span className="text-[10px] text-muted-foreground/40">/</span>
-        <span className={`min-w-0 flex-1 truncate font-mono text-xs ${colorScheme.primary}`}>
+        <span className="flex-shrink-0 text-[var(--fs-sm)] text-muted-foreground">{label || toolName}</span>
+        <span className="text-[var(--fs-xs)] text-muted-foreground/40">/</span>
+        <span className={`min-w-0 flex-1 truncate font-mono text-[var(--fs-sm)] ${colorScheme.primary}`}>
           {value}
         </span>
         {secondary && (
@@ -171,15 +171,15 @@ export const OneLineDisplay: React.FC<OneLineDisplayProps> = ({
   return (
     <div className={`group flex items-center gap-1.5 ${colorScheme.background || ''} border-l-2 ${colorScheme.border} my-0.5 py-0.5 pl-3`}>
       {icon && icon !== 'terminal' && (
-        <span className={`${colorScheme.icon} flex-shrink-0 text-xs`}>{icon}</span>
+        <span className={`${colorScheme.icon} flex-shrink-0 text-[var(--fs-sm)]`}>{icon}</span>
       )}
       {!icon && (label || toolName) && (
-        <span className="flex-shrink-0 text-xs text-muted-foreground">{label || toolName}</span>
+        <span className="flex-shrink-0 text-[var(--fs-sm)] text-muted-foreground">{label || toolName}</span>
       )}
       {(icon || label || toolName) && (
-        <span className="text-[10px] text-muted-foreground/40">/</span>
+        <span className="text-[var(--fs-xs)] text-muted-foreground/40">/</span>
       )}
-      <span className={`font-mono text-xs ${wrapText ? 'whitespace-pre-wrap break-all' : 'truncate'} min-w-0 flex-1 ${colorScheme.primary}`}>
+      <span className={`font-mono text-[var(--fs-sm)] ${wrapText ? 'whitespace-pre-wrap break-all' : 'truncate'} min-w-0 flex-1 ${colorScheme.primary}`}>
         {value}
       </span>
       {secondary && (

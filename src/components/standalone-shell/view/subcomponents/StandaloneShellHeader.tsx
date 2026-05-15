@@ -10,21 +10,23 @@ export default function StandaloneShellHeader({
   onClose = null,
 }: StandaloneShellHeaderProps) {
   return (
-    <div className="flex-shrink-0 border-b border-border bg-muted px-4 py-2">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <h3 className="text-sm font-medium text-foreground">{title}</h3>
-          {isCompleted && <span className="text-xs text-[var(--ok)]">(Completed)</span>}
-        </div>
-
-        {onClose && (
-          <button onClick={onClose} className="text-muted-foreground hover:text-foreground" title="Close">
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        )}
-      </div>
+    <div className="terminal-bar">
+      <span className="term-tab active">{title}</span>
+      {isCompleted && <span className="term-meta">completed</span>}
+      <span className="term-spacer" />
+      {onClose && (
+        <button
+          type="button"
+          onClick={onClose}
+          className="term-tab inline-flex items-center gap-1"
+          title="Close"
+          aria-label="Close"
+        >
+          <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 }
