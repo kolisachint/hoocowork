@@ -1,6 +1,6 @@
 {
   "name": "@kolisachint/hoocowork",
-  "version": "2.3.0",
+  "version": "2.4.1",
   "description": "A web-based UI for Claude Code CLI",
   "type": "module",
   "main": "dist-server/server/index.js",
