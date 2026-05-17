@@ -1,3 +1,8 @@
+## [2.4.3](https://github.com/kolisachint/hoocowork/compare/v2.4.2...v2.4.3) (2026-05-17)
+
+### Bug Fixes
+
+* **shell:** keep PTY at >=80 cols on narrow viewports ([1063b28](https://github.com/kolisachint/hoocowork/commit/1063b288811ae8afe5cd02e92b728d298de383d6))
 ## [2.4.2](https://github.com/kolisachint/hoocowork/compare/v2.4.1...v2.4.2) (2026-05-15)
 ## [2.1.1](https://github.com/kolisachint/hoocowork/compare/v2.1.0...v2.1.1) (2026-05-13)
 ## [2.0.9](https://github.com/kolisachint/hoocowork/compare/v2.0.8...v2.0.9) (2026-05-13)
