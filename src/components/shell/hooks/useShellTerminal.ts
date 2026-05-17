@@ -9,7 +9,10 @@ import { Terminal } from '@xterm/xterm';
 import type { Project } from '../../../types/app';
 import {
   CODEX_DEVICE_AUTH_URL,
+  TERMINAL_DEFAULT_FONT_SIZE,
   TERMINAL_INIT_DELAY_MS,
+  TERMINAL_MIN_COLS,
+  TERMINAL_MIN_FONT_SIZE,
   TERMINAL_OPTIONS,
   TERMINAL_RESIZE_DELAY_MS,
 } from '../constants/constants';
@@ -70,6 +73,36 @@ export function useShellTerminal({
     terminalRef.current.clear();
     terminalRef.current.write('\x1b[2J\x1b[H');
   }, [terminalRef]);
+
+  // Scale font down on narrow viewports so the PTY still reports at least
+  // TERMINAL_MIN_COLS columns. TUIs assume desktop-ish widths and wrap
+  // garbage when the column count drops below ~80.
+  const fitWithResponsiveFont = useCallback(() => {
+    const term = terminalRef.current;
+    const fit = fitAddonRef.current;
+    if (!term || !fit) {
+      return;
+    }
+
+    // Reset to the default font so proposeDimensions reflects max-sized cols
+    // for the current container, then shrink only if we'd fall below the floor.
+    if (term.options.fontSize !== TERMINAL_DEFAULT_FONT_SIZE) {
+      term.options.fontSize = TERMINAL_DEFAULT_FONT_SIZE;
+    }
+
+    const proposed = fit.proposeDimensions();
+    if (proposed && proposed.cols > 0 && proposed.cols < TERMINAL_MIN_COLS) {
+      const scaled = Math.floor(
+        (TERMINAL_DEFAULT_FONT_SIZE * proposed.cols) / TERMINAL_MIN_COLS,
+      );
+      const nextFontSize = Math.max(TERMINAL_MIN_FONT_SIZE, scaled);
+      if (nextFontSize !== term.options.fontSize) {
+        term.options.fontSize = nextFontSize;
+      }
+    }
+
+    fit.fit();
+  }, [fitAddonRef, terminalRef]);
 
   const disposeTerminal = useCallback(() => {
     if (terminalRef.current) {
@@ -198,13 +231,12 @@ export function useShellTerminal({
     });
 
     window.setTimeout(() => {
-      const currentFitAddon = fitAddonRef.current;
       const currentTerminal = terminalRef.current;
-      if (!currentFitAddon || !currentTerminal) {
+      if (!currentTerminal) {
         return;
       }
 
-      currentFitAddon.fit();
+      fitWithResponsiveFont();
       sendSocketMessage(wsRef.current, {
         type: 'resize',
         cols: currentTerminal.cols,
@@ -227,13 +259,12 @@ export function useShellTerminal({
       }
 
       resizeTimeoutRef.current = window.setTimeout(() => {
-        const currentFitAddon = fitAddonRef.current;
         const currentTerminal = terminalRef.current;
-        if (!currentFitAddon || !currentTerminal) {
+        if (!currentTerminal) {
           return;
         }
 
-        currentFitAddon.fit();
+        fitWithResponsiveFont();
         sendSocketMessage(wsRef.current, {
           type: 'resize',
           cols: currentTerminal.cols,
@@ -261,6 +292,7 @@ export function useShellTerminal({
     copyAuthUrlToClipboard,
     disposeTerminal,
     fitAddonRef,
+    fitWithResponsiveFont,
     initialCommandRef,
     isPlainShellRef,
     isRestarting,

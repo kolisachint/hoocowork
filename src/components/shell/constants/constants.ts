@@ -5,6 +5,14 @@ export const SHELL_RESTART_DELAY_MS = 200;
 export const TERMINAL_INIT_DELAY_MS = 100;
 export const TERMINAL_RESIZE_DELAY_MS = 50;
 
+// Keep PTY column count at this minimum so TUIs (Claude, Codex, etc.)
+// render without aggressive wrapping. On narrow viewports the font is
+// scaled down to satisfy the floor instead of letting FitAddon report
+// the natural mobile-width column count.
+export const TERMINAL_MIN_COLS = 80;
+export const TERMINAL_DEFAULT_FONT_SIZE = 14;
+export const TERMINAL_MIN_FONT_SIZE = 9;
+
 // CLI prompt overlay detection
 export const PROMPT_DEBOUNCE_MS = 500;
 export const PROMPT_BUFFER_SCAN_LINES = 20;
@@ -14,7 +22,7 @@ export const PROMPT_MIN_OPTIONS = 2;
 
 export const TERMINAL_OPTIONS: ITerminalOptions = {
   cursorBlink: true,
-  fontSize: 14,
+  fontSize: TERMINAL_DEFAULT_FONT_SIZE,
   fontFamily: 'Menlo, Monaco, "Courier New", monospace',
   allowProposedApi: true,
   allowTransparency: false,
