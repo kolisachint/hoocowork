@@ -48,18 +48,26 @@ export default function NewBranchModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+    <div
+      className="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
       <div
-        className="relative w-full max-w-md overflow-hidden rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] shadow-[var(--shadow-2)]"
+        className="modal-shell relative w-full max-w-md overflow-hidden rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] shadow-[var(--shadow-2)]"
         role="dialog"
         aria-modal="true"
         aria-labelledby="new-branch-title"
       >
-        <div className="p-6">
-          <h3 className="mb-4 text-lg font-semibold text-[var(--ink)]">Create New Branch</h3>
+        <div className="modal-head">
+          <div className="modal-head-title">
+            <h3 id="new-branch-title">Create New Branch</h3>
+          </div>
+        </div>
 
-          <div className="mb-4">
+        <div className="modal-body">
+          <div>
             <label htmlFor="git-new-branch-name" className="mb-2 block text-[var(--fs-sm)] font-medium text-[var(--ink-2)]">
               Branch Name
             </label>
@@ -88,35 +96,35 @@ export default function NewBranchModal({
             />
           </div>
 
-          <p className="mb-4 text-[var(--fs-base)] text-[var(--ink-3)]">
+          <p className="text-[var(--fs-base)] text-[var(--ink-3)]">
             This will create a new branch from the current branch ({currentBranch})
           </p>
+        </div>
 
-          <div className="flex justify-end gap-3">
-            <button
-              onClick={onClose}
-              className="rounded-[var(--radius-1)] px-4 py-2 text-[var(--fs-sm)] text-[var(--ink-3)] transition-colors hover:bg-[var(--paper-2)] hover:text-[var(--ink)]"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => void handleCreateBranch()}
-              disabled={!newBranchName.trim() || isCreatingBranch}
-              className="flex items-center gap-2 rounded-[var(--radius-1)] bg-[var(--ink)] px-4 py-2 text-[var(--fs-sm)] text-[var(--paper)] transition-colors hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {isCreatingBranch ? (
-                <>
-                  <RefreshCw className="h-3 w-3 animate-spin" />
-                  <span>Creating...</span>
-                </>
-              ) : (
-                <>
-                  <Plus className="h-3 w-3" />
-                  <span>Create Branch</span>
-                </>
-              )}
-            </button>
-          </div>
+        <div className="modal-foot">
+          <button
+            onClick={onClose}
+            className="rounded-[var(--radius-1)] px-4 py-2 text-[var(--fs-sm)] text-[var(--ink-3)] transition-colors hover:bg-[var(--paper-2)] hover:text-[var(--ink)]"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => void handleCreateBranch()}
+            disabled={!newBranchName.trim() || isCreatingBranch}
+            className="flex items-center gap-2 rounded-[var(--radius-1)] bg-[var(--ink)] px-4 py-2 text-[var(--fs-sm)] text-[var(--paper)] transition-colors hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isCreatingBranch ? (
+              <>
+                <RefreshCw className="h-3 w-3 animate-spin" />
+                <span>Creating...</span>
+              </>
+            ) : (
+              <>
+                <Plus className="h-3 w-3" />
+                <span>Create Branch</span>
+              </>
+            )}
+          </button>
         </div>
       </div>
     </div>

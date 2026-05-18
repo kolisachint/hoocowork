@@ -49,15 +49,20 @@ export default function TaskHelpModal({ isOpen, onClose, onCreatePrd }: TaskHelp
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-      <div className="max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-lg border border-[var(--line)] bg-[var(--paper)] shadow-xl">
-        <div className="flex items-center justify-between border-b border-[var(--line)] p-6">
-          <div className="flex items-center gap-3">
-            <div className="bg-[var(--brand-accent)]/10 flex h-10 w-10 items-center justify-center rounded-lg">
-              <FileText className="h-5 w-5 text-[var(--brand-accent)]" />
+    <div
+      className="modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <div className="modal-shell max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-lg border border-[var(--line)] bg-[var(--paper)] shadow-xl">
+        <div className="modal-head">
+          <div className="modal-head-title">
+            <div className="modal-head-icon">
+              <FileText className="h-4 w-4" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-[var(--ink)]">{t('helpGuide.title')}</h2>
+              <h3>{t('helpGuide.title')}</h3>
               <p className="text-sm text-[var(--ink-3)]">{t('helpGuide.subtitle')}</p>
             </div>
           </div>
@@ -71,7 +76,7 @@ export default function TaskHelpModal({ isOpen, onClose, onCreatePrd }: TaskHelp
           </button>
         </div>
 
-        <div className="max-h-[calc(90vh-120px)] space-y-4 overflow-y-auto p-6">
+        <div className="modal-body">
           {steps.map((step) => (
             <div key={step.index} className={`rounded-lg border p-4 ${step.accent}`}>
               <div className="flex gap-4">

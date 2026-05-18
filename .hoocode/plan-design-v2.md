@@ -161,11 +161,38 @@ churn — defer):
 - [~] **MCP transport tabs** — existing form uses `<select>` not
   tab-style buttons; v2 `.mcp-transport-tabs` would be a UX change.
 
+- [x] **Git-panel modals** — `NewBranchModal.tsx` +
+  `ConfirmActionModal.tsx`
+  - Restructured to `modal-overlay` (with click-outside close) +
+    `modal-shell` + `modal-head` (with `modal-head-title` /
+    `modal-head-icon` where applicable) + `modal-body` + `modal-foot`
+  - Sibling backdrop divs folded into overlay (overlay handles
+    click-outside via `event.target === event.currentTarget`)
+- [x] **PRD-editor modals** — `GenerateTasksModal.tsx` +
+  `OverwriteConfirmModal.tsx`
+  - Same `modal-overlay` / `modal-shell` / `modal-head` /
+    `modal-body` / `modal-foot` restructure
+  - OverwriteConfirmModal: `warn-soft` token for icon background
+- [x] **Task-master modals** — `CreateTaskModal.tsx` +
+  `TaskHelpModal.tsx`
+  - `modal-*` restructure; close button kept in `modal-head` with
+    `icon-btn`
+- [x] **Sidebar delete confirmations** — `SidebarModals.tsx`
+  - Both `deleteConfirmation` (project) and `sessionDeleteConfirmation`
+    inline modals restructured to `modal-*`
+  - Footers retain `paper-2` background via inline style; project-
+    delete foot keeps stacked button layout via `flex-col gap-2`
+    override (composes with v2 `modal-foot` row default)
+  - Icon backgrounds use `warn-soft` / `err-soft` tokens
+
 Remaining work (per-surface, on-demand):
 
-- [ ] Per-dialog modal-* adoption for the remaining ~36 dialogs
-  using the shared Dialog primitive (do as those surfaces get
-  intentional redesigns)
+- [ ] Per-dialog modal-* adoption for the remaining dialogs
+  (TaskMasterSetupModal — alignment conflict with v2 center; needs
+  custom v2 variant; FolderBrowserModal — multi-section structure
+  doesn't map cleanly to head/body/foot; CodeEditor binary/loading
+  states; ImageViewer; PrdEditor workspace modals; TaskDetailModal)
+  — do as those surfaces get intentional redesigns
 
 ### Phase 3 — Verification  ◔ PARTIAL
 
@@ -199,16 +226,21 @@ When resuming this work, read this file plus the section
 checkboxes above. The bundle in `/tmp/design-files/` may not
 survive a reboot — re-fetch via the design URL if missing.
 
-Last updated: 2026-05-17 (post-checkpoint pass).
+Last updated: 2026-05-18 (modal-* batch pass).
 - Phase 1 complete (stylesheets in build).
 - Phase 2 broader (sidebar v2, plugins v2, agent-selector x6,
   version upgrade modal, MCP form modal, provider login modal,
   project creation wizard, chat thinking-mode dropdown, ClaudeStatus
   pill, AccountContent account-card, PermissionsContent
-  permission-mode-card grid, model picker modelpick-* all wired).
-- Remaining: per-dialog modal-* adoption for the ~36 remaining
-  Dialog primitive consumers (do as each surface is intentionally
-  redesigned). All other deeper refactors are intentionally deferred.
+  permission-mode-card grid, model picker modelpick-*, **git-panel
+  modals**, **prd-editor modals**, **task-master modals**, **sidebar
+  delete confirmations** all wired).
+- Remaining: per-dialog modal-* adoption for the few outstanding
+  modal surfaces (TaskMasterSetupModal, FolderBrowserModal,
+  CodeEditor binary/loading, ImageViewer, PrdEditor workspace,
+  TaskDetailModal) — each has structural reasons (alignment
+  conflict, multi-section, etc.) to do as part of an intentional
+  redesign rather than additive class composition.
 - Phase 3 partial: `npm install` ran; `npm run typecheck` is clean
   for all v2-edited files (pre-existing errors in untouched shell/
   xterm/CommandPalette/WebSocketContext only); `npm run lint` and

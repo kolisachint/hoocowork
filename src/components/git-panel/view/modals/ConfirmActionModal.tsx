@@ -60,41 +60,47 @@ export default function ConfirmActionModal({ action, onCancel, onConfirm }: Conf
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={onCancel} />
+    <div
+      className="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onCancel();
+      }}
+    >
       <div
-        className="relative w-full max-w-md overflow-hidden rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] shadow-[var(--shadow-2)]"
+        className="modal-shell relative w-full max-w-md overflow-hidden rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] shadow-[var(--shadow-2)]"
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
       >
-        <div className="p-6">
-          <div className="mb-4 flex items-center">
-            <div className={`mr-3 rounded-full p-2 ${CONFIRMATION_ICON_CONTAINER_CLASSES[action.type]}`}>
+        <div className="modal-head">
+          <div className="modal-head-title">
+            <div className={`modal-head-icon ${CONFIRMATION_ICON_CONTAINER_CLASSES[action.type]}`}>
               {renderConfirmActionIcon(action.type)}
             </div>
-            <h3 id={titleId} className="text-lg font-semibold text-[var(--ink)]">
+            <h3 id={titleId}>
               {CONFIRMATION_TITLES[action.type]}
             </h3>
           </div>
+        </div>
 
-          <p className="mb-6 text-[var(--fs-base)] text-[var(--ink-3)]">{action.message}</p>
+        <div className="modal-body">
+          <p className="text-[var(--fs-base)] text-[var(--ink-3)]">{action.message}</p>
+        </div>
 
-          <div className="flex justify-end gap-3">
-            <button
-              onClick={onCancel}
-              className="rounded-[var(--radius-1)] px-4 py-2 text-[var(--fs-sm)] text-[var(--ink-3)] transition-colors hover:bg-[var(--paper-2)] hover:text-[var(--ink)]"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={onConfirm}
-              className={`flex items-center gap-2 rounded-[var(--radius-1)] px-4 py-2 text-[var(--fs-sm)] text-white transition-colors ${CONFIRMATION_BUTTON_CLASSES[action.type]}`}
-            >
-              {renderConfirmActionIcon(action.type)}
-              <span>{CONFIRMATION_ACTION_LABELS[action.type]}</span>
-            </button>
-          </div>
+        <div className="modal-foot">
+          <button
+            onClick={onCancel}
+            className="rounded-[var(--radius-1)] px-4 py-2 text-[var(--fs-sm)] text-[var(--ink-3)] transition-colors hover:bg-[var(--paper-2)] hover:text-[var(--ink)]"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className={`flex items-center gap-2 rounded-[var(--radius-1)] px-4 py-2 text-[var(--fs-sm)] text-white transition-colors ${CONFIRMATION_BUTTON_CLASSES[action.type]}`}
+          >
+            {renderConfirmActionIcon(action.type)}
+            <span>{CONFIRMATION_ACTION_LABELS[action.type]}</span>
+          </button>
         </div>
       </div>
     </div>

@@ -101,33 +101,36 @@ export default function SidebarModals({
 
       {deleteConfirmation &&
         ReactDOM.createPortal(
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-md overflow-hidden rounded-xl border shadow-2xl" style={{ background: 'var(--paper)' }}>
-              <div className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="bg-[var(--warn)]/10 dark:bg-[var(--warn)]/10/30 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full">
-                    <AlertTriangle className="h-6 w-6 text-[var(--warn)] dark:text-[var(--warn)]" />
+          <div
+            className="modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+            onClick={(event) => {
+              if (event.target === event.currentTarget) onCancelDeleteProject();
+            }}
+          >
+            <div className="modal-shell w-full max-w-md overflow-hidden rounded-xl border shadow-2xl" style={{ background: 'var(--paper)' }}>
+              <div className="modal-head">
+                <div className="modal-head-title">
+                  <div className="modal-head-icon bg-[var(--warn-soft)] text-[var(--warn)]">
+                    <AlertTriangle className="h-4 w-4" />
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="mb-2 text-lg font-semibold">
-                      {t('deleteConfirmation.deleteProject')}
-                    </h3>
-                    <p className="mb-1 text-[var(--fs-base)]" style={{ color: 'var(--ink-3)' }}>
-                      {t('deleteConfirmation.confirmDelete')}{' '}
-                      <span className="font-medium">
-                        {deleteConfirmation.project.displayName || deleteConfirmation.project.projectId}
-                      </span>
-                      ?
-                    </p>
-                    {deleteConfirmation.sessionCount > 0 && (
-                      <p className="mt-2 text-[var(--fs-base)]" style={{ color: 'var(--ink-3)' }}>
-                        {t('deleteConfirmation.sessionCount', { count: deleteConfirmation.sessionCount })}
-                      </p>
-                    )}
-                  </div>
+                  <h3>{t('deleteConfirmation.deleteProject')}</h3>
                 </div>
               </div>
-              <div className="flex flex-col gap-2 border-t p-4" style={{ background: 'var(--paper-2)' }}>
+              <div className="modal-body">
+                <p className="text-[var(--fs-base)]" style={{ color: 'var(--ink-3)' }}>
+                  {t('deleteConfirmation.confirmDelete')}{' '}
+                  <span className="font-medium">
+                    {deleteConfirmation.project.displayName || deleteConfirmation.project.projectId}
+                  </span>
+                  ?
+                </p>
+                {deleteConfirmation.sessionCount > 0 && (
+                  <p className="text-[var(--fs-base)]" style={{ color: 'var(--ink-3)' }}>
+                    {t('deleteConfirmation.sessionCount', { count: deleteConfirmation.sessionCount })}
+                  </p>
+                )}
+              </div>
+              <div className="modal-foot flex-col gap-2" style={{ background: 'var(--paper-2)' }}>
                 <Button
                   variant="outline"
                   className="w-full justify-start"
@@ -155,31 +158,34 @@ export default function SidebarModals({
 
       {sessionDeleteConfirmation &&
         ReactDOM.createPortal(
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-md overflow-hidden rounded-xl border shadow-2xl" style={{ background: 'var(--paper)' }}>
-              <div className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="bg-[var(--err)]/10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full">
-                    <AlertTriangle className="h-6 w-6 text-[var(--err)]" />
+          <div
+            className="modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+            onClick={(event) => {
+              if (event.target === event.currentTarget) onCancelDeleteSession();
+            }}
+          >
+            <div className="modal-shell w-full max-w-md overflow-hidden rounded-xl border shadow-2xl" style={{ background: 'var(--paper)' }}>
+              <div className="modal-head">
+                <div className="modal-head-title">
+                  <div className="modal-head-icon bg-[var(--err-soft)] text-[var(--err)]">
+                    <AlertTriangle className="h-4 w-4" />
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="mb-2 text-lg font-semibold">
-                      {t('deleteConfirmation.deleteSession')}
-                    </h3>
-                    <p className="mb-1 text-[var(--fs-base)]" style={{ color: 'var(--ink-3)' }}>
-                      {t('deleteConfirmation.confirmDelete')}{' '}
-                      <span className="font-medium">
-                        {sessionDeleteConfirmation.sessionTitle || t('sessions.unnamed')}
-                      </span>
-                      ?
-                    </p>
-                    <p className="mt-3 text-[var(--fs-sm)]" style={{ color: 'var(--ink-3)' }}>
-                      {t('deleteConfirmation.cannotUndo')}
-                    </p>
-                  </div>
+                  <h3>{t('deleteConfirmation.deleteSession')}</h3>
                 </div>
               </div>
-              <div className="flex gap-3 border-t p-4" style={{ background: 'var(--paper-2)' }}>
+              <div className="modal-body">
+                <p className="text-[var(--fs-base)]" style={{ color: 'var(--ink-3)' }}>
+                  {t('deleteConfirmation.confirmDelete')}{' '}
+                  <span className="font-medium">
+                    {sessionDeleteConfirmation.sessionTitle || t('sessions.unnamed')}
+                  </span>
+                  ?
+                </p>
+                <p className="text-[var(--fs-sm)]" style={{ color: 'var(--ink-3)' }}>
+                  {t('deleteConfirmation.cannotUndo')}
+                </p>
+              </div>
+              <div className="modal-foot" style={{ background: 'var(--paper-2)' }}>
                 <Button variant="outline" className="flex-1" onClick={onCancelDeleteSession}>
                   {t('actions.cancel')}
                 </Button>

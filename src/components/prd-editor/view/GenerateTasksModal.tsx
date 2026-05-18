@@ -18,14 +18,19 @@ export default function GenerateTasksModal({
   }
 
   return (
-    <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-md rounded-lg border border-[var(--line)] bg-[var(--paper)] shadow-xl">
-        <div className="flex items-center justify-between border-b border-[var(--line)] p-6">
-          <div className="flex items-center gap-3">
-            <div className="bg-[var(--brand-accent)]/10 flex h-8 w-8 items-center justify-center rounded-lg">
-              <Sparkles className="h-4 w-4 text-[var(--brand-accent)]" />
+    <div
+      className="modal-overlay fixed inset-0 z-[300] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <div className="modal-shell w-full max-w-md rounded-lg border border-[var(--line)] bg-[var(--paper)] shadow-xl">
+        <div className="modal-head">
+          <div className="modal-head-title">
+            <div className="modal-head-icon">
+              <Sparkles className="h-4 w-4" />
             </div>
-            <h3 className="text-lg font-semibold text-[var(--ink)]">
+            <h3>
               Generate Tasks from PRD
             </h3>
           </div>
@@ -37,7 +42,7 @@ export default function GenerateTasksModal({
           </button>
         </div>
 
-        <div className="space-y-4 p-6">
+        <div className="modal-body">
           <div className="border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 rounded-lg border p-4">
             <h4 className="mb-2 font-semibold text-[var(--ink)]">
               Ask Claude Code directly
@@ -64,10 +69,12 @@ export default function GenerateTasksModal({
               View TaskMaster documentation
             </a>
           </div>
+        </div>
 
+        <div className="modal-foot">
           <button
             onClick={onClose}
-            className="w-full rounded-lg border border-[var(--line)] bg-[var(--paper)] px-4 py-2 text-sm font-medium text-[var(--ink-3)] transition-colors hover:bg-[var(--paper-2)]"
+            className="rounded-lg border border-[var(--line)] bg-[var(--paper)] px-4 py-2 text-sm font-medium text-[var(--ink-3)] transition-colors hover:bg-[var(--paper-2)]"
           >
             Got it
           </button>
