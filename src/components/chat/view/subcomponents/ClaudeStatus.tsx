@@ -76,7 +76,7 @@ export default function ClaudeStatus({
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-2 mb-3 w-full duration-500">
-      <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 overflow-hidden rounded-full border border-border/50 bg-muted px-3 py-1.5 shadow-sm backdrop-blur-md dark:bg-[var(--paper)]">
+      <div className="claude-status mx-auto flex max-w-4xl items-center justify-between gap-3 overflow-hidden rounded-full border border-border/50 bg-muted px-3 py-1.5 shadow-sm backdrop-blur-md dark:bg-[var(--paper)]">
 
         {/* Left Side: Identity & Status */}
         <div className="flex min-w-0 items-center gap-2.5">
@@ -92,7 +92,7 @@ export default function ClaudeStatus({
               {providerLabel}
             </span>
             <div className="flex items-center gap-1.5">
-              <span className={cn("status-dot", isLoading ? "dot-ok animate-pulse" : "bg-[var(--warn)]")} />
+              <span className={cn("status-dot", isLoading ? "pulse dot-ok" : "bg-[var(--warn)]")} />
               <p className="truncate text-[var(--fs-sm)] font-medium text-foreground">
                 {statusText}<span className="inline-block w-4 text-primary">{isLoading ? dots : ''}</span>
               </p>

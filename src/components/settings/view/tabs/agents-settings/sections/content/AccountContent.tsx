@@ -23,12 +23,6 @@ export default function AccountContent({ agent, authStatus, onLogin }: AccountCo
   const { t } = useTranslation('settings');
   const name = AGENT_NAMES[agent];
 
-  const statusLabel = authStatus.loading
-    ? t('agents.authStatus.checking')
-    : authStatus.authenticated
-      ? t('agents.authStatus.connected')
-      : t('agents.authStatus.disconnected');
-
   const statusDotClass = authStatus.loading
     ? 'dot-off'
     : authStatus.authenticated
@@ -53,31 +47,31 @@ export default function AccountContent({ agent, authStatus, onLogin }: AccountCo
         <div className="settings-section-title">{t('tabs.account')}</div>
       </div>
       <div className="settings-section-body">
-        {/* Authentication row - design style */}
+        {/* Authentication row - v2 account-card */}
         <div className="settings-row">
-          <div className="settings-row-text">
-            <div className="settings-row-label flex items-center gap-2">
-              <SessionProviderLogo provider={agent} className="h-4 w-4" />
-              <span>{t('agents.account.authentication')}</span>
-            </div>
-            <div className="settings-row-hint">{authHint}</div>
-          </div>
-          <div className="settings-row-ctrl">
-            {showLoginRow ? (
-              <button type="button" className="btn btn-sm btn-outline" onClick={onLogin}>
-                <LogIn className="h-3.5 w-3.5" />
-                <span>
-                  {authStatus.authenticated
-                    ? t('agents.login.reAuthenticate')
-                    : t('agents.login.button')}
-                </span>
-              </button>
-            ) : (
-              <div className="flex items-center gap-2">
-                <span className={`status-dot ${statusDotClass}`} />
-                <span className="text-[var(--fs-xs)] text-[var(--ink-3)]">{statusLabel}</span>
+          <div style={{ flex: 1 }}>
+            <div className={`account-card ${authStatus.authenticated ? 'connected' : ''}`}>
+              <span className="agent-conn-icon">
+                <SessionProviderLogo provider={agent} className="h-5 w-5" />
+              </span>
+              <div className="account-card-meta">
+                <div className="account-card-name">{name}</div>
+                <div className="account-card-state">
+                  <span className={`status-dot ${statusDotClass}`} />
+                  <span>{authHint}</span>
+                </div>
               </div>
-            )}
+              {showLoginRow && (
+                <button type="button" className="btn btn-sm btn-outline" onClick={onLogin}>
+                  <LogIn className="h-3.5 w-3.5" />
+                  <span>
+                    {authStatus.authenticated
+                      ? t('agents.login.reAuthenticate')
+                      : t('agents.login.button')}
+                  </span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
 

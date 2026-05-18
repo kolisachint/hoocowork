@@ -13,39 +13,26 @@ export default function WizardProgress({ step }: WizardProgressProps) {
   const steps: WizardStep[] = [1, 2];
 
   return (
-    <div className="px-6 pb-2 pt-4">
-      <div className="flex items-center justify-between">
-        {steps.map((currentStep) => (
+    <div className="pwiz-progress">
+      {steps.map((currentStep) => {
+        const state = currentStep < step ? 'done' : currentStep === step ? 'active' : '';
+        return (
           <Fragment key={currentStep}>
-            <div className="flex items-center gap-2">
-              <div
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${
-                  currentStep < step
-                    ? 'bg-[var(--ok)] text-[var(--paper)]'
-                    : currentStep === step
-                      ? 'bg-[var(--ink)] text-[var(--paper)]'
-                      : 'bg-[var(--paper-3)] text-[var(--ink-3)]'
-                }`}
-              >
-                {currentStep < step ? <Check className="h-4 w-4" /> : currentStep}
-              </div>
-              <span className="hidden text-sm font-medium text-[var(--ink-2)] sm:inline">
+            <div className={`pwiz-step ${state}`}>
+              <span className="num">
+                {currentStep < step ? <Check className="h-3 w-3" /> : currentStep}
+              </span>
+              <span className="hidden sm:inline">
                 {currentStep === 1
                   ? t('projectWizard.steps.configure')
                   : t('projectWizard.steps.confirm')}
               </span>
             </div>
 
-            {currentStep < 2 && (
-              <div
-                className={`mx-2 h-1 flex-1 rounded ${
-                  currentStep < step ? 'bg-[var(--ok)]' : 'bg-[var(--paper-3)]'
-                }`}
-              />
-            )}
+            {currentStep < 2 && <span className="sep" />}
           </Fragment>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 }

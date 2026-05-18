@@ -1,0 +1,338 @@
+/* ============================================================
+   kit-mobile-v2.css  —  declutters mobile views.
+   Loaded LAST so it overrides earlier rules.
+
+   Targets the surfaces the user flagged as cluttered:
+     • Topbar (icon-only tabs that breathe, drop the "commands" pill)
+     • Chat composer (two clean rows, hide secondary controls)
+     • Plugins (stacked rows, single primary action, less metadata noise)
+     • Smaller density tightening across MCP / Tasks / PRD / Git
+   ============================================================ */
+
+/* ---------- Phone (≤ 760px) ---------- */
+@media (max-width: 760px) {
+
+  /* ── Topbar ─────────────────────────────────────────────── */
+  .topbar {
+    padding: 4px 8px;
+    gap: 4px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    position: sticky; top: 0; z-index: 30;
+  }
+  .topbar-tabs {
+    gap: 2px;
+    padding-left: 2px;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+            mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  }
+  .topbar-tab {
+    padding: 8px 10px;
+    min-width: 40px;
+    justify-content: center;
+    border-radius: var(--radius-1);
+    color: var(--ink-3);
+    background: transparent;
+  }
+  .topbar-tab.active {
+    color: var(--ink);
+    background: var(--paper-2);
+  }
+  /* Active label only when fits — kept from base mobile, but tighten */
+  .topbar-tab.active span { padding-left: 4px; font-size: var(--fs-xs); }
+  /* Kill the "commands" chip on phone — ⌘K is meaningless without a keyboard */
+  .topbar-cmd { display: none !important; }
+  .topbar-meta { padding-left: 2px; border-left: 1px solid var(--line); margin-left: 2px; }
+  .topbar-meta .icon-btn { width: 36px; height: 36px; }
+
+  .mobile-menu-btn { width: 36px; height: 36px; padding: 0; flex-shrink: 0; }
+
+  /* ── Chat header ─────────────────────────────────────────── */
+  .chat-header-info {
+    padding: 10px 14px 8px;
+    gap: 4px;
+  }
+  .chat-header-info .chat-title { gap: 6px; align-items: center; }
+  .chat-header-info .chat-eyebrow { display: none; }
+  .chat-header-info .chat-name {
+    font-size: var(--fs-md);
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1; min-width: 0;
+  }
+  .chat-header-info .chat-meta { display: none; }
+
+  /* ── Chat composer: clean two-row layout ─────────────────── */
+  .composer {
+    padding: 8px 10px 10px;
+    gap: 8px;
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+  }
+  .composer-input {
+    border-radius: var(--radius-2);
+    padding: 12px;
+    font-size: 16px;          /* prevent iOS zoom on focus */
+    line-height: 1.45;
+    min-height: 80px;
+  }
+
+  /* Hide noisy secondary controls. Anything an advanced user needs
+     (slash commands, file mention) can be typed directly into the textarea. */
+  .composer-tool[title="Mention file"],
+  .composer-tool[title="Slash command"],
+  .composer-think,
+  .composer-tokens,
+  .composer-divider,
+  .composer-spacer { display: none !important; }
+
+  /* The remaining tool row becomes a tidy bar: attach · model · mode */
+  .composer-tools {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: visible;
+    gap: 6px;
+    align-items: center;
+    padding: 0;
+  }
+  .composer-tool {
+    width: 36px; height: 36px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-1);
+    background: var(--paper);
+  }
+  .modelpick-card {
+    flex: 1;                  /* model chip takes remaining space */
+    min-width: 0;
+    padding: 8px 10px;
+    height: 36px;
+    border-radius: var(--radius-1);
+    justify-content: flex-start;
+  }
+  .modelpick-card .modelpick-provider { max-width: none; font-size: var(--fs-sm); }
+  .modelpick-card .modelpick-model {
+    max-width: 12ch;
+    color: var(--ink-3);
+    font-size: var(--fs-xs);
+  }
+  .composer-mode {
+    flex-shrink: 0;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: var(--radius-1);
+    font-size: var(--fs-xs);
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Foot row: Send button is full-width-ish, takes the focus */
+  .composer-foot {
+    margin-top: 2px;
+    gap: 8px;
+  }
+  .composer-foot .composer-hint { display: none; }
+  .composer-foot .btn {
+    flex: 1;
+    height: 44px;
+    justify-content: center;
+    font-size: var(--fs-md);
+  }
+
+  /* ── Tool messages: compress vertical padding ─────────────── */
+  .msg.msg-tool { padding: 8px 10px; }
+  .tool-head { gap: 6px; flex-wrap: wrap; }
+  .tool-summary {
+    flex: 1; min-width: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-size: var(--fs-xs);
+  }
+  .tool-diff { padding: 8px 10px; }
+
+  /* Permission banner reads as a card, not a strip */
+  .permission-banner {
+    padding: 10px 12px;
+    border-radius: var(--radius-2);
+    gap: 6px;
+  }
+  .permission-banner-foot { flex-wrap: wrap; gap: 6px; }
+  .permission-banner-foot .btn { flex: 1; justify-content: center; min-width: 40%; }
+
+  /* ── Plugins: stacked card row ───────────────────────────── */
+  .plugins { padding: 12px; gap: 10px; }
+  .mcp-head { gap: 6px; }
+  .mcp-title { font-size: var(--fs-xl); }
+  .cli-sub { font-size: var(--fs-xs); }
+
+  /* Filter+install actions: stack the install bar with the install button */
+  .plugins .mcp-head > div:last-child {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px;
+    width: 100%;
+  }
+  .plugins .mcp-head > div:last-child .input-wrap { width: 100% !important; }
+  .plugins .mcp-head > div:last-child .btn { white-space: nowrap; }
+
+  .plugin-install-bar { gap: 6px; }
+  .plugin-install-bar .btn { flex-shrink: 0; padding: 0 14px; }
+
+  /* The row itself: 3-area grid (icon, body, action), denser */
+  .plugin-row {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    grid-template-areas:
+      "glyph head    toggle"
+      "glyph desc    desc"
+      "glyph foot    foot";
+    gap: 4px 10px;
+    padding: 12px;
+    align-items: start;
+    border-radius: var(--radius-2);
+  }
+  .plugin-glyph { grid-area: glyph; width: 36px; height: 36px; font-size: var(--fs-sm); margin-top: 2px; }
+
+  .plugin-body { grid-area: head / head / foot / foot; display: contents; }
+  .plugin-line1 {
+    grid-area: head;
+    flex-wrap: nowrap;
+    gap: 6px;
+    align-items: center;
+    overflow: hidden;
+  }
+  .plugin-line1 .plugin-name {
+    font-size: var(--fs-md);
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    flex: 1;
+  }
+  /* Hide noisy chrome — author, version, slot badge — on phone */
+  .plugin-line1 .plugin-author,
+  .plugin-line1 .plugin-ver,
+  .plugin-line1 .badge { display: none; }
+  /* Keep just a tiny pulse for running state — drop the "running" word */
+  .plugin-server-dot {
+    flex-shrink: 0;
+    gap: 0;
+    color: transparent;
+    font-size: 0;
+  }
+  .plugin-server-dot .ping { display: block; }
+
+  .plugin-desc {
+    grid-area: desc;
+    font-size: var(--fs-sm);
+    color: var(--ink-3);
+    line-height: 1.45;
+    margin: 2px 0 0;
+  }
+
+  /* Repo link sits in its own footer line with author+version as meta */
+  .plugin-suggest-repo {
+    grid-area: foot;
+    margin-top: 6px !important;
+    font-size: var(--fs-xs);
+    color: var(--ink-4);
+  }
+
+  /* Right-side action stack: only TOGGLE shows by default.
+     Refresh + Trash collapse into a single overflow disclosure.
+     We can't add an overflow menu in CSS, so we just hide them on
+     phone — the desktop view still exposes them. Toggle is the
+     primary commitment for mobile. */
+  .plugin-row > div:last-child {
+    grid-area: toggle;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 2px !important;
+    margin-top: 0;
+  }
+  .plugin-row > div:last-child .icon-btn {
+    width: 32px; height: 32px;
+    color: var(--ink-4);
+  }
+  /* Hide the refresh button on phone — uncommon action, room is tight */
+  .plugin-row > div:last-child .icon-btn[title="Pull latest from git"] {
+    display: none;
+  }
+  /* Trash gets demoted visually but stays accessible */
+  .plugin-row > div:last-child .icon-btn[title="Uninstall"] {
+    opacity: 0.55;
+  }
+  .plugin-row > div:last-child .icon-btn[title="Uninstall"]:active {
+    opacity: 1;
+  }
+
+  /* Permission/confirm banner inside row: full width below */
+  .plugin-row .permission-banner {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+  }
+
+  /* Suggestion cards: edge stripe sits left, content stacks neatly */
+  .plugin-suggest-card { border-radius: var(--radius-2); }
+  .plugin-suggest-body { padding: 12px; gap: 10px; }
+  .plugin-suggest-icon { width: 36px; height: 36px; }
+  .plugin-suggest-name { font-size: var(--fs-md); }
+  .plugin-suggest-line .badge:nth-of-type(2) { display: none; }   /* hide "tab" extra */
+  .plugin-suggest-body > .btn { height: 40px; }
+
+  .plugin-security-note {
+    padding: 8px 10px;
+    border-radius: var(--radius-1);
+    font-size: var(--fs-xs);
+    line-height: 1.45;
+  }
+
+  .plugin-foot-links {
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    padding-top: var(--s-3);
+    justify-content: flex-start;
+    font-size: var(--fs-xs);
+  }
+
+  /* ── Sidebar drawer: nicer transition + safer width ───────── */
+  .sidebar { width: 88vw; max-width: 340px; }
+
+  /* ── Settings & MCP: cleaner sections ────────────────────── */
+  .mcp-row-head { padding: 12px; }
+  .mcp-detail-actions { flex-wrap: wrap; gap: 6px; }
+  .mcp-detail-actions .btn { flex: 1; min-width: 40%; justify-content: center; }
+
+  /* ── Tasks: one column on phone (override base's snap-scroll) ── */
+  /* The horizontal-scrolling kanban felt cluttered; vertical reads
+     better on a phone since the columns are short anyway. */
+  .tm-board {
+    grid-auto-flow: row;
+    grid-auto-columns: initial;
+    grid-template-columns: 1fr;
+    overflow-x: visible;
+  }
+  .tm-col { scroll-snap-align: initial; }
+  .tm-col-head { position: sticky; top: 48px; background: var(--paper); z-index: 5; }
+
+  /* ── Stage switcher: hide on phone to save room ──────────── */
+  .stage-switcher {
+    bottom: 6px;
+    right: 6px;
+    transform: scale(0.85);
+    transform-origin: bottom right;
+  }
+}
+
+/* ---------- Small phones (≤ 400px): a little tighter still ---------- */
+@media (max-width: 400px) {
+  .topbar { padding: 4px 6px; }
+  .topbar-tab { padding: 8px; min-width: 36px; }
+  .composer { padding: 6px 8px 8px; }
+  .composer-mode { padding: 0 8px; }
+  .composer-tool { width: 32px; height: 32px; }
+  .modelpick-card { padding: 6px 8px; height: 32px; }
+  .modelpick-card .modelpick-model { display: none; }   /* glyph + provider only on tiny screens */
+  .plugin-row { padding: 10px; gap: 4px 8px; }
+}

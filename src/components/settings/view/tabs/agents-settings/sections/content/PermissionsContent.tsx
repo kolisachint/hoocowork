@@ -261,46 +261,41 @@ function RadioModeSection<TValue extends string>({
         <div className="settings-section-desc">{description}</div>
       </div>
       <div className="settings-section-body">
-        {options.map((option) => {
-          const isActive = value === option.value;
-          const toneRing = option.tone === 'ok'
-            ? 'data-[active=true]:bg-[var(--ok-soft)]'
-            : option.tone === 'warn'
-              ? 'data-[active=true]:bg-[var(--warn-soft)]'
-              : 'data-[active=true]:bg-[var(--paper-2)]';
-          const descTone = option.tone === 'ok'
-            ? 'text-[var(--ok)]'
-            : option.tone === 'warn'
-              ? 'text-[var(--warn)]'
-              : 'text-[var(--ink-3)]';
-          return (
-            <label
-              key={option.value}
-              data-active={isActive}
-              className={cn(
-                'settings-row cursor-pointer transition-colors',
-                toneRing,
-              )}
-            >
-              <div className="settings-row-text">
-                <div className="settings-row-label flex items-center gap-2">
-                  {option.title}
-                  {option.warningIcon && <AlertTriangle className="h-3.5 w-3.5 text-[var(--warn)]" />}
-                </div>
-                <div className={cn('settings-row-hint', descTone)}>{option.description}</div>
-              </div>
-              <div className="settings-row-ctrl">
-                <input
-                  type="radio"
+        <div style={{ padding: 'var(--s-3)' }}>
+          <div className="permissions-grid" role="radiogroup" aria-label={title}>
+            {options.map((option) => {
+              const isActive = value === option.value;
+              const dotTone = option.tone === 'ok'
+                ? 'dot-ok'
+                : option.tone === 'warn'
+                  ? 'dot-warn'
+                  : 'dot-off';
+              const descTone = option.tone === 'ok'
+                ? 'text-[var(--ok)]'
+                : option.tone === 'warn'
+                  ? 'text-[var(--warn)]'
+                  : '';
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={isActive}
                   name={name}
-                  checked={isActive}
-                  onChange={() => onChange(option.value)}
-                  className="h-4 w-4 accent-[var(--ink)]"
-                />
-              </div>
-            </label>
-          );
-        })}
+                  onClick={() => onChange(option.value)}
+                  className={cn('permission-mode-card', isActive && 'active')}
+                >
+                  <div className="permission-mode-card-head">
+                    <span className={cn('status-dot', dotTone)} />
+                    <span className="permission-mode-card-name">{option.title}</span>
+                    {option.warningIcon && <AlertTriangle className="h-3.5 w-3.5 text-[var(--warn)]" />}
+                  </div>
+                  <div className={cn('permission-mode-card-desc', descTone)}>{option.description}</div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );

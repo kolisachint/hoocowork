@@ -120,16 +120,18 @@ export default function McpServerFormModal({
   const showCodexOnlyFields = provider === 'codex' && !isGlobalMode;
 
   return (
-    <div className="fixed inset-0 z-[110] flex items-center justify-center bg-[var(--paper)]/80 p-4 backdrop-blur-sm">
-      <div className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] shadow-[var(--shadow-2)]">
-        <div className="flex flex-shrink-0 items-center justify-between border-b border-[var(--line)] p-[var(--s-4)]">
-          <h3 className="text-[var(--fs-lg)] font-semibold text-[var(--ink)]">{modalTitle}</h3>
+    <div className="modal-overlay" style={{ zIndex: 110 }}>
+      <div className="modal-shell w-full max-w-2xl">
+        <div className="modal-head">
+          <div className="modal-head-title">
+            <h3>{modalTitle}</h3>
+          </div>
           <button type="button" className="btn btn-icon btn-ghost" onClick={onClose} aria-label="Close">
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-[var(--s-4)] overflow-y-auto p-[var(--s-4)]">
+        <form onSubmit={handleSubmit} className="modal-body mcp-form">
           {description && (
             <div className="rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper-2)] px-[var(--s-3)] py-[var(--s-2)] text-[var(--fs-sm)] text-[var(--ink-3)]">
               {description}

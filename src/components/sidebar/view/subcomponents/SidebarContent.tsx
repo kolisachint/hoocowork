@@ -161,15 +161,11 @@ export default function SidebarContent({
       {projects.length > 0 && !isLoading && (
         <>
           {/* Search mode tabs */}
-          <div style={{ display: 'flex', gap: 2, padding: '0 var(--s-4) var(--s-2)' }}>
+          <div className="sidebar-search-modes">
             <button
               onClick={() => onSearchModeChange('projects')}
               aria-pressed={searchMode === 'projects'}
-              className={cn(
-                'btn btn-sm flex-1 justify-center gap-1',
-                searchMode === 'projects' ? 'btn-outline' : 'btn-ghost',
-              )}
-              style={{ fontSize: 'var(--fs-xs)' }}
+              className={cn(searchMode === 'projects' && 'active')}
             >
               <Folder size={11} />
               {t('search.modeProjects')}
@@ -177,11 +173,7 @@ export default function SidebarContent({
             <button
               onClick={() => onSearchModeChange('conversations')}
               aria-pressed={searchMode === 'conversations'}
-              className={cn(
-                'btn btn-sm flex-1 justify-center gap-1',
-                searchMode === 'conversations' ? 'btn-outline' : 'btn-ghost',
-              )}
-              style={{ fontSize: 'var(--fs-xs)' }}
+              className={cn(searchMode === 'conversations' && 'active')}
             >
               <MessageSquare size={11} />
               {t('search.modeConversations')}
@@ -373,15 +365,14 @@ export default function SidebarContent({
         {/* Update banner */}
         {updateAvailable && (
           <button
-            className="foot-row"
+            className="update-banner"
             onClick={onShowVersionModal}
-            style={{ cursor: 'pointer', gap: 8, padding: '4px 0', color: 'var(--accent)' }}
           >
             <ArrowUpCircle size={13} />
-            <span style={{ fontWeight: 500, flex: 1, textAlign: 'left' }}>
+            <span className="update-banner-title">
               {releaseInfo?.title || `v${latestVersion}`}
             </span>
-            <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--ink-4)' }}>{t('version.updateAvailable')}</span>
+            <span className="update-banner-meta">{t('version.updateAvailable')}</span>
           </button>
         )}
 

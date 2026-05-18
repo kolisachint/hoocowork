@@ -161,29 +161,25 @@ function ThinkingModeSelector({ selectedMode, onModeChange, onClose, className =
         <div
           ref={dropdownRef}
           style={dropdownStyle || { position: 'fixed', top: 0, left: 0, visibility: 'hidden' }}
-          className="flex flex-col overflow-hidden rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] shadow-[var(--shadow-3)]"
+          className="think-dropdown flex flex-col overflow-hidden"
           role="dialog"
           aria-modal="false"
         >
-          <div className="border-b border-[var(--line)] p-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-[var(--fs-md)] font-semibold text-[var(--ink)]">
-                {t('thinkingMode.selector.title')}
-              </h3>
-              <button
-                type="button"
-                onClick={closeDropdown}
-                className="rounded p-1 hover:bg-[var(--paper-2)]"
-              >
-                <X className="h-4 w-4 text-[var(--ink-3)]" />
-              </button>
+          <div className="think-dropdown-head">
+            <div>
+              <h4>{t('thinkingMode.selector.title')}</h4>
+              <p>{t('thinkingMode.selector.description')}</p>
             </div>
-            <p className="mt-1 text-[var(--fs-sm)] text-[var(--ink-3)]">
-              {t('thinkingMode.selector.description')}
-            </p>
+            <button
+              type="button"
+              onClick={closeDropdown}
+              className="rounded p-1 hover:bg-[var(--paper-2)]"
+            >
+              <X className="h-4 w-4 text-[var(--ink-3)]" />
+            </button>
           </div>
 
-          <div className="min-h-0 overflow-y-auto py-1">
+          <div className="min-h-0 overflow-y-auto">
             {translatedModes.map((mode) => {
               const ModeIcon = mode.icon;
               const isSelected = mode.id === selectedMode;
@@ -196,32 +192,24 @@ function ThinkingModeSelector({ selectedMode, onModeChange, onClose, className =
                     onModeChange(mode.id);
                     closeDropdown();
                   }}
-                  className={`w-full px-4 py-3 text-left transition-colors hover:bg-[var(--paper-2)] ${isSelected ? 'bg-[var(--paper-2)]' : ''
-                    }`}
+                  className={`think-option ${isSelected ? 'active' : ''}`}
                 >
                   <div className="flex items-start gap-3">
                     <div className={`mt-0.5 ${mode.icon ? mode.color : 'text-[var(--ink-4)]'}`}>
-                      {ModeIcon ? <ModeIcon className="h-5 w-5" /> : <div className="h-5 w-5" />}
+                      {ModeIcon ? <ModeIcon className="h-4 w-4" /> : <div className="h-4 w-4" />}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className={`text-[var(--fs-md)] font-medium ${isSelected ? 'text-[var(--ink)]' : 'text-[var(--ink-2)]'
-                          }`}>
-                          {mode.name}
-                        </span>
+                      <div className="think-option-head">
+                        <span className="think-option-name">{mode.name}</span>
                         {isSelected && (
-                          <span className="rounded bg-[var(--brand-accent-soft)] px-2 py-0.5 text-[var(--fs-sm)] text-[var(--brand-accent)]">
+                          <span className="think-option-active-pill">
                             {t('thinkingMode.selector.active')}
                           </span>
                         )}
                       </div>
-                      <p className="mt-0.5 text-[var(--fs-sm)] text-[var(--ink-3)]">
-                        {mode.description}
-                      </p>
+                      <p className="think-option-desc">{mode.description}</p>
                       {mode.prefix && (
-                        <code className="mt-1 inline-block rounded bg-[var(--paper-3)] px-1.5 py-0.5 text-[var(--fs-sm)]">
-                          {mode.prefix}
-                        </code>
+                        <code className="think-option-prefix">{mode.prefix}</code>
                       )}
                     </div>
                   </div>
@@ -231,7 +219,7 @@ function ThinkingModeSelector({ selectedMode, onModeChange, onClose, className =
           </div>
 
           <div className="border-t border-[var(--line)] bg-[var(--paper-2)] p-3">
-            <p className="text-[var(--fs-sm)] text-[var(--ink-3)]">
+            <p className="text-[var(--fs-sm)] text-[var(--ink-3)] m-0">
               <strong>Tip:</strong> {t('thinkingMode.selector.tip')}
             </p>
           </div>

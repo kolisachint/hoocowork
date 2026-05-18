@@ -69,22 +69,24 @@ export default function ProviderLoginModal({
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 max-md:items-stretch max-md:justify-stretch">
-      <div className="cli-select flex h-3/4 w-full max-w-4xl flex-col rounded-lg bg-background shadow-xl max-md:m-0 max-md:h-full max-md:max-w-none max-md:rounded-none md:m-4 md:h-3/4 md:max-w-4xl md:rounded-lg">
-        <div className="flex items-center justify-between border-b border-border p-4">
-          <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+    <div className="modal-overlay" style={{ zIndex: 9999 }}>
+      <div className="modal-shell cli-select h-3/4 w-full max-w-4xl max-md:m-0 max-md:h-full max-md:max-w-none max-md:rounded-none md:m-4 md:h-3/4 md:max-w-4xl">
+        <div className="modal-head">
+          <div className="modal-head-title">
+            <h3>{title}</h3>
+          </div>
           <button
             onClick={onClose}
             className="text-muted-foreground transition-colors hover:text-foreground"
             aria-label="Close login modal"
           >
-            <X className="h-6 w-6" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
         <div className="flex-1 overflow-hidden">
           {provider === 'gemini' ? (
-            <div className="flex h-full flex-col items-center justify-center bg-muted/50 p-8 text-center">
+            <div className="modal-body items-center justify-center text-center" style={{ background: 'var(--paper-2)' }}>
               <div className="bg-[var(--brand-accent)]/10 mb-6 flex h-16 w-16 items-center justify-center rounded-full">
                 <KeyRound className="h-8 w-8 text-[var(--brand-accent)]" />
               </div>
@@ -95,42 +97,34 @@ export default function ProviderLoginModal({
                 The Gemini CLI requires an API key to function. Configure it in your terminal first.
               </p>
 
-              <div className="w-full max-w-lg rounded-xl border border-border bg-background p-6 text-left shadow-sm">
-                <ol className="space-y-4">
-                  <li className="flex gap-4">
-                    <div className="bg-[var(--brand-accent)]/10 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-sm font-medium text-[var(--brand-accent)]">
-                      1
-                    </div>
-                    <div>
-                      <p className="mb-1 text-sm font-medium text-foreground">Get your API key</p>
-                      <a
-                        href="https://aistudio.google.com/app/apikey"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-1 text-sm text-[var(--brand-accent)] hover:underline"
-                      >
-                        Google AI Studio <ExternalLink className="h-3 w-3" />
-                      </a>
-                    </div>
-                  </li>
-                  <li className="flex gap-4">
-                    <div className="bg-[var(--brand-accent)]/10 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-sm font-medium text-[var(--brand-accent)]">
-                      2
-                    </div>
-                    <div>
-                      <p className="mb-1 text-sm font-medium text-foreground">Run configuration</p>
-                      <p className="mb-2 text-sm text-muted-foreground">Open your terminal and run:</p>
-                      <code className="block rounded bg-muted px-3 py-2 font-mono text-sm text-[var(--brand-accent)]">
-                        gemini config set api_key YOUR_KEY
-                      </code>
-                    </div>
-                  </li>
-                </ol>
+              <div className="plm-gemini-steps w-full max-w-lg">
+                <div className="plm-gemini-step">
+                  <div className="plm-step-num">1</div>
+                  <div className="plm-step-text">
+                    <p className="text-sm font-medium text-foreground m-0">Get your API key</p>
+                    <a
+                      href="https://aistudio.google.com/app/apikey"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-1 text-sm text-[var(--brand-accent)] hover:underline"
+                    >
+                      Google AI Studio <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
+                </div>
+                <div className="plm-gemini-step">
+                  <div className="plm-step-num">2</div>
+                  <div className="plm-step-text">
+                    <p className="text-sm font-medium text-foreground m-0">Run configuration</p>
+                    <p className="text-sm text-muted-foreground m-0">Open your terminal and run:</p>
+                    <code>gemini config set api_key YOUR_KEY</code>
+                  </div>
+                </div>
               </div>
 
               <button
                 onClick={onClose}
-                className="hover:bg-[var(--brand-accent)]/90 mt-8 rounded-lg bg-[var(--brand-accent)] px-6 py-2.5 font-medium text-white transition-colors"
+                className="btn btn-solid mt-8"
               >
                 Done
               </button>

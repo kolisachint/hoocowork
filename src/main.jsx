@@ -7,6 +7,8 @@ import './styles/kit.css'
 import './styles/kit-extra.css'
 import './styles/kit-revisions.css'
 import './styles/kit-mobile.css'
+import './styles/kit-v2.css'
+import './styles/kit-mobile-v2.css'
 import './styles/kit-overrides.css'
 import 'katex/dist/katex.min.css'
 

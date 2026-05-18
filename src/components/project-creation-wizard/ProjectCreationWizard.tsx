@@ -131,16 +131,14 @@ export default function ProjectCreationWizard({
   );
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 top-0 z-[60] flex items-center justify-center bg-black/50 p-0 backdrop-blur-sm sm:p-4">
-      <div className="h-full w-full overflow-y-auto rounded-none border-0 border-[var(--line)] bg-[var(--paper)] shadow-[var(--shadow-3)] sm:h-auto sm:max-w-2xl sm:rounded-[var(--radius-2)] sm:border">
-        <div className="flex items-center justify-between border-b border-[var(--line)] p-6">
-          <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-1)] bg-[var(--brand-accent-soft)]">
-              <FolderPlus className="h-4 w-4 text-[var(--brand-accent)]" />
+    <div className="modal-overlay" style={{ zIndex: 60 }}>
+      <div className="modal-shell h-full w-full sm:h-auto sm:max-w-2xl">
+        <div className="modal-head">
+          <div className="modal-head-title">
+            <div className="modal-head-icon">
+              <FolderPlus className="h-4 w-4" />
             </div>
-            <h3 className="text-lg font-semibold text-[var(--ink)]">
-              {t('projectWizard.title')}
-            </h3>
+            <h3>{t('projectWizard.title')}</h3>
           </div>
           <button
             onClick={onClose}
@@ -153,7 +151,7 @@ export default function ProjectCreationWizard({
 
         <WizardProgress step={step} />
 
-        <div className="min-h-[300px] space-y-6 p-6">
+        <div className="modal-body min-h-[300px]">
           {error && <ErrorBanner message={error} />}
 
           {step === 1 && (

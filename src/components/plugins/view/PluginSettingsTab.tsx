@@ -44,14 +44,9 @@ function ToggleSwitch({ checked, onChange, ariaLabel }: { checked: boolean; onCh
 function ServerDot({ running, t }: { running: boolean; t: (key: string) => string }) {
   if (!running) return null;
   return (
-    <span className="relative inline-flex items-center gap-1.5">
-      <span className="relative flex h-1.5 w-1.5">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--ok)] opacity-75" />
-        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--ok)]" />
-      </span>
-      <span className="font-mono text-[var(--fs-xs)] uppercase tracking-wide text-[var(--ok)]">
-        {t('pluginSettings.runningStatus')}
-      </span>
+    <span className="plugin-server-dot">
+      <span className="ping" />
+      <span>{t('pluginSettings.runningStatus')}</span>
     </span>
   );
 }
@@ -222,44 +217,40 @@ function SuggestionCard({
 }: SuggestionCardProps) {
   const { t } = useTranslation('settings');
   return (
-    <div className="relative flex overflow-hidden rounded-lg border border-dashed border-border bg-card transition-all duration-200 hover:border-[var(--brand-accent)]">
-      <div className="bg-[var(--brand-accent)]/30 w-[3px] flex-shrink-0" />
-      <div className="min-w-0 flex-1 p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex min-w-0 items-center gap-2.5">
-            <div className="plugin-glyph text-[var(--brand-accent)]">{icon}</div>
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="plugin-name text-sm">{name}</span>
-                <span className="badge badge-accent">{badge}</span>
-                <span className="badge badge-default">{t('pluginSettings.tab')}</span>
-              </div>
-              <p className="plugin-desc mt-1">{description}</p>
-              <a
-                href={repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-1 inline-flex items-center gap-1 text-xs text-muted-foreground/60 transition-colors hover:text-foreground"
-              >
-                <GitBranch className="h-3 w-3" />
-                {repoLabel}
-              </a>
-            </div>
+    <div className="plugin-suggest-card">
+      <div className="plugin-suggest-stripe" />
+      <div className="plugin-suggest-body">
+        <div className="plugin-suggest-icon">{icon}</div>
+        <div className="plugin-suggest-meta">
+          <div className="plugin-suggest-line">
+            <span className="plugin-suggest-name">{name}</span>
+            <span className="badge badge-accent">{badge}</span>
+            <span className="badge badge-default">{t('pluginSettings.tab')}</span>
           </div>
-          <button
-            type="button"
-            onClick={onInstall}
-            disabled={installing}
-            className="hover:bg-[var(--brand-accent)]/90 flex flex-shrink-0 items-center gap-1.5 rounded-md bg-[var(--brand-accent)] px-4 py-2 text-sm font-medium text-white transition-colors disabled:opacity-50"
+          <p className="plugin-suggest-desc">{description}</p>
+          <a
+            href={repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="plugin-suggest-repo"
           >
-            {installing ? (
-              <Loader2 className="h-3.5 w-3.5 animate-spin" />
-            ) : (
-              <Download className="h-3.5 w-3.5" />
-            )}
-            {installing ? installingLabel : installLabel}
-          </button>
+            <GitBranch className="h-3 w-3" />
+            {repoLabel}
+          </a>
         </div>
+        <button
+          type="button"
+          onClick={onInstall}
+          disabled={installing}
+          className="btn btn-solid btn-sm"
+        >
+          {installing ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          ) : (
+            <Download className="h-3.5 w-3.5" />
+          )}
+          {installing ? installingLabel : installLabel}
+        </button>
       </div>
     </div>
   );
@@ -400,7 +391,7 @@ export default function PluginSettingsTab() {
       </div>
 
       {/* Install from Git */}
-      <div className="flex items-center gap-2">
+      <div className="plugin-install-bar">
         <div className="input-wrap" style={{ flex: 1 }}>
           <span className="input-prefix">
             <GitBranch size={13} />
@@ -437,7 +428,7 @@ export default function PluginSettingsTab() {
 
       {installError && <p className="text-sm text-[var(--err)]">{installError}</p>}
 
-      <p className="flex items-start gap-1.5 text-xs leading-snug text-muted-foreground/50">
+      <p className="plugin-security-note">
         <ShieldAlert className="mt-px h-3 w-3 flex-shrink-0" />
         <span>{t('pluginSettings.securityWarning')}</span>
       </p>
@@ -535,27 +526,15 @@ export default function PluginSettingsTab() {
       )}
 
       {/* Footer links */}
-      <div className="flex items-center justify-center gap-3 border-t border-border/50 pt-2">
-        <BookOpen className="h-3.5 w-3.5 flex-shrink-0 text-muted-foreground/40" />
-        <span className="text-xs text-muted-foreground/60">
-          {t('pluginSettings.starterPluginLabel')}
-        </span>
-        <span className="text-muted-foreground/20">·</span>
-        <a
-          href={STARTER_PLUGIN_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-xs text-muted-foreground/60 transition-colors hover:text-foreground"
-        >
+      <div className="plugin-foot-links">
+        <BookOpen className="h-3.5 w-3.5 flex-shrink-0" />
+        <span>{t('pluginSettings.starterPluginLabel')}</span>
+        <span className="sep">·</span>
+        <a href={STARTER_PLUGIN_URL} target="_blank" rel="noopener noreferrer">
           {t('pluginSettings.starter')} <ExternalLink className="h-2.5 w-2.5" />
         </a>
-        <span className="text-muted-foreground/20">·</span>
-        <a
-          href="https://hoocowork.app/docs/plugin-overview"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-xs text-muted-foreground/60 transition-colors hover:text-foreground"
-        >
+        <span className="sep">·</span>
+        <a href="https://hoocowork.app/docs/plugin-overview" target="_blank" rel="noopener noreferrer">
           {t('pluginSettings.docs')} <ExternalLink className="h-2.5 w-2.5" />
         </a>
       </div>

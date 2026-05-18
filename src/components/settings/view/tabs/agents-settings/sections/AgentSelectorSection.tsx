@@ -25,8 +25,9 @@ export default function AgentSelectorSection({
   onSelectAgent,
   agentContextById,
 }: AgentSelectorSectionProps) {
+  const gridClass = agents.length >= 6 ? 'agent-selector x6' : 'agent-selector';
   return (
-    <div className="agent-selector">
+    <div className={gridClass}>
       {agents.map((agent) => {
         const authStatus = agentContextById[agent].authStatus;
         const isAuthed = authStatus.authenticated;

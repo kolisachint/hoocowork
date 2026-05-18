@@ -3,6 +3,7 @@ import { Check, ChevronDown } from "lucide-react";
 import { Trans, useTranslation } from "react-i18next";
 
 import { useServerPlatform } from "../../../../hooks/useServerPlatform";
+import { cn } from "../../../../lib/utils";
 import SessionProviderLogo from "../../../llm-logo-provider/SessionProviderLogo";
 import { useHoocodeModels } from "../../hooks/useHoocodeModels";
 import { useOpenCodeModels } from "../../hooks/useOpenCodeModels";
@@ -253,22 +254,22 @@ export default function ProviderSelectionEmptyState({
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
               <Card
-                className="group mx-auto max-w-xs cursor-pointer border-border/60 transition-all duration-150 hover:border-border hover:shadow-md active:scale-[0.99]"
+                className="modelpick-card group mx-auto max-w-xs cursor-pointer border-border/60 transition-all duration-150 hover:border-border hover:shadow-md active:scale-[0.99]"
                 role="button"
                 tabIndex={0}
               >
                 <div className="flex items-center gap-2 p-3">
                   <SessionProviderLogo
                     provider={provider}
-                    className="h-5 w-5 shrink-0"
+                    className="modelpick-glyph h-5 w-5 shrink-0"
                   />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1">
-                      <span className="text-[var(--fs-sm)] font-semibold text-foreground">
+                      <span className="modelpick-provider text-[var(--fs-sm)] font-semibold text-foreground">
                         {getProviderDisplayName(provider)}
                       </span>
                       <span className="text-[var(--fs-sm)] text-muted-foreground">·</span>
-                      <span className="truncate text-[var(--fs-sm)] text-foreground">
+                      <span className="modelpick-model truncate text-[var(--fs-sm)] text-foreground">
                         {currentModelLabel}
                       </span>
                     </div>
@@ -278,7 +279,7 @@ export default function ProviderSelectionEmptyState({
                       })}
                     </p>
                   </div>
-                  <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform group-hover:translate-y-0.5" />
+                  <ChevronDown className="modelpick-chev h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform group-hover:translate-y-0.5" />
                 </div>
               </Card>
             </DialogTrigger>
@@ -309,7 +310,7 @@ export default function ProviderSelectionEmptyState({
                     )}
                   </div>
                 )}
-                <CommandList className="max-h-[350px]">
+                <CommandList className="modelpick-list max-h-[350px]">
                   <CommandEmpty>
                     {t("providerSelection.noModelsFound", {
                       defaultValue: "No models found.",
@@ -318,11 +319,12 @@ export default function ProviderSelectionEmptyState({
                   {visibleProviderGroups.map((group, idx) => (
                     <CommandGroup
                       key={group.id}
-                      className={
+                      className={cn(
+                        'modelpick-group',
                         idx > 0
-                          ? "border-t border-border/40 [&_[cmdk-group-heading]]:mt-1 [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider"
-                          : "[&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider"
-                      }
+                          ? '[&_[cmdk-group-heading]]:modelpick-group-head [&_[cmdk-group-heading]]:mt-1 [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider'
+                          : '[&_[cmdk-group-heading]]:modelpick-group-head [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider',
+                      )}
                       heading={
                         <span className="flex items-center gap-1.5">
                           <SessionProviderLogo provider={group.id} className="h-3.5 w-3.5 shrink-0" />
@@ -337,11 +339,11 @@ export default function ProviderSelectionEmptyState({
                             key={`${group.id}-${model.value}`}
                             value={`${group.name} ${model.label}`}
                             onSelect={() => handleModelSelect(group.id, model.value)}
-                            className="ml-4 border-l border-border/40 pl-4"
+                            className={cn('modelpick-row ml-4 pl-4', isSelected && 'selected')}
                           >
-                            <span className="flex-1 truncate">{model.label}</span>
+                            <span className="modelpick-row-label flex-1 truncate">{model.label}</span>
                             {isSelected && (
-                              <Check className="ml-auto h-4 w-4 shrink-0 text-primary" />
+                              <Check className="check ml-auto h-4 w-4 shrink-0 text-primary" />
                             )}
                           </CommandItem>
                         );
