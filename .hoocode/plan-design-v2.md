@@ -184,15 +184,87 @@ churn — defer):
     delete foot keeps stacked button layout via `flex-col gap-2`
     override (composes with v2 `modal-foot` row default)
   - Icon backgrounds use `warn-soft` / `err-soft` tokens
+- [x] **ImageViewer** — `ImageViewer.tsx`
+  - `modal-overlay` (with click-outside close) + `modal-shell` +
+    `modal-head` only; body/foot left bespoke (viewport-centered
+    image layout)
+- [x] **FolderBrowserModal** — `FolderBrowserModal.tsx`
+  - `modal-overlay` + `modal-shell` + `modal-head` + `modal-body`
+    + `modal-foot`
+  - `modal-body` uses `padding: 0; gap: 0` inline override to keep
+    inner scrollable list wrapper in charge of its own spacing
+  - Path-display row sits between body and foot as a flex-shrink-0
+    sibling (matches v2 modal structural pattern)
+- [x] **TokenUsagePie composer-tokens** — `TokenUsagePie.tsx`
+  - Wrapper composes `composer-tokens` (v2 4px gap + fs-xs + ink-3)
+    on top of existing Tailwind layout classes
+- [x] **TaskMasterSetupModal** — `TaskMasterSetupModal.tsx`
+  - `modal-overlay` (with click-outside close, composes with
+    Tailwind `items-start` / `pt-16` for top-aligned overlay) +
+    `modal-shell` + `modal-head` (with `modal-head-icon` carrying
+    accent tint) + `modal-foot`
+  - Shell content (terminal) kept as bespoke `flex-1 p-4` between
+    head and foot to preserve the embedded `Shell` layout
+  - Foot composed with `items-center justify-between` override
+    to keep the completion status / close button row layout
+- [x] **TaskDetailModal** — `TaskDetailModal.tsx`
+  - `modal-overlay` (with click-outside close) + `modal-shell`
+    (composes with responsive `h-full md:h-[90vh]` /
+    `md:rounded-lg` so mobile remains full-screen, desktop
+    floats; mobile-v2 CSS already resets border/radius at ≤760px)
+  - `modal-head` + `modal-head-title` wrapping the bespoke
+    status-icon + task-ID chip + editable title cluster
+  - Body left as bespoke `space-y-6` scrollable region (gap +
+    flex direction from `modal-body` would conflict with the
+    grid + space-y layout)
+  - h1 left intact (modal-head h3 selector does not apply)
+- [x] **FileTree delete confirmation** — `FileTree.tsx`
+  - `modal-overlay` (with click-outside cancel, disabled while
+    delete is in flight) + `modal-shell` + `modal-head` (with
+    `modal-head-icon` using `err-soft` token) + `modal-body` +
+    `modal-foot`
+  - Inline-rendered delete dialog now matches sidebar / git-panel
+    confirmation modals
+- [x] **Chat composer + chat header v2** — confirmed already
+  wired in prior passes (no new edits needed)
+  - `ChatComposer.tsx`: root `composer`; `composer-divider`,
+    `composer-mode`, `composer-mode-dot`, `composer-spacer`,
+    `composer-model`, `composer-hint` directly attached;
+    `composer-foot` / `composer-tools` / `composer-tool` /
+    `composer-input` / `composer-attachments` provided by the
+    shared `PromptInput*` primitives; `composer-tokens` via
+    `TokenUsagePie`; `composer-think` via `ThinkingModeSelector`
+  - `ChatHeader.tsx`: `chat-header-info` + `chat-title` /
+    `chat-eyebrow` / `chat-name` + `chat-meta` with
+    `chat-meta-id` / `-tokens` / `-count` / `-time` (each with
+    `chat-meta-id-label` + `-value` sub-spans)
+- [x] **PermissionRequestsBanner v2 sub-classes** —
+  `PermissionRequestsBanner.tsx`
+  - `permission-banner-head` composed on `ConfirmationTitle`,
+    `permission-banner-body` on body wrappers,
+    `permission-banner-tool` on the inline tool-name `<code>`
+    chips, `permission-banner-foot` on `ConfirmationActions`
+  - Root `permission-banner` class skipped because the
+    `Confirmation` primitive renders an `Alert` with
+    `display: grid; grid-cols-[0_1fr]` for col-start-2 child
+    placement, which the v2 `display: flex` would break
+- [x] **ToolDiffViewer v2 diff hooks** —
+  `ToolDiffViewer.tsx`
+  - Outer wrapper gains `tool-diff` so mobile-v2's
+    `.tool-diff { padding: 8px 10px }` and kit-overrides'
+    `.tool-diff .diff-add/.diff-rem` color rules apply
+  - Each diff line row now carries `diff-add` / `diff-rem`
+    alongside existing Tailwind classes
 
 Remaining work (per-surface, on-demand):
 
-- [ ] Per-dialog modal-* adoption for the remaining dialogs
-  (TaskMasterSetupModal — alignment conflict with v2 center; needs
-  custom v2 variant; FolderBrowserModal — multi-section structure
-  doesn't map cleanly to head/body/foot; CodeEditor binary/loading
-  states; ImageViewer; PrdEditor workspace modals; TaskDetailModal)
-  — do as those surfaces get intentional redesigns
+- [ ] Per-dialog modal-* adoption for the remaining surfaces
+  (CodeEditor & CodeEditorBinaryFile floating variants — adding
+  `modal-shell` would cap height at 90vh and override the
+  60vh/80vh sizing the editor relies on; PrdEditorWorkspace —
+  bespoke `prd` editor surface with its own header/footer
+  subcomponents) — do as those surfaces get intentional
+  redesigns
 
 ### Phase 3 — Verification  ◔ PARTIAL
 
@@ -226,21 +298,33 @@ When resuming this work, read this file plus the section
 checkboxes above. The bundle in `/tmp/design-files/` may not
 survive a reboot — re-fetch via the design URL if missing.
 
-Last updated: 2026-05-18 (modal-* batch pass).
+Last updated: 2026-05-18 (modal-* + chat v2 pass, third batch:
+ChatComposer/ChatHeader confirmed already wired; PermissionRequestsBanner
+permission-banner-head/-body/-tool/-foot sub-classes added; ToolDiffViewer
+tool-diff / diff-add / diff-rem hooks added).
 - Phase 1 complete (stylesheets in build).
 - Phase 2 broader (sidebar v2, plugins v2, agent-selector x6,
   version upgrade modal, MCP form modal, provider login modal,
   project creation wizard, chat thinking-mode dropdown, ClaudeStatus
   pill, AccountContent account-card, PermissionsContent
-  permission-mode-card grid, model picker modelpick-*, **git-panel
-  modals**, **prd-editor modals**, **task-master modals**, **sidebar
-  delete confirmations** all wired).
+  permission-mode-card grid, model picker modelpick-*, git-panel
+  modals, prd-editor modals, task-master modals, sidebar delete
+  confirmations, ImageViewer, FolderBrowserModal,
+  TokenUsagePie composer-tokens, **TaskMasterSetupModal**,
+  **TaskDetailModal**, **FileTree delete confirmation**,
+  **ChatComposer/ChatHeader v2 verified**, **PermissionRequestsBanner
+  permission-banner-* sub-classes**, and **ToolDiffViewer tool-diff /
+  diff-add / diff-rem hooks** all wired).
 - Remaining: per-dialog modal-* adoption for the few outstanding
-  modal surfaces (TaskMasterSetupModal, FolderBrowserModal,
-  CodeEditor binary/loading, ImageViewer, PrdEditor workspace,
-  TaskDetailModal) — each has structural reasons (alignment
-  conflict, multi-section, etc.) to do as part of an intentional
-  redesign rather than additive class composition.
+  modal-ish surfaces (CodeEditor & CodeEditorBinaryFile floating
+  variants — adding `modal-shell` would cap height at 90vh and
+  override the 60vh/80vh sizing the editor relies on; PrdEditor
+  workspace — bespoke `prd` editor surface with its own
+  header/footer subcomponents; CodeEditor / Prd loading states are
+  transient and skipped). Auth / Onboarding surfaces remain
+  explicitly deferred — wiring `.auth-stage` etc. would change
+  positioning from `min-h-screen` flow to `position: fixed` on the
+  unauthenticated bootstrap path.
 - Phase 3 partial: `npm install` ran; `npm run typecheck` is clean
   for all v2-edited files (pre-existing errors in untouched shell/
   xterm/CommandPalette/WebSocketContext only); `npm run lint` and

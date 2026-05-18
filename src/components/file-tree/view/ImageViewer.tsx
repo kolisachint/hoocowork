@@ -59,10 +59,17 @@ export default function ImageViewer({ file, onClose }: ImageViewerProps) {
   }, [imagePath]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="mx-4 max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-lg bg-background shadow-xl">
-        <div className="flex items-center justify-between border-b p-4">
-          <h3 className="text-lg font-semibold text-foreground">{file.name}</h3>
+    <div
+      className="modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <div className="modal-shell mx-4 max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-lg bg-background shadow-xl">
+        <div className="modal-head">
+          <div className="modal-head-title">
+            <h3>{file.name}</h3>
+          </div>
           <Button variant="ghost" size="sm" onClick={onClose} className="h-8 w-8 p-0">
             <X className="h-4 w-4" />
           </Button>

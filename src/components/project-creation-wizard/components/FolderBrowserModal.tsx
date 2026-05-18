@@ -98,14 +98,19 @@ export default function FolderBrowserModal({
   }
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-      <div className="flex max-h-[80vh] w-full max-w-2xl flex-col rounded-lg border border-border bg-background shadow-xl">
-        <div className="flex items-center justify-between border-b border-border p-4">
-          <div className="flex items-center gap-3">
-            <div className="bg-[var(--brand-accent)]/10 flex h-8 w-8 items-center justify-center rounded-lg">
-              <FolderOpen className="h-4 w-4 text-[var(--brand-accent)]" />
+    <div
+      className="modal-overlay fixed inset-0 z-[70] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) handleClose();
+      }}
+    >
+      <div className="modal-shell flex max-h-[80vh] w-full max-w-2xl flex-col rounded-lg border border-border bg-background shadow-xl">
+        <div className="modal-head">
+          <div className="modal-head-title">
+            <div className="modal-head-icon">
+              <FolderOpen className="h-4 w-4" />
             </div>
-            <h3 className="text-lg font-semibold text-foreground">Select Folder</h3>
+            <h3>Select Folder</h3>
           </div>
 
           <div className="flex items-center gap-2">
@@ -179,72 +184,72 @@ export default function FolderBrowserModal({
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto p-4">
-          {loadingFolders ? (
-            <div className="flex items-center justify-center py-8">
-              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-            </div>
-          ) : (
-            <div className="space-y-1">
-              {parentPath && (
-                <button
-                  onClick={() => loadFolders(parentPath)}
-                  className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left hover:bg-muted"
-                >
-                  <FolderOpen className="h-5 w-5 text-muted-foreground" />
-                  <span className="font-medium text-muted-foreground">..</span>
-                </button>
-              )}
+        <div className="modal-body" style={{ padding: 0, gap: 0 }}>
+          <div className="flex-1 overflow-y-auto p-4">
+            {loadingFolders ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              </div>
+            ) : (
+              <div className="space-y-1">
+                {parentPath && (
+                  <button
+                    onClick={() => loadFolders(parentPath)}
+                    className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left hover:bg-muted"
+                  >
+                    <FolderOpen className="h-5 w-5 text-muted-foreground" />
+                    <span className="font-medium text-muted-foreground">..</span>
+                  </button>
+                )}
 
-              {visibleFolders.length === 0 ? (
-                <div className="py-8 text-center text-muted-foreground">
-                  No subfolders found
-                </div>
-              ) : (
-                visibleFolders.map((folder) => (
-                  <div key={folder.path} className="flex items-center gap-2">
-                    <button
-                      onClick={() => loadFolders(folder.path)}
-                      className="flex flex-1 items-center gap-3 rounded-lg px-4 py-3 text-left hover:bg-muted"
-                    >
-                      <FolderPlus className="h-5 w-5 text-[var(--brand-accent)]" />
-                      <span className="font-medium text-foreground">
-                        {folder.name}
-                      </span>
-                    </button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => onFolderSelected(folder.path, autoAdvanceOnSelect)}
-                      className="px-3 text-xs"
-                    >
-                      Select
-                    </Button>
+                {visibleFolders.length === 0 ? (
+                  <div className="py-8 text-center text-muted-foreground">
+                    No subfolders found
                   </div>
-                ))
-              )}
-            </div>
-          )}
+                ) : (
+                  visibleFolders.map((folder) => (
+                    <div key={folder.path} className="flex items-center gap-2">
+                      <button
+                        onClick={() => loadFolders(folder.path)}
+                        className="flex flex-1 items-center gap-3 rounded-lg px-4 py-3 text-left hover:bg-muted"
+                      >
+                        <FolderPlus className="h-5 w-5 text-[var(--brand-accent)]" />
+                        <span className="font-medium text-foreground">
+                          {folder.name}
+                        </span>
+                      </button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => onFolderSelected(folder.path, autoAdvanceOnSelect)}
+                        className="px-3 text-xs"
+                      >
+                        Select
+                      </Button>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="border-t border-border">
-          <div className="flex items-center gap-2 bg-muted/50 px-4 py-3">
-            <span className="text-sm text-muted-foreground">Path:</span>
-            <code className="flex-1 truncate font-mono text-sm text-foreground">
-              {currentPath}
-            </code>
-          </div>
-          <div className="flex items-center justify-end gap-2 p-4">
-            <Button variant="outline" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => onFolderSelected(currentPath, autoAdvanceOnSelect)}
-            >
-              Use this folder
-            </Button>
-          </div>
+        <div className="flex flex-shrink-0 items-center gap-2 border-t border-border bg-muted/50 px-4 py-3">
+          <span className="text-sm text-muted-foreground">Path:</span>
+          <code className="flex-1 truncate font-mono text-sm text-foreground">
+            {currentPath}
+          </code>
+        </div>
+        <div className="modal-foot">
+          <Button variant="outline" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => onFolderSelected(currentPath, autoAdvanceOnSelect)}
+          >
+            Use this folder
+          </Button>
         </div>
       </div>
     </div>

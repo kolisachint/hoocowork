@@ -69,18 +69,18 @@ export default function PermissionRequestsBanner({
 
         return (
           <Confirmation key={request.requestId} approval="pending">
-            <ConfirmationTitle className="flex items-start gap-3">
+            <ConfirmationTitle className="permission-banner-head flex items-start gap-3">
               <ShieldAlertIcon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
               <ConfirmationRequest>
-                <div>
+                <div className="permission-banner-body">
                   <span className="font-medium text-foreground">Permission required</span>
                   <span className="ml-2 text-muted-foreground">
-                    Tool: <code className="rounded bg-muted px-1.5 py-0.5 text-[var(--fs-sm)]">{request.toolName}</code>
+                    Tool: <code className="permission-banner-tool rounded bg-muted px-1.5 py-0.5 text-[var(--fs-sm)]">{request.toolName}</code>
                   </span>
                 </div>
                 {permissionEntry && (
-                  <div className="mt-1 text-[var(--fs-sm)] text-muted-foreground">
-                    Allow rule: <code className="rounded bg-muted px-1 py-0.5 text-[var(--fs-sm)]">{permissionEntry}</code>
+                  <div className="permission-banner-body mt-1 text-[var(--fs-sm)] text-muted-foreground">
+                    Allow rule: <code className="permission-banner-tool rounded bg-muted px-1 py-0.5 text-[var(--fs-sm)]">{permissionEntry}</code>
                   </div>
                 )}
               </ConfirmationRequest>
@@ -97,7 +97,7 @@ export default function PermissionRequestsBanner({
               </details>
             )}
 
-            <ConfirmationActions>
+            <ConfirmationActions className="permission-banner-foot">
               <ConfirmationAction
                 variant="outline"
                 onClick={() => handlePermissionDecision(request.requestId, { allow: false, message: 'User denied tool use' })}

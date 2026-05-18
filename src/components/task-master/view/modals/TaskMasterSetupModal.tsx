@@ -32,15 +32,20 @@ export default function TaskMasterSetupModal({ isOpen, project, onClose, onAfter
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 p-4 pt-16 backdrop-blur-sm">
-      <div className="flex h-[600px] w-full max-w-4xl flex-col rounded-lg border border-[var(--line)] bg-[var(--paper)] shadow-xl">
-        <div className="flex items-center justify-between border-b border-[var(--line)] p-4">
-          <div className="flex items-center gap-3">
-            <div className="bg-[var(--brand-accent)]/10 flex h-8 w-8 items-center justify-center rounded-lg">
-              <Terminal className="h-4 w-4 text-[var(--brand-accent)]" />
+    <div
+      className="modal-overlay fixed inset-0 z-50 flex items-start justify-center bg-black/50 p-4 pt-16 backdrop-blur-sm"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) closeModal();
+      }}
+    >
+      <div className="modal-shell flex h-[600px] w-full max-w-4xl flex-col rounded-lg border border-[var(--line)] bg-[var(--paper)] shadow-xl">
+        <div className="modal-head">
+          <div className="modal-head-title">
+            <div className="modal-head-icon bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]">
+              <Terminal className="h-4 w-4" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-[var(--ink)]">{t('setupModal.title')}</h2>
+              <h3 className="text-lg font-semibold text-[var(--ink)]">{t('setupModal.title')}</h3>
               <p className="text-sm text-[var(--ink-3)]">{t('setupModal.subtitle', { projectName: project.displayName })}</p>
             </div>
           </div>
@@ -71,31 +76,29 @@ export default function TaskMasterSetupModal({ isOpen, project, onClose, onAfter
           </div>
         </div>
 
-        <div className="border-t border-[var(--line)] bg-[var(--paper-2)]/50 p-4">
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-[var(--ink-3)]">
-              {isTaskMasterComplete ? (
-                <span className="flex items-center gap-2 text-[var(--ok)]">
-                  <span className="h-2 w-2 rounded-full bg-[var(--ok)]" />
-                  {t('setupModal.completed')}
-                </span>
-              ) : (
-                t('setupModal.willStart')
-              )}
-            </div>
-
-            <button
-              onClick={closeModal}
-              className={cn(
-                'px-4 py-2 text-sm font-medium rounded-md transition-colors',
-                isTaskMasterComplete
-                  ? 'bg-[var(--ok)] hover:bg-[var(--ok)]/90 text-white'
-                  : 'text-[var(--ink-3)] bg-[var(--paper)] border border-[var(--line)] hover:bg-[var(--paper-2)]',
-              )}
-            >
-              {isTaskMasterComplete ? t('setupModal.closeContinueButton') : t('setupModal.closeButton')}
-            </button>
+        <div className="modal-foot items-center justify-between" style={{ background: 'var(--paper-2)' }}>
+          <div className="text-sm text-[var(--ink-3)]">
+            {isTaskMasterComplete ? (
+              <span className="flex items-center gap-2 text-[var(--ok)]">
+                <span className="h-2 w-2 rounded-full bg-[var(--ok)]" />
+                {t('setupModal.completed')}
+              </span>
+            ) : (
+              t('setupModal.willStart')
+            )}
           </div>
+
+          <button
+            onClick={closeModal}
+            className={cn(
+              'px-4 py-2 text-sm font-medium rounded-md transition-colors',
+              isTaskMasterComplete
+                ? 'bg-[var(--ok)] hover:bg-[var(--ok)]/90 text-white'
+                : 'text-[var(--ink-3)] bg-[var(--paper)] border border-[var(--line)] hover:bg-[var(--paper-2)]',
+            )}
+          >
+            {isTaskMasterComplete ? t('setupModal.closeContinueButton') : t('setupModal.closeButton')}
+          </button>
         </div>
       </div>
     </div>

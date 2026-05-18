@@ -21,7 +21,7 @@ export default function TokenUsagePie({ used, total }: TokenUsagePieProps) {
   };
 
   return (
-    <div className="flex items-center gap-2 text-[var(--fs-sm)] text-muted-foreground">
+    <div className="composer-tokens flex items-center gap-2 text-[var(--fs-sm)] text-muted-foreground">
       <svg width="24" height="24" viewBox="0 0 24 24" className="-rotate-90 transform">
         {/* Background circle */}
         <circle

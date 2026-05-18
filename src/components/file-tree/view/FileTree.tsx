@@ -237,29 +237,40 @@ export default function FileTree({ selectedProject, onFileOpen, isEditorOpen, ed
 
       {/* Delete Confirmation Dialog */}
       {operations.deleteConfirmation.isOpen && operations.deleteConfirmation.item && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50">
-          <div className="mx-4 max-w-sm rounded-lg border border-border bg-background p-4 shadow-lg">
-            <div className="mb-4 flex items-center gap-3">
-              <div className="bg-[var(--err)]/10 rounded-full p-2">
-                <AlertTriangle className="h-5 w-5 text-[var(--err)]" />
-              </div>
-              <div>
-                <h3 className="font-medium text-foreground">
-                  {t('fileTree.delete.title', 'Delete {{type}}', {
-                    type: operations.deleteConfirmation.item.type === 'directory' ? 'Folder' : 'File'
-                  })}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {operations.deleteConfirmation.item.name}
-                </p>
+        <div
+          className="modal-overlay fixed inset-0 z-[9999] flex items-center justify-center bg-black/50"
+          onClick={(event) => {
+            if (event.target === event.currentTarget && !operations.operationLoading) {
+              operations.handleCancelDelete();
+            }
+          }}
+        >
+          <div className="modal-shell mx-4 max-w-sm rounded-lg border border-border bg-background shadow-lg">
+            <div className="modal-head">
+              <div className="modal-head-title">
+                <div className="modal-head-icon bg-[var(--err-soft)] text-[var(--err)]">
+                  <AlertTriangle className="h-4 w-4" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-foreground">
+                    {t('fileTree.delete.title', 'Delete {{type}}', {
+                      type: operations.deleteConfirmation.item.type === 'directory' ? 'Folder' : 'File'
+                    })}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {operations.deleteConfirmation.item.name}
+                  </p>
+                </div>
               </div>
             </div>
-            <p className="mb-4 text-sm text-muted-foreground">
-              {operations.deleteConfirmation.item.type === 'directory'
-                ? t('fileTree.delete.folderWarning', 'This folder and all its contents will be permanently deleted.')
-                : t('fileTree.delete.fileWarning', 'This file will be permanently deleted.')}
-            </p>
-            <div className="flex justify-end gap-2">
+            <div className="modal-body">
+              <p className="text-sm text-muted-foreground">
+                {operations.deleteConfirmation.item.type === 'directory'
+                  ? t('fileTree.delete.folderWarning', 'This folder and all its contents will be permanently deleted.')
+                  : t('fileTree.delete.fileWarning', 'This file will be permanently deleted.')}
+              </p>
+            </div>
+            <div className="modal-foot">
               <button
                 onClick={operations.handleCancelDelete}
                 disabled={operations.operationLoading}

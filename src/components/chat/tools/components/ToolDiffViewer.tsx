@@ -43,7 +43,7 @@ export const ToolDiffViewer: React.FC<ToolDiffViewerProps> = ({
   );
 
   return (
-    <div className="overflow-hidden rounded-[var(--radius-1)] border border-[var(--line)]">
+    <div className="tool-diff overflow-hidden rounded-[var(--radius-1)] border border-[var(--line)]">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[var(--line)] bg-[var(--paper-2)] px-2.5 py-1">
         {onFileClick ? (
@@ -65,28 +65,31 @@ export const ToolDiffViewer: React.FC<ToolDiffViewerProps> = ({
 
       {/* Diff lines */}
       <div className="font-mono text-[11px] leading-[18px]">
-        {diffLines.map((diffLine, i) => (
-          <div key={i} className="flex">
-            <span
-              className={`w-6 flex-shrink-0 select-none text-center ${
-                diffLine.type === 'removed'
-                  ? 'bg-[var(--err-soft)] text-[var(--err)]'
-                  : 'bg-[var(--ok-soft)] text-[var(--ok)]'
-              }`}
-            >
-              {diffLine.type === 'removed' ? '-' : '+'}
-            </span>
-            <span
-              className={`flex-1 whitespace-pre-wrap px-2 ${
-                diffLine.type === 'removed'
-                  ? 'bg-[var(--err-soft)]/50 text-[var(--ink)]'
-                  : 'bg-[var(--ok-soft)]/50 text-[var(--ink)]'
-              }`}
-            >
-              {diffLine.content}
-            </span>
-          </div>
-        ))}
+        {diffLines.map((diffLine, i) => {
+          const diffClass = diffLine.type === 'removed' ? 'diff-rem' : 'diff-add';
+          return (
+            <div key={i} className={`${diffClass} flex`}>
+              <span
+                className={`w-6 flex-shrink-0 select-none text-center ${
+                  diffLine.type === 'removed'
+                    ? 'bg-[var(--err-soft)] text-[var(--err)]'
+                    : 'bg-[var(--ok-soft)] text-[var(--ok)]'
+                }`}
+              >
+                {diffLine.type === 'removed' ? '-' : '+'}
+              </span>
+              <span
+                className={`flex-1 whitespace-pre-wrap px-2 ${
+                  diffLine.type === 'removed'
+                    ? 'bg-[var(--err-soft)]/50 text-[var(--ink)]'
+                    : 'bg-[var(--ok-soft)]/50 text-[var(--ink)]'
+                }`}
+              >
+                {diffLine.content}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

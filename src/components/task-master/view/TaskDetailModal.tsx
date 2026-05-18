@@ -147,15 +147,20 @@ export default function TaskDetailModal({
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 md:p-4">
+    <div
+      className="modal-overlay fixed inset-0 z-[100] flex items-center justify-center bg-black/50 md:p-4"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
       <div
         className={cn(
-          'w-full md:max-w-4xl h-full md:h-[90vh] bg-[var(--paper)] border border-[var(--line)] md:rounded-lg shadow-xl flex flex-col',
+          'modal-shell w-full md:max-w-4xl h-full md:h-[90vh] bg-[var(--paper)] border border-[var(--line)] md:rounded-lg shadow-xl flex flex-col',
           className,
         )}
       >
-        <div className="flex items-center justify-between border-b border-[var(--line)] p-4 md:p-6">
-          <div className="flex min-w-0 flex-1 items-center gap-3">
+        <div className="modal-head p-4 md:p-6">
+          <div className="modal-head-title flex min-w-0 flex-1 items-center gap-3">
             <StatusIcon className="h-6 w-6 text-[var(--brand-accent)]" />
             <div className="min-w-0 flex-1">
               <button
