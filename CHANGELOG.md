@@ -1,3 +1,10 @@
+## [2.5.1](https://github.com/kolisachint/hoocowork/compare/v2.5.0...v2.5.1) (2026-05-18)
+
+### Features
+
+* **design:** apply v2 hooks to chat/file-tree/task-master/folder-browser surfaces ([a9ce0e3](https://github.com/kolisachint/hoocowork/commit/a9ce0e3d34e601157df4f32ba1f4a13285e03e06))
+* **design:** apply v2 modal-* shell to git-panel/prd-editor/task-master/sidebar dialogs ([7ea2077](https://github.com/kolisachint/hoocowork/commit/7ea2077b4eea9af54eac60d958024678df258f18))
+* **design:** wire v2 hooks on deferred surfaces (CodeEditor, PrdEditor, Auth, Onboarding) ([0c100c7](https://github.com/kolisachint/hoocowork/commit/0c100c79335a71476589d95b00ad9e5a04e28e2b))
 ## [2.5.0](https://github.com/kolisachint/hoocowork/compare/v2.4.3...v2.5.0) (2026-05-18)
 
 ### Features
