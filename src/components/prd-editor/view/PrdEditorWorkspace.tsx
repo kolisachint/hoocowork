@@ -59,10 +59,10 @@ export default function PrdEditorWorkspace({
     >
       <div
         className={cn(
-          'prd bg-[var(--paper)] shadow-2xl flex flex-col',
+          'modal-shell prd bg-[var(--paper)] shadow-2xl flex flex-col',
           'w-full h-full md:rounded-lg md:shadow-2xl',
           isFullscreen
-            ? 'md:w-full md:h-full md:rounded-none'
+            ? 'md:w-full md:h-full md:rounded-none md:max-h-none md:border-0'
             : 'md:w-full md:max-w-6xl md:h-[85vh] md:max-h-[85vh]',
         )}
       >

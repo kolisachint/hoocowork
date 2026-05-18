@@ -69,8 +69,8 @@ export default function CodeEditorBinaryFile({
     : 'fixed inset-0 z-[9999] md:bg-black/50 md:flex md:items-center md:justify-center md:p-4';
 
   const innerClassName = isFullscreen
-    ? 'bg-background flex flex-col w-full h-full'
-    : 'bg-background shadow-2xl flex flex-col w-full h-full md:rounded-lg md:shadow-2xl md:w-full md:max-w-2xl md:h-auto md:max-h-[60vh]';
+    ? 'modal-shell bg-background flex flex-col w-full h-full md:max-h-none md:border-0 md:rounded-none'
+    : 'modal-shell bg-background shadow-2xl flex flex-col w-full h-full md:rounded-lg md:shadow-2xl md:w-full md:max-w-2xl md:h-auto md:max-h-[60vh]';
 
   return (
     <div className={containerClassName}>

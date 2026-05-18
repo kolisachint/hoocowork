@@ -89,7 +89,7 @@ export default function SetupForm() {
       footerText="This is a single-user system. Only one account can be created."
       logo={<img src="/logo.svg" alt="HooCowork" className="h-16 w-16" />}
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="auth-form space-y-4">
         <AuthInputField
           id="username"
           name="username"

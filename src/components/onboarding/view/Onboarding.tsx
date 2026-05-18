@@ -151,7 +151,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   return (
     <>
       <div className="onboard flex min-h-screen items-center justify-center bg-[var(--paper)] p-4">
-        <div className="w-full max-w-2xl">
+        <div className="onboard-shell w-full max-w-2xl">
           <OnboardingStepProgress currentStep={currentStep} />
 
           <div className="rounded-[var(--radius-2)] border border-[var(--line)] bg-[var(--paper)] p-8 shadow-lg">
@@ -176,7 +176,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
               </div>
             )}
 
-            <div className="mt-8 flex items-center justify-between border-t border-[var(--line)] pt-6">
+            <div className="onboard-foot mt-8 flex items-center justify-between border-t border-[var(--line)] pt-6">
               <button
                 onClick={handlePreviousStep}
                 disabled={currentStep === 0 || isSubmitting}

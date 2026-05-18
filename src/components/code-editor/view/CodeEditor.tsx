@@ -185,8 +185,8 @@ export default function CodeEditor({
 
   const innerContainerClassName = isSidebar
     ? 'files-pane bg-background flex flex-col w-full h-full'
-    : `files-pane bg-background shadow-2xl flex flex-col w-full h-full md:rounded-lg md:shadow-2xl${
-      isFullscreen ? ' md:w-full md:h-full md:rounded-none' : ' md:w-full md:max-w-6xl md:h-[80vh] md:max-h-[80vh]'
+    : `modal-shell files-pane bg-background shadow-2xl flex flex-col w-full h-full md:rounded-lg md:shadow-2xl${
+      isFullscreen ? ' md:w-full md:h-full md:rounded-none md:max-h-none md:border-0' : ' md:w-full md:max-w-6xl md:h-[80vh] md:max-h-[80vh]'
     }`;
 
   return (

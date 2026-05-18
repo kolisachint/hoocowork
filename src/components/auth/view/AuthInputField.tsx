@@ -28,7 +28,7 @@ export default function AuthInputField({
   autoComplete,
 }: AuthInputFieldProps) {
   return (
-    <div>
+    <div className="auth-field">
       <label htmlFor={id} className="mb-1 block text-sm font-medium text-foreground">
         {label}
       </label>

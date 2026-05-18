@@ -62,7 +62,7 @@ export default function LoginForm() {
       description={t('login.description')}
       footerText="Enter your credentials to access HooCowork"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="auth-form space-y-4">
         <AuthInputField
           id="username"
           label={t('login.username')}

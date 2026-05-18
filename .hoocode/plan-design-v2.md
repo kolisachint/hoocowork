@@ -147,10 +147,23 @@ churn — defer):
   is used by ~40 dialogs; modifying its base className would change
   radius/sizing app-wide. Better to attach modal-* per modal as we
   did with Version/MCP/ProviderLogin/Wizard. Hooks remain available.
-- [~] **Auth / Onboarding / CliSelection** — existing components
-  already render via paper-ink Tailwind tokens; v2 classes would
-  change positioning (`position: fixed; inset: 0`) which routing
-  already handles differently. Skip unless redesign requested.
+- [~] **Auth / Onboarding / CliSelection** — outer container
+  positioning (`.auth-stage` / `.onboard-stage` would switch
+  `min-h-screen` flow → `position: fixed`) still skipped to avoid
+  bootstrap-path layout regressions. **Inner hooks now wired**
+  additively (no positioning change):
+  - `AuthScreenLayout.tsx` → `auth-card` / `auth-brand` /
+    `brand-mark` / `auth-h1` / `auth-sub` / `auth-foot`
+  - `AuthInputField.tsx` → `auth-field` (wrapper); existing label/
+    input Tailwind classes win on their own declarations
+  - `AuthErrorAlert.tsx` → `auth-error` (composes with existing
+    Tailwind error styling)
+  - `LoginForm.tsx` + `SetupForm.tsx` → `auth-form` on the
+    `<form>` element
+  - `Onboarding.tsx` → `onboard-shell` on the `w-full max-w-2xl`
+    wrapper + `onboard-foot` on the prev/next button row;
+    `OnboardingStepProgress` left as bespoke (48px circles +
+    progress lines differ from v2's 22px text pills)
 - [~] **Chat composer v2** — substantial surface with carefully-
   tuned layout. Hooks live in kit-v2.css; do as intentional
   redesign, not bulk-rewire.
@@ -258,13 +271,36 @@ churn — defer):
 
 Remaining work (per-surface, on-demand):
 
-- [ ] Per-dialog modal-* adoption for the remaining surfaces
-  (CodeEditor & CodeEditorBinaryFile floating variants — adding
-  `modal-shell` would cap height at 90vh and override the
-  60vh/80vh sizing the editor relies on; PrdEditorWorkspace —
-  bespoke `prd` editor surface with its own header/footer
-  subcomponents) — do as those surfaces get intentional
-  redesigns
+- [x] **CodeEditor floating variant** — `CodeEditor.tsx`
+  - Inner container now composes `modal-shell` with Tailwind
+    overrides:
+    - Non-fullscreen: `modal-shell ... md:w-full md:max-w-6xl
+      md:h-[80vh] md:max-h-[80vh]` (the 80vh max-height wins over
+      modal-shell's 90vh because it's more restrictive)
+    - Fullscreen: `modal-shell ... md:w-full md:h-full
+      md:rounded-none md:max-h-none md:border-0` (Tailwind classes
+      override modal-shell's max-height/border/radius)
+  - Outer overlay container left unchanged (`fixed inset-0
+    z-[9999] md:bg-black/50`) so the z-[9999] stacking and
+    bg-black/50 backdrop are preserved (modal-overlay's z-120
+    would have stacked below other portaled UIs)
+  - Sidebar variant unchanged (no modal-shell — embedded surface)
+- [x] **CodeEditorBinaryFile** —
+  `CodeEditorBinaryFile.tsx`
+  - Inner now composes `modal-shell` on both fullscreen
+    (`modal-shell ... w-full h-full md:max-h-none md:border-0
+    md:rounded-none`) and floating
+    (`modal-shell ... md:max-w-2xl md:h-auto md:max-h-[60vh]`)
+    branches — 60vh wins over modal-shell's 90vh
+- [x] **PrdEditorWorkspace** —
+  `PrdEditorWorkspace.tsx`
+  - Inner container now composes
+    `modal-shell prd bg-[var(--paper)] shadow-2xl ...` plus the
+    fullscreen branch picks up `md:max-h-none md:border-0` while
+    the floating branch keeps `md:max-w-6xl md:h-[85vh]
+    md:max-h-[85vh]` (85vh wins over modal-shell's 90vh)
+  - `.prd` v1 hook from kit-extra retained (provides flex/padding
+    layout); modal-shell layers in border/radius/shadow only
 
 ### Phase 3 — Verification  ◔ PARTIAL
 
@@ -301,7 +337,10 @@ survive a reboot — re-fetch via the design URL if missing.
 Last updated: 2026-05-18 (modal-* + chat v2 pass, third batch:
 ChatComposer/ChatHeader confirmed already wired; PermissionRequestsBanner
 permission-banner-head/-body/-tool/-foot sub-classes added; ToolDiffViewer
-tool-diff / diff-add / diff-rem hooks added).
+tool-diff / diff-add / diff-rem hooks added; **fourth batch: deferred
+surfaces wired** — CodeEditor + CodeEditorBinaryFile + PrdEditorWorkspace
+gain `modal-shell` with sizing/border overrides; Auth/Onboarding inner
+hooks added without flipping outer container positioning).
 - Phase 1 complete (stylesheets in build).
 - Phase 2 broader (sidebar v2, plugins v2, agent-selector x6,
   version upgrade modal, MCP form modal, provider login modal,
@@ -315,16 +354,20 @@ tool-diff / diff-add / diff-rem hooks added).
   **ChatComposer/ChatHeader v2 verified**, **PermissionRequestsBanner
   permission-banner-* sub-classes**, and **ToolDiffViewer tool-diff /
   diff-add / diff-rem hooks** all wired).
-- Remaining: per-dialog modal-* adoption for the few outstanding
-  modal-ish surfaces (CodeEditor & CodeEditorBinaryFile floating
-  variants — adding `modal-shell` would cap height at 90vh and
-  override the 60vh/80vh sizing the editor relies on; PrdEditor
-  workspace — bespoke `prd` editor surface with its own
-  header/footer subcomponents; CodeEditor / Prd loading states are
-  transient and skipped). Auth / Onboarding surfaces remain
-  explicitly deferred — wiring `.auth-stage` etc. would change
-  positioning from `min-h-screen` flow to `position: fixed` on the
-  unauthenticated bootstrap path.
+- Deferred surfaces now wired (fourth batch): **CodeEditor** +
+  **CodeEditorBinaryFile** + **PrdEditorWorkspace** floating
+  variants compose `modal-shell` with Tailwind sizing/border
+  overrides (80vh / 60vh / 85vh wins over 90vh by being more
+  restrictive; fullscreen branch uses `md:max-h-none md:border-0
+  md:rounded-none` to fully restore the existing fullscreen
+  behavior). **Auth/Onboarding** inner hooks added (`auth-card`,
+  `auth-brand`, `auth-h1`, `auth-sub`, `auth-foot`, `auth-field`,
+  `auth-error`, `auth-form`, `onboard-shell`, `onboard-foot`)
+  without changing outer container positioning (`.auth-stage` /
+  `.onboard-stage` still skipped to keep `min-h-screen` flow on
+  the bootstrap path).
+- Still deferred: CodeEditor/PrdEditor loading states (transient);
+  `OnboardingStepProgress` (visual design differs from v2 step bar).
 - Phase 3 partial: `npm install` ran; `npm run typecheck` is clean
   for all v2-edited files (pre-existing errors in untouched shell/
   xterm/CommandPalette/WebSocketContext only); `npm run lint` and
