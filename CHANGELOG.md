@@ -1,3 +1,8 @@
+## [2.5.0](https://github.com/kolisachint/hoocowork/compare/v2.4.3...v2.5.0) (2026-05-18)
+
+### Features
+
+* **design:** apply Kolisachint UI Kit v2 stylesheets and class hooks ([5163dfc](https://github.com/kolisachint/hoocowork/commit/5163dfc03b4a6bee936cb6014ce6e56edd274a00))
 ## [2.4.3](https://github.com/kolisachint/hoocowork/compare/v2.4.2...v2.4.3) (2026-05-17)
 
 ### Bug Fixes
